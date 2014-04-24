@@ -1,0 +1,20 @@
+# Node modules used should be installed using NPM per developer.
+node_modules
+
+# OSX temporary files that should never be committed.
+*.swp
+*.lock
+profile
+
+# Any IDE specific project files shouldn't be added to git...
+
+# Xcode
+.DS_Store
+development/
+
+# No log files of any sort should be added.
+*.log
+
+# Exclude files associated with new fhc local.
+.fhc_local
+.fhclocal/*
