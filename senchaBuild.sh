@@ -18,4 +18,4 @@ echo 'Copying new build into client/default'
 
 cp -R ../development/build/testing/myApp/* .
 
-echo 'Boom Brid your new build code is now in client/default, Cye...!' 
+echo 'Boom!! your new build code is now in client/default, Cye...!' 
