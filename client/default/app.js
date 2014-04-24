@@ -6294,7 +6294,7 @@ var noArgs = [],
                 names = [className],
                 i, ln, j, subLn, listener, name;
 
-            for (i = 0,ln = listeners.length; i < ln; i++) {
+            for (i = 0, ln = listeners.length; i < ln; i++) {
                 listener = listeners[i];
                 listener.fn.call(listener.scope, className);
             }
@@ -6303,12 +6303,12 @@ var noArgs = [],
                 names.push.apply(names, alternateNames);
             }
 
-            for (i = 0,ln = names.length; i < ln; i++) {
+            for (i = 0, ln = names.length; i < ln; i++) {
                 name = names[i];
                 listeners = nameListeners[name];
 
                 if (listeners) {
-                    for (j = 0,subLn = listeners.length; j < subLn; j++) {
+                    for (j = 0, subLn = listeners.length; j < subLn; j++) {
                         listener = listeners[j];
                         listener.fn.call(listener.scope, name);
                     }
@@ -6339,8 +6339,7 @@ var noArgs = [],
                 }
 
                 nameListeners[className].push(listener);
-            }
-            else {
+            } else {
                 listeners.push(listener);
             }
         },
@@ -6562,7 +6561,7 @@ var noArgs = [],
          * @param {Object} aliases The set of mappings of the form
          * className : [values...]
          */
-        addNameAliasMappings: function(aliases){
+        addNameAliasMappings: function(aliases) {
             var aliasToNameMap = this.maps.aliasToName,
                 nameToAliasesMap = this.maps.nameToAliases,
                 className, aliasList, alias, i;
@@ -6597,7 +6596,7 @@ var noArgs = [],
                 aliasList = nameToAlternates[className] ||
                     (nameToAlternates[className] = []);
 
-                for (i  = 0; i < alternates[className].length; i++) {
+                for (i = 0; i < alternates[className].length; i++) {
                     alternate = alternates[className];
                     if (!alternateToName[alternate]) {
                         alternateToName[alternate] = className;
@@ -6696,7 +6695,7 @@ var noArgs = [],
 
                 delete data.postprocessors;
 
-                for (i = 0,ln = postprocessorStack.length; i < ln; i++) {
+                for (i = 0, ln = postprocessorStack.length; i < ln; i++) {
                     postprocessor = postprocessorStack[i];
 
                     if (typeof postprocessor == 'string') {
@@ -6705,9 +6704,8 @@ var noArgs = [],
 
                         if (postprocessorProperties === true) {
                             postprocessors.push(postprocessor.fn);
-                        }
-                        else if (postprocessorProperties) {
-                            for (j = 0,subLn = postprocessorProperties.length; j < subLn; j++) {
+                        } else if (postprocessorProperties) {
+                            for (j = 0, subLn = postprocessorProperties.length; j < subLn; j++) {
                                 postprocessorProperty = postprocessorProperties[j];
 
                                 if (data.hasOwnProperty(postprocessorProperty)) {
@@ -6716,8 +6714,7 @@ var noArgs = [],
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         postprocessors.push(postprocessor);
                     }
                 }
@@ -6760,8 +6757,7 @@ var noArgs = [],
                     var overridenClass = this.get(overriddenClassName);
                     if (overridenClass.singleton) {
                         overridenClass.self.override(data);
-                    }
-                    else {
+                    } else {
                         overridenClass.override(data);
                     }
 
@@ -6803,7 +6799,7 @@ var noArgs = [],
                 }
 
                 Ext.Logger.warn("[Ext.Loader] Synchronously loading '" + className + "'; consider adding " +
-                     "Ext.require('" + alias + "') above Ext.onReady");
+                    "Ext.require('" + alias + "') above Ext.onReady");
 
                 Ext.syncRequire(className);
             }
@@ -6847,8 +6843,7 @@ var noArgs = [],
                 }
 
                 cls = this.get(name);
-            }
-            else {
+            } else {
                 cls = name;
             }
 
@@ -7000,8 +6995,7 @@ var noArgs = [],
                     defaultPostprocessors.unshift(name);
 
                     return this;
-                }
-                else if (offset === 'last') {
+                } else if (offset === 'last') {
                     defaultPostprocessors.push(name);
 
                     return this;
@@ -7054,8 +7048,7 @@ var noArgs = [],
 
                         if (name.search(regex) !== -1) {
                             names.push(name);
-                        }
-                        else {
+                        } else {
                             for (i = 0, ln = aliases.length; i < ln; i++) {
                                 alias = aliases[i];
 
@@ -7093,7 +7086,7 @@ var noArgs = [],
      * @member Ext.Class
      * List of short aliases for class names.  Most useful for defining xtypes for widgets:
      *
-     *     Ext.define('MyApp.CoolPanel', {
+     *     Ext.define('Xpoit.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         alias: ['widget.coolpanel'],
      *
@@ -7120,7 +7113,7 @@ var noArgs = [],
      * @member Ext.Component
      * List of xtypes for {@link Ext.Component}. XTypes must not contain periods.
      *
-     *     Ext.define('MyApp.CoolPanel', {
+     *     Ext.define('Xpoit.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         xtype: 'coolpanel',
      *
@@ -7144,7 +7137,7 @@ var noArgs = [],
         var aliases = data.alias,
             i, ln;
 
-        for (i = 0,ln = aliases.length; i < ln; i++) {
+        for (i = 0, ln = aliases.length; i < ln; i++) {
             alias = aliases[i];
 
             this.setAlias(cls, alias);
@@ -7377,7 +7370,7 @@ var noArgs = [],
          * @member Ext
          * @method define
          */
-        define: function (className, data, createdFn) {
+        define: function(className, data, createdFn) {
             if ('override' in data) {
                 return Manager.createOverride.apply(Manager, arguments);
             }
@@ -7490,7 +7483,7 @@ var noArgs = [],
             xtypesMap = Ext.merge({}, prototype.xtypesMap || {}),
             i, ln, alias, xtype;
 
-        for (i = 0,ln = aliases.length; i < ln; i++) {
+        for (i = 0, ln = aliases.length; i < ln; i++) {
             alias = aliases[i];
 
             if (typeof alias != 'string' || alias.length < 1) {
@@ -7506,7 +7499,7 @@ var noArgs = [],
         cls.xtype = data.xtype = xtypes[0];
         data.xtypes = xtypes;
 
-        for (i = 0,ln = xtypes.length; i < ln; i++) {
+        for (i = 0, ln = xtypes.length; i < ln; i++) {
             xtype = xtypes[i];
 
             if (!xtypesMap[xtype]) {
@@ -7529,7 +7522,7 @@ var noArgs = [],
                     xtypes = mixin.xtypes;
 
                     if (xtypes) {
-                        for (i = 0,ln = xtypes.length; i < ln; i++) {
+                        for (i = 0, ln = xtypes.length; i < ln; i++) {
                             xtype = xtypes[i];
 
                             if (!xtypesMap[xtype]) {
@@ -7542,7 +7535,7 @@ var noArgs = [],
             }
         });
 
-        for (i = 0,ln = xtypes.length; i < ln; i++) {
+        for (i = 0, ln = xtypes.length; i < ln; i++) {
             xtype = xtypes[i];
 
             if (typeof xtype != 'string' || xtype.length < 1) {
@@ -20642,15 +20635,15 @@ Ext.define('Ext.XTemplate', {
      * @return {Array} The given out array.
      */
     applyOut: function(values, out, parent) {
-        var me     = this,
+        var me = this,
             xindex = values.xindex,
             xcount = values.xcount,
             compiler;
 
         if (!me.fn) {
             compiler = new Ext.XTemplateCompiler({
-                useFormat   : me.disableFormats !== true,
-                definitions : me.definitions
+                useFormat: me.disableFormats !== true,
+                definitions: me.definitions
             });
 
             me.fn = compiler.compile(me.html);
@@ -20684,7 +20677,7 @@ Ext.define('Ext.XTemplate', {
          * these templates are seldom actual instances but are rather configurations. For
          * example:
          *
-         *      Ext.define('MyApp.Class', {
+         *      Ext.define('Xpoit.Class', {
          *          someTpl: [
          *              'tpl text here'
          *          ]
@@ -20701,7 +20694,7 @@ Ext.define('Ext.XTemplate', {
          * @return {Ext.XTemplate} The `XTemplate` instance or null if not found.
          * @protected
          */
-        getTpl: function (instance, name) {
+        getTpl: function(instance, name) {
             var tpl = instance[name], // go for it! 99% of the time we will get it!
                 proto;
 
@@ -40617,8 +40610,8 @@ Ext.define('Ext.app.Action', {
  * {@link Ext.app.Application#controllers} config. The Application automatically instantiates each Controller and keeps
  * references to each, so it is unusual to need to instantiate Controllers directly. By convention each Controller is
  * named after the thing (usually the Model) that it deals with primarily, usually in the plural - for example if your
- * app is called 'MyApp' and you have a Controller that manages Products, convention is to create a
- * MyApp.controller.Products class in the file app/controller/Products.js.
+ * app is called 'Xpoit' and you have a Controller that manages Products, convention is to create a
+ * Xpoit.controller.Products class in the file app/controller/Products.js.
  *
  * ## Refs and Control
  *
@@ -40632,7 +40625,7 @@ Ext.define('Ext.app.Action', {
  * page. We can define as many refs as we like for each Controller, for example here we define a ref called 'nav' that
  * finds a Component on the page with the ID 'mainNav'. We then use that ref in the addLogoutButton beneath it:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -40676,7 +40669,7 @@ Ext.define('Ext.app.Action', {
  * Refs can also be passed a couple of additional options, beyond name and selector. These are autoCreate and xtype,
  * which are almost always used together:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -40707,7 +40700,7 @@ Ext.define('Ext.app.Action', {
  * to events fired by Components and have your Controller react in some way. Control accepts both ComponentQuery
  * selectors and refs as its keys, and listener objects as values - for example:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -40751,7 +40744,7 @@ Ext.define('Ext.app.Action', {
  * For example, let's say we have a Controller responsible for logging in and viewing user profiles, and want to make
  * those screens accessible via urls. We could achieve that like this:
  *
- *     Ext.define('MyApp.controller.Users', {
+ *     Ext.define('Xpoit.controller.Users', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -40775,7 +40768,7 @@ Ext.define('Ext.app.Action', {
  *
  *         //Loads the User then adds a 'userprofile' view to the main TabPanel
  *         showUserById: function(id) {
- *             MyApp.model.User.load(id, {
+ *             Xpoit.model.User.load(id, {
  *                 scope: this,
  *                 success: function(user) {
  *                     this.getMain().add({
@@ -40789,8 +40782,8 @@ Ext.define('Ext.app.Action', {
  *
  * The routes we specified above simply map the contents of the browser address bar to a Controller function to call
  * when that route is matched. The routes can be simple text like the login route, which matches against
- * http://myapp.com/#login, or contain wildcards like the 'user/:id' route, which matches urls like
- * http://myapp.com/#user/123. Whenever the address changes the Controller automatically calls the function specified.
+ * http://Xpoit.com/#login, or contain wildcards like the 'user/:id' route, which matches urls like
+ * http://Xpoit.com/#user/123. Whenever the address changes the Controller automatically calls the function specified.
  *
  * Note that in the showUserById function we had to first load the User instance. Whenever you use a route, the
  * function that is called by that route is completely responsible for loading its data and restoring state. This is
@@ -40847,8 +40840,8 @@ Ext.define('Ext.app.Controller', {
          *         'users/:id': 'showUserById'
          *     }
          *
-         * The first route will match against http://myapp.com/#login and call the Controller's showLogin function. The
-         * second route contains a wildcard (':id') and will match all urls like http://myapp.com/#users/123, calling
+         * The first route will match against http://Xpoit.com/#login and call the Controller's showLogin function. The
+         * second route contains a wildcard (':id') and will match all urls like http://Xpoit.com/#users/123, calling
          * the showUserById function with the matched ID as the first argument.
          *
          * @accessor
@@ -40883,7 +40876,7 @@ Ext.define('Ext.app.Controller', {
          * when dispatched to from a route. These are usually used to run pre-processing functions like authentication
          * before a certain function is executed. They are only called when dispatching from a route. Example usage:
          *
-         *     Ext.define('MyApp.controller.Products', {
+         *     Ext.define('Xpoit.controller.Products', {
          *         config: {
          *             before: {
          *                 editProduct: 'authenticate'
@@ -40901,7 +40894,7 @@ Ext.define('Ext.app.Controller', {
          *
          *         //this is run before editProduct
          *         authenticate: function(action) {
-         *             MyApp.authenticate({
+         *             Xpoit.authenticate({
          *                 success: function() {
          *                     action.resume();
          *                 },
@@ -41026,7 +41019,7 @@ Ext.define('Ext.app.Controller', {
 
         for (name in before) {
             filters = Ext.Array.from(before[name]);
-            length  = filters.length;
+            length = filters.length;
 
             for (i = 0; i < length; i++) {
                 filters[i] = this[filters[i]];
@@ -41065,7 +41058,7 @@ Ext.define('Ext.app.Controller', {
      * Adds any routes specified in this Controller to the global Application router
      */
     applyRoutes: function(routes) {
-        var app    = this instanceof Ext.app.Application ? this : this.getApplication(),
+        var app = this instanceof Ext.app.Application ? this : this.getApplication(),
             router = app.getRouter(),
             route, url, config;
 
@@ -41091,7 +41084,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify store names (e.g. 'MyStore' vs
-     * 'MyApp.store.MyStore'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.store.MyStore'). This just makes sure everything ends up fully qualified
      */
     applyStores: function(stores) {
         return this.getFullyQualified(stores, 'store');
@@ -41100,7 +41093,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify model names (e.g. 'MyModel' vs
-     * 'MyApp.model.MyModel'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.model.MyModel'). This just makes sure everything ends up fully qualified
      */
     applyModels: function(models) {
         return this.getFullyQualified(models, 'model');
@@ -41109,7 +41102,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify view names (e.g. 'MyView' vs
-     * 'MyApp.view.MyView'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.view.MyView'). This just makes sure everything ends up fully qualified
      */
     applyViews: function(views) {
         return this.getFullyQualified(views, 'view');
@@ -41124,14 +41117,14 @@ Ext.define('Ext.app.Controller', {
      * @return {String} The fully-qualified name of the class
      */
     getFullyQualified: function(items, namespace) {
-        var length  = items.length,
+        var length = items.length,
             appName = this.getApplication().getName(),
             name, i;
 
         for (i = 0; i < length; i++) {
             name = items[i];
 
-            //we check name === appName to allow MyApp.profile.MyApp to exist
+            //we check name === appName to allow Xpoit.profile.Xpoit to exist
             if (Ext.isString(name) && (Ext.Loader.getPrefix(name) === "" || name === appName)) {
                 items[i] = appName + '.' + namespace + '.' + name;
             }
@@ -41240,7 +41233,7 @@ Ext.define('Ext.app.History', {
     /**
      * @event change
      * Fires when a change in browser url is detected
-     * @param {String} url The new url, after the hash (e.g. http://myapp.com/#someUrl returns 'someUrl')
+     * @param {String} url The new url, after the hash (e.g. http://Xpoit.com/#someUrl returns 'someUrl')
      */
 
     config: {
@@ -41263,8 +41256,7 @@ Ext.define('Ext.app.History', {
     constructor: function(config) {
         if (Ext.feature.has.History) {
             window.addEventListener('hashchange', Ext.bind(this.detectStateChange, this));
-        }
-        else {
+        } else {
             setInterval(Ext.bind(this.detectStateChange, this), 100);
         }
 
@@ -41311,8 +41303,7 @@ Ext.define('Ext.app.History', {
             actions.pop();
 
             previousAction.getController().getApplication().redirectTo(previousAction.getUrl());
-        }
-        else {
+        } else {
             actions[actions.length - 1].getController().getApplication().redirectTo('');
         }
     },
@@ -41366,13 +41357,13 @@ Ext.define('Ext.app.History', {
  * First you need to tell your Application about your Profile(s):
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *         profiles: ['Phone', 'Tablet']
  *     });
  *
  * This will load app/profile/Phone.js and app/profile/Tablet.js. Here's how we might define the Phone profile:
  *
- *     Ext.define('MyApp.profile.Phone', {
+ *     Ext.define('Xpoit.profile.Phone', {
  *         extend: 'Ext.app.Profile',
  *
  *         views: ['Main'],
@@ -41391,12 +41382,12 @@ Ext.define('Ext.app.History', {
  * in a Profile are expected to be namespaced under the name of the Profile. Here's an expanded form of the example
  * above:
  *
- *     Ext.define('MyApp.profile.Phone', {
+ *     Ext.define('Xpoit.profile.Phone', {
  *         extend: 'Ext.app.Profile',
  *
  *         views: ['Main'],
  *         controllers: ['Signup'],
- *         models: ['MyApp.model.Group'],
+ *         models: ['Xpoit.model.Group'],
  *
  *         isActive: function() {
  *             return Ext.os.is('Phone');
@@ -41410,7 +41401,7 @@ Ext.define('Ext.app.History', {
  *
  * For a fuller understanding of the ideas behind Profiles and how best to use them in your app, we suggest you read
  * the [device profiles guide](#!/guide/profiles).
- * 
+ *
  * @aside guide profiles
  */
 Ext.define('Ext.app.Profile', {
@@ -41421,9 +41412,9 @@ Ext.define('Ext.app.Profile', {
     config: {
         /**
          * @cfg {String} namespace The namespace that this Profile's classes can be found in. Defaults to the lowercased
-         * Profile {@link #name}, for example a Profile called MyApp.profile.Phone will by default have a 'phone'
+         * Profile {@link #name}, for example a Profile called Xpoit.profile.Phone will by default have a 'phone'
          * namespace, which means that this Profile's additional models, stores, views and controllers will be loaded
-         * from the MyApp.model.phone.*, MyApp.store.phone.*, MyApp.view.phone.* and MyApp.controller.phone.* namespaces
+         * from the Xpoit.model.phone.*, Xpoit.store.phone.*, Xpoit.view.phone.* and Xpoit.controller.phone.* namespaces
          * respectively.
          * @accessor
          */
@@ -41431,7 +41422,7 @@ Ext.define('Ext.app.Profile', {
 
         /**
          * @cfg {String} name The name of this Profile. Defaults to the last section of the class name (e.g. a profile
-         * called MyApp.profile.Phone will default the name to 'Phone').
+         * called Xpoit.profile.Phone will default the name to 'Phone').
          * @accessor
          */
         name: 'auto',
@@ -41442,10 +41433,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     controllers: [
          *         'Users',
-         *         'MyApp.controller.Products'
+         *         'Xpoit.controller.Products'
          *     ]
          *
-         * This will load *MyApp.controller.tablet.Users* and *MyApp.controller.Products*.
+         * This will load *Xpoit.controller.tablet.Users* and *Xpoit.controller.Products*.
          * @accessor
          */
         controllers: [],
@@ -41456,10 +41447,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     models: [
          *         'Group',
-         *         'MyApp.model.User'
+         *         'Xpoit.model.User'
          *     ]
          *
-         * This will load *MyApp.model.tablet.Group* and *MyApp.model.User*.
+         * This will load *Xpoit.model.tablet.Group* and *Xpoit.model.User*.
          * @accessor
          */
         models: [],
@@ -41470,10 +41461,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     views: [
          *         'Main',
-         *         'MyApp.view.Login'
+         *         'Xpoit.view.Login'
          *     ]
          *
-         * This will load *MyApp.view.tablet.Main* and *MyApp.view.Login*.
+         * This will load *Xpoit.view.tablet.Main* and *Xpoit.view.Login*.
          * @accessor
          */
         views: [],
@@ -41484,10 +41475,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     stores: [
          *         'Users',
-         *         'MyApp.store.Products'
+         *         'Xpoit.store.Products'
          *     ]
          *
-         * This will load *MyApp.store.tablet.Users* and *MyApp.store.Products*.
+         * This will load *Xpoit.store.tablet.Users* and *Xpoit.store.Products*.
          * @accessor
          */
         stores: [],
@@ -41527,7 +41518,7 @@ Ext.define('Ext.app.Profile', {
      * usage:
      *
      *     launch: function() {
-     *         Ext.create('MyApp.view.tablet.Main');
+     *         Ext.create('Xpoit.view.tablet.Main');
      *     }
      */
     launch: Ext.emptyFn,
@@ -41578,7 +41569,7 @@ Ext.define('Ext.app.Profile', {
 
             Ext.each(map[classType], function(className) {
                 if (Ext.isString(className)) {
-                    //we check name === appName to allow MyApp.profile.MyApp to exist
+                    //we check name === appName to allow Xpoit.profile.Xpoit to exist
                     if (Ext.isString(className) && (Ext.Loader.getPrefix(className) === "" || className === appName)) {
                         className = appName + '.' + classType + '.' + namespace + '.' + className;
                     }
@@ -41920,7 +41911,7 @@ Ext.define('Ext.app.Router', {
  * Sample usage:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         models: ['User', 'Group'],
  *         stores: ['Users'],
@@ -41928,7 +41919,7 @@ Ext.define('Ext.app.Router', {
  *         views: ['Main', 'ShowUser'],
  *
  *         launch: function() {
- *             Ext.create('MyApp.view.Main');
+ *             Ext.create('Xpoit.view.Main');
  *         }
  *     });
  *
@@ -41946,7 +41937,7 @@ Ext.define('Ext.app.Router', {
  * specify the last part of each class name and Application will figure out the rest for you:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         controllers: ['Users'],
  *         models: ['User', 'Group'],
@@ -41972,7 +41963,7 @@ Ext.define('Ext.app.Router', {
  * To specify dependencies in subfolders just use a period (".") to specify the folder:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         controllers: ['Users', 'nested.MyController'],
  *         views: ['products.Show', 'products.Edit', 'user.Login']
@@ -42056,7 +42047,7 @@ Ext.define('Ext.app.Router', {
  * specified in the Ext.application setup block:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         {@link #icon}: 'resources/img/icon.png',
  *         {@link #isIconPrecomposed}: false,
@@ -42073,7 +42064,7 @@ Ext.define('Ext.app.Router', {
  *
  * When the user adds your app to the home screen, your resources/img/icon.png file will be used as the application
  * {@link #icon}. We also used the {@link #isIconPrecomposed} configuration to turn off the gloss effect that is automatically added
- * to icons in iOS. Finally we used the {@link #startupImage} configuration to provide the images that will be displayed 
+ * to icons in iOS. Finally we used the {@link #startupImage} configuration to provide the images that will be displayed
  * while your application is starting up. See also {@link #statusBarStyle}.
  *
  * ## Find out more
@@ -42131,7 +42122,7 @@ Ext.define('Ext.app.Application', {
          *         }
          *     });
          */
-        
+
         /**
          * @cfg {Object} startupImage
          * Specifies a set of URLs to the application startup images for different device form factors. This image is
@@ -42167,7 +42158,7 @@ Ext.define('Ext.app.Application', {
          * Please note that there's no automatic fallback mechanism for the startup images. In other words, if you don't specify
          * a valid image for a certain device, nothing will be displayed while the application is being launched on that device.
          */
-        
+
         /**
          * @cfg {Boolean} isIconPrecomposed
          * `true` to not having a glossy effect added to the icon by the OS, which will preserve its exact look. This currently
@@ -42179,7 +42170,7 @@ Ext.define('Ext.app.Application', {
          * home screen on iOS devices. Alternative is to set to 'black-translucent', which turns
          * the status bar semi-transparent and overlaps the app content. This is usually not a good option for web apps
          */
-        
+
         /**
          * @cfg {String} tabletIcon Path to the _.png_ image file to use when your app is added to the home screen on an
          * iOS **tablet** device (iPad).
@@ -42249,7 +42240,7 @@ Ext.define('Ext.app.Application', {
 
         /**
          * @cfg {Ext.app.History} history The global {@link Ext.app.History History} instance attached to this
-         * Application. For more information, see 
+         * Application. For more information, see
          * [Routing, Deep Linking, and the Back Button](http://docs.sencha.com/touch/#!/guide/history_support).
          * @accessor
          * @readonly
@@ -42259,8 +42250,8 @@ Ext.define('Ext.app.Application', {
         /**
          * @cfg {String} name The name of the Application. This should be a single word without spaces or periods
          * because it is used as the Application's global namespace. All classes in your application should be
-         * namespaced under the Application's name - for example if your application name is 'MyApp', your classes
-         * should be named 'MyApp.model.User', 'MyApp.controller.Users', 'MyApp.view.Main' etc
+         * namespaced under the Application's name - for example if your application name is 'Xpoit', your classes
+         * should be named 'Xpoit.model.User', 'Xpoit.controller.Users', 'Xpoit.view.Main' etc
          * @accessor
          */
         name: null,
@@ -42270,7 +42261,7 @@ Ext.define('Ext.app.Application', {
          * This path will be registered via {@link Ext.Loader#setPath} for the namespace specified in the {@link #name name} config.
          * @accessor
          */
-        appFolder : 'app',
+        appFolder: 'app',
 
         /**
          * @cfg {Ext.app.Router} router The global {@link Ext.app.Router Router} instance attached to this Application.
@@ -42336,7 +42327,7 @@ Ext.define('Ext.app.Application', {
          * has the property 'transition: color 4s, background 6s, background-color 1s' the delay will be 6s (the largest time used in that class.
          *
          * @accessor
-        */
+         */
         themeVariationTransitionCls: null,
 
         /**
@@ -42345,7 +42336,7 @@ Ext.define('Ext.app.Application', {
          * must return a string.
          *
          *  //This will result in 'x-theme-variation-dark' being added as a class to the html tag of your application
-         *  MyApp.app.setThemeVariation("dark");
+         *  Xpoit.app.setThemeVariation("dark");
          *
          * @accessor
          */
@@ -42371,7 +42362,9 @@ Ext.define('Ext.app.Application', {
         }
 
 
-        Ext.Loader.setConfig({ enabled: true });
+        Ext.Loader.setConfig({
+            enabled: true
+        });
 
         Ext.require(this.getRequires(), function() {
             if (this.getEnableLoader() !== false) {
@@ -42396,8 +42389,8 @@ Ext.define('Ext.app.Application', {
         action = Ext.factory(action, Ext.app.Action);
 
         if (action) {
-            var profile    = this.getCurrentProfile(),
-                profileNS  = profile ? profile.getNamespace() : undefined,
+            var profile = this.getCurrentProfile(),
+                profileNS = profile ? profile.getNamespace() : undefined,
                 controller = this.getController(action.getController(), profileNS);
 
             if (controller) {
@@ -42480,8 +42473,8 @@ Ext.define('Ext.app.Application', {
      */
     getController: function(name, profileName) {
         var instances = this.getControllerInstances(),
-            appName   = this.getName(),
-            format    = Ext.String.format,
+            appName = this.getName(),
+            format = Ext.String.format,
             topLevelName;
 
         if (name instanceof Ext.app.Controller) {
@@ -42492,7 +42485,7 @@ Ext.define('Ext.app.Application', {
             return instances[name];
         } else {
             topLevelName = format("{0}.controller.{1}", appName, name);
-            profileName  = format("{0}.controller.{1}.{2}", appName, profileName, name);
+            profileName = format("{0}.controller.{1}.{2}", appName, profileName, name);
 
             return instances[profileName] || instances[topLevelName];
         }
@@ -42504,10 +42497,10 @@ Ext.define('Ext.app.Application', {
      * gathers any additional dependencies from that profile, then loads all of those dependencies.
      */
     onProfilesLoaded: function() {
-        var profiles  = this.getProfiles(),
-            length    = profiles.length,
+        var profiles = this.getProfiles(),
+            length = profiles.length,
             instances = [],
-            requires  = this.gatherDependencies(),
+            requires = this.gatherDependencies(),
             current, i, profileDeps;
 
         for (i = 0; i < length; i++) {
@@ -42624,12 +42617,12 @@ Ext.define('Ext.app.Application', {
      * @private
      * Should be called after dependencies are loaded, instantiates all of the Stores specified in the {@link #stores}
      * config. For each item in the stores array we make sure the Store is instantiated. When strings are specified,
-     * the corresponding _app/store/StoreName.js_ was loaded so we now instantiate a `MyApp.store.StoreName`, giving it the
+     * the corresponding _app/store/StoreName.js_ was loaded so we now instantiate a `Xpoit.store.StoreName`, giving it the
      * id `StoreName`.
      */
     instantiateStores: function() {
-        var stores  = this.getStores(),
-            length  = stores.length,
+        var stores = this.getStores(),
+            length = stores.length,
             store, storeClass, storeName, splits, i;
 
         for (i = 0; i < length; i++) {
@@ -42683,7 +42676,7 @@ Ext.define('Ext.app.Application', {
     /**
      * @private
      * As a convenience developers can locally qualify controller names (e.g. 'MyController' vs
-     * 'MyApp.controller.MyController'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.controller.MyController'). This just makes sure everything ends up fully qualified
      */
     applyControllers: function(controllers) {
         return this.getFullyQualified(controllers, 'controller');
@@ -42692,7 +42685,7 @@ Ext.define('Ext.app.Application', {
     /**
      * @private
      * As a convenience developers can locally qualify profile names (e.g. 'MyProfile' vs
-     * 'MyApp.profile.MyProfile'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.profile.MyProfile'). This just makes sure everything ends up fully qualified
      */
     applyProfiles: function(profiles) {
         return this.getFullyQualified(profiles, 'profile');
@@ -42761,32 +42754,33 @@ Ext.define('Ext.app.Application', {
             newVariation = newVariation.call(this);
         }
 
-        if(!Ext.isString(newVariation)) {
+        if (!Ext.isString(newVariation)) {
             Ext.Error.raise("Theme variation must be a String.'");
         }
 
-        if(transitionCls) {
-            var css = "", duration = 0,
+        if (transitionCls) {
+            var css = "",
+                duration = 0,
                 rules = document.styleSheets[0].cssRules,
                 i, rule, times, time;
 
             html.addCls(transitionCls);
-            for(i in rules) {
+            for (i in rules) {
                 rule = rules[i];
-                if(rule.selectorText && rule.selectorText.indexOf("." + transitionCls) >=1) {
+                if (rule.selectorText && rule.selectorText.indexOf("." + transitionCls) >= 1) {
                     css += rule.cssText;
                 }
             }
 
             times = css.match(/[0-9]+s/g);
-            for(i in times) {
+            for (i in times) {
                 time = parseInt(times[i]);
-                if(time > duration) {
+                if (time > duration) {
                     duration = time;
                 }
             }
 
-            if(this.$themeVariationChangeTimeout) {
+            if (this.$themeVariationChangeTimeout) {
                 clearTimeout(this.$themeVariationChangeTimeout);
                 this.$themeVariationChangeTimeout = null;
             }
@@ -47930,7 +47924,7 @@ Ext.define('Ext.data.Field', {
  *
  * An example of a configured simple generator would be:
  *
- *     Ext.define('MyApp.data.MyModel', {
+ *     Ext.define('Xpoit.data.MyModel', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             identifier: {
@@ -47944,7 +47938,7 @@ Ext.define('Ext.data.Field', {
  */
 Ext.define('Ext.data.identifier.Simple', {
     alias: 'data.identifier.simple',
-    
+
     statics: {
         AUTO_ID: 1
     },
@@ -49093,24 +49087,24 @@ Ext.define('Ext.data.proxy.Ajax', {
  * writing an ecommerce system where Users can make Orders - there's a relationship between these Models that we can
  * express like this:
  *
- *     Ext.define('MyApp.model.User', {
+ *     Ext.define('Xpoit.model.User', {
  *         extend: 'Ext.data.Model',
  *
  *         config: {
  *             fields: ['id', 'name', 'email'],
  *             hasMany: {
- *                 model: 'MyApp.model.Order',
+ *                 model: 'Xpoit.model.Order',
  *                 name: 'orders'
  *             }
  *         }
  *     });
  *
- *     Ext.define('MyApp.model.Order', {
+ *     Ext.define('Xpoit.model.Order', {
  *         extend: 'Ext.data.Model',
  *
  *         config: {
  *             fields: ['id', 'user_id', 'status', 'price'],
- *             belongsTo: 'MyApp.model.User'
+ *             belongsTo: 'Xpoit.model.User'
  *         }
  *     });
  *
@@ -49161,7 +49155,7 @@ Ext.define('Ext.data.proxy.Ajax', {
  *     }
  *
  *     // Client code
- *     Ext.define('MyApp.model.Group', {
+ *     Ext.define('Xpoit.model.Group', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             fields: ['id', 'parent_id', 'name'],
@@ -49175,14 +49169,14 @@ Ext.define('Ext.data.proxy.Ajax', {
  *             },
  *             associations: [{
  *                 type: 'hasMany',
- *                 model: 'MyApp.model.Group',
+ *                 model: 'Xpoit.model.Group',
  *                 primaryKey: 'id',
  *                 foreignKey: 'parent_id',
  *                 autoLoad: true,
  *                 associationKey: 'nested.child_groups' // read child data from nested.child_groups
  *             }, {
  *                 type: 'belongsTo',
- *                 model: 'MyApp.model.Group',
+ *                 model: 'Xpoit.model.Group',
  *                 primaryKey: 'id',
  *                 foreignKey: 'parent_id',
  *                 associationKey: 'parent_group' // read parent data from parent_group
@@ -49192,7 +49186,7 @@ Ext.define('Ext.data.proxy.Ajax', {
  *
  *
  *     Ext.onReady(function(){
- *         MyApp.model.Group.load(10, {
+ *         Xpoit.model.Group.load(10, {
  *             success: function(group){
  *                 console.log(group.getGroup().get('name'));
  *
@@ -49312,7 +49306,7 @@ Ext.define('Ext.data.association.Association', {
         if (!ownerName) {
             ownerName = this.getOwnerModel().modelName;
         }
-        ownerName = ownerName.slice(ownerName.lastIndexOf('.')+1);
+        ownerName = ownerName.slice(ownerName.lastIndexOf('.') + 1);
         return ownerName;
     },
 
@@ -49334,7 +49328,7 @@ Ext.define('Ext.data.association.Association', {
         if (!associatedName) {
             associatedName = this.getAssociatedModel().modelName;
         }
-        associatedName = associatedName.slice(associatedName.lastIndexOf('.')+1);
+        associatedName = associatedName.slice(associatedName.lastIndexOf('.') + 1);
         return associatedName;
     },
 
@@ -51379,7 +51373,7 @@ Ext.define('Ext.data.Model', {
          *
          * Sample usage:
          *
-         *     Ext.define('MyApp.model.User', {
+         *     Ext.define('Xpoit.model.User', {
          *         extend: 'Ext.data.Model',
          *
          *         config: {
@@ -51483,9 +51477,9 @@ Ext.define('Ext.data.Model', {
     ],
 
     statics: {
-        EDIT   : 'edit',
-        REJECT : 'reject',
-        COMMIT : 'commit',
+        EDIT: 'edit',
+        REJECT: 'reject',
+        COMMIT: 'commit',
 
         cache: {},
 
@@ -51516,7 +51510,7 @@ Ext.define('Ext.data.Model', {
         /**
          * Asynchronously loads a model instance by id. Sample usage:
          *
-         *     MyApp.User = Ext.define('User', {
+         *     Xpoit.User = Ext.define('User', {
          *         extend: 'Ext.data.Model',
          *         fields: [
          *             {name: 'id', type: 'int'},
@@ -51524,7 +51518,7 @@ Ext.define('Ext.data.Model', {
          *         ]
          *     });
          *
-         *     MyApp.User.load(10, {
+         *     Xpoit.User.load(10, {
          *         scope: this,
          *         failure: function(record, operation) {
          *             //do something if the load failed
@@ -51570,7 +51564,7 @@ Ext.define('Ext.data.Model', {
                 model: this
             });
 
-            operation  = Ext.create('Ext.data.Operation', config);
+            operation = Ext.create('Ext.data.Operation', config);
 
             if (!proxy) {
                 Ext.Logger.error('You are trying to load a model that doesn\'t have a Proxy specified');
@@ -51595,21 +51589,21 @@ Ext.define('Ext.data.Model', {
      * @readonly
      * Internal flag used to track whether or not the model instance is currently being edited.
      */
-    editing : false,
+    editing: false,
 
     /**
      * @property {Boolean} dirty
      * @readonly
      * `true` if this Record has been modified.
      */
-    dirty : false,
+    dirty: false,
 
     /**
      * @property {Boolean} phantom
      * `true` when the record does not yet exist in a server-side database (see {@link #setDirty}).
      * Any record which has a real database pk set as its id property is NOT a phantom -- it's real.
      */
-    phantom : false,
+    phantom: false,
 
     /**
      * Creates new Model instance.
@@ -51683,8 +51677,7 @@ Ext.define('Ext.data.Model', {
             if (this.associations.length) {
                 this.handleInlineAssociationData(data);
             }
-        }
-        else {
+        } else {
             // We also want to make sure that the internalId has the same value as the id in
             // the data object.
             this.internalId = id;
@@ -51727,9 +51720,9 @@ Ext.define('Ext.data.Model', {
 
                 data[fieldName] = value;
             } else if (Ext.isFunction(field._convert)) {
-				value = field._convert(value, me);
-				data[fieldName] = value;
-			}
+                value = field._convert(value, me);
+                data[fieldName] = value;
+            }
         }
 
         if (me.associations.length) {
@@ -51766,8 +51759,7 @@ Ext.define('Ext.data.Model', {
 
             if (isArray) {
                 value = rawData[i];
-            }
-            else {
+            } else {
                 value = rawData[name];
                 if (typeof value == 'undefined') {
                     value = field._defaultValue;
@@ -51922,7 +51914,7 @@ Ext.define('Ext.data.Model', {
             if (notEditing && modifiedCount) {
                 me.endEdit(false, modifiedFieldNames);
             }
-        } else if(modified) {
+        } else if (modified) {
             field = fieldMap[fieldName];
             convert = field && field.getConvert();
             if (convert) {
@@ -51969,7 +51961,7 @@ Ext.define('Ext.data.Model', {
      * @param {Object} b The second value.
      * @return {Boolean} `true` if the values are equal.
      */
-    isEqual: function(a, b){
+    isEqual: function(a, b) {
         if (Ext.isDate(a) && Ext.isDate(b)) {
             return a.getTime() === b.getTime();
         }
@@ -51983,12 +51975,12 @@ Ext.define('Ext.data.Model', {
     beginEdit: function() {
         var me = this;
         if (!me.editing) {
-            me.editing      = true;
+            me.editing = true;
 
             // We save the current states of dirty, data and modified so that when we
             // cancel the edit, we can put it back to this state
-            me.dirtySave    = me.dirty;
-            me.dataSave     = Ext.apply({}, me.data);
+            me.dirtySave = me.dirty;
+            me.dataSave = Ext.apply({}, me.data);
             me.modifiedSave = Ext.apply({}, me.modified);
         }
     },
@@ -52063,9 +52055,9 @@ Ext.define('Ext.data.Model', {
      * Gets a hash of only the fields that have been modified since this Model was created or committed.
      * @return {Object}
      */
-    getChanges : function() {
+    getChanges: function() {
         var modified = this.modified,
-            changes  = {},
+            changes = {},
             field;
 
         for (field in modified) {
@@ -52082,7 +52074,7 @@ Ext.define('Ext.data.Model', {
      * @param {String} fieldName {@link Ext.data.Field#name}
      * @return {Boolean}
      */
-    isModified : function(fieldName) {
+    isModified: function(fieldName) {
         return this.modified.hasOwnProperty(fieldName);
     },
 
@@ -52100,9 +52092,9 @@ Ext.define('Ext.data.Model', {
      * @return {Ext.data.Model} The Model instance
      */
     save: function(options, scope) {
-        var me     = this,
+        var me = this,
             action = me.phantom ? 'create' : 'update',
-            proxy  = me.getProxy(),
+            proxy = me.getProxy(),
             operation,
             callback;
 
@@ -52122,7 +52114,7 @@ Ext.define('Ext.data.Model', {
 
         Ext.applyIf(options, {
             records: [me],
-            action : action,
+            action: action,
             model: me.self
         });
 
@@ -52158,8 +52150,8 @@ Ext.define('Ext.data.Model', {
      * @return {Ext.data.Model} The Model instance.
      */
     erase: function(options, scope) {
-        var me     = this,
-            proxy  = this.getProxy(),
+        var me = this,
+            proxy = this.getProxy(),
             operation,
             callback;
 
@@ -52179,7 +52171,7 @@ Ext.define('Ext.data.Model', {
 
         Ext.applyIf(options, {
             records: [me],
-            action : 'destroy',
+            action: 'destroy',
             model: this.self
         });
 
@@ -52260,7 +52252,7 @@ Ext.define('Ext.data.Model', {
      * @param {String[]} modifiedFieldNames Array of field names changed during edit.
      * @param {Object} modified
      */
-    afterEdit : function(modifiedFieldNames, modified) {
+    afterEdit: function(modifiedFieldNames, modified) {
         this.notifyStores('afterEdit', modifiedFieldNames, modified);
     },
 
@@ -52269,7 +52261,7 @@ Ext.define('Ext.data.Model', {
      * If this Model instance has been {@link #join joined} to a {@link Ext.data.Store store}, the store's
      * `afterReject` method is called.
      */
-    afterReject : function() {
+    afterReject: function() {
         this.notifyStores("afterReject");
     },
 
@@ -52379,9 +52371,9 @@ Ext.define('Ext.data.Model', {
      */
     prepareAssociatedData: function(record, ids, associationType) {
         //we keep track of all of the internalIds of the models that we have loaded so far in here
-        var associations     = record.associations.items,
+        var associations = record.associations.items,
             associationCount = associations.length,
-            associationData  = {},
+            associationData = {},
             recursiveAssociationQueue = [],
             associatedStore, associationName, associatedRecords, associatedRecord,
             associatedRecordCount, association, id, i, j, type, allow, recursiveAssociationItem;
@@ -52422,11 +52414,11 @@ Ext.define('Ext.data.Model', {
 
                             associationData[associationName][j] = associatedRecord.getData();
                             recursiveAssociationQueue.push({
-                                associationName:associationName,
-                                j:j,
-                                associatedRecord:associatedRecord,
-                                ids:ids,
-                                associationType:associationType
+                                associationName: associationName,
+                                j: j,
+                                associatedRecord: associatedRecord,
+                                ids: ids,
+                                associationType: associationType
                             });
                         }
                     }
@@ -52480,7 +52472,7 @@ Ext.define('Ext.data.Model', {
      * Marking a record `{@link #dirty}` causes the phantom to be returned by {@link Ext.data.Store#getUpdatedRecords}
      * where it will have a create action composed for it during {@link Ext.data.Model#save model save} operations.
      */
-    setDirty : function() {
+    setDirty: function() {
         var me = this,
             name;
 
@@ -52499,9 +52491,9 @@ Ext.define('Ext.data.Model', {
      * @return {Ext.data.Errors} The errors object.
      */
     validate: function() {
-        var errors      = Ext.create('Ext.data.Errors'),
+        var errors = Ext.create('Ext.data.Errors'),
             validations = this.getValidations().items,
-            validators  = Ext.data.Validations,
+            validators = Ext.data.Validations,
             length, validation, field, valid, type, i;
 
         if (validations) {
@@ -52510,12 +52502,12 @@ Ext.define('Ext.data.Model', {
             for (i = 0; i < length; i++) {
                 validation = validations[i];
                 field = validation.field || validation.name;
-                type  = validation.type;
+                type = validation.type;
                 valid = validators[type](validation, this.get(field));
 
                 if (!valid) {
                     errors.add(Ext.create('Ext.data.Error', {
-                        field  : field,
+                        field: field,
                         message: validation.message || validators.getMessage(type)
                     }));
                 }
@@ -52529,18 +52521,18 @@ Ext.define('Ext.data.Model', {
      * Checks if the model is valid. See {@link #validate}.
      * @return {Boolean} `true` if the model is valid.
      */
-    isValid: function(){
+    isValid: function() {
         return this.validate().isValid();
     },
 
     /**
      * Returns a url-suitable string for this model instance. By default this just returns the name of the Model class
-     * followed by the instance ID - for example an instance of MyApp.model.User with ID 123 will return 'user/123'.
+     * followed by the instance ID - for example an instance of Xpoit.model.User with ID 123 will return 'user/123'.
      * @return {String} The url string for this model instance.
      */
     toUrl: function() {
         var pieces = this.$className.split('.'),
-            name   = pieces[pieces.length - 1].toLowerCase();
+            name = pieces[pieces.length - 1].toLowerCase();
 
         return name + '/' + this.getId();
     },
@@ -52559,7 +52551,7 @@ Ext.define('Ext.data.Model', {
         me.callParent(arguments);
     },
 
-    markDirty : function() {
+    markDirty: function() {
         if (Ext.isDefined(Ext.Logger)) {
             Ext.Logger.deprecate('Ext.data.Model: markDirty has been deprecated. Use setDirty instead.');
         }
@@ -52611,7 +52603,9 @@ Ext.define('Ext.data.Model', {
         for (i = 0, ln = associations.length; i < ln; i++) {
             association = associations[i];
             if (!Ext.isObject(association)) {
-                association = {model: association};
+                association = {
+                    model: association
+                };
             }
 
             Ext.applyIf(association, {
@@ -52791,15 +52785,14 @@ Ext.define('Ext.data.Model', {
                 dependencies.push('association.hasone');
             }
 
-            for (i = 0,ln = associations.length; i < ln; ++i) {
+            for (i = 0, ln = associations.length; i < ln; ++i) {
                 dependencies.push('association.' + associations[i].type.toLowerCase());
             }
 
             if (config.identifier) {
                 if (typeof config.identifier === 'string') {
                     dependencies.push('data.identifier.' + config.identifier);
-                }
-                else if (typeof config.identifier.type === 'string') {
+                } else if (typeof config.identifier.type === 'string') {
                     dependencies.push('data.identifier.' + config.identifier.type);
                 }
             }
@@ -52807,8 +52800,7 @@ Ext.define('Ext.data.Model', {
             if (config.proxy) {
                 if (typeof config.proxy === 'string') {
                     dependencies.push('proxy.' + config.proxy);
-                }
-                else if (typeof config.proxy.type === 'string') {
+                } else if (typeof config.proxy.type === 'string') {
                     dependencies.push('proxy.' + config.proxy.type);
                 }
             }
@@ -52827,21 +52819,17 @@ Ext.define('Ext.data.Model', {
                      * @property {Ext.util.Collection} associations
                      * The associations defined on this model.
                      */
-                    cls.prototype.associations = cls.associations = cls.prototype._associations = (superCls && superCls.associations)
-                        ? superCls.associations.clone()
-                        : new Ext.util.Collection(function(association) {
-                            return association.getName();
-                        });
+                    cls.prototype.associations = cls.associations = cls.prototype._associations = (superCls && superCls.associations) ? superCls.associations.clone() : new Ext.util.Collection(function(association) {
+                        return association.getName();
+                    });
 
                     /**
                      * @property {Ext.util.Collection} validations
                      * The validations defined on this model.
                      */
-                    cls.prototype.validations = cls.validations = cls.prototype._validations = (superCls && superCls.validations)
-                        ? superCls.validations.clone()
-                        : new Ext.util.Collection(function(validation) {
-                            return validation.field ? (validation.field + '-' + validation.type) : (validation.name + '-' + validation.type);
-                        });
+                    cls.prototype.validations = cls.validations = cls.prototype._validations = (superCls && superCls.validations) ? superCls.validations.clone() : new Ext.util.Collection(function(validation) {
+                        return validation.field ? (validation.field + '-' + validation.type) : (validation.name + '-' + validation.type);
+                    });
 
                     cls.prototype = Ext.Object.chain(cls.prototype);
                     cls.prototype.initConfig.call(cls.prototype, config);
@@ -68312,6 +68300,26 @@ Ext.define('Ext.viewport.Viewport', {
  * you should **not** use {@link Ext#onReady}.
  */
 
+Ext.define('Xpoit.model.Student', {
+	extend:  Ext.data.Model ,
+
+	config: {
+		fields: [{
+			name: 'fname',
+			type: 'string'
+		}, {
+			name: 'lname',
+			type: 'string'
+		}, {
+			name: 'course',
+			type: 'string'
+		}, {
+			name: 'email',
+			type: 'string'
+		}]
+	}
+})
+
 Ext.define('Xpoit.view.Student', {
 	extend:  Ext.Panel ,
 	xtype: 'studentPanel',
@@ -68375,6 +68383,95 @@ Ext.define('Xpoit.view.Main', {
     }
 });
 
+Ext.define('Xpoit.controller.Main', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		ref: {
+			main: 'mainPanel',
+			//project: 'projectPanel',
+			studentPanel: 'studentPanel',
+			//home: '#home'
+		},
+		control: {
+			'#studentList': {
+				disclose: 'showProfile'
+			},
+			// '#projectList': {
+			// 	disclose: 'showProject'
+			// },
+			// home: {
+			// 	initialize: 'onInit'
+			// }
+		},
+	},
+
+	showProfile: function(list, record) {
+		console.log('tapped expand student info');
+		Ext.ComponentManager.get('mainPanel').push({
+			xtype: 'studentPanel',
+			data: record.data
+		});
+	},
+	// showProject: function(list, record) {
+	// 	console.log('tapped expand project');
+	// 	Ext.ComponentManager.get('projectMainPanel').push({
+	// 		xtype: 'projectPanel',
+	// 		data: record.data
+	// 	});
+	// },
+	init: function() {
+		console.log('inside init');
+		$fh.act({
+			"act": "findAll"
+		}, function(res) {
+			console.log('Getting stuff!', res);
+			var records = [];
+			for (var i = 0; i < res.length; i++) {
+				var item = res[i];
+				records.push({
+					project: item.project,
+					fname: item.fname,
+					lname: item.lname,
+					email: item.email,
+					course: item.course,
+					title: item.title,
+					commercial: item.commercial,
+					desc: item.desc,
+					disciplines: item.disciplines
+				});
+
+				console.log(records[i]);
+
+
+				var studentStore = Ext.getStore('Students');
+				studentStore.add(records[i]);
+
+				// var projectStore = Ext.getStore('Projects');
+				// projectStore.add(records[i]);
+
+			}
+		}, function(msg, err) {
+			console.log('Could not get stuff', msg);
+		})
+	},
+
+	// onInit: function() {
+	// 	Ext.Viewport.remove(Ext.Viewport.getActiveItem(), true);
+	// }
+});
+
+Ext.define('Xpoit.store.Students', {
+	extend:  Ext.data.Store ,
+
+	config: {
+		model: 'Xpoit.model.Student',
+		grouper: function(record) {
+			return record.get('lname')[0];
+		},
+	}
+});
+
 /*
     This file is generated and updated by Sencha Cmd. You can edit this file as
     needed for your application, but these edits will have to be merged by
@@ -68394,8 +68491,22 @@ Ext.application({
                         
       
 
-    views: [
+    controllers: [
         'Main'
+    ],
+
+    models: [
+        'Student'
+    ],
+
+    stores: [
+        'Students'
+    ],
+
+    views: [
+        'Main',
+        'Student',
+        'StudentList'
     ],
 
     icon: {

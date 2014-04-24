@@ -17,8 +17,22 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: [
+    controllers: [
         'Main'
+    ],
+
+    models: [
+        'Student'
+    ],
+
+    stores: [
+        'Students'
+    ],
+
+    views: [
+        'Main',
+        'Student',
+        'StudentList'
     ],
 
     icon: {
