@@ -10,8 +10,10 @@
         objectPrototype = Object.prototype,
         toString = objectPrototype.toString,
         enumerables = true,
-        enumerablesTest = { toString: 1 },
-        emptyFn = function(){},
+        enumerablesTest = {
+            toString: 1
+        },
+        emptyFn = function() {},
         i;
 
     if (typeof Ext === 'undefined') {
@@ -26,7 +28,8 @@
 
     if (enumerables) {
         enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable',
-                       'toLocaleString', 'toString', 'constructor'];
+            'toLocaleString', 'toString', 'constructor'
+        ];
     }
 
     /**
@@ -125,8 +128,7 @@
 
             if (Ext.isIterable(object)) {
                 Ext.Array.each.call(Ext.Array, object, fn, scope);
-            }
-            else {
+            } else {
                 Ext.Object.each.call(Ext.Object, object, fn, scope);
             }
         }
@@ -146,13 +148,13 @@
             // inline overrides
             var objectConstructor = objectPrototype.constructor,
                 inlineOverrides = function(o) {
-                for (var m in o) {
-                    if (!o.hasOwnProperty(m)) {
-                        continue;
+                    for (var m in o) {
+                        if (!o.hasOwnProperty(m)) {
+                            continue;
+                        }
+                        this[m] = o[m];
                     }
-                    this[m] = o[m];
-                }
-            };
+                };
 
             return function(subclass, superclass, overrides) {
                 // First we check if the user passed in just the superClass with overrides
@@ -213,8 +215,7 @@
         override: function(cls, overrides) {
             if (cls.$isClass) {
                 return cls.override(overrides);
-            }
-            else {
+            } else {
                 Ext.apply(cls.prototype, overrides);
             }
         }
@@ -232,7 +233,7 @@
          * @param {Boolean} [allowBlank=false] (optional) `true` to allow zero length strings to qualify as non-empty.
          * @return {Object} `value`, if non-empty, else `defaultValue`.
          */
-        valueFrom: function(value, defaultValue, allowBlank){
+        valueFrom: function(value, defaultValue, allowBlank) {
             return Ext.isEmpty(value, allowBlank) ? defaultValue : value;
         },
 
@@ -269,7 +270,7 @@
 
             var typeToString = toString.call(value);
 
-            switch(typeToString) {
+            switch (typeToString) {
                 case '[object Array]':
                     return 'array';
                 case '[object Date]':
@@ -290,8 +291,7 @@
                 if (value.nodeType !== undefined) {
                     if (value.nodeType === 3) {
                         return (/\S/).test(value.nodeValue) ? 'textnode' : 'whitespace';
-                    }
-                    else {
+                    } else {
                         return 'element';
                     }
                 }
@@ -362,11 +362,10 @@
          * @method
          */
         isObject: (toString.call(null) === '[object Object]') ?
-        function(value) {
-            // check ownerDocument here as well to exclude DOM nodes
-            return value !== null && value !== undefined && toString.call(value) === '[object Object]' && value.ownerDocument === undefined;
-        } :
-        function(value) {
+            function(value) {
+                // check ownerDocument here as well to exclude DOM nodes
+                return value !== null && value !== undefined && toString.call(value) === '[object Object]' && value.ownerDocument === undefined;
+        } : function(value) {
             return toString.call(value) === '[object Object]';
         },
 
@@ -573,7 +572,7 @@
         globalEval: ('execScript' in global) ? function(code) {
             global.execScript(code)
         } : function(code) {
-            (function(){
+            (function() {
                 eval(code);
             })();
         }
@@ -582,7 +581,8 @@
          * @private
          * @property
          */
-        ,Logger: {
+        ,
+        Logger: {
             log: function(message, priority) {
                 if ('console' in global) {
                     if (!priority || !(priority in global.console)) {
@@ -652,8 +652,9 @@
  */
 (function() {
 
-// Current core version
-var version = '2.3.1.410', Version;
+    // Current core version
+    var version = '2.3.1.410',
+        Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -1030,7 +1031,8 @@ Ext.String = {
             '>': '&gt;',
             '<': '&lt;',
             '"': '&quot;'
-        }, keys = [], p, regex;
+        }, keys = [],
+            p, regex;
 
         for (p in entities) {
             keys.push(p);
@@ -1057,7 +1059,8 @@ Ext.String = {
             '&gt;': '>',
             '&lt;': '<',
             '&quot;': '"'
-        }, keys = [], p, regex;
+        }, keys = [],
+            p, regex;
 
         for (p in entities) {
             keys.push(p);
@@ -1083,7 +1086,7 @@ Ext.String = {
      * @param {String} string The content to append to the URL.
      * @return {String} The resulting URL.
      */
-    urlAppend : function(url, string) {
+    urlAppend: function(url, string) {
         if (!Ext.isEmpty(string)) {
             return url + (url.indexOf('?') === -1 ? '?' : '&') + string;
         }
@@ -1126,7 +1129,7 @@ Ext.String = {
         if (value && value.length > len) {
             if (word) {
                 var vs = value.substr(0, len - 2),
-                index = Math.max(vs.lastIndexOf(' '), vs.lastIndexOf('.'), vs.lastIndexOf('!'), vs.lastIndexOf('?'));
+                    index = Math.max(vs.lastIndexOf(' '), vs.lastIndexOf('.'), vs.lastIndexOf('!'), vs.lastIndexOf('?'));
                 if (index !== -1 && index >= (len - 15)) {
                     return vs.substr(0, index) + "...";
                 }
@@ -1229,7 +1232,7 @@ Ext.String = {
      * @param {String} sep An option string to separate each pattern.
      */
     repeat: function(pattern, count, sep) {
-        for (var buf = [], i = count; i--; ) {
+        for (var buf = [], i = count; i--;) {
             buf.push(pattern);
         }
         return buf.join(sep || '');
@@ -1280,7 +1283,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     var arrayPrototype = Array.prototype,
         slice = arrayPrototype.slice,
-        supportsSplice = function () {
+        supportsSplice = function() {
             var array = [],
                 lengthBefore,
                 j = 20;
@@ -1296,12 +1299,12 @@ Ext.urlAppend = Ext.String.urlAppend;
                 array.push("A");
             }
 
-            array.splice(15, 0, "F", "F", "F", "F", "F","F","F","F","F","F","F","F","F","F","F","F","F","F","F","F","F");
+            array.splice(15, 0, "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F");
 
             lengthBefore = array.length; //41
             array.splice(13, 0, "XXX"); // add one element
 
-            if (lengthBefore+1 != array.length) {
+            if (lengthBefore + 1 != array.length) {
                 return false;
             }
             // end IE8 bug
@@ -1315,7 +1318,9 @@ Ext.urlAppend = Ext.String.urlAppend;
         supportsSome = 'some' in arrayPrototype,
         supportsFilter = 'filter' in arrayPrototype,
         supportsSort = function() {
-            var a = [1,2,3,4,5].sort(function(){ return 0; });
+            var a = [1, 2, 3, 4, 5].sort(function() {
+                return 0;
+            });
             return a[0] === 1 && a[1] === 2 && a[2] === 3 && a[3] === 4 && a[4] === 5;
         }(),
         supportsSliceOnNodeList = true,
@@ -1330,9 +1335,8 @@ Ext.urlAppend = Ext.String.urlAppend;
         supportsSliceOnNodeList = false;
     }
 
-    function fixArrayIndex (array, index) {
-        return (index < 0) ? Math.max(0, array.length + index)
-                           : Math.min(array.length, index);
+    function fixArrayIndex(array, index) {
+        return (index < 0) ? Math.max(0, array.length + index) : Math.min(array.length, index);
     }
 
     /*
@@ -1365,7 +1369,7 @@ Ext.urlAppend = Ext.String.urlAppend;
     that we don't end up with [0,1,6,7,6,7]. In case B, we have the opposite; we
     must go right-to-left or else we would end up with [0,1,a,b,c,4,4,4,4].
     */
-    function replaceSim (array, index, removeCount, insert) {
+    function replaceSim(array, index, removeCount, insert) {
         var add = insert ? insert.length : 0,
             length = array.length,
             pos = fixArrayIndex(array, index);
@@ -1385,11 +1389,11 @@ Ext.urlAppend = Ext.String.urlAppend;
 
             if (tailNewPos < tailOldPos) { // case A
                 for (i = 0; i < tailCount; ++i) {
-                    array[tailNewPos+i] = array[tailOldPos+i];
+                    array[tailNewPos + i] = array[tailOldPos + i];
                 }
             } else if (tailNewPos > tailOldPos) { // case B
-                for (i = tailCount; i--; ) {
-                    array[tailNewPos+i] = array[tailOldPos+i];
+                for (i = tailCount; i--;) {
+                    array[tailNewPos + i] = array[tailOldPos + i];
                 }
             } // else, add == remove (nothing to do)
 
@@ -1399,7 +1403,7 @@ Ext.urlAppend = Ext.String.urlAppend;
             } else {
                 array.length = lengthAfterRemove + add; // reserves space
                 for (i = 0; i < add; ++i) {
-                    array[pos+i] = insert[i];
+                    array[pos + i] = insert[i];
                 }
             }
         }
@@ -1407,7 +1411,7 @@ Ext.urlAppend = Ext.String.urlAppend;
         return array;
     }
 
-    function replaceNative (array, index, removeCount, insert) {
+    function replaceNative(array, index, removeCount, insert) {
         if (insert && insert.length) {
             if (index < array.length) {
                 array.splice.apply(array, [index, removeCount].concat(insert));
@@ -1420,18 +1424,18 @@ Ext.urlAppend = Ext.String.urlAppend;
         return array;
     }
 
-    function eraseSim (array, index, removeCount) {
+    function eraseSim(array, index, removeCount) {
         return replaceSim(array, index, removeCount);
     }
 
-    function eraseNative (array, index, removeCount) {
+    function eraseNative(array, index, removeCount) {
         array.splice(index, removeCount);
         return array;
     }
 
-    function spliceSim (array, index, removeCount) {
+    function spliceSim(array, index, removeCount) {
         var pos = fixArrayIndex(array, index),
-            removed = array.slice(index, fixArrayIndex(array, pos+removeCount));
+            removed = array.slice(index, fixArrayIndex(array, pos + removeCount));
 
         if (arguments.length < 4) {
             replaceSim(array, pos, removeCount);
@@ -1442,7 +1446,7 @@ Ext.urlAppend = Ext.String.urlAppend;
         return removed;
     }
 
-    function spliceNative (array) {
+    function spliceNative(array) {
         return array.splice.apply(array, slice.call(arguments, 1));
     }
 
@@ -1507,8 +1511,7 @@ Ext.urlAppend = Ext.String.urlAppend;
                         return i;
                     }
                 }
-            }
-            else {
+            } else {
                 for (i = ln - 1; i > -1; i--) {
                     if (fn.call(scope || array[i], array[i], i, array) === false) {
                         return i;
@@ -1533,7 +1536,7 @@ Ext.urlAppend = Ext.String.urlAppend;
          * @param {Object} scope (Optional) The execution scope (`this`) in which the specified function is executed.
          */
         forEach: supportsForEach ? function(array, fn, scope) {
-                return array.forEach(fn, scope);
+            return array.forEach(fn, scope);
         } : function(array, fn, scope) {
             var i = 0,
                 ln = array.length;
@@ -1612,7 +1615,7 @@ Ext.urlAppend = Ext.String.urlAppend;
          * @param {Number} [end=-1] (Optional) a zero-based index that specifies the end of extraction.
          * @return {Array}
          */
-        toArray: function(iterable, start, end){
+        toArray: function(iterable, start, end) {
             if (!iterable || !iterable.length) {
                 return [];
             }
@@ -1967,7 +1970,7 @@ Ext.urlAppend = Ext.String.urlAppend;
                 ln = clone.length,
                 i, j, lnB;
 
-            for (i = 0,lnB = arrayB.length; i < lnB; i++) {
+            for (i = 0, lnB = arrayB.length; i < lnB; i++) {
                 for (j = 0; j < ln; j++) {
                     if (clone[j] === arrayB[i]) {
                         erase(clone, j, 1);
@@ -2090,8 +2093,7 @@ Ext.urlAppend = Ext.String.urlAppend;
                     if (comparisonFn(min, item) === 1) {
                         min = item;
                     }
-                }
-                else {
+                } else {
                     if (item < min) {
                         min = item;
                     }
@@ -2121,8 +2123,7 @@ Ext.urlAppend = Ext.String.urlAppend;
                     if (comparisonFn(max, item) === -1) {
                         max = item;
                     }
-                }
-                else {
+                } else {
                     if (item > max) {
                         max = item;
                     }
@@ -2152,7 +2153,7 @@ Ext.urlAppend = Ext.String.urlAppend;
             var sum = 0,
                 i, ln, item;
 
-            for (i = 0,ln = array.length; i < ln; i++) {
+            for (i = 0, ln = array.length; i < ln; i++) {
                 item = array[i];
 
                 sum += item;
@@ -2185,7 +2186,7 @@ Ext.urlAppend = Ext.String.urlAppend;
          * @param {Array} items The array of items to insert at index.
          * @return {Array} The array passed.
          */
-        insert: function (array, index, items) {
+        insert: function(array, index, items) {
             return replace(array, index, 0, items);
         },
 
@@ -2328,73 +2329,73 @@ Ext.urlAppend = Ext.String.urlAppend;
 
 (function() {
 
-var isToFixedBroken = (0.9).toFixed() !== '1';
+    var isToFixedBroken = (0.9).toFixed() !== '1';
 
-Ext.Number = {
-    /**
-     * Checks whether or not the passed number is within a desired range.  If the number is already within the
-     * range it is returned, otherwise the min or max value is returned depending on which side of the range is
-     * exceeded. Note that this method returns the constrained value but does not change the current number.
-     * @param {Number} number The number to check
-     * @param {Number} min The minimum number in the range
-     * @param {Number} max The maximum number in the range
-     * @return {Number} The constrained value if outside the range, otherwise the current value
-     */
-    constrain: function(number, min, max) {
-        number = parseFloat(number);
+    Ext.Number = {
+        /**
+         * Checks whether or not the passed number is within a desired range.  If the number is already within the
+         * range it is returned, otherwise the min or max value is returned depending on which side of the range is
+         * exceeded. Note that this method returns the constrained value but does not change the current number.
+         * @param {Number} number The number to check
+         * @param {Number} min The minimum number in the range
+         * @param {Number} max The maximum number in the range
+         * @return {Number} The constrained value if outside the range, otherwise the current value
+         */
+        constrain: function(number, min, max) {
+            number = parseFloat(number);
 
-        if (!isNaN(min)) {
-            number = Math.max(number, min);
-        }
-        if (!isNaN(max)) {
-            number = Math.min(number, max);
-        }
-        return number;
-    },
-
-    /**
-     * Snaps the passed number between stopping points based upon a passed increment value.
-     * @param {Number} value The unsnapped value.
-     * @param {Number} increment The increment by which the value must move.
-     * @param {Number} minValue The minimum value to which the returned value must be constrained. Overrides the increment..
-     * @param {Number} maxValue The maximum value to which the returned value must be constrained. Overrides the increment..
-     * @return {Number} The value of the nearest snap target.
-     */
-    snap : function(value, increment, minValue, maxValue) {
-        var newValue = value,
-            m;
-
-        if (!(increment && value)) {
-            return value;
-        }
-        m = value % increment;
-        if (m !== 0) {
-            newValue -= m;
-            if (m * 2 >= increment) {
-                newValue += increment;
-            } else if (m * 2 < -increment) {
-                newValue -= increment;
+            if (!isNaN(min)) {
+                number = Math.max(number, min);
             }
-        }
-        return Ext.Number.constrain(newValue, minValue,  maxValue);
-    },
+            if (!isNaN(max)) {
+                number = Math.min(number, max);
+            }
+            return number;
+        },
 
-    /**
-     * Formats a number using fixed-point notation
-     * @param {Number} value The number to format
-     * @param {Number} precision The number of digits to show after the decimal point
-     */
-    toFixed: function(value, precision) {
-        if (isToFixedBroken) {
-            precision = precision || 0;
-            var pow = Math.pow(10, precision);
-            return (Math.round(value * pow) / pow).toFixed(precision);
-        }
+        /**
+         * Snaps the passed number between stopping points based upon a passed increment value.
+         * @param {Number} value The unsnapped value.
+         * @param {Number} increment The increment by which the value must move.
+         * @param {Number} minValue The minimum value to which the returned value must be constrained. Overrides the increment..
+         * @param {Number} maxValue The maximum value to which the returned value must be constrained. Overrides the increment..
+         * @return {Number} The value of the nearest snap target.
+         */
+        snap: function(value, increment, minValue, maxValue) {
+            var newValue = value,
+                m;
 
-        return value.toFixed(precision);
-    },
+            if (!(increment && value)) {
+                return value;
+            }
+            m = value % increment;
+            if (m !== 0) {
+                newValue -= m;
+                if (m * 2 >= increment) {
+                    newValue += increment;
+                } else if (m * 2 < -increment) {
+                    newValue -= increment;
+                }
+            }
+            return Ext.Number.constrain(newValue, minValue, maxValue);
+        },
 
-    /**
+        /**
+         * Formats a number using fixed-point notation
+         * @param {Number} value The number to format
+         * @param {Number} precision The number of digits to show after the decimal point
+         */
+        toFixed: function(value, precision) {
+            if (isToFixedBroken) {
+                precision = precision || 0;
+                var pow = Math.pow(10, precision);
+                return (Math.round(value * pow) / pow).toFixed(precision);
+            }
+
+            return value.toFixed(precision);
+        },
+
+        /**
      * Validate that a value is numeric and convert it to a number if necessary. Returns the specified default value if
      * it is not.
 
@@ -2405,14 +2406,14 @@ Ext.Number.from('abc', 1); // returns 1
      * @param {Number} defaultValue The value to return if the original value is non-numeric
      * @return {Number} value, if numeric, defaultValue otherwise
      */
-    from: function(value, defaultValue) {
-        if (isFinite(value)) {
-            value = parseFloat(value);
-        }
+        from: function(value, defaultValue) {
+            if (isFinite(value)) {
+                value = parseFloat(value);
+            }
 
-        return !isNaN(value) ? value : defaultValue;
-    }
-};
+            return !isNaN(value) ? value : defaultValue;
+        }
+    };
 
 })();
 
@@ -2443,651 +2444,637 @@ Ext.num = function() {
 
 (function() {
 
-// The "constructor" for chain:
-var TemplateClass = function(){};
+    // The "constructor" for chain:
+    var TemplateClass = function() {};
 
-var ExtObject = Ext.Object = {
+    var ExtObject = Ext.Object = {
 
-    /**
-     * Returns a new object with the given object as the prototype chain.
-     * @param {Object} object The prototype chain for the new object.
-     */
-    chain: ('create' in Object) ? function(object){
-        return Object.create(object);
-    } : function (object) {
-        TemplateClass.prototype = object;
-        var result = new TemplateClass();
-        TemplateClass.prototype = null;
-        return result;
-    },
+        /**
+         * Returns a new object with the given object as the prototype chain.
+         * @param {Object} object The prototype chain for the new object.
+         */
+        chain: ('create' in Object) ? function(object) {
+            return Object.create(object);
+        } : function(object) {
+            TemplateClass.prototype = object;
+            var result = new TemplateClass();
+            TemplateClass.prototype = null;
+            return result;
+        },
 
-    /**
-     * Convert a `name` - `value` pair to an array of objects with support for nested structures; useful to construct
-     * query strings. For example:
-     *
-     * Non-recursive:
-     *
-     *     var objects = Ext.Object.toQueryObjects('hobbies', ['reading', 'cooking', 'swimming']);
-     *
-     *     // objects then equals:
-     *     [
-     *         { name: 'hobbies', value: 'reading' },
-     *         { name: 'hobbies', value: 'cooking' },
-     *         { name: 'hobbies', value: 'swimming' }
-     *     ]
-     *
-     * Recursive:
-     *
-     *     var objects = Ext.Object.toQueryObjects('dateOfBirth', {
-     *         day: 3,
-     *         month: 8,
-     *         year: 1987,
-     *         extra: {
-     *             hour: 4,
-     *             minute: 30
-     *         }
-     *     }, true);
-     *
-     *     // objects then equals:
-     *     [
-     *         { name: 'dateOfBirth[day]', value: 3 },
-     *         { name: 'dateOfBirth[month]', value: 8 },
-     *         { name: 'dateOfBirth[year]', value: 1987 },
-     *         { name: 'dateOfBirth[extra][hour]', value: 4 },
-     *         { name: 'dateOfBirth[extra][minute]', value: 30 }
-     *     ]
-     *
-     * @param {String} name
-     * @param {Object} value
-     * @param {Boolean} [recursive=false] `true` to recursively encode any sub-objects.
-     * @return {Object[]} Array of objects with `name` and `value` fields.
-     */
-    toQueryObjects: function(name, value, recursive) {
-        var self = ExtObject.toQueryObjects,
-            objects = [],
-            i, ln;
+        /**
+         * Convert a `name` - `value` pair to an array of objects with support for nested structures; useful to construct
+         * query strings. For example:
+         *
+         * Non-recursive:
+         *
+         *     var objects = Ext.Object.toQueryObjects('hobbies', ['reading', 'cooking', 'swimming']);
+         *
+         *     // objects then equals:
+         *     [
+         *         { name: 'hobbies', value: 'reading' },
+         *         { name: 'hobbies', value: 'cooking' },
+         *         { name: 'hobbies', value: 'swimming' }
+         *     ]
+         *
+         * Recursive:
+         *
+         *     var objects = Ext.Object.toQueryObjects('dateOfBirth', {
+         *         day: 3,
+         *         month: 8,
+         *         year: 1987,
+         *         extra: {
+         *             hour: 4,
+         *             minute: 30
+         *         }
+         *     }, true);
+         *
+         *     // objects then equals:
+         *     [
+         *         { name: 'dateOfBirth[day]', value: 3 },
+         *         { name: 'dateOfBirth[month]', value: 8 },
+         *         { name: 'dateOfBirth[year]', value: 1987 },
+         *         { name: 'dateOfBirth[extra][hour]', value: 4 },
+         *         { name: 'dateOfBirth[extra][minute]', value: 30 }
+         *     ]
+         *
+         * @param {String} name
+         * @param {Object} value
+         * @param {Boolean} [recursive=false] `true` to recursively encode any sub-objects.
+         * @return {Object[]} Array of objects with `name` and `value` fields.
+         */
+        toQueryObjects: function(name, value, recursive) {
+            var self = ExtObject.toQueryObjects,
+                objects = [],
+                i, ln;
 
-        if (Ext.isArray(value)) {
-            for (i = 0, ln = value.length; i < ln; i++) {
-                if (recursive) {
-                    objects = objects.concat(self(name + '[' + i + ']', value[i], true));
-                }
-                else {
-                    objects.push({
-                        name: name,
-                        value: value[i]
-                    });
-                }
-            }
-        }
-        else if (Ext.isObject(value)) {
-            for (i in value) {
-                if (value.hasOwnProperty(i)) {
+            if (Ext.isArray(value)) {
+                for (i = 0, ln = value.length; i < ln; i++) {
                     if (recursive) {
                         objects = objects.concat(self(name + '[' + i + ']', value[i], true));
-                    }
-                    else {
+                    } else {
                         objects.push({
                             name: name,
                             value: value[i]
                         });
                     }
                 }
-            }
-        }
-        else {
-            objects.push({
-                name: name,
-                value: value
-            });
-        }
-
-        return objects;
-    },
-
-    /**
-     * Takes an object and converts it to an encoded query string.
-     *
-     * Non-recursive:
-     *
-     *     Ext.Object.toQueryString({foo: 1, bar: 2}); // returns "foo=1&bar=2"
-     *     Ext.Object.toQueryString({foo: null, bar: 2}); // returns "foo=&bar=2"
-     *     Ext.Object.toQueryString({'some price': '$300'}); // returns "some%20price=%24300"
-     *     Ext.Object.toQueryString({date: new Date(2011, 0, 1)}); // returns "date=%222011-01-01T00%3A00%3A00%22"
-     *     Ext.Object.toQueryString({colors: ['red', 'green', 'blue']}); // returns "colors=red&colors=green&colors=blue"
-     *
-     * Recursive:
-     *
-     *     Ext.Object.toQueryString({
-     *         username: 'Jacky',
-     *         dateOfBirth: {
-     *             day: 1,
-     *             month: 2,
-     *             year: 1911
-     *         },
-     *         hobbies: ['coding', 'eating', 'sleeping', ['nested', 'stuff']]
-     *     }, true);
-     *
-     *     // returns the following string (broken down and url-decoded for ease of reading purpose):
-     *     // username=Jacky
-     *     //    &dateOfBirth[day]=1&dateOfBirth[month]=2&dateOfBirth[year]=1911
-     *     //    &hobbies[0]=coding&hobbies[1]=eating&hobbies[2]=sleeping&hobbies[3][0]=nested&hobbies[3][1]=stuff
-     *
-     * @param {Object} object The object to encode.
-     * @param {Boolean} [recursive=false] Whether or not to interpret the object in recursive format.
-     * (PHP / Ruby on Rails servers and similar).
-     * @return {String} queryString
-     */
-    toQueryString: function(object, recursive) {
-        var paramObjects = [],
-            params = [],
-            i, j, ln, paramObject, value;
-
-        for (i in object) {
-            if (object.hasOwnProperty(i)) {
-                paramObjects = paramObjects.concat(ExtObject.toQueryObjects(i, object[i], recursive));
-            }
-        }
-
-        for (j = 0, ln = paramObjects.length; j < ln; j++) {
-            paramObject = paramObjects[j];
-            value = paramObject.value;
-
-            if (Ext.isEmpty(value)) {
-                value = '';
-            }
-            else if (Ext.isDate(value)) {
-                value = Ext.Date.toString(value);
-            }
-
-            params.push(encodeURIComponent(paramObject.name) + '=' + encodeURIComponent(String(value)));
-        }
-
-        return params.join('&');
-    },
-
-    /**
-     * Converts a query string back into an object.
-     *
-     * Non-recursive:
-     *
-     *     Ext.Object.fromQueryString("foo=1&bar=2"); // returns {foo: 1, bar: 2}
-     *     Ext.Object.fromQueryString("foo=&bar=2"); // returns {foo: null, bar: 2}
-     *     Ext.Object.fromQueryString("some%20price=%24300"); // returns {'some price': '$300'}
-     *     Ext.Object.fromQueryString("colors=red&colors=green&colors=blue"); // returns {colors: ['red', 'green', 'blue']}
-     *
-     * Recursive:
-     *
-     *     Ext.Object.fromQueryString("username=Jacky&dateOfBirth[day]=1&dateOfBirth[month]=2&dateOfBirth[year]=1911&hobbies[0]=coding&hobbies[1]=eating&hobbies[2]=sleeping&hobbies[3][0]=nested&hobbies[3][1]=stuff", true);
-     *
-     *     // returns
-     *     {
-     *         username: 'Jacky',
-     *         dateOfBirth: {
-     *             day: '1',
-     *             month: '2',
-     *             year: '1911'
-     *         },
-     *         hobbies: ['coding', 'eating', 'sleeping', ['nested', 'stuff']]
-     *     }
-     *
-     * @param {String} queryString The query string to decode.
-     * @param {Boolean} [recursive=false] Whether or not to recursively decode the string. This format is supported by
-     * PHP / Ruby on Rails servers and similar.
-     * @return {Object}
-     */
-    fromQueryString: function(queryString, recursive) {
-        var parts = queryString.replace(/^\?/, '').split('&'),
-            object = {},
-            temp, components, name, value, i, ln,
-            part, j, subLn, matchedKeys, matchedName,
-            keys, key, nextKey;
-
-        for (i = 0, ln = parts.length; i < ln; i++) {
-            part = parts[i];
-
-            if (part.length > 0) {
-                components = part.split('=');
-                name = decodeURIComponent(components[0]);
-                value = (components[1] !== undefined) ? decodeURIComponent(components[1]) : '';
-
-                if (!recursive) {
-                    if (object.hasOwnProperty(name)) {
-                        if (!Ext.isArray(object[name])) {
-                            object[name] = [object[name]];
-                        }
-
-                        object[name].push(value);
-                    }
-                    else {
-                        object[name] = value;
-                    }
-                }
-                else {
-                    matchedKeys = name.match(/(\[):?([^\]]*)\]/g);
-                    matchedName = name.match(/^([^\[]+)/);
-
-                    if (!matchedName) {
-                        throw new Error('[Ext.Object.fromQueryString] Malformed query string given, failed parsing name from "' + part + '"');
-                    }
-
-                    name = matchedName[0];
-                    keys = [];
-
-                    if (matchedKeys === null) {
-                        object[name] = value;
-                        continue;
-                    }
-
-                    for (j = 0, subLn = matchedKeys.length; j < subLn; j++) {
-                        key = matchedKeys[j];
-                        key = (key.length === 2) ? '' : key.substring(1, key.length - 1);
-                        keys.push(key);
-                    }
-
-                    keys.unshift(name);
-
-                    temp = object;
-
-                    for (j = 0, subLn = keys.length; j < subLn; j++) {
-                        key = keys[j];
-
-                        if (j === subLn - 1) {
-                            if (Ext.isArray(temp) && key === '') {
-                                temp.push(value);
-                            }
-                            else {
-                                temp[key] = value;
-                            }
-                        }
-                        else {
-                            if (temp[key] === undefined || typeof temp[key] === 'string') {
-                                nextKey = keys[j+1];
-
-                                temp[key] = (Ext.isNumeric(nextKey) || nextKey === '') ? [] : {};
-                            }
-
-                            temp = temp[key];
+            } else if (Ext.isObject(value)) {
+                for (i in value) {
+                    if (value.hasOwnProperty(i)) {
+                        if (recursive) {
+                            objects = objects.concat(self(name + '[' + i + ']', value[i], true));
+                        } else {
+                            objects.push({
+                                name: name,
+                                value: value[i]
+                            });
                         }
                     }
                 }
+            } else {
+                objects.push({
+                    name: name,
+                    value: value
+                });
             }
-        }
 
-        return object;
-    },
+            return objects;
+        },
 
-    /**
-     * Iterate through an object and invoke the given callback function for each iteration. The iteration can be stop
-     * by returning `false` in the callback function. This method iterates over properties within the current object,
-     * not properties from its prototype. To iterate over a prototype, iterate over obj.proto instead of obj.
-     * In the next example, use Ext.Object.each(Person.proto ....) and so on.
-     * For example:
-     *
-     *     var person = {
-     *         name: 'Jacky',
-     *         hairColor: 'black',
-     *         loves: ['food', 'sleeping', 'wife']
-     *     };
-     *
-     *     Ext.Object.each(person, function(key, value, myself) {
-     *         console.log(key + ":" + value);
-     *
-     *         if (key === 'hairColor') {
-     *             return false; // stop the iteration
-     *         }
-     *     });
-     *
-     * @param {Object} object The object to iterate
-     * @param {Function} fn The callback function.
-     * @param {String} fn.key
-     * @param {Mixed} fn.value
-     * @param {Object} fn.object The object itself
-     * @param {Object} [scope] The execution scope (`this`) of the callback function
-     */
-    each: function(object, fn, scope) {
-        for (var property in object) {
-            if (object.hasOwnProperty(property)) {
-                if (fn.call(scope || object, property, object[property], object) === false) {
-                    return;
+        /**
+         * Takes an object and converts it to an encoded query string.
+         *
+         * Non-recursive:
+         *
+         *     Ext.Object.toQueryString({foo: 1, bar: 2}); // returns "foo=1&bar=2"
+         *     Ext.Object.toQueryString({foo: null, bar: 2}); // returns "foo=&bar=2"
+         *     Ext.Object.toQueryString({'some price': '$300'}); // returns "some%20price=%24300"
+         *     Ext.Object.toQueryString({date: new Date(2011, 0, 1)}); // returns "date=%222011-01-01T00%3A00%3A00%22"
+         *     Ext.Object.toQueryString({colors: ['red', 'green', 'blue']}); // returns "colors=red&colors=green&colors=blue"
+         *
+         * Recursive:
+         *
+         *     Ext.Object.toQueryString({
+         *         username: 'Jacky',
+         *         dateOfBirth: {
+         *             day: 1,
+         *             month: 2,
+         *             year: 1911
+         *         },
+         *         hobbies: ['coding', 'eating', 'sleeping', ['nested', 'stuff']]
+         *     }, true);
+         *
+         *     // returns the following string (broken down and url-decoded for ease of reading purpose):
+         *     // username=Jacky
+         *     //    &dateOfBirth[day]=1&dateOfBirth[month]=2&dateOfBirth[year]=1911
+         *     //    &hobbies[0]=coding&hobbies[1]=eating&hobbies[2]=sleeping&hobbies[3][0]=nested&hobbies[3][1]=stuff
+         *
+         * @param {Object} object The object to encode.
+         * @param {Boolean} [recursive=false] Whether or not to interpret the object in recursive format.
+         * (PHP / Ruby on Rails servers and similar).
+         * @return {String} queryString
+         */
+        toQueryString: function(object, recursive) {
+            var paramObjects = [],
+                params = [],
+                i, j, ln, paramObject, value;
+
+            for (i in object) {
+                if (object.hasOwnProperty(i)) {
+                    paramObjects = paramObjects.concat(ExtObject.toQueryObjects(i, object[i], recursive));
                 }
             }
-        }
-    },
 
-    /**
-     * Merges any number of objects recursively without referencing them or their children.
-     *
-     *     var extjs = {
-     *         companyName: 'Ext JS',
-     *         products: ['Ext JS', 'Ext GWT', 'Ext Designer'],
-     *         isSuperCool: true,
-     *         office: {
-     *             size: 2000,
-     *             location: 'Palo Alto',
-     *             isFun: true
-     *         }
-     *     };
-     *
-     *     var newStuff = {
-     *         companyName: 'Sencha Inc.',
-     *         products: ['Ext JS', 'Ext GWT', 'Ext Designer', 'Sencha Touch', 'Sencha Animator'],
-     *         office: {
-     *             size: 40000,
-     *             location: 'Redwood City'
-     *         }
-     *     };
-     *
-     *     var sencha = Ext.Object.merge({}, extjs, newStuff);
-     *
-     *     // sencha then equals to
-     *     {
-     *         companyName: 'Sencha Inc.',
-     *         products: ['Ext JS', 'Ext GWT', 'Ext Designer', 'Sencha Touch', 'Sencha Animator'],
-     *         isSuperCool: true
-     *         office: {
-     *             size: 40000,
-     *             location: 'Redwood City'
-     *             isFun: true
-     *         }
-     *     }
-     *
-     * @param {Object} source The first object into which to merge the others.
-     * @param {Object...} objs One or more objects to be merged into the first.
-     * @return {Object} The object that is created as a result of merging all the objects passed in.
-     */
-    merge: function(source) {
-        var i = 1,
-            ln = arguments.length,
-            mergeFn = ExtObject.merge,
-            cloneFn = Ext.clone,
-            object, key, value, sourceKey;
+            for (j = 0, ln = paramObjects.length; j < ln; j++) {
+                paramObject = paramObjects[j];
+                value = paramObject.value;
 
-        for (; i < ln; i++) {
-            object = arguments[i];
+                if (Ext.isEmpty(value)) {
+                    value = '';
+                } else if (Ext.isDate(value)) {
+                    value = Ext.Date.toString(value);
+                }
 
-            for (key in object) {
-                value = object[key];
-                if (value && value.constructor === Object) {
-                    sourceKey = source[key];
-                    if (sourceKey && sourceKey.constructor === Object) {
-                        mergeFn(sourceKey, value);
+                params.push(encodeURIComponent(paramObject.name) + '=' + encodeURIComponent(String(value)));
+            }
+
+            return params.join('&');
+        },
+
+        /**
+         * Converts a query string back into an object.
+         *
+         * Non-recursive:
+         *
+         *     Ext.Object.fromQueryString("foo=1&bar=2"); // returns {foo: 1, bar: 2}
+         *     Ext.Object.fromQueryString("foo=&bar=2"); // returns {foo: null, bar: 2}
+         *     Ext.Object.fromQueryString("some%20price=%24300"); // returns {'some price': '$300'}
+         *     Ext.Object.fromQueryString("colors=red&colors=green&colors=blue"); // returns {colors: ['red', 'green', 'blue']}
+         *
+         * Recursive:
+         *
+         *     Ext.Object.fromQueryString("username=Jacky&dateOfBirth[day]=1&dateOfBirth[month]=2&dateOfBirth[year]=1911&hobbies[0]=coding&hobbies[1]=eating&hobbies[2]=sleeping&hobbies[3][0]=nested&hobbies[3][1]=stuff", true);
+         *
+         *     // returns
+         *     {
+         *         username: 'Jacky',
+         *         dateOfBirth: {
+         *             day: '1',
+         *             month: '2',
+         *             year: '1911'
+         *         },
+         *         hobbies: ['coding', 'eating', 'sleeping', ['nested', 'stuff']]
+         *     }
+         *
+         * @param {String} queryString The query string to decode.
+         * @param {Boolean} [recursive=false] Whether or not to recursively decode the string. This format is supported by
+         * PHP / Ruby on Rails servers and similar.
+         * @return {Object}
+         */
+        fromQueryString: function(queryString, recursive) {
+            var parts = queryString.replace(/^\?/, '').split('&'),
+                object = {},
+                temp, components, name, value, i, ln,
+                part, j, subLn, matchedKeys, matchedName,
+                keys, key, nextKey;
+
+            for (i = 0, ln = parts.length; i < ln; i++) {
+                part = parts[i];
+
+                if (part.length > 0) {
+                    components = part.split('=');
+                    name = decodeURIComponent(components[0]);
+                    value = (components[1] !== undefined) ? decodeURIComponent(components[1]) : '';
+
+                    if (!recursive) {
+                        if (object.hasOwnProperty(name)) {
+                            if (!Ext.isArray(object[name])) {
+                                object[name] = [object[name]];
+                            }
+
+                            object[name].push(value);
+                        } else {
+                            object[name] = value;
+                        }
+                    } else {
+                        matchedKeys = name.match(/(\[):?([^\]]*)\]/g);
+                        matchedName = name.match(/^([^\[]+)/);
+
+                        if (!matchedName) {
+                            throw new Error('[Ext.Object.fromQueryString] Malformed query string given, failed parsing name from "' + part + '"');
+                        }
+
+                        name = matchedName[0];
+                        keys = [];
+
+                        if (matchedKeys === null) {
+                            object[name] = value;
+                            continue;
+                        }
+
+                        for (j = 0, subLn = matchedKeys.length; j < subLn; j++) {
+                            key = matchedKeys[j];
+                            key = (key.length === 2) ? '' : key.substring(1, key.length - 1);
+                            keys.push(key);
+                        }
+
+                        keys.unshift(name);
+
+                        temp = object;
+
+                        for (j = 0, subLn = keys.length; j < subLn; j++) {
+                            key = keys[j];
+
+                            if (j === subLn - 1) {
+                                if (Ext.isArray(temp) && key === '') {
+                                    temp.push(value);
+                                } else {
+                                    temp[key] = value;
+                                }
+                            } else {
+                                if (temp[key] === undefined || typeof temp[key] === 'string') {
+                                    nextKey = keys[j + 1];
+
+                                    temp[key] = (Ext.isNumeric(nextKey) || nextKey === '') ? [] : {};
+                                }
+
+                                temp = temp[key];
+                            }
+                        }
                     }
-                    else {
-                        source[key] = cloneFn(value);
-                    }
-                }
-                else {
-                    source[key] = value;
                 }
             }
-        }
 
-        return source;
-    },
+            return object;
+        },
 
-    /**
-     * @param {Object} source
-     */
-    mergeIf: function(source) {
-        var i = 1,
-            ln = arguments.length,
-            cloneFn = Ext.clone,
-            object, key, value;
+        /**
+         * Iterate through an object and invoke the given callback function for each iteration. The iteration can be stop
+         * by returning `false` in the callback function. This method iterates over properties within the current object,
+         * not properties from its prototype. To iterate over a prototype, iterate over obj.proto instead of obj.
+         * In the next example, use Ext.Object.each(Person.proto ....) and so on.
+         * For example:
+         *
+         *     var person = {
+         *         name: 'Jacky',
+         *         hairColor: 'black',
+         *         loves: ['food', 'sleeping', 'wife']
+         *     };
+         *
+         *     Ext.Object.each(person, function(key, value, myself) {
+         *         console.log(key + ":" + value);
+         *
+         *         if (key === 'hairColor') {
+         *             return false; // stop the iteration
+         *         }
+         *     });
+         *
+         * @param {Object} object The object to iterate
+         * @param {Function} fn The callback function.
+         * @param {String} fn.key
+         * @param {Mixed} fn.value
+         * @param {Object} fn.object The object itself
+         * @param {Object} [scope] The execution scope (`this`) of the callback function
+         */
+        each: function(object, fn, scope) {
+            for (var property in object) {
+                if (object.hasOwnProperty(property)) {
+                    if (fn.call(scope || object, property, object[property], object) === false) {
+                        return;
+                    }
+                }
+            }
+        },
 
-        for (; i < ln; i++) {
-            object = arguments[i];
+        /**
+         * Merges any number of objects recursively without referencing them or their children.
+         *
+         *     var extjs = {
+         *         companyName: 'Ext JS',
+         *         products: ['Ext JS', 'Ext GWT', 'Ext Designer'],
+         *         isSuperCool: true,
+         *         office: {
+         *             size: 2000,
+         *             location: 'Palo Alto',
+         *             isFun: true
+         *         }
+         *     };
+         *
+         *     var newStuff = {
+         *         companyName: 'Sencha Inc.',
+         *         products: ['Ext JS', 'Ext GWT', 'Ext Designer', 'Sencha Touch', 'Sencha Animator'],
+         *         office: {
+         *             size: 40000,
+         *             location: 'Redwood City'
+         *         }
+         *     };
+         *
+         *     var sencha = Ext.Object.merge({}, extjs, newStuff);
+         *
+         *     // sencha then equals to
+         *     {
+         *         companyName: 'Sencha Inc.',
+         *         products: ['Ext JS', 'Ext GWT', 'Ext Designer', 'Sencha Touch', 'Sencha Animator'],
+         *         isSuperCool: true
+         *         office: {
+         *             size: 40000,
+         *             location: 'Redwood City'
+         *             isFun: true
+         *         }
+         *     }
+         *
+         * @param {Object} source The first object into which to merge the others.
+         * @param {Object...} objs One or more objects to be merged into the first.
+         * @return {Object} The object that is created as a result of merging all the objects passed in.
+         */
+        merge: function(source) {
+            var i = 1,
+                ln = arguments.length,
+                mergeFn = ExtObject.merge,
+                cloneFn = Ext.clone,
+                object, key, value, sourceKey;
 
-            for (key in object) {
-                if (!(key in source)) {
+            for (; i < ln; i++) {
+                object = arguments[i];
+
+                for (key in object) {
                     value = object[key];
-
                     if (value && value.constructor === Object) {
-                        source[key] = cloneFn(value);
-                    }
-                    else {
+                        sourceKey = source[key];
+                        if (sourceKey && sourceKey.constructor === Object) {
+                            mergeFn(sourceKey, value);
+                        } else {
+                            source[key] = cloneFn(value);
+                        }
+                    } else {
                         source[key] = value;
                     }
                 }
             }
-        }
 
-        return source;
-    },
+            return source;
+        },
 
-    /**
-     * Returns the first matching key corresponding to the given value.
-     * If no matching value is found, `null` is returned.
-     *
-     *     var person = {
-     *         name: 'Jacky',
-     *         loves: 'food'
-     *     };
-     *
-     *     alert(Ext.Object.getKey(sencha, 'food')); // alerts 'loves'
-     *
-     * @param {Object} object
-     * @param {Object} value The value to find
-     */
-    getKey: function(object, value) {
-        for (var property in object) {
-            if (object.hasOwnProperty(property) && object[property] === value) {
-                return property;
+        /**
+         * @param {Object} source
+         */
+        mergeIf: function(source) {
+            var i = 1,
+                ln = arguments.length,
+                cloneFn = Ext.clone,
+                object, key, value;
+
+            for (; i < ln; i++) {
+                object = arguments[i];
+
+                for (key in object) {
+                    if (!(key in source)) {
+                        value = object[key];
+
+                        if (value && value.constructor === Object) {
+                            source[key] = cloneFn(value);
+                        } else {
+                            source[key] = value;
+                        }
+                    }
+                }
+            }
+
+            return source;
+        },
+
+        /**
+         * Returns the first matching key corresponding to the given value.
+         * If no matching value is found, `null` is returned.
+         *
+         *     var person = {
+         *         name: 'Jacky',
+         *         loves: 'food'
+         *     };
+         *
+         *     alert(Ext.Object.getKey(sencha, 'food')); // alerts 'loves'
+         *
+         * @param {Object} object
+         * @param {Object} value The value to find
+         */
+        getKey: function(object, value) {
+            for (var property in object) {
+                if (object.hasOwnProperty(property) && object[property] === value) {
+                    return property;
+                }
+            }
+
+            return null;
+        },
+
+        /**
+         * Gets all values of the given object as an array.
+         *
+         *     var values = Ext.Object.getValues({
+         *         name: 'Jacky',
+         *         loves: 'food'
+         *     }); // ['Jacky', 'food']
+         *
+         * @param {Object} object
+         * @return {Array} An array of values from the object.
+         */
+        getValues: function(object) {
+            var values = [],
+                property;
+
+            for (property in object) {
+                if (object.hasOwnProperty(property)) {
+                    values.push(object[property]);
+                }
+            }
+
+            return values;
+        },
+
+        /**
+         * Gets all keys of the given object as an array.
+         *
+         *     var values = Ext.Object.getKeys({
+         *         name: 'Jacky',
+         *         loves: 'food'
+         *     }); // ['name', 'loves']
+         *
+         * @param {Object} object
+         * @return {String[]} An array of keys from the object.
+         * @method
+         */
+        getKeys: ('keys' in Object) ? Object.keys : function(object) {
+            var keys = [],
+                property;
+
+            for (property in object) {
+                if (object.hasOwnProperty(property)) {
+                    keys.push(property);
+                }
+            }
+
+            return keys;
+        },
+
+        /**
+         * Gets the total number of this object's own properties.
+         *
+         *     var size = Ext.Object.getSize({
+         *         name: 'Jacky',
+         *         loves: 'food'
+         *     }); // size equals 2
+         *
+         * @param {Object} object
+         * @return {Number} size
+         */
+        getSize: function(object) {
+            var size = 0,
+                property;
+
+            for (property in object) {
+                if (object.hasOwnProperty(property)) {
+                    size++;
+                }
+            }
+
+            return size;
+        },
+
+        /**
+         * @private
+         */
+        classify: function(object) {
+            var objectProperties = [],
+                arrayProperties = [],
+                propertyClassesMap = {},
+                objectClass = function() {
+                    var i = 0,
+                        ln = objectProperties.length,
+                        property;
+
+                    for (; i < ln; i++) {
+                        property = objectProperties[i];
+                        this[property] = new propertyClassesMap[property];
+                    }
+
+                    ln = arrayProperties.length;
+
+                    for (i = 0; i < ln; i++) {
+                        property = arrayProperties[i];
+                        this[property] = object[property].slice();
+                    }
+                },
+                key, value, constructor;
+
+            for (key in object) {
+                if (object.hasOwnProperty(key)) {
+                    value = object[key];
+
+                    if (value) {
+                        constructor = value.constructor;
+
+                        if (constructor === Object) {
+                            objectProperties.push(key);
+                            propertyClassesMap[key] = ExtObject.classify(value);
+                        } else if (constructor === Array) {
+                            arrayProperties.push(key);
+                        }
+                    }
+                }
+            }
+
+            objectClass.prototype = object;
+
+            return objectClass;
+        },
+
+        equals: function(origin, target) {
+            var originType = typeof origin,
+                targetType = typeof target,
+                key;
+
+            if (targetType === targetType) {
+                if (originType === 'object') {
+                    for (key in origin) {
+                        if (!(key in target)) {
+                            return false;
+                        }
+
+                        if (!ExtObject.equals(origin[key], target[key])) {
+                            return false;
+                        }
+                    }
+
+                    for (key in target) {
+                        if (!(key in origin)) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                } else {
+                    return origin === target;
+                }
+            }
+
+            return false;
+        },
+
+        defineProperty: ('defineProperty' in Object) ? Object.defineProperty : function(object, name, descriptor) {
+            if (descriptor.get) {
+                object.__defineGetter__(name, descriptor.get);
+            }
+
+            if (descriptor.set) {
+                object.__defineSetter__(name, descriptor.set);
             }
         }
-
-        return null;
-    },
+    };
 
     /**
-     * Gets all values of the given object as an array.
+     * A convenient alias method for {@link Ext.Object#merge}.
      *
-     *     var values = Ext.Object.getValues({
-     *         name: 'Jacky',
-     *         loves: 'food'
-     *     }); // ['Jacky', 'food']
-     *
-     * @param {Object} object
-     * @return {Array} An array of values from the object.
+     * @member Ext
+     * @method merge
      */
-    getValues: function(object) {
-        var values = [],
-            property;
-
-        for (property in object) {
-            if (object.hasOwnProperty(property)) {
-                values.push(object[property]);
-            }
-        }
-
-        return values;
-    },
-
-    /**
-     * Gets all keys of the given object as an array.
-     *
-     *     var values = Ext.Object.getKeys({
-     *         name: 'Jacky',
-     *         loves: 'food'
-     *     }); // ['name', 'loves']
-     *
-     * @param {Object} object
-     * @return {String[]} An array of keys from the object.
-     * @method
-     */
-    getKeys: ('keys' in Object) ? Object.keys : function(object) {
-        var keys = [],
-            property;
-
-        for (property in object) {
-            if (object.hasOwnProperty(property)) {
-                keys.push(property);
-            }
-        }
-
-        return keys;
-    },
-
-    /**
-     * Gets the total number of this object's own properties.
-     *
-     *     var size = Ext.Object.getSize({
-     *         name: 'Jacky',
-     *         loves: 'food'
-     *     }); // size equals 2
-     *
-     * @param {Object} object
-     * @return {Number} size
-     */
-    getSize: function(object) {
-        var size = 0,
-            property;
-
-        for (property in object) {
-            if (object.hasOwnProperty(property)) {
-                size++;
-            }
-        }
-
-        return size;
-    },
+    Ext.merge = Ext.Object.merge;
 
     /**
      * @private
      */
-    classify: function(object) {
-        var objectProperties = [],
-            arrayProperties = [],
-            propertyClassesMap = {},
-            objectClass = function() {
-                var i = 0,
-                    ln = objectProperties.length,
-                    property;
+    Ext.mergeIf = Ext.Object.mergeIf;
 
-                for (; i < ln; i++) {
-                    property = objectProperties[i];
-                    this[property] = new propertyClassesMap[property];
-                }
+    /**
+     * A convenient alias method for {@link Ext.Object#toQueryString}.
+     *
+     * @member Ext
+     * @method urlEncode
+     * @deprecated 2.0.0 Please use `{@link Ext.Object#toQueryString Ext.Object.toQueryString}` instead
+     */
+    Ext.urlEncode = function() {
+        var args = Ext.Array.from(arguments),
+            prefix = '';
 
-                ln = arrayProperties.length;
-
-                for (i = 0; i < ln; i++) {
-                    property = arrayProperties[i];
-                    this[property] = object[property].slice();
-                }
-            },
-            key, value, constructor;
-
-        for (key in object) {
-            if (object.hasOwnProperty(key)) {
-                value = object[key];
-
-                if (value) {
-                    constructor = value.constructor;
-
-                    if (constructor === Object) {
-                        objectProperties.push(key);
-                        propertyClassesMap[key] = ExtObject.classify(value);
-                    }
-                    else if (constructor === Array) {
-                        arrayProperties.push(key);
-                    }
-                }
-            }
+        // Support for the old `pre` argument
+        if ((typeof args[1] === 'string')) {
+            prefix = args[1] + '&';
+            args[1] = false;
         }
 
-        objectClass.prototype = object;
+        return prefix + ExtObject.toQueryString.apply(ExtObject, args);
+    };
 
-        return objectClass;
-    },
-
-    equals: function(origin, target) {
-        var originType = typeof origin,
-            targetType = typeof target,
-            key;
-
-        if (targetType === targetType) {
-            if (originType === 'object') {
-                for (key in origin) {
-                    if (!(key in target)) {
-                        return false;
-                    }
-
-                    if (!ExtObject.equals(origin[key], target[key])) {
-                        return false;
-                    }
-                }
-
-                for (key in target) {
-                    if (!(key in origin)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-            else {
-                return origin === target;
-            }
-        }
-
-        return false;
-    },
-
-    defineProperty: ('defineProperty' in Object) ? Object.defineProperty : function(object, name, descriptor) {
-        if (descriptor.get) {
-            object.__defineGetter__(name, descriptor.get);
-        }
-
-        if (descriptor.set) {
-            object.__defineSetter__(name, descriptor.set);
-        }
-    }
-};
-
-/**
- * A convenient alias method for {@link Ext.Object#merge}.
- *
- * @member Ext
- * @method merge
- */
-Ext.merge = Ext.Object.merge;
-
-/**
- * @private
- */
-Ext.mergeIf = Ext.Object.mergeIf;
-
-/**
- * A convenient alias method for {@link Ext.Object#toQueryString}.
- *
- * @member Ext
- * @method urlEncode
- * @deprecated 2.0.0 Please use `{@link Ext.Object#toQueryString Ext.Object.toQueryString}` instead
- */
-Ext.urlEncode = function() {
-    var args = Ext.Array.from(arguments),
-        prefix = '';
-
-    // Support for the old `pre` argument
-    if ((typeof args[1] === 'string')) {
-        prefix = args[1] + '&';
-        args[1] = false;
-    }
-
-    return prefix + ExtObject.toQueryString.apply(ExtObject, args);
-};
-
-/**
- * A convenient alias method for {@link Ext.Object#fromQueryString}.
- *
- * @member Ext
- * @method urlDecode
- * @deprecated 2.0.0 Please use {@link Ext.Object#fromQueryString Ext.Object.fromQueryString} instead
- */
-Ext.urlDecode = function() {
-    return ExtObject.fromQueryString.apply(ExtObject, arguments);
-};
+    /**
+     * A convenient alias method for {@link Ext.Object#fromQueryString}.
+     *
+     * @member Ext
+     * @method urlDecode
+     * @deprecated 2.0.0 Please use {@link Ext.Object#fromQueryString Ext.Object.fromQueryString} instead
+     */
+    Ext.urlDecode = function() {
+        return ExtObject.fromQueryString.apply(ExtObject, arguments);
+    };
 
 })();
 
@@ -3193,8 +3180,7 @@ Ext.Function = {
             if (appendArgs === true) {
                 callArgs = slice.call(arguments, 0);
                 callArgs = callArgs.concat(args);
-            }
-            else if (typeof appendArgs == 'number') {
+            } else if (typeof appendArgs == 'number') {
                 callArgs = slice.call(arguments, 0); // copy arguments first
                 Ext.Array.insert(callArgs, appendArgs, args);
             }
@@ -3295,8 +3281,7 @@ Ext.Function = {
         var method = origFn;
         if (!Ext.isFunction(newFn)) {
             return origFn;
-        }
-        else {
+        } else {
             return function() {
                 var me = this,
                     args = arguments;
@@ -3400,8 +3385,7 @@ Ext.Function = {
     createSequence: function(originalFn, newFn, scope) {
         if (!newFn) {
             return originalFn;
-        }
-        else {
+        } else {
             return function() {
                 var result = originalFn.apply(this, arguments);
                 newFn.apply(scope || this, arguments);
@@ -3437,7 +3421,7 @@ Ext.Function = {
                 clearTimeout(timerId);
             }
 
-            timerId = setTimeout(function(){
+            timerId = setTimeout(function() {
                 fn.apply(me, callArgs);
             }, buffer);
         };
@@ -3459,9 +3443,9 @@ Ext.Function = {
      */
     createThrottled: function(fn, interval, scope) {
         var lastCallTime, elapsed, lastArgs, timer, execute = function() {
-            fn.apply(scope || this, lastArgs);
-            lastCallTime = new Date().getTime();
-        };
+                fn.apply(scope || this, lastArgs);
+                lastCallTime = new Date().getTime();
+            };
 
         return function() {
             elapsed = new Date().getTime() - lastCallTime;
@@ -3588,100 +3572,100 @@ Ext.bind = Ext.Function.alias(Ext.Function, 'bind');
  */
 Ext.JSON = new(function() {
     var useHasOwn = !! {}.hasOwnProperty,
-    isNative = function() {
-        var useNative = null;
+        isNative = function() {
+            var useNative = null;
 
-        return function() {
-            if (useNative === null) {
-                useNative = Ext.USE_NATIVE_JSON && window.JSON && JSON.toString() == '[object JSON]';
+            return function() {
+                if (useNative === null) {
+                    useNative = Ext.USE_NATIVE_JSON && window.JSON && JSON.toString() == '[object JSON]';
+                }
+
+                return useNative;
+            };
+        }(),
+        pad = function(n) {
+            return n < 10 ? "0" + n : n;
+        },
+        doDecode = function(json) {
+            return eval("(" + json + ')');
+        },
+        doEncode = function(o) {
+            if (!Ext.isDefined(o) || o === null) {
+                return "null";
+            } else if (Ext.isArray(o)) {
+                return encodeArray(o);
+            } else if (Ext.isDate(o)) {
+                return Ext.JSON.encodeDate(o);
+            } else if (Ext.isString(o)) {
+                if (Ext.isMSDate(o)) {
+                    return encodeMSDate(o);
+                } else {
+                    return encodeString(o);
+                }
+            } else if (typeof o == "number") {
+                //don't use isNumber here, since finite checks happen inside isNumber
+                return isFinite(o) ? String(o) : "null";
+            } else if (Ext.isBoolean(o)) {
+                return String(o);
+            } else if (Ext.isObject(o)) {
+                return encodeObject(o);
+            } else if (typeof o === "function") {
+                return "null";
             }
-
-            return useNative;
+            return 'undefined';
+        },
+        m = {
+            "\b": '\\b',
+            "\t": '\\t',
+            "\n": '\\n',
+            "\f": '\\f',
+            "\r": '\\r',
+            '"': '\\"',
+            "\\": '\\\\',
+            '\x0b': '\\u000b' //ie doesn't handle \v
+        },
+        charToReplace = /[\\\"\x00-\x1f\x7f-\uffff]/g,
+        encodeString = function(s) {
+            return '"' + s.replace(charToReplace, function(a) {
+                var c = m[a];
+                return typeof c === 'string' ? c : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+            }) + '"';
+        },
+        encodeArray = function(o) {
+            var a = ["[", ""],
+                // Note empty string in case there are no serializable members.
+                len = o.length,
+                i;
+            for (i = 0; i < len; i += 1) {
+                a.push(doEncode(o[i]), ',');
+            }
+            // Overwrite trailing comma (or empty string)
+            a[a.length - 1] = ']';
+            return a.join("");
+        },
+        encodeObject = function(o) {
+            var a = ["{", ""],
+                // Note empty string in case there are no serializable members.
+                i;
+            for (i in o) {
+                if (!useHasOwn || o.hasOwnProperty(i)) {
+                    a.push(doEncode(i), ":", doEncode(o[i]), ',');
+                }
+            }
+            // Overwrite trailing comma (or empty string)
+            a[a.length - 1] = '}';
+            return a.join("");
+        },
+        encodeMSDate = function(o) {
+            return '"' + o + '"';
         };
-    }(),
-    pad = function(n) {
-        return n < 10 ? "0" + n : n;
-    },
-    doDecode = function(json) {
-        return eval("(" + json + ')');
-    },
-    doEncode = function(o) {
-        if (!Ext.isDefined(o) || o === null) {
-            return "null";
-        } else if (Ext.isArray(o)) {
-            return encodeArray(o);
-        } else if (Ext.isDate(o)) {
-            return Ext.JSON.encodeDate(o);
-        } else if (Ext.isString(o)) {
-            if (Ext.isMSDate(o)) {
-               return encodeMSDate(o);
-            } else {
-                return encodeString(o);
-            }
-        } else if (typeof o == "number") {
-            //don't use isNumber here, since finite checks happen inside isNumber
-            return isFinite(o) ? String(o) : "null";
-        } else if (Ext.isBoolean(o)) {
-            return String(o);
-        } else if (Ext.isObject(o)) {
-            return encodeObject(o);
-        } else if (typeof o === "function") {
-            return "null";
-        }
-        return 'undefined';
-    },
-    m = {
-        "\b": '\\b',
-        "\t": '\\t',
-        "\n": '\\n',
-        "\f": '\\f',
-        "\r": '\\r',
-        '"': '\\"',
-        "\\": '\\\\',
-        '\x0b': '\\u000b' //ie doesn't handle \v
-    },
-    charToReplace = /[\\\"\x00-\x1f\x7f-\uffff]/g,
-    encodeString = function(s) {
-        return '"' + s.replace(charToReplace, function(a) {
-            var c = m[a];
-            return typeof c === 'string' ? c : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-        }) + '"';
-    },
-    encodeArray = function(o) {
-        var a = ["[", ""],
-        // Note empty string in case there are no serializable members.
-        len = o.length,
-        i;
-        for (i = 0; i < len; i += 1) {
-            a.push(doEncode(o[i]), ',');
-        }
-        // Overwrite trailing comma (or empty string)
-        a[a.length - 1] = ']';
-        return a.join("");
-    },
-    encodeObject = function(o) {
-        var a = ["{", ""],
-        // Note empty string in case there are no serializable members.
-        i;
-        for (i in o) {
-            if (!useHasOwn || o.hasOwnProperty(i)) {
-                a.push(doEncode(i), ":", doEncode(o[i]), ',');
-            }
-        }
-        // Overwrite trailing comma (or empty string)
-        a[a.length - 1] = '}';
-        return a.join("");
-    },
-    encodeMSDate = function(o) {
-        return '"' + o + '"';
-    };
 
     /**
      * Encodes a Date. This returns the actual string which is inserted into the JSON string as the literal expression.
      * __The returned value includes enclosing double quotation marks.__
      *
      * The default return format is "yyyy-mm-ddThh:mm:ss".
-     * 
+     *
      * To override this:
      *
      *     Ext.JSON.encodeDate = function(d) {
@@ -3692,12 +3676,7 @@ Ext.JSON = new(function() {
      * @return {String} The string literal to use in a JSON string.
      */
     this.encodeDate = function(o) {
-        return '"' + o.getFullYear() + "-" 
-        + pad(o.getMonth() + 1) + "-"
-        + pad(o.getDate()) + "T"
-        + pad(o.getHours()) + ":"
-        + pad(o.getMinutes()) + ":"
-        + pad(o.getSeconds()) + '"';
+        return '"' + o.getFullYear() + "-" + pad(o.getMonth() + 1) + "-" + pad(o.getDate()) + "T" + pad(o.getHours()) + ":" + pad(o.getMinutes()) + ":" + pad(o.getSeconds()) + '"';
     };
 
     /**
@@ -3796,12 +3775,7 @@ Ext.Date = {
 
         var pad = Ext.String.leftPad;
 
-        return date.getFullYear() + "-"
-            + pad(date.getMonth() + 1, 2, '0') + "-"
-            + pad(date.getDate(), 2, '0') + "T"
-            + pad(date.getHours(), 2, '0') + ":"
-            + pad(date.getMinutes(), 2, '0') + ":"
-            + pad(date.getSeconds(), 2, '0');
+        return date.getFullYear() + "-" + pad(date.getMonth() + 1, 2, '0') + "-" + pad(date.getDate(), 2, '0') + "T" + pad(date.getHours(), 2, '0') + ":" + pad(date.getMinutes(), 2, '0') + ":" + pad(date.getSeconds(), 2, '0');
     }
 };
 
@@ -3827,8 +3801,8 @@ Ext.Date = {
  */
 (function(flexSetter) {
 
-var noArgs = [],
-    Base = function(){};
+    var noArgs = [],
+        Base = function() {};
 
     // These static properties will be copied to every newly created class with {@link Ext#define}
     Ext.apply(Base, {
@@ -3882,7 +3856,7 @@ var noArgs = [],
             statics = parentPrototype.$inheritableStatics;
 
             if (statics) {
-                for (i = 0,ln = statics.length; i < ln; i++) {
+                for (i = 0, ln = statics.length; i < ln; i++) {
                     name = statics[i];
 
                     if (!this.hasOwnProperty(name)) {
@@ -3963,8 +3937,7 @@ var noArgs = [],
                             initConfigMap[name] = true;
                             initConfigList.push(name);
                         }
-                    }
-                    else if (hasInitConfigItem) {
+                    } else if (hasInitConfigItem) {
                         initConfigMap[name] = false;
                         Ext.Array.remove(initConfigList, name);
                     }
@@ -3973,8 +3946,7 @@ var noArgs = [],
 
             if (fullMerge) {
                 Ext.merge(defaultConfig, config);
-            }
-            else {
+            } else {
                 Ext.mergeIf(defaultConfig, config);
             }
 
@@ -4164,7 +4136,7 @@ var noArgs = [],
 
             members = Ext.Array.from(members);
 
-            for (i = 0,ln = members.length; i < ln; i++) {
+            for (i = 0, ln = members.length; i < ln; i++) {
                 name = members[i];
 
                 toBorrow = fromPrototype[name];
@@ -4182,8 +4154,7 @@ var noArgs = [],
                     fn.$name = name;
 
                     prototype[name] = fn;
-                }
-                else {
+                } else {
                     prototype[name] = toBorrow;
                 }
             }
@@ -4268,8 +4239,7 @@ var noArgs = [],
                 for (name in members) { // hasOwnProperty is checked in the next loop...
                     if (name == 'statics') {
                         statics = members[name];
-                    }
-                    else if (name == 'config') {
+                    } else if (name == 'config') {
                         newConfig = members[name];
                         for (prop in newConfig) {
                             if (!(prop in currentConfig)) {
@@ -4278,8 +4248,7 @@ var noArgs = [],
                             }
                         }
                         me.addConfig(newConfig, true);
-                    }
-                    else {
+                    } else {
                         names.push(name);
                     }
                 }
@@ -4288,7 +4257,7 @@ var noArgs = [],
                     names.push.apply(names, enumerables);
                 }
 
-                for (index = names.length; index--; ) {
+                for (index = names.length; index--;) {
                     name = names[index];
 
                     if (members.hasOwnProperty(name)) {
@@ -4334,8 +4303,8 @@ var noArgs = [],
 
             // This code is intentionally inlined for the least amount of debugger stepping
             return (method = this.callParent.caller) && (method.$previous ||
-                  ((method = method.$owner ? method : method.caller) &&
-                        method.$owner.superclass.$class[method.$name])).apply(this, args || noArgs);
+                ((method = method.$owner ? method : method.caller) &&
+                    method.$owner.superclass.$class[method.$name])).apply(this, args || noArgs);
         },
 
         /**
@@ -4356,8 +4325,7 @@ var noArgs = [],
             if (!prototype.hasOwnProperty('mixins')) {
                 if ('mixins' in prototype) {
                     prototype.mixins = Ext.Object.chain(prototype.mixins);
-                }
-                else {
+                } else {
                     prototype.mixins = {};
                 }
             }
@@ -4365,8 +4333,7 @@ var noArgs = [],
             for (key in mixin) {
                 if (key === 'mixins') {
                     Ext.merge(prototype.mixins, mixin[key]);
-                }
-                else if (typeof prototype[key] == 'undefined' && key != 'mixinId' && key != 'config') {
+                } else if (typeof prototype[key] == 'undefined' && key != 'mixinId' && key != 'config') {
                     prototype[key] = mixin[key];
                 }
             }
@@ -4625,8 +4592,8 @@ var noArgs = [],
             // to be.
             var method,
                 superMethod = (method = this.callParent.caller) && (method.$previous ||
-                        ((method = method.$owner ? method : method.caller) &&
-                                method.$owner.superclass[method.$name]));
+                    ((method = method.$owner ? method : method.caller) &&
+                        method.$owner.superclass[method.$name]));
 
             if (!superMethod) {
                 method = this.callParent.caller;
@@ -4645,7 +4612,7 @@ var noArgs = [],
 
                 if (!(methodName in parentClass)) {
                     throw new Error("this.callParent() was called but there's no such method (" + methodName +
-                                ") found in the parent class (" + (Ext.getClassName(parentClass) || 'Object') + ")");
+                        ") found in the parent class (" + (Ext.getClassName(parentClass) || 'Object') + ")");
                 }
             }
 
@@ -4703,7 +4670,7 @@ var noArgs = [],
         callSuper: function(args) {
             var method,
                 superMethod = (method = this.callSuper.caller) && ((method = method.$owner ? method : method.caller) &&
-                                method.$owner.superclass[method.$name]);
+                    method.$owner.superclass[method.$name]);
 
             if (!superMethod) {
                 method = this.callSuper.caller;
@@ -4722,7 +4689,7 @@ var noArgs = [],
 
                 if (!(methodName in parentClass)) {
                     throw new Error("this.callSuper() was called but there's no such method (" + methodName +
-                                ") found in the parent class (" + (Ext.getClassName(parentClass) || 'Object') + ")");
+                        ") found in the parent class (" + (Ext.getClassName(parentClass) || 'Object') + ")");
                 }
             }
 
@@ -4763,7 +4730,7 @@ var noArgs = [],
          */
         callOverridden: function(args) {
             var method = this.callOverridden.caller;
-            return method  && method.$previous.apply(this, args || noArgs);
+            return method && method.$previous.apply(this, args || noArgs);
         },
 
         /**
@@ -4839,9 +4806,9 @@ var noArgs = [],
          * @return {Object} mixins The mixin prototypes as key - value pairs
          */
         initConfig: function(instanceConfig) {
-//            if (instanceConfig && instanceConfig.breakOnInitConfig) {
-//                debugger;
-//            }
+            //            if (instanceConfig && instanceConfig.breakOnInitConfig) {
+            //                debugger;
+            //            }
             var configNameCache = Ext.Class.configNameCache,
                 prototype = this.self.prototype,
                 initConfigList = this.initConfigList,
@@ -4865,15 +4832,12 @@ var noArgs = [],
             if (!prototype.hasOwnProperty('wasInstantiated')) {
                 prototype.wasInstantiated = true;
 
-                for (i = 0,ln = initConfigList.length; i < ln; i++) {
+                for (i = 0, ln = initConfigList.length; i < ln; i++) {
                     name = initConfigList[i];
                     nameMap = configNameCache[name];
                     value = defaultConfig[name];
 
-                    if (!(nameMap.apply in prototype)
-                        && !(nameMap.update in prototype)
-                        && prototype[nameMap.set].$isDefault
-                        && typeof value != 'object') {
+                    if (!(nameMap.apply in prototype) && !(nameMap.update in prototype) && prototype[nameMap.set].$isDefault && typeof value != 'object') {
                         prototype[nameMap.internal] = defaultConfig[name];
                         initConfigMap[name] = false;
                         Ext.Array.remove(initConfigList, name);
@@ -4894,7 +4858,7 @@ var noArgs = [],
             }
 
             // Point all getters to the initGetters
-            for (i = 0,ln = initConfigList.length; i < ln; i++) {
+            for (i = 0, ln = initConfigList.length; i < ln; i++) {
                 name = initConfigList[i];
                 nameMap = configNameCache[name];
                 this[nameMap.get] = this[nameMap.initGet];
@@ -4902,7 +4866,7 @@ var noArgs = [],
 
             this.beforeInitConfig(config);
 
-            for (i = 0,ln = initConfigList.length; i < ln; i++) {
+            for (i = 0, ln = initConfigList.length; i < ln; i++) {
                 name = initConfigList[i];
                 nameMap = configNameCache[name];
                 getName = nameMap.get;
@@ -4966,7 +4930,7 @@ var noArgs = [],
                 }
             }
 
-            for (i = 0,ln = configList.length; i < ln; i++) {
+            for (i = 0, ln = configList.length; i < ln; i++) {
                 name = configList[i];
                 nameMap = configNameCache[name];
                 this[nameMap.set].call(this, config[name]);
@@ -5010,8 +4974,7 @@ var noArgs = [],
 
             if (!name) {
                 return config;
-            }
-            else {
+            } else {
                 return config[name];
             }
         },
@@ -5029,7 +4992,7 @@ var noArgs = [],
 
             scope = scope || this;
 
-            for (i = 0,ln = names.length; i < ln; i++) {
+            for (i = 0, ln = names.length; i < ln; i++) {
                 name = names[i];
                 updaterName = 'update' + Ext.String.capitalize(name);
                 updater = this[updaterName] || Ext.emptyFn;
@@ -5078,8 +5041,7 @@ var noArgs = [],
                     if (value) {
                         if (value.isInstance && !value.isDestroyed) {
                             value.destroy();
-                        }
-                        else if (value.parentNode && 'nodeType' in value) {
+                        } else if (value.parentNode && 'nodeType' in value) {
                             value.parentNode.removeChild(value);
                         }
                     }
@@ -5232,9 +5194,8 @@ var noArgs = [],
 
                         if (properties === true) {
                             fn = preprocessor.fn;
-                        }
-                        else {
-                            for (i = 0,ln = properties.length; i < ln; i++) {
+                        } else {
+                            for (i = 0, ln = properties.length; i < ln; i++) {
                                 property = properties[i];
 
                                 if (data.hasOwnProperty(property)) {
@@ -5243,8 +5204,7 @@ var noArgs = [],
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         hooks.onBeforeCreated.apply(this, arguments);
                         return;
                     }
@@ -5392,8 +5352,7 @@ var noArgs = [],
                     defaultPreprocessors.unshift(name);
 
                     return this;
-                }
-                else if (offset === 'last') {
+                } else if (offset === 'last') {
                     defaultPreprocessors.push(name);
 
                     return this;
@@ -5438,7 +5397,7 @@ var noArgs = [],
                     set: 'set' + capitalizedName,
                     get: 'get' + capitalizedName,
                     initGet: 'initGet' + capitalizedName,
-                    doSet : 'doSet' + capitalizedName,
+                    doSet: 'doSet' + capitalizedName,
                     changeEvent: name.toLowerCase() + 'change'
                 }
             }
@@ -5552,8 +5511,7 @@ var noArgs = [],
 
         if (extend && extend !== Object) {
             Parent = extend;
-        }
-        else {
+        } else {
             Parent = Base;
         }
 
@@ -5645,9 +5603,9 @@ var noArgs = [],
                     // - Android with "Mobile" in the UA
 
                     return /(iPhone|iPod)/.test(ua) ||
-                              (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
-                              (/(BlackBerry|BB)/.test(ua) && isMobile) ||
-                              /(Windows Phone)/.test(ua);
+                        (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
+                        (/(BlackBerry|BB)/.test(ua) && isMobile) ||
+                        /(Windows Phone)/.test(ua);
                 }
 
                 function isTablet(ua) {
@@ -5917,14 +5875,13 @@ var noArgs = [],
 
         Ext.Function.interceptBefore(hooks, 'onCreated', function() {
             if (mixins instanceof Array) {
-                for (i = 0,ln = mixins.length; i < ln; i++) {
+                for (i = 0, ln = mixins.length; i < ln; i++) {
                     mixin = mixins[i];
                     name = mixin.prototype.mixinId || mixin.$className;
 
                     Class.mixin(name, mixin);
                 }
-            }
-            else {
+            } else {
                 for (name in mixins) {
                     if (mixins.hasOwnProperty(name)) {
                         Class.mixin(name, mixins[name]);
@@ -5952,21 +5909,20 @@ var noArgs = [],
         members.preprocessors = [
             'extend'
 
-            ,'statics'
+            , 'statics'
 
-            ,'inheritableStatics'
+            , 'inheritableStatics'
 
-            ,'mixins'
+            , 'mixins'
 
-            ,'platformConfig'
+            , 'platformConfig'
 
-            ,'config'
+            , 'config'
         ];
 
         if (Class) {
             cls = new ExtClass(Class, members);
-        }
-        else {
+        } else {
             cls = new ExtClass(members);
         }
 
@@ -6294,7 +6250,7 @@ var noArgs = [],
                 names = [className],
                 i, ln, j, subLn, listener, name;
 
-            for (i = 0,ln = listeners.length; i < ln; i++) {
+            for (i = 0, ln = listeners.length; i < ln; i++) {
                 listener = listeners[i];
                 listener.fn.call(listener.scope, className);
             }
@@ -6303,12 +6259,12 @@ var noArgs = [],
                 names.push.apply(names, alternateNames);
             }
 
-            for (i = 0,ln = names.length; i < ln; i++) {
+            for (i = 0, ln = names.length; i < ln; i++) {
                 name = names[i];
                 listeners = nameListeners[name];
 
                 if (listeners) {
-                    for (j = 0,subLn = listeners.length; j < subLn; j++) {
+                    for (j = 0, subLn = listeners.length; j < subLn; j++) {
                         listener = listeners[j];
                         listener.fn.call(listener.scope, name);
                     }
@@ -6339,8 +6295,7 @@ var noArgs = [],
                 }
 
                 nameListeners[className].push(listener);
-            }
-            else {
+            } else {
                 listeners.push(listener);
             }
         },
@@ -6562,7 +6517,7 @@ var noArgs = [],
          * @param {Object} aliases The set of mappings of the form
          * className : [values...]
          */
-        addNameAliasMappings: function(aliases){
+        addNameAliasMappings: function(aliases) {
             var aliasToNameMap = this.maps.aliasToName,
                 nameToAliasesMap = this.maps.nameToAliases,
                 className, aliasList, alias, i;
@@ -6597,7 +6552,7 @@ var noArgs = [],
                 aliasList = nameToAlternates[className] ||
                     (nameToAlternates[className] = []);
 
-                for (i  = 0; i < alternates[className].length; i++) {
+                for (i = 0; i < alternates[className].length; i++) {
                     alternate = alternates[className];
                     if (!alternateToName[alternate]) {
                         alternateToName[alternate] = className;
@@ -6696,7 +6651,7 @@ var noArgs = [],
 
                 delete data.postprocessors;
 
-                for (i = 0,ln = postprocessorStack.length; i < ln; i++) {
+                for (i = 0, ln = postprocessorStack.length; i < ln; i++) {
                     postprocessor = postprocessorStack[i];
 
                     if (typeof postprocessor == 'string') {
@@ -6705,9 +6660,8 @@ var noArgs = [],
 
                         if (postprocessorProperties === true) {
                             postprocessors.push(postprocessor.fn);
-                        }
-                        else if (postprocessorProperties) {
-                            for (j = 0,subLn = postprocessorProperties.length; j < subLn; j++) {
+                        } else if (postprocessorProperties) {
+                            for (j = 0, subLn = postprocessorProperties.length; j < subLn; j++) {
                                 postprocessorProperty = postprocessorProperties[j];
 
                                 if (data.hasOwnProperty(postprocessorProperty)) {
@@ -6716,8 +6670,7 @@ var noArgs = [],
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         postprocessors.push(postprocessor);
                     }
                 }
@@ -6760,8 +6713,7 @@ var noArgs = [],
                     var overridenClass = this.get(overriddenClassName);
                     if (overridenClass.singleton) {
                         overridenClass.self.override(data);
-                    }
-                    else {
+                    } else {
                         overridenClass.override(data);
                     }
 
@@ -6803,7 +6755,7 @@ var noArgs = [],
                 }
 
                 Ext.Logger.warn("[Ext.Loader] Synchronously loading '" + className + "'; consider adding " +
-                     "Ext.require('" + alias + "') above Ext.onReady");
+                    "Ext.require('" + alias + "') above Ext.onReady");
 
                 Ext.syncRequire(className);
             }
@@ -6847,8 +6799,7 @@ var noArgs = [],
                 }
 
                 cls = this.get(name);
-            }
-            else {
+            } else {
                 cls = name;
             }
 
@@ -7000,8 +6951,7 @@ var noArgs = [],
                     defaultPostprocessors.unshift(name);
 
                     return this;
-                }
-                else if (offset === 'last') {
+                } else if (offset === 'last') {
                     defaultPostprocessors.push(name);
 
                     return this;
@@ -7054,8 +7004,7 @@ var noArgs = [],
 
                         if (name.search(regex) !== -1) {
                             names.push(name);
-                        }
-                        else {
+                        } else {
                             for (i = 0, ln = aliases.length; i < ln; i++) {
                                 alias = aliases[i];
 
@@ -7093,7 +7042,7 @@ var noArgs = [],
      * @member Ext.Class
      * List of short aliases for class names.  Most useful for defining xtypes for widgets:
      *
-     *     Ext.define('MyApp.CoolPanel', {
+     *     Ext.define('Xpoit.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         alias: ['widget.coolpanel'],
      *
@@ -7120,7 +7069,7 @@ var noArgs = [],
      * @member Ext.Component
      * List of xtypes for {@link Ext.Component}. XTypes must not contain periods.
      *
-     *     Ext.define('MyApp.CoolPanel', {
+     *     Ext.define('Xpoit.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         xtype: 'coolpanel',
      *
@@ -7144,7 +7093,7 @@ var noArgs = [],
         var aliases = data.alias,
             i, ln;
 
-        for (i = 0,ln = aliases.length; i < ln; i++) {
+        for (i = 0, ln = aliases.length; i < ln; i++) {
             alias = aliases[i];
 
             this.setAlias(cls, alias);
@@ -7377,7 +7326,7 @@ var noArgs = [],
          * @member Ext
          * @method define
          */
-        define: function (className, data, createdFn) {
+        define: function(className, data, createdFn) {
             if ('override' in data) {
                 return Manager.createOverride.apply(Manager, arguments);
             }
@@ -7490,7 +7439,7 @@ var noArgs = [],
             xtypesMap = Ext.merge({}, prototype.xtypesMap || {}),
             i, ln, alias, xtype;
 
-        for (i = 0,ln = aliases.length; i < ln; i++) {
+        for (i = 0, ln = aliases.length; i < ln; i++) {
             alias = aliases[i];
 
             if (typeof alias != 'string' || alias.length < 1) {
@@ -7506,7 +7455,7 @@ var noArgs = [],
         cls.xtype = data.xtype = xtypes[0];
         data.xtypes = xtypes;
 
-        for (i = 0,ln = xtypes.length; i < ln; i++) {
+        for (i = 0, ln = xtypes.length; i < ln; i++) {
             xtype = xtypes[i];
 
             if (!xtypesMap[xtype]) {
@@ -7529,7 +7478,7 @@ var noArgs = [],
                     xtypes = mixin.xtypes;
 
                     if (xtypes) {
-                        for (i = 0,ln = xtypes.length; i < ln; i++) {
+                        for (i = 0, ln = xtypes.length; i < ln; i++) {
                             xtype = xtypes[i];
 
                             if (!xtypesMap[xtype]) {
@@ -7542,7 +7491,7 @@ var noArgs = [],
             }
         });
 
-        for (i = 0,ln = xtypes.length; i < ln; i++) {
+        for (i = 0, ln = xtypes.length; i < ln; i++) {
             xtype = xtypes[i];
 
             if (typeof xtype != 'string' || xtype.length < 1) {
@@ -7707,7 +7656,7 @@ var noArgs = [],
 (function(Manager, Class, flexSetter, alias, pass, arrayFrom, arrayErase, arrayInclude) {
 
     var
-        dependencyProperties = ['extend', 'mixins', 'requires'],
+    dependencyProperties = ['extend', 'mixins', 'requires'],
         Loader,
         setPathCount = 0;;
 
@@ -7803,8 +7752,7 @@ var noArgs = [],
         setConfig: function(name, value) {
             if (Ext.isObject(name) && arguments.length === 1) {
                 Ext.merge(this.config, name);
-            }
-            else {
+            } else {
                 this.config[name] = (Ext.isObject(value)) ? Ext.merge(this.config[name], value) : value;
             }
             setPathCount += 1;
@@ -7850,10 +7798,10 @@ var noArgs = [],
         addClassPathMappings: function(paths) {
             var name;
 
-            if(setPathCount == 0){
+            if (setPathCount == 0) {
                 Loader.config.paths = paths;
             } else {
-                for(name in paths){
+                for (name in paths) {
                     Loader.config.paths[name] = paths[name];
                 }
             }
@@ -8114,8 +8062,7 @@ var noArgs = [],
                         if (Manager.isCreated(requires[j])) {
                             // Take out from the queue
                             arrayErase(requires, j, 1);
-                        }
-                        else {
+                        } else {
                             j++;
                         }
                     } while (j < requires.length);
@@ -8161,7 +8108,7 @@ var noArgs = [],
             if (charset) {
                 script.charset = charset;
             }
-            
+
             this.documentHead.appendChild(script);
 
             return script;
@@ -8223,12 +8170,10 @@ var noArgs = [],
                             scriptElements[url] = me.injectScriptElement(noCacheUrl, onLoad, onScriptError, scope);
                         }
                     });
-                }
-                else {
+                } else {
                     scriptElements[url] = this.injectScriptElement(noCacheUrl, onLoad, onScriptError, scope);
                 }
-            }
-            else {
+            } else {
                 if (typeof XMLHttpRequest != 'undefined') {
                     xhr = new XMLHttpRequest();
                 } else {
@@ -8238,12 +8183,11 @@ var noArgs = [],
                 try {
                     xhr.open('GET', noCacheUrl, false);
                     xhr.send(null);
-                }
-                catch (e) {
+                } catch (e) {
                     onError.call(this, "Failed loading synchronously via XHR: '" + url + "'; It's likely that the file is either " +
-                                       "being loaded from a different domain or from the local file system whereby cross origin " +
-                                       "requests are not allowed due to security reasons. Use asynchronous loading with " +
-                                       "Ext.require instead.", synchronous);
+                        "being loaded from a different domain or from the local file system whereby cross origin " +
+                        "requests are not allowed due to security reasons. Use asynchronous loading with " +
+                        "Ext.require instead.", synchronous);
                 }
 
                 status = (xhr.status == 1223) ? 204 : xhr.status;
@@ -8254,11 +8198,10 @@ var noArgs = [],
                     // Breakpoints work on both Firebug and Chrome's Web Inspector
                     Ext.globalEval(content + "\n//@ sourceURL=" + url);
                     onLoad.call(scope);
-                }
-                else {
+                } else {
                     onError.call(this, "Failed loading synchronously via XHR: '" + url + "'; please " +
-                                       "verify that the file exists. " +
-                                       "XHR status code: " + status, synchronous);
+                        "verify that the file exists. " +
+                        "XHR status code: " + status, synchronous);
                 }
 
                 // Prevent potential IE memory leak
@@ -8302,13 +8245,13 @@ var noArgs = [],
             if (excludes) {
                 excludes = arrayFrom(excludes);
 
-                for (i = 0,ln = excludes.length; i < ln; i++) {
+                for (i = 0, ln = excludes.length; i < ln; i++) {
                     exclude = excludes[i];
 
                     if (typeof exclude == 'string' && exclude.length > 0) {
                         excludedClassNames = Manager.getNamesByExpression(exclude);
 
-                        for (j = 0,subLn = excludedClassNames.length; j < subLn; j++) {
+                        for (j = 0, subLn = excludedClassNames.length; j < subLn; j++) {
                             excluded[excludedClassNames[j]] = true;
                         }
                     }
@@ -8323,25 +8266,23 @@ var noArgs = [],
                         var classes = [],
                             i, ln, name;
 
-                        for (i = 0,ln = references.length; i < ln; i++) {
+                        for (i = 0, ln = references.length; i < ln; i++) {
                             name = references[i];
                             classes.push(Manager.get(name));
                         }
 
                         return fn.apply(this, classes);
                     };
-                }
-                else {
+                } else {
                     callback = fn;
                 }
-            }
-            else {
+            } else {
                 callback = Ext.emptyFn;
             }
 
             scope = scope || Ext.global;
 
-            for (i = 0,ln = expressions.length; i < ln; i++) {
+            for (i = 0, ln = expressions.length; i < ln; i++) {
                 expression = expressions[i];
 
                 if (typeof expression == 'string' && expression.length > 0) {
@@ -8354,7 +8295,7 @@ var noArgs = [],
                         if (excluded[possibleClassName] !== true) {
                             references.push(possibleClassName);
 
-                            if (!Manager.isCreated(possibleClassName) && !included[possibleClassName]/* && !this.requiresMap.hasOwnProperty(possibleClassName)*/) {
+                            if (!Manager.isCreated(possibleClassName) && !included[possibleClassName] /* && !this.requiresMap.hasOwnProperty(possibleClassName)*/ ) {
                                 included[possibleClassName] = true;
                                 classNames.push(possibleClassName);
                             }
@@ -8368,10 +8309,9 @@ var noArgs = [],
             if (classNames.length > 0) {
                 if (!this.config.enabled) {
                     throw new Error("Ext.Loader is not enabled, so dependencies cannot be resolved dynamically. " +
-                             "Missing required class" + ((classNames.length > 1) ? "es" : "") + ": " + classNames.join(', '));
+                        "Missing required class" + ((classNames.length > 1) ? "es" : "") + ": " + classNames.join(', '));
                 }
-            }
-            else {
+            } else {
                 callback.call(scope);
                 return this;
             }
@@ -8381,7 +8321,7 @@ var noArgs = [],
             if (!syncModeEnabled) {
                 queue.push({
                     requires: classNames.slice(), // this array will be modified as the queue is processed,
-                                                  // so we need a copy of it
+                    // so we need a copy of it
                     callback: callback,
                     scope: scope
                 });
@@ -8455,10 +8395,10 @@ var noArgs = [],
                     requires,
                     i, ln, j, subLn;
 
-                for (i = 0,ln = queue.length; i < ln; i++) {
+                for (i = 0, ln = queue.length; i < ln; i++) {
                     requires = queue[i].requires;
 
-                    for (j = 0,subLn = requires.length; j < subLn; j++) {
+                    for (j = 0, subLn = requires.length; j < subLn; j++) {
                         if (this.isClassFileLoaded[requires[j]]) {
                             missingClasses.push(requires[j]);
                         }
@@ -8473,13 +8413,13 @@ var noArgs = [],
                     return !this.requiresMap.hasOwnProperty(item);
                 }, this);
 
-                for (i = 0,ln = missingClasses.length; i < ln; i++) {
+                for (i = 0, ln = missingClasses.length; i < ln; i++) {
                     missingPaths.push(this.classNameToFilePathMap[missingClasses[i]]);
                 }
 
                 throw new Error("The following classes are not declared even if their files have been " +
-                            "loaded: '" + missingClasses.join("', '") + "'. Please check the source code of their " +
-                            "corresponding files for possible typos: '" + missingPaths.join("', '"));
+                    "loaded: '" + missingClasses.join("', '") + "'. Please check the source code of their " +
+                    "corresponding files for possible typos: '" + missingPaths.join("', '"));
             }
         },
 
@@ -8560,8 +8500,7 @@ var noArgs = [],
 
             if (!this.isLoading) {
                 fn.call(scope);
-            }
-            else {
+            } else {
                 this.readyListeners.push({
                     fn: fn,
                     scope: scope
@@ -8651,7 +8590,7 @@ var noArgs = [],
         }
         */
 
-        for (i = 0,ln = dependencyProperties.length; i < ln; i++) {
+        for (i = 0, ln = dependencyProperties.length; i < ln; i++) {
             propertyName = dependencyProperties[i];
 
             if (data.hasOwnProperty(propertyName)) {
@@ -8659,8 +8598,7 @@ var noArgs = [],
 
                 if (typeof propertyValue == 'string') {
                     dependencies.push(propertyValue);
-                }
-                else if (propertyValue instanceof Array) {
+                } else if (propertyValue instanceof Array) {
                     for (j = 0, subLn = propertyValue.length; j < subLn; j++) {
                         value = propertyValue[j];
 
@@ -8668,8 +8606,7 @@ var noArgs = [],
                             dependencies.push(value);
                         }
                     }
-                }
-                else if (typeof propertyValue != 'function') {
+                } else if (typeof propertyValue != 'function') {
                     for (j in propertyValue) {
                         if (propertyValue.hasOwnProperty(j)) {
                             value = propertyValue[j];
@@ -8705,7 +8642,7 @@ var noArgs = [],
         if (className) {
             requiresMap[className] = dependencies;
             if (!Loader.requiredByMap) Loader.requiredByMap = {};
-            Ext.Array.each(dependencies, function(dependency){
+            Ext.Array.each(dependencies, function(dependency) {
                 if (!Loader.requiredByMap[dependency]) Loader.requiredByMap[dependency] = [];
                 Loader.requiredByMap[dependency].push(className);
             });
@@ -8715,11 +8652,11 @@ var noArgs = [],
                 if (requiresMap[cls]) {
                     if (Ext.Array.contains(requiresMap[cls], className)) {
                         throw new Error("Deadlock detected while loading dependencies! '" + className + "' and '" +
-                                deadlockPath[1] + "' " + "mutually require each other. Path: " +
-                                deadlockPath.join(' -> ') + " -> " + deadlockPath[0]);
+                            deadlockPath[1] + "' " + "mutually require each other. Path: " +
+                            deadlockPath.join(' -> ') + " -> " + deadlockPath[0]);
                     }
 
-                    for (i = 0,ln = requiresMap[cls].length; i < ln; i++) {
+                    for (i = 0, ln = requiresMap[cls].length; i < ln; i++) {
                         detectDeadlock(requiresMap[cls][i]);
                     }
                 }
@@ -8730,7 +8667,7 @@ var noArgs = [],
 
 
         Loader.require(dependencies, function() {
-            for (i = 0,ln = dependencyProperties.length; i < ln; i++) {
+            for (i = 0, ln = dependencyProperties.length; i < ln; i++) {
                 propertyName = dependencyProperties[i];
 
                 if (data.hasOwnProperty(propertyName)) {
@@ -8738,8 +8675,7 @@ var noArgs = [],
 
                     if (typeof propertyValue == 'string') {
                         data[propertyName] = Manager.get(propertyValue);
-                    }
-                    else if (propertyValue instanceof Array) {
+                    } else if (propertyValue instanceof Array) {
                         for (j = 0, subLn = propertyValue.length; j < subLn; j++) {
                             value = propertyValue[j];
 
@@ -8747,8 +8683,7 @@ var noArgs = [],
                                 data[propertyName][j] = Manager.get(value);
                             }
                         }
-                    }
-                    else if (typeof propertyValue != 'function') {
+                    } else if (typeof propertyValue != 'function') {
                         for (var k in propertyValue) {
                             if (propertyValue.hasOwnProperty(k)) {
                                 value = propertyValue[k];
@@ -8780,7 +8715,7 @@ var noArgs = [],
             items = [],
             i, ln, item;
 
-        for (i = 0,ln = uses.length; i < ln; i++) {
+        for (i = 0, ln = uses.length; i < ln; i++) {
             item = uses[i];
 
             if (typeof item == 'string') {
@@ -8796,7 +8731,7 @@ var noArgs = [],
     }, Loader);
 
 })(Ext.ClassManager, Ext.Class, Ext.Function.flexSetter, Ext.Function.alias,
-   Ext.Function.pass, Ext.Array.from, Ext.Array.erase, Ext.Array.include);
+    Ext.Function.pass, Ext.Array.from, Ext.Array.erase, Ext.Array.include);
 
 // initalize the default path of the framework
 // trimmed down version of sench-touch-debug-suffix.js
@@ -8812,7 +8747,7 @@ var noArgs = [],
     // if we're running in dev mode out of the repo src tree, then this
     // file will potentially be loaded from the touch/src/core/class folder
     // so we'll need to adjust for that
-    if(src.indexOf("src/core/class/") != -1) {
+    if (src.indexOf("src/core/class/") != -1) {
         path = path + "../../../";
     }
 
@@ -8821,7 +8756,7 @@ var noArgs = [],
         enabled: true,
         disableCaching: !/[?&](cache|breakpoint)/i.test(location.search),
         paths: {
-            'Ext' : path + 'src'
+            'Ext': path + 'src'
         }
     });
 
@@ -8918,11 +8853,9 @@ Ext.apply(Ext, {
 
         if (el === document || el === document.documentElement) {
             el.id = 'ext-app';
-        }
-        else if (el === document.body) {
+        } else if (el === document.body) {
             el.id = 'ext-body';
-        }
-        else if (el === window) {
+        } else if (el === window) {
             el.id = 'ext-window';
         }
 
@@ -8977,7 +8910,7 @@ Ext.apply(Ext, {
      * @param {String} id The component {@link Ext.Component#getId id}
      * @return {Ext.Component} The Component, `undefined` if not found, or `null` if a
      * Class was found.
-    */
+     */
     getCmp: function(id) {
         return Ext.ComponentMgr.get(id);
     },
@@ -9004,11 +8937,11 @@ Ext.apply(Ext, {
      * @param {Boolean} [usePrototypeKeys=false] (optional) Pass `true` to copy keys off of the prototype as well as the instance.
      * @return {Object} The modified object.
      */
-    copyTo : function(dest, source, names, usePrototypeKeys) {
+    copyTo: function(dest, source, names, usePrototypeKeys) {
         if (typeof names == 'string') {
             names = names.split(/[,;\s]/);
         }
-        Ext.each (names, function(name) {
+        Ext.each(names, function(name) {
             if (usePrototypeKeys || source.hasOwnProperty(name)) {
                 dest[name] = source[name];
             }
@@ -9035,8 +8968,7 @@ Ext.apply(Ext, {
             if (item) {
                 if (Ext.isArray(item)) {
                     this.destroy.apply(this, item);
-                }
-                else if (Ext.isFunction(item.destroy)) {
+                } else if (Ext.isFunction(item.destroy)) {
                     item.destroy();
                 }
             }
@@ -9129,9 +9061,9 @@ Ext.apply(Ext, {
             componentPaint: {
                 xclass: 'Ext.event.publisher.ComponentPaint'
             },
-//            componentSize: {
-//                xclass: 'Ext.event.publisher.ComponentSize'
-//            },
+            //            componentSize: {
+            //                xclass: 'Ext.event.publisher.ComponentSize'
+            //            },
             elementPaint: {
                 xclass: 'Ext.event.publisher.ElementPaint'
             },
@@ -9187,8 +9119,7 @@ Ext.apply(Ext, {
     onSetup: function(fn, scope) {
         if (Ext.isSetup) {
             fn.call(scope);
-        }
-        else {
+        } else {
             Ext.setupListeners.push({
                 fn: fn,
                 scope: scope
@@ -9447,10 +9378,11 @@ Ext.apply(Ext, {
                     }
 
                     Ext.require(requires, function() {
-                        Ext.Viewport.on('ready', callback, null, {single: true});
+                        Ext.Viewport.on('ready', callback, null, {
+                            single: true
+                        });
                     });
-                }
-                else {
+                } else {
                     Ext.require(requires, callback);
                 }
             });
@@ -9460,10 +9392,10 @@ Ext.apply(Ext, {
                 msViewportStyle.appendChild(
                     document.createTextNode(
                         "@media screen and (orientation: portrait) {" +
-                            "@-ms-viewport {width: 320px !important;}" +
+                        "@-ms-viewport {width: 320px !important;}" +
                         "}" +
                         "@media screen and (orientation: landscape) {" +
-                            "@-ms-viewport {width: 560px !important;}" +
+                        "@-ms-viewport {width: 560px !important;}" +
                         "}"
                     )
                 );
@@ -9508,8 +9440,7 @@ Ext.apply(Ext, {
 
         if (navigator.standalone) {
             addMeta('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
-        }
-        else {
+        } else {
             addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
         }
         addMeta('apple-mobile-web-app-capable', 'yes');
@@ -9530,8 +9461,7 @@ Ext.apply(Ext, {
                 114: icon,
                 144: icon
             };
-        }
-        else if (!icon) {
+        } else if (!icon) {
             icon = {};
         }
 
@@ -9551,8 +9481,7 @@ Ext.apply(Ext, {
                 if ('144' in icon) {
                     addIcon(icon['144'], '144x144', isIconPrecomposed);
                 }
-            }
-            else {
+            } else {
                 // Non-Retina iPad - Landscape
                 if ('748x1024' in startupImage) {
                     addStartupImage(startupImage['748x1024'], '(orientation: landscape)');
@@ -9567,8 +9496,7 @@ Ext.apply(Ext, {
                     addIcon(icon['72'], '72x72', isIconPrecomposed);
                 }
             }
-        }
-        else {
+        } else {
             // Retina iPhone, iPod touch with iOS version >= 4.3
             if (devicePixelRatio >= 2 && Ext.os.version.gtEq('4.3')) {
                 if (Ext.os.is.iPhone5) {
@@ -9581,8 +9509,7 @@ Ext.apply(Ext, {
                 if ('114' in icon) {
                     addIcon(icon['114'], '114x114', isIconPrecomposed);
                 }
-            }
-            else {
+            } else {
                 addStartupImage(startupImage['320x460']);
 
                 // Non-Retina iPhone, iPod touch, and Android devices
@@ -9852,9 +9779,8 @@ Ext.apply(Ext, {
                         }
                     }
                 }
-            }
-            else {
-                for (i = 0,ln = config.length; i < ln; i++) {
+            } else {
+                for (i = 0, ln = config.length; i < ln; i++) {
                     value = config[i];
 
                     if (Ext.isSimpleObject(value) || Ext.isArray(value)) {
@@ -9930,7 +9856,7 @@ Ext.apply(Ext, {
         }
 
         if (aliasNamespace) {
-             // If config is a string value, treat it as an alias
+            // If config is a string value, treat it as an alias
             if (typeof config == 'string') {
                 return manager.instantiateByAlias(aliasNamespace + '.' + config);
             }
@@ -9950,8 +9876,7 @@ Ext.apply(Ext, {
 
         if ('xtype' in config) {
             newInstance = manager.instantiateByAlias('widget.' + config.xtype, config);
-        }
-        else if ('xclass' in config) {
+        } else if ('xclass' in config) {
             newInstance = manager.instantiate(config.xclass, config);
         }
 
@@ -9983,16 +9908,16 @@ Ext.apply(Ext, {
      * @member Ext
      */
     deprecateClassMembers: function(cls, members) {
-       var prototype = cls.prototype,
-           oldName, newName;
+        var prototype = cls.prototype,
+            oldName, newName;
 
-       for (oldName in members) {
-           if (members.hasOwnProperty(oldName)) {
-               newName = members[oldName];
+        for (oldName in members) {
+            if (members.hasOwnProperty(oldName)) {
+                newName = members[oldName];
 
-               this.deprecateProperty(prototype, oldName, newName);
-           }
-       }
+                this.deprecateProperty(prototype, oldName, newName);
+            }
+        }
     },
 
     /**
@@ -10081,8 +10006,7 @@ Ext.apply(Ext, {
 
                 return this[method].apply(this, arguments);
             };
-        }
-        else {
+        } else {
             member = function() {
                 Ext.Logger.deprecate(message, this);
 
@@ -10129,7 +10053,7 @@ Ext.apply(Ext, {
      * @member Ext
      * @private
      */
-    isReady : false,
+    isReady: false,
 
     /**
      * @private
@@ -10148,7 +10072,7 @@ Ext.apply(Ext, {
         if (!Ext.isReady) {
             Ext.isReady = true;
 
-            for (i = 0,ln = listeners.length; i < ln; i++) {
+            for (i = 0, ln = listeners.length; i < ln; i++) {
                 listener = listeners[i];
                 listener.fn.call(listener.scope);
             }
@@ -10163,8 +10087,7 @@ Ext.apply(Ext, {
     onDocumentReady: function(fn, scope) {
         if (Ext.isReady) {
             fn.call(scope);
-        }
-        else {
+        } else {
             var triggerFn = Ext.triggerReady;
 
             Ext.readyListeners.push({
@@ -10177,13 +10100,11 @@ Ext.apply(Ext, {
                     Ext.readyListenerAttached = true;
                     document.addEventListener(Ext.browser.is.PhoneGap ? 'deviceready' : 'webworksready', triggerFn, false);
                 }
-            }
-            else {
-                var readyStateRe =  (/MSIE 10/.test(navigator.userAgent)) ? /complete|loaded/ : /interactive|complete|loaded/;
+            } else {
+                var readyStateRe = (/MSIE 10/.test(navigator.userAgent)) ? /complete|loaded/ : /interactive|complete|loaded/;
                 if (document.readyState.match(readyStateRe) !== null) {
                     triggerFn();
-                }
-                else if (!Ext.readyListenerAttached) {
+                } else if (!Ext.readyListenerAttached) {
                     Ext.readyListenerAttached = true;
                     window.addEventListener('DOMContentLoaded', function() {
                         if (navigator.standalone) {
@@ -10196,11 +10117,10 @@ Ext.apply(Ext, {
                                     triggerFn();
                                 }, 1);
                             }, 1);
-                        }
-                        else {
-                          setTimeout(function() {
-                              triggerFn();
-                          }, 1);
+                        } else {
+                            setTimeout(function() {
+                                triggerFn();
+                            }, 1);
                         }
                     }, false);
                 }
@@ -10255,9 +10175,8 @@ Ext.Object.defineProperty(Ext, 'Msg', {
  * @private
  */
 Ext.define('Ext.env.Browser', {
-               
-                     
-      
+
+
 
     statics: {
         browserNames: {
@@ -10517,17 +10436,16 @@ Ext.define('Ext.env.Browser', {
             }
         }
 
-        this.setFlag('Standalone', !!navigator.standalone);
+        this.setFlag('Standalone', !! navigator.standalone);
 
-        this.setFlag('Ripple', !!document.getElementById("tinyhippos-injected") && !Ext.isEmpty(window.top.ripple));
-        this.setFlag('WebWorks', !!window.blackberry);
+        this.setFlag('Ripple', !! document.getElementById("tinyhippos-injected") && !Ext.isEmpty(window.top.ripple));
+        this.setFlag('WebWorks', !! window.blackberry);
 
         if (typeof window.PhoneGap != 'undefined' || typeof window.Cordova != 'undefined' || typeof window.cordova != 'undefined') {
             isWebView = true;
             this.setFlag('PhoneGap');
             this.setFlag('Cordova');
-        }
-        else if (!!window.isNK) {
+        } else if ( !! window.isNK) {
             isWebView = true;
             this.setFlag('Sencha');
         }
@@ -10579,8 +10497,7 @@ Ext.define('Ext.env.Browser', {
         } else {
             if (this.is.AndroidStock2 || this.is.IE) {
                 return 'scrollposition';
-            }
-            else {
+            } else {
                 return 'csstransform';
             }
         }
@@ -10625,7 +10542,7 @@ Ext.define('Ext.env.Browser', {
  */
 Ext.define('Ext.env.OS', {
 
-                              
+
 
     statics: {
         names: {
@@ -10647,7 +10564,7 @@ Ext.define('Ext.env.OS', {
             tizen: '(Tizen )',
             ios: 'i(?:Pad|Phone|Pod)(?:.*)CPU(?: iPhone)? OS ',
             android: '(Android |HTC_|Silk/)', // Some HTC devices ship with an OSX userAgent by default,
-                                        // so we need to add a direct check for HTC_
+            // so we need to add a direct check for HTC_
             windowsPhone: 'Windows Phone ',
             blackberry: '(?:BlackBerry|BB)(?:.*)Version\/',
             rimTablet: 'RIM Tablet OS ',
@@ -10753,7 +10670,7 @@ Ext.define('Ext.env.OS', {
             if (prefixes.hasOwnProperty(i)) {
                 prefix = prefixes[i];
 
-                match = userAgent.match(new RegExp('(?:'+prefix+')([^\\s;]+)'));
+                match = userAgent.match(new RegExp('(?:' + prefix + ')([^\\s;]+)'));
 
                 if (match) {
                     name = names[i];
@@ -10763,11 +10680,9 @@ Ext.define('Ext.env.OS', {
                     // And the Kindle Fire doesn't have any indicator of Android as the OS in its User Agent
                     if (match1 && match1 == "HTC_") {
                         version = new Ext.Version("2.3");
-                    }
-                    else if (match1 && match1 == "Silk/") {
+                    } else if (match1 && match1 == "Silk/") {
                         version = new Ext.Version("2.3");
-                    }
-                    else {
+                    } else {
                         version = new Ext.Version(match[match.length - 1]);
                     }
 
@@ -10866,24 +10781,19 @@ Ext.define('Ext.env.OS', {
     // E.g: example/kitchen-sink.html?deviceType=Phone
     if (search && search[1]) {
         deviceType = search[1];
-    }
-    else if (nativeDeviceType === 'iPhone') {
+    } else if (nativeDeviceType === 'iPhone') {
         deviceType = 'Phone';
-    }
-    else if (nativeDeviceType === 'iPad') {
+    } else if (nativeDeviceType === 'iPad') {
         deviceType = 'Tablet';
-    }
-    else {
+    } else {
         if (!osEnv.is.Android && !osEnv.is.iOS && !osEnv.is.WindowsPhone && /Windows|Linux|MacOS/.test(osName)) {
             deviceType = 'Desktop';
 
             // always set it to false when you are on a desktop not using Ripple Emulation
             Ext.browser.is.WebView = Ext.browser.is.Ripple ? true : false;
-        }
-        else if (osEnv.is.iPad || osEnv.is.RIMTablet || osEnv.is.Android3 || Ext.browser.is.Silk || (osEnv.is.Android4 && userAgent.search(/mobile/i) == -1)) {
+        } else if (osEnv.is.iPad || osEnv.is.RIMTablet || osEnv.is.Android3 || Ext.browser.is.Silk || (osEnv.is.Android4 && userAgent.search(/mobile/i) == -1)) {
             deviceType = 'Tablet';
-        }
-        else {
+        } else {
             deviceType = 'Phone';
         }
     }
@@ -10927,7 +10837,7 @@ Ext.define('Ext.env.OS', {
  */
 Ext.define('Ext.env.Feature', {
 
-                                                
+
 
     constructor: function() {
         this.testElements = {};
@@ -10970,8 +10880,7 @@ Ext.define('Ext.env.Feature', {
     getTestElement: function(tag, createNew) {
         if (tag === undefined) {
             tag = 'div';
-        }
-        else if (typeof tag !== 'string') {
+        } else if (typeof tag !== 'string') {
             return tag;
         }
 
@@ -10990,8 +10899,7 @@ Ext.define('Ext.env.Feature', {
         var elementStyle = this.getTestElement(tag).style,
             cName = Ext.String.capitalize(name);
 
-        if (typeof elementStyle[name] !== 'undefined'
-            || typeof elementStyle[Ext.browser.getStylePrefix(name) + cName] !== 'undefined') {
+        if (typeof elementStyle[name] !== 'undefined' || typeof elementStyle[Ext.browser.getStylePrefix(name) + cName] !== 'undefined') {
             return true;
         }
 
@@ -11038,8 +10946,7 @@ Ext.define('Ext.env.Feature', {
 
         if (vendorName in object) {
             return vendorName;
-        }
-        else if (name in object) {
+        } else if (name in object) {
             return name;
         }
 
@@ -11114,7 +11021,7 @@ Ext.define('Ext.env.Feature', {
      * - ClassList - supports the HTML5 classList API.
      * - LocalStorage - LocalStorage is supported and can be written to.
      * - NumericInputPlaceHolder - Supports placeholders on numeric input fields
-     * - XHR2 - Supports XMLHttpRequest 
+     * - XHR2 - Supports XMLHttpRequest
      * - XHRUploadProgress - Supports XMLHttpRequest upload progress info
      *
      * [1]: https://developer.mozilla.org/en/DOM/range
@@ -11133,7 +11040,7 @@ Ext.define('Ext.env.Feature', {
         Svg: function() {
             var doc = document;
 
-            return !!(doc.createElementNS && !!doc.createElementNS("http:/" + "/www.w3.org/2000/svg", "svg").createSVGRect);
+            return !!(doc.createElementNS && !! doc.createElementNS("http:/" + "/www.w3.org/2000/svg", "svg").createSVGRect);
         },
 
         Vml: function() {
@@ -11184,8 +11091,8 @@ Ext.define('Ext.env.Feature', {
         },
 
         CreateContextualFragment: function() {
-            var range = !!document.createRange ? document.createRange() : false;
-            return range && !!range.createContextualFragment;
+            var range = !! document.createRange ? document.createRange() : false;
+            return range && !! range.createContextualFragment;
         },
 
         History: function() {
@@ -11225,7 +11132,7 @@ Ext.define('Ext.env.Feature', {
             return "classList" in this.getTestElement();
         },
 
-        LocalStorage : function() {
+        LocalStorage: function() {
             var supported = false;
 
             try {
@@ -11236,17 +11143,17 @@ Ext.define('Ext.env.Feature', {
                     localStorage.removeItem('sencha-localstorage-test');
                     supported = true;
                 }
-            } catch ( e ) {}
+            } catch (e) {}
 
             return supported;
         },
 
-        XHR2 : function() {
-          return window.ProgressEvent && window.FormData && window.XMLHttpRequest && ('withCredentials' in new XMLHttpRequest);
+        XHR2: function() {
+            return window.ProgressEvent && window.FormData && window.XMLHttpRequest && ('withCredentials' in new XMLHttpRequest);
         },
 
-        XHRUploadProgress : function() {
-            if(window.XMLHttpRequest && !Ext.browser.is.AndroidStock) {
+        XHRUploadProgress: function() {
+            if (window.XMLHttpRequest && !Ext.browser.is.AndroidStock) {
                 var xhr = new XMLHttpRequest();
                 return xhr && ('upload' in xhr) && ('onprogress' in xhr.upload);
             }
@@ -11355,18 +11262,17 @@ Ext.define('Ext.dom.Query', {
 
         q = q.split(",");
 
-        for (i = 0,qlen = q.length; i < qlen; i++) {
+        for (i = 0, qlen = q.length; i < qlen; i++) {
             if (typeof q[i] == 'string') {
 
                 //support for node attribute selection
                 if (q[i][0] == '@') {
                     nodes = root.getAttributeNode(q[i].substring(1));
                     results.push(nodes);
-                }
-                else {
+                } else {
                     nodes = root.querySelectorAll(q[i]);
 
-                    for (j = 0,nlen = nodes.length; j < nlen; j++) {
+                    for (j = 0, nlen = nodes.length; j < nlen; j++) {
                         results.push(nodes[j]);
                     }
                 }
@@ -11392,7 +11298,7 @@ Ext.define('Ext.dom.Query', {
      * @param {String} selector The simple selector to test
      * @return {Boolean}
      */
-    is: function (el, q) {
+    is: function(el, q) {
         var root, is, i, ln;
 
         if (typeof el == "string") {
@@ -11408,8 +11314,7 @@ Ext.define('Ext.dom.Query', {
                     break;
                 }
             }
-        }
-        else {
+        } else {
             root = el.parentNode;
 
             if (!root) {
@@ -11573,23 +11478,26 @@ Ext.define('Ext.dom.Query', {
  *
  */
 Ext.define('Ext.dom.Helper', {
-    emptyTags : /^(?:br|frame|hr|img|input|link|meta|range|spacer|wbr|area|param|col)$/i,
-    confRe : /tag|children|cn|html|tpl|tplData$/i,
-    endRe : /end/i,
+    emptyTags: /^(?:br|frame|hr|img|input|link|meta|range|spacer|wbr|area|param|col)$/i,
+    confRe: /tag|children|cn|html|tpl|tplData$/i,
+    endRe: /end/i,
 
-    attribXlat: { cls : 'class', htmlFor : 'for' },
+    attribXlat: {
+        cls: 'class',
+        htmlFor: 'for'
+    },
 
     closeTags: {},
 
-    decamelizeName : function () {
+    decamelizeName: function() {
         var camelCaseRe = /([a-z])([A-Z])/g,
             cache = {};
 
-        function decamel (match, p1, p2) {
+        function decamel(match, p1, p2) {
             return p1 + '-' + p2.toLowerCase();
         }
 
-        return function (s) {
+        return function(s) {
             return cache[s] || (cache[s] = s.replace(camelCaseRe, decamel));
         };
     }(),
@@ -11679,7 +11587,7 @@ Ext.define('Ext.dom.Helper', {
      * @return {String/String[]} If buffer is passed, it is returned. Otherwise the style
      * string is returned.
      */
-    generateStyles: function (styles, buffer) {
+    generateStyles: function(styles, buffer) {
         var a = buffer || [],
             name;
 
@@ -11720,7 +11628,7 @@ Ext.define('Ext.dom.Helper', {
      * @private
      * Fix for browsers which no longer support createContextualFragment
      */
-    createContextualFragment: function(html){
+    createContextualFragment: function(html) {
         var div = document.createElement("div"),
             fragment = document.createDocumentFragment(),
             i = 0,
@@ -11760,10 +11668,9 @@ Ext.define('Ext.dom.Helper', {
         where = where.toLowerCase();
 
         if (Ext.isTextNode(el)) {
-            if (where == 'afterbegin' ) {
+            if (where == 'afterbegin') {
                 where = 'beforebegin';
-            }
-            else if (where == 'beforeend') {
+            } else if (where == 'beforeend') {
                 where = 'afterend';
             }
         }
@@ -11778,14 +11685,12 @@ Ext.define('Ext.dom.Helper', {
             if (range) {
                 range[setStart](el);
                 frag = range.createContextualFragment(html);
-            }
-            else {
+            } else {
                 frag = this.createContextualFragment(html);
             }
             el.parentNode.insertBefore(frag, isBeforeBegin ? el : el.nextSibling);
             return el[(isBeforeBegin ? 'previous' : 'next') + 'Sibling'];
-        }
-        else {
+        } else {
             rangeEl = (isAfterBegin ? 'first' : 'last') + 'Child';
             if (el.firstChild) {
                 if (range) {
@@ -11794,8 +11699,7 @@ Ext.define('Ext.dom.Helper', {
                     try {
                         range[setStart](el[rangeEl]);
                         frag = range.createContextualFragment(html);
-                    }
-                    catch(e) {
+                    } catch (e) {
                         frag = this.createContextualFragment(html);
                     }
                 } else {
@@ -11931,8 +11835,7 @@ Ext.define('Ext.mixin.Identifiable', {
 
                 if (xtype) {
                     prefix = this.defaultIdPrefix + xtype + separator;
-                }
-                else {
+                } else {
                     prefix = prototype.$className.replace(this.idCleanRegex, separator).toLowerCase() + separator;
                 }
 
@@ -11999,13 +11902,10 @@ Ext.define('Ext.dom.Element', {
     alternateClassName: 'Ext.Element',
 
     mixins: [
-         Ext.mixin.Identifiable 
+        Ext.mixin.Identifiable
     ],
 
-               
-                        
-                        
-      
+
 
     observableType: 'element',
 
@@ -12033,8 +11933,7 @@ Ext.define('Ext.dom.Element', {
 
             if (attributes.isElement) {
                 return attributes.dom;
-            }
-            else if ('nodeType' in attributes) {
+            } else if ('nodeType' in attributes) {
                 return attributes;
             }
 
@@ -12060,16 +11959,15 @@ Ext.define('Ext.dom.Element', {
 
                     switch (name) {
                         case ATTRIBUTES.style:
-                                if (typeof value == 'string') {
-                                    element.setAttribute(name, value);
-                                }
-                                else {
-                                    for (i in value) {
-                                        if (value.hasOwnProperty(i)) {
-                                            elementStyle[i] = value[i];
-                                        }
+                            if (typeof value == 'string') {
+                                element.setAttribute(name, value);
+                            } else {
+                                for (i in value) {
+                                    if (value.hasOwnProperty(i)) {
+                                        elementStyle[i] = value[i];
                                     }
                                 }
+                            }
                             break;
 
                         case ATTRIBUTES.className:
@@ -12096,7 +11994,7 @@ Ext.define('Ext.dom.Element', {
                             break;
 
                         case ATTRIBUTES.children:
-                            for (i = 0,ln = value.length; i < ln; i++) {
+                            for (i = 0, ln = value.length; i < ln; i++) {
                                 element.appendChild(this.create(value[i], true));
                             }
                             break;
@@ -12109,8 +12007,7 @@ Ext.define('Ext.dom.Element', {
 
             if (domNode) {
                 return element;
-            }
-            else {
+            } else {
                 return this.get(element);
             }
         },
@@ -12151,8 +12048,7 @@ Ext.define('Ext.dom.Element', {
                     // Update our Ext Element dom reference with the true DOM (it may have changed)
                     if (instance) {
                         instance.dom = dom;
-                    }
-                    else {
+                    } else {
                         // Create a new instance of Ext Element
                         instance = cache[element] = new this(dom);
                     }
@@ -12165,7 +12061,7 @@ Ext.define('Ext.dom.Element', {
                 return instance;
             }
 
-             // DOM element
+            // DOM element
             if ('tagName' in element) {
                 id = element.id;
 
@@ -12173,8 +12069,7 @@ Ext.define('Ext.dom.Element', {
                     instance = cache[id];
                     instance.dom = element;
                     return instance;
-                }
-                else {
+                } else {
                     instance = new this(element);
                     cache[instance.getId()] = instance;
                 }
@@ -12231,8 +12126,7 @@ Ext.define('Ext.dom.Element', {
 
             if (arguments.length == 2) {
                 return data[key];
-            }
-            else {
+            } else {
                 return (data[key] = value);
             }
         },
@@ -12242,7 +12136,7 @@ Ext.define('Ext.dom.Element', {
          * @param {Object} form The form
          * @return {String} The url encoded form
          */
-        serializeForm : function(form) {
+        serializeForm: function(form) {
             var fElements = form.elements || (document.forms[form] || Ext.getDom(form)).elements,
                 hasSubmit = false,
                 encoder = encodeURIComponent,
@@ -12283,7 +12177,7 @@ Ext.define('Ext.dom.Element', {
          * @param {Object} node DOM element to serialize.
          * @returns {String}
          */
-        serializeNode: function (node) {
+        serializeNode: function(node) {
             var result = '',
                 i, n, attr, child;
             if (node.nodeType === document.TEXT_NODE) {
@@ -12352,7 +12246,7 @@ Ext.define('Ext.dom.Element', {
         this.getUniqueId();
     },
 
-    attach: function (dom) {
+    attach: function(dom) {
         this.dom = dom;
         this.id = dom.id;
         return this;
@@ -12367,8 +12261,7 @@ Ext.define('Ext.dom.Element', {
 
             if (dom.id.length > 0) {
                 this.id = id = dom.id;
-            }
-            else {
+            } else {
                 dom.id = id = this.mixins.identifiable.getUniqueId.call(this);
             }
 
@@ -12455,18 +12348,15 @@ Ext.define('Ext.dom.Element', {
 
                 if (attribute == 'style') {
                     this.applyStyles(value);
-                }
-                else if (attribute == 'cls') {
+                } else if (attribute == 'cls') {
                     dom.className = value;
-                }
-                else if (useSet !== false) {
+                } else if (useSet !== false) {
                     if (value === undefined) {
                         dom.removeAttribute(attribute);
                     } else {
                         dom.setAttribute(attribute, value);
                     }
-                }
-                else {
+                } else {
                     dom[attribute] = value;
                 }
             }
@@ -12504,8 +12394,7 @@ Ext.define('Ext.dom.Element', {
     getAttribute: function(name, namespace) {
         var dom = this.dom;
 
-        return dom.getAttributeNS(namespace, name) || dom.getAttribute(namespace + ":" + name)
-               || dom.getAttribute(name) || dom[name];
+        return dom.getAttributeNS(namespace, name) || dom.getAttribute(namespace + ":" + name) || dom.getAttribute(name) || dom[name];
     },
 
     setSizeState: function(state) {
@@ -12636,9 +12525,24 @@ Ext.dom.Element.addStatics({
     opacityRe: /alpha\(opacity=(.*)\)/i,
     propertyCache: {},
     defaultUnit: "px",
-    borders: {l: 'border-left-width', r: 'border-right-width', t: 'border-top-width', b: 'border-bottom-width'},
-    paddings: {l: 'padding-left', r: 'padding-right', t: 'padding-top', b: 'padding-bottom'},
-    margins: {l: 'margin-left', r: 'margin-right', t: 'margin-top', b: 'margin-bottom'},
+    borders: {
+        l: 'border-left-width',
+        r: 'border-right-width',
+        t: 'border-top-width',
+        b: 'border-bottom-width'
+    },
+    paddings: {
+        l: 'padding-left',
+        r: 'padding-right',
+        t: 'padding-top',
+        b: 'padding-bottom'
+    },
+    margins: {
+        l: 'margin-left',
+        r: 'margin-right',
+        t: 'margin-top',
+        b: 'margin-bottom'
+    },
 
     /**
      * Test if size has a unit, otherwise appends the passed unit string, or the default for this Element.
@@ -12657,8 +12561,7 @@ Ext.dom.Element.addStatics({
         // Otherwise, warn if it's not a valid CSS measurement
         if (Ext.isNumber(size) || this.numberRe.test(size)) {
             return size + (units || this.defaultUnit || 'px');
-        }
-        else if (!this.unitRe.test(size)) {
+        } else if (!this.unitRe.test(size)) {
             Ext.Logger.warn("Warning, size detected (" + size + ") not a valid property value on Element.addUnits.");
             return size || '';
         }
@@ -12707,12 +12610,10 @@ Ext.dom.Element.addStatics({
 
         if (ln == 1) {
             parts[1] = parts[2] = parts[3] = parts[0];
-        }
-        else if (ln == 2) {
+        } else if (ln == 2) {
             parts[2] = parts[0];
             parts[3] = parts[1];
-        }
-        else if (ln == 3) {
+        } else if (ln == 3) {
             parts[3] = parts[1];
         }
 
@@ -12737,9 +12638,9 @@ Ext.dom.Element.addStatics({
         box = me.parseBox(box);
 
         return me.addUnits(box.top, units) + ' ' +
-               me.addUnits(box.right, units) + ' ' +
-               me.addUnits(box.bottom, units) + ' ' +
-               me.addUnits(box.left, units);
+            me.addUnits(box.right, units) + ' ' +
+            me.addUnits(box.bottom, units) + ' ' +
+            me.addUnits(box.left, units);
     },
 
     // @private
@@ -12760,9 +12661,9 @@ Ext.dom.Element.addStatics({
      */
     normalize: function(prop) {
         // TODO: Mobile optimization?
-//        if (prop == 'float') {
-//            prop = Ext.supports.Float ? 'cssFloat' : 'styleFloat';
-//        }
+        //        if (prop == 'float') {
+        //            prop = Ext.supports.Float ? 'cssFloat' : 'styleFloat';
+        //        }
         return this.propertyCache[prop] || (this.propertyCache[prop] = prop.replace(this.camelRe, this.camelReplaceFn));
     },
 
@@ -12898,8 +12799,7 @@ Ext.dom.Element.addMembers({
 
         if (!firstChild) {
             dom.appendChild(elementDom);
-        }
-        else {
+        } else {
             dom.insertBefore(elementDom, firstChild);
         }
 
@@ -12915,7 +12815,8 @@ Ext.dom.Element.addMembers({
      * @return {Ext.dom.Element} The inserted Element. If an array is passed, the last inserted element is returned.
      */
     insertSibling: function(el, where, returnDom) {
-        var me = this, rt,
+        var me = this,
+            rt,
             isAfter = (where || 'before').toLowerCase() == 'after',
             insertEl;
 
@@ -12997,11 +12898,12 @@ Ext.dom.Element.addMembers({
      * @return {Ext.dom.Element} The new child element.
      */
     createChild: function(config, insertBefore, returnDom) {
-        config = config || {tag: 'div'};
+        config = config || {
+            tag: 'div'
+        };
         if (insertBefore) {
             return Ext.core.DomHelper.insertBefore(insertBefore, config, returnDom !== true);
-        }
-        else {
+        } else {
             return Ext.core.DomHelper[!this.dom.firstChild ? 'insertFirst' : 'append'](this.dom, config, returnDom !== true);
         }
     },
@@ -13065,8 +12967,7 @@ Ext.dom.Element.addMembers({
             grandparentNode = parentNode.parentNode;
             grandparentNode.insertBefore(dom, parentNode);
             grandparentNode.removeChild(parentNode);
-        }
-        else {
+        } else {
             grandparentNode = document.createDocumentFragment();
             grandparentNode.appendChild(dom);
         }
@@ -13243,7 +13144,10 @@ Ext.dom.Element.override({
         l = !isNaN(l) ? l : (relative ? 0 : me.dom.offsetLeft);
         t = !isNaN(t) ? t : (relative ? 0 : me.dom.offsetTop);
 
-        return {left: (x - o[0] + l), top: (y - o[1] + t)};
+        return {
+            left: (x - o[0] + l),
+            top: (y - o[1] + t)
+        };
     },
 
     /**
@@ -13308,11 +13212,9 @@ Ext.dom.Element.override({
 
         if (!local) {
             xy = me.getXY();
-        }
-        else if (contentBox) {
+        } else if (contentBox) {
             xy = [0, 0];
-        }
-        else {
+        } else {
             xy = [parseInt(me.getStyle("left"), 10) || 0, parseInt(me.getStyle("top"), 10) || 0];
         }
 
@@ -13325,8 +13227,7 @@ Ext.dom.Element.override({
                 width: width,
                 height: height
             };
-        }
-        else {
+        } else {
             l = me.getBorderWidth.call(me, "l") + me.getPadding.call(me, "l");
             r = me.getBorderWidth.call(me, "r") + me.getPadding.call(me, "r");
             t = me.getBorderWidth.call(me, "t") + me.getPadding.call(me, "t");
@@ -13385,8 +13286,7 @@ Ext.dom.Element.override({
 
         if (getRegion) {
             return new Ext.util.Region(t, r, b, l);
-        }
-        else {
+        } else {
             return {
                 left: l,
                 top: t,
@@ -13491,8 +13391,7 @@ Ext.dom.Element.addMembers({
                 name = classList[i];
                 hasClassMap[name] = true;
             }
-        }
-        else {
+        } else {
             classList = [];
         }
 
@@ -13698,13 +13597,13 @@ Ext.dom.Element.addMembers({
      * @param {String} className The CSS class to toggle.
      * @return {Ext.dom.Element} this
      */
-    toggleCls: function(className, force){
+    toggleCls: function(className, force) {
         if (typeof force !== 'boolean') {
             force = !this.hasCls(className);
         }
 
-   		return (force) ? this.addCls(className) : this.removeCls(className);
-   	},
+        return (force) ? this.addCls(className) : this.removeCls(className);
+    },
 
     /**
      * @private
@@ -13857,8 +13756,7 @@ Ext.dom.Element.addMembers({
         if (margin || margin === 0) {
             margin = this.self.unitizeBox((margin === true) ? 5 : margin);
             domStyle.setProperty('margin', margin, 'important');
-        }
-        else {
+        } else {
             domStyle.removeProperty('margin-top');
             domStyle.removeProperty('margin-right');
             domStyle.removeProperty('margin-bottom');
@@ -13872,8 +13770,7 @@ Ext.dom.Element.addMembers({
         if (padding || padding === 0) {
             padding = this.self.unitizeBox((padding === true) ? 5 : padding);
             domStyle.setProperty('padding', padding, 'important');
-        }
-        else {
+        } else {
             domStyle.removeProperty('padding-top');
             domStyle.removeProperty('padding-right');
             domStyle.removeProperty('padding-bottom');
@@ -13887,8 +13784,7 @@ Ext.dom.Element.addMembers({
         if (border || border === 0) {
             border = this.self.unitizeBox((border === true) ? 1 : border);
             domStyle.setProperty('border-width', border, 'important');
-        }
-        else {
+        } else {
             domStyle.removeProperty('border-top-width');
             domStyle.removeProperty('border-right-width');
             domStyle.removeProperty('border-bottom-width');
@@ -13986,8 +13882,7 @@ Ext.dom.Element.addMembers({
 
         if (isVisible) {
             domStyle.removeProperty('visibility');
-        }
-        else {
+        } else {
             domStyle.setProperty('visibility', 'hidden', 'important');
         }
     },
@@ -14058,7 +13953,9 @@ Ext.dom.Element.addMembers({
             return null;
         }
         if (!hook) {
-            me.styleHooks[prop] = hook = { name: Ext.dom.Element.normalize(prop) };
+            me.styleHooks[prop] = hook = {
+                name: Ext.dom.Element.normalize(prop)
+            };
         }
         if (hook.get) {
             return hook.get(dom, me);
@@ -14097,7 +13994,9 @@ Ext.dom.Element.addMembers({
             hook = hooks[prop];
 
             if (!hook) {
-                hooks[prop] = hook = { name: Ext.dom.Element.normalize(prop) };
+                hooks[prop] = hook = {
+                    name: Ext.dom.Element.normalize(prop)
+                };
             }
             value = valueFrom(value, '');
 
@@ -14106,22 +14005,22 @@ Ext.dom.Element.addMembers({
             } else {
                 style[hook.name] = value;
             }
-        }
-        else {
+        } else {
             for (name in prop) {
                 if (prop.hasOwnProperty(name)) {
                     hook = hooks[name];
 
                     if (!hook) {
-                        hooks[name] = hook = { name: Ext.dom.Element.normalize(name) };
+                        hooks[name] = hook = {
+                            name: Ext.dom.Element.normalize(name)
+                        };
                     }
 
                     value = valueFrom(prop[name], '');
 
                     if (hook.set) {
                         hook.set(dom, value, me);
-                    }
-                    else {
+                    } else {
                         style[hook.name] = value;
                     }
                 }
@@ -14193,8 +14092,7 @@ Ext.dom.Element.addMembers({
                 for (i = 0, len = styles.length; i < len;) {
                     dom.style[Ext.dom.Element.normalize(styles[i++])] = styles[i++];
                 }
-            }
-            else if (styleType == 'object') {
+            } else if (styleType == 'object') {
                 this.setStyle(styles);
             }
         }
@@ -14237,7 +14135,12 @@ Ext.dom.Element.addMembers({
      */
     getMargin: function(side) {
         var me = this,
-            hash = {t: "top", l: "left", r: "right", b: "bottom"},
+            hash = {
+                t: "top",
+                l: "left",
+                r: "right",
+                b: "bottom"
+            },
             o = {},
             key;
 
@@ -14397,7 +14300,7 @@ Ext.dom.Element.addMembers({
         return returnDom ? node : Ext.get(node);
     },
 
-     /**
+    /**
      * Gets the parent node for this element, optionally chaining up trying to match a selector.
      * @param {String} selector (optional) Find a parent node that matches the passed simple selector.
      * @param {Boolean} returnDom (optional) `true` to return a raw DOM node instead of an Ext.dom.Element.
@@ -14407,7 +14310,7 @@ Ext.dom.Element.addMembers({
         return this.matchNode('parentNode', 'parentNode', selector, returnDom);
     },
 
-     /**
+    /**
      * Gets the next sibling, skipping text nodes.
      * @param {String} selector (optional) Find the next sibling that matches the passed simple selector.
      * @param {Boolean} returnDom (optional) `true` to return a raw dom node instead of an Ext.dom.Element.
@@ -14495,7 +14398,7 @@ Ext.dom.Element.addMembers({
 Ext.define('Ext.dom.CompositeElementLite', {
     alternateClassName: ['Ext.CompositeElementLite', 'Ext.CompositeElement'],
 
-                                  
+
 
     // We use the @mixins tag above to document that CompositeElement has
     // all the same methods as Element, but the @mixins tag also pulls in
@@ -14594,11 +14497,9 @@ Ext.define('Ext.dom.CompositeElementLite', {
 
         if (typeof els == "string") {
             els = Ext.dom.Element.selectorFunction(els, root);
-        }
-        else if (els.isComposite) {
+        } else if (els.isComposite) {
             els = els.elements;
-        }
-        else if (!Ext.isIterable(els)) {
+        } else if (!Ext.isIterable(els)) {
             els = [els];
         }
 
@@ -14644,8 +14545,8 @@ Ext.define('Ext.dom.CompositeElementLite', {
     // fixes scope with flyweight.
     addListener: function(eventName, handler, scope, opt) {
         var els = this.elements,
-                len = els.length,
-                i, e;
+            len = els.length,
+            i, e;
 
         for (i = 0; i < len; i++) {
             e = els[i];
@@ -14668,9 +14569,9 @@ Ext.define('Ext.dom.CompositeElementLite', {
      */
     each: function(fn, scope) {
         var me = this,
-                els = me.elements,
-                len = els.length,
-                i, e;
+            els = me.elements,
+            len = els.length,
+            i, e;
 
         for (i = 0; i < len; i++) {
             e = els[i];
@@ -14707,11 +14608,10 @@ Ext.define('Ext.dom.CompositeElementLite', {
      */
     filter: function(selector) {
         var els = [],
-                me = this,
-                fn = Ext.isFunction(selector) ? selector
-                        : function(el) {
-                    return el.is(selector);
-                };
+            me = this,
+            fn = Ext.isFunction(selector) ? selector : function(el) {
+                return el.is(selector);
+            };
 
         me.each(function(el, self, i) {
             if (fn(el, i) !== false) {
@@ -14743,7 +14643,7 @@ Ext.define('Ext.dom.CompositeElementLite', {
      */
     replaceElement: function(el, replacement, domReplace) {
         var index = !isNaN(el) ? el : this.indexOf(el),
-                d;
+            d;
         if (index > -1) {
             replacement = Ext.getDom(replacement);
             if (domReplace) {
@@ -14816,16 +14716,15 @@ Ext.define('Ext.dom.CompositeElementLite', {
      */
     removeElement: function(keys, removeDom) {
         var me = this,
-                elements = this.elements,
-                el;
+            elements = this.elements,
+            el;
 
         Ext.each(keys, function(val) {
             if ((el = (elements[val] || elements[val = me.indexOf(val)]))) {
                 if (removeDom) {
                     if (el.dom) {
                         el.remove();
-                    }
-                    else {
+                    } else {
                         Ext.removeNode(el);
                     }
                 }
@@ -14879,11 +14778,9 @@ Ext.define('Ext.dom.CompositeElementLite', {
 
         if (typeof selector == "string") {
             elements = Ext.dom.Element.selectorFunction(selector, root);
-        }
-        else if (selector.length !== undefined) {
+        } else if (selector.length !== undefined) {
             elements = selector;
-        }
-        else {
+        } else {
             throw new Error("[Ext.select] Invalid selector specified: " + selector);
         }
 
@@ -14937,17 +14834,14 @@ Ext.define('Ext.event.ListenerStack', {
             if (bindingMap) {
                 if (bindingMap[fn]) {
                     return false;
-                }
-                else {
+                } else {
                     bindingMap[fn] = true;
                 }
-            }
-            else {
+            } else {
                 lateBindingMap[id] = bindingMap = {};
                 bindingMap[fn] = true;
             }
-        }
-        else {
+        } else {
             if (i > 0) {
                 while (i--) {
                     listener = listeners[i];
@@ -14965,8 +14859,7 @@ Ext.define('Ext.event.ListenerStack', {
         if (options && options.prepend) {
             delete options.prepend;
             listeners.unshift(listener);
-        }
-        else {
+        } else {
             listeners.push(listener);
         }
 
@@ -15087,8 +14980,7 @@ Ext.define('Ext.event.Controller', {
         if (action) {
             if (action.order !== 'after') {
                 isActionBefore = true;
-            }
-            else {
+            } else {
                 isActionAfter = true;
             }
         }
@@ -15118,8 +15010,7 @@ Ext.define('Ext.event.Controller', {
             if (afterListeners.length > 0) {
                 push.apply(firingListeners, afterListeners);
             }
-        }
-        else {
+        } else {
             for (i = 0; i < ln; i++) {
                 beforeListeners = listenerStacks[i].listeners.before;
                 if (beforeListeners.length > 0) {
@@ -15181,7 +15072,7 @@ Ext.define('Ext.event.Controller', {
         this.isStopped = false;
         this.isFiring = true;
 
-        for (i = 0,ln = firingListeners.length; i < ln; i++) {
+        for (i = 0, ln = firingListeners.length; i < ln; i++) {
             listener = firingListeners[i];
             options = listener.options;
             fn = listener.fn;
@@ -15203,8 +15094,7 @@ Ext.define('Ext.event.Controller', {
                     if (!boundFn) {
                         continue;
                     }
-                }
-                else {
+                } else {
                     boundFn = fn;
                 }
 
@@ -15323,10 +15213,7 @@ Ext.define('Ext.event.Controller', {
  */
 Ext.define('Ext.event.Dispatcher', {
 
-               
-                                  
-                              
-      
+
 
     statics: {
         getInstance: function() {
@@ -15376,8 +15263,7 @@ Ext.define('Ext.event.Dispatcher', {
         if (!map) {
             if (createIfNotExist) {
                 listenerStacks[targetType] = map = {};
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -15387,8 +15273,7 @@ Ext.define('Ext.event.Dispatcher', {
         if (!map) {
             if (createIfNotExist) {
                 listenerStacks[targetType][target] = map = {};
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -15398,8 +15283,7 @@ Ext.define('Ext.event.Dispatcher', {
         if (!listenerStack) {
             if (createIfNotExist) {
                 map[eventName] = listenerStack = new Ext.event.ListenerStack();
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -15500,15 +15384,14 @@ Ext.define('Ext.event.Dispatcher', {
         if (activePublishers) {
             publishers = [];
 
-            for (i = 0,ln = activePublishers.length; i < ln; i++) {
+            for (i = 0, ln = activePublishers.length; i < ln; i++) {
                 publisher = activePublishers[i];
 
                 if (publisher.handles(eventName)) {
                     publishers.push(publisher);
                 }
             }
-        }
-        else {
+        } else {
             publishers = this.noActivePublishers;
         }
 
@@ -15583,8 +15466,7 @@ Ext.define('Ext.event.Dispatcher', {
                 this.removeListener(targetType, target, eventName);
                 delete listenerStacks[targetType][target][eventName];
             }
-        }
-        else if (ln === 2) {
+        } else if (ln === 2) {
             if (listenerStacks[targetType]) {
                 stacks = listenerStacks[targetType][target];
 
@@ -15593,7 +15475,7 @@ Ext.define('Ext.event.Dispatcher', {
                         if (stacks.hasOwnProperty(eventName)) {
                             publishers = this.getActivePublishers(targetType, eventName);
 
-                            for (i = 0,ln = publishers.length; i < ln; i++) {
+                            for (i = 0, ln = publishers.length; i < ln; i++) {
                                 publishers[i].unsubscribe(target, eventName, true);
                             }
                         }
@@ -15602,24 +15484,22 @@ Ext.define('Ext.event.Dispatcher', {
                     delete listenerStacks[targetType][target];
                 }
             }
-        }
-        else if (ln === 1) {
+        } else if (ln === 1) {
             publishers = this.activePublishers[targetType];
 
-            for (i = 0,ln = publishers.length; i < ln; i++) {
+            for (i = 0, ln = publishers.length; i < ln; i++) {
                 publishers[i].unsubscribeAll();
             }
 
             delete listenerStacks[targetType];
-        }
-        else {
+        } else {
             publishers = this.activePublishers;
 
             for (targetType in publishers) {
                 if (publishers.hasOwnProperty(targetType)) {
                     publisherGroup = publishers[targetType];
 
-                    for (i = 0,ln = publisherGroup.length; i < ln; i++) {
+                    for (i = 0, ln = publisherGroup.length; i < ln; i++) {
                         publisherGroup[i].unsubscribeAll();
                     }
                 }
@@ -15655,8 +15535,7 @@ Ext.define('Ext.event.Dispatcher', {
             if (wildcardStacks.length == 0 && !action) {
                 return;
             }
-        }
-        else {
+        } else {
             wildcardStacks.push(listenerStack);
         }
 
@@ -15685,7 +15564,7 @@ Ext.define('Ext.event.Dispatcher', {
         return stacks;
     },
 
-    getPublisher: function (name) {
+    getPublisher: function(name) {
         return this.getPublishers()[name];
     }
 });
@@ -15791,11 +15670,11 @@ Ext.define('Ext.mixin.Mixin', {
  */
 Ext.define('Ext.mixin.Observable', {
 
-                                       
 
-    extend:  Ext.mixin.Mixin ,
 
-    mixins: [ Ext.mixin.Identifiable ],
+    extend: Ext.mixin.Mixin,
+
+    mixins: [Ext.mixin.Identifiable],
 
     mixinConfig: {
         id: 'observable',
@@ -15817,7 +15696,7 @@ Ext.define('Ext.mixin.Observable', {
 
     listenerOptionsRegex: /^(?:delegate|single|delay|buffer|args|prepend)$/,
 
-    eventFiringSuspended : false,
+    eventFiringSuspended: false,
 
     config: {
         /**
@@ -16083,7 +15962,7 @@ Ext.define('Ext.mixin.Observable', {
         if (isRemoved && isManaged) {
             managedListeners = this.getManagedListeners(scope, name);
 
-            for (i = 0,ln = managedListeners.length; i < ln; i++) {
+            for (i = 0, ln = managedListeners.length; i < ln; i++) {
                 listener = managedListeners[i];
 
                 if (listener.fn === fn && listener.scope === scope && listener.delegate === delegate && listener.order === order) {
@@ -16111,8 +15990,7 @@ Ext.define('Ext.mixin.Observable', {
         if (object) {
             if (typeof object != 'string') {
                 id = object.getUniqueId();
-            }
-            else {
+            } else {
                 id = object;
             }
 
@@ -16122,7 +16000,7 @@ Ext.define('Ext.mixin.Observable', {
                 if (namedListeners.hasOwnProperty(eventName)) {
                     listeners = namedListeners[eventName];
 
-                    for (i = 0,ln = listeners.length; i < ln; i++) {
+                    for (i = 0, ln = listeners.length; i < ln; i++) {
                         listener = listeners[i];
 
                         options = {};
@@ -16163,7 +16041,7 @@ Ext.define('Ext.mixin.Observable', {
         if (typeof fn != 'undefined') {
             // Support for array format to add multiple listeners
             if (typeof eventName != 'string') {
-                for (i = 0,ln = eventName.length; i < ln; i++) {
+                for (i = 0, ln = eventName.length; i < ln; i++) {
                     name = eventName[i];
 
                     actionFn.call(this, name, fn, scope, options, order);
@@ -16173,17 +16051,15 @@ Ext.define('Ext.mixin.Observable', {
             }
 
             actionFn.call(this, eventName, fn, scope, options, order);
-        }
-        else if (Ext.isArray(eventName)) {
+        } else if (Ext.isArray(eventName)) {
             listeners = eventName;
 
-            for (i = 0,ln = listeners.length; i < ln; i++) {
+            for (i = 0, ln = listeners.length; i < ln; i++) {
                 listener = listeners[i];
 
                 actionFn.call(this, listener.event, listener.fn, listener.scope, listener, listener.order);
             }
-        }
-        else {
+        } else {
             listenerOptionsRegex = this.listenerOptionsRegex;
             options = eventName;
             eventNames = [];
@@ -16196,8 +16072,7 @@ Ext.define('Ext.mixin.Observable', {
                 if (name === 'scope') {
                     scope = value;
                     continue;
-                }
-                else if (name === 'order') {
+                } else if (name === 'order') {
                     order = value;
                     continue;
                 }
@@ -16212,13 +16087,12 @@ Ext.define('Ext.mixin.Observable', {
 
                     eventNames.push(name);
                     listeners.push(value);
-                }
-                else {
+                } else {
                     actualOptions[name] = value;
                 }
             }
 
-            for (i = 0,ln = eventNames.length; i < ln; i++) {
+            for (i = 0, ln = eventNames.length; i < ln; i++) {
                 actionFn.call(this, eventNames[i], listeners[i], scope, actualOptions, order);
             }
         }
@@ -16271,7 +16145,7 @@ Ext.define('Ext.mixin.Observable', {
      * @param {Object} [options] An object containing handler configuration.
      *
      * This object may contain any of the following properties:
-
+     
      * @param {Object} [options.scope] The scope (`this` reference) in which the handler function is executed. If omitted, defaults to the object
      * which fired the event.
      * @param {Number} [options.delay] The number of milliseconds to delay the invocation of the handler after the event fires.
@@ -16415,7 +16289,7 @@ Ext.define('Ext.mixin.Observable', {
             dispatcher = this.getEventDispatcher(),
             i, ln, selector;
 
-        for (i = 0,ln = usedSelectors.length; i < ln; i++) {
+        for (i = 0, ln = usedSelectors.length; i < ln; i++) {
             selector = usedSelectors[i];
 
             dispatcher.clearListeners(this.observableType, selector);
@@ -16483,14 +16357,13 @@ Ext.define('Ext.mixin.Observable', {
         }
 
         if (Ext.isArray(events)) {
-            for (i = 0,ln = events.length; i < ln; i++) {
+            for (i = 0, ln = events.length; i < ln; i++) {
                 oldName = events[i];
                 newName = prefix + oldName;
 
                 object.addListener(oldName, this.createEventRelayer(newName), this);
             }
-        }
-        else {
+        } else {
             for (oldName in events) {
                 if (events.hasOwnProperty(oldName)) {
                     newName = prefix + events[oldName];
@@ -16534,7 +16407,7 @@ Ext.define('Ext.mixin.Observable', {
      * @param {String} newName
      * @return {Function}
      */
-    createEventRelayer: function(newName){
+    createEventRelayer: function(newName) {
         return function() {
             return this.doFireEvent(newName, Array.prototype.slice.call(arguments, 0, -2));
         }
@@ -16558,7 +16431,7 @@ Ext.define('Ext.mixin.Observable', {
             events = Ext.Array.clone(arguments);
         }
 
-        for (i = 0,ln = events.length; i < ln; i++) {
+        for (i = 0, ln = events.length; i < ln; i++) {
             name = events[i];
 
             if (!isBubblingEnabled[name]) {
@@ -16644,7 +16517,7 @@ Ext.define('Ext.Evented', {
 
     alternateClassName: 'Ext.EventedBase',
 
-    mixins: [ Ext.mixin.Observable ],
+    mixins: [Ext.mixin.Observable],
 
     statics: {
         generateSetter: function(nameMap) {
@@ -16675,8 +16548,7 @@ Ext.define('Ext.Evented', {
                         this.fireAction(changeEventName, [this, value, oldValue], this.doSet, this, {
                             nameMap: nameMap
                         });
-                    }
-                    else {
+                    } else {
                         this[internalName] = value;
                         if (this[doSetName]) {
                             this[doSetName].call(this, value, oldValue);
@@ -16706,7 +16578,7 @@ Ext.define('Ext.Evented', {
 
         me[nameMap.internal] = value;
         if (me[nameMap.doSet]) {
-          me[nameMap.doSet].call(this, value, oldValue);
+            me[nameMap.doSet].call(this, value, oldValue);
         }
     },
 
@@ -16750,7 +16622,7 @@ Ext.define('Ext.Evented', {
  * This should never be overridden.
  */
 Ext.define('Ext.AbstractComponent', {
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
     onClassExtended: function(Class, members) {
         if (!members.hasOwnProperty('cachedConfig')) {
@@ -16827,8 +16699,7 @@ Ext.define('Ext.AbstractComponent', {
         if (prototype.hasOwnProperty('renderTemplate')) {
             renderTemplate = this.renderTemplate.cloneNode(true);
             renderElement = renderTemplate.firstChild;
-        }
-        else {
+        } else {
             cleanAttributes = false;
             needsOptimization = true;
             renderTemplate = document.createDocumentFragment();
@@ -16838,7 +16709,7 @@ Ext.define('Ext.AbstractComponent', {
 
         referenceNodes = renderTemplate.querySelectorAll(this.referenceSelector);
 
-        for (i = 0,ln = referenceNodes.length; i < ln; i++) {
+        for (i = 0, ln = referenceNodes.length; i < ln; i++) {
             referenceNode = referenceNodes[i];
             reference = referenceNode.getAttribute(referenceAttributeName);
 
@@ -16849,8 +16720,7 @@ Ext.define('Ext.AbstractComponent', {
             if (reference == 'element') {
                 referenceNode.id = id;
                 this.element = element = new Ext.Element(referenceNode);
-            }
-            else {
+            } else {
                 this.addReferenceNode(reference, referenceNode);
             }
 
@@ -16869,8 +16739,7 @@ Ext.define('Ext.AbstractComponent', {
 
         if (renderElement === element.dom) {
             this.renderElement = element;
-        }
-        else {
+        } else {
             this.addReferenceNode('renderElement', renderElement);
         }
 
@@ -16884,7 +16753,7 @@ Ext.define('Ext.AbstractComponent', {
             initConfigMap = this.initConfigMap;
             configList = [];
 
-            for (i = 0,ln = cachedConfigList.length; i < ln; i++) {
+            for (i = 0, ln = cachedConfigList.length; i < ln; i++) {
                 name = cachedConfigList[i];
                 nameMap = configNameCache[name];
 
@@ -16899,7 +16768,7 @@ Ext.define('Ext.AbstractComponent', {
                 }
             }
 
-            for (i = 0,ln = configList.length; i < ln; i++) {
+            for (i = 0, ln = configList.length; i < ln; i++) {
                 name = configList[i];
                 nameMap = configNameCache[name];
                 internalName = nameMap.internal;
@@ -16917,12 +16786,12 @@ Ext.define('Ext.AbstractComponent', {
 
             elements = renderTemplate.querySelectorAll('[id]');
 
-            for (i = 0,ln = elements.length; i < ln; i++) {
+            for (i = 0, ln = elements.length; i < ln; i++) {
                 element = elements[i];
                 element.removeAttribute('id');
             }
 
-            for (i = 0,ln = referenceList.length; i < ln; i++) {
+            for (i = 0, ln = referenceList.length; i < ln; i++) {
                 reference = referenceList[i];
                 this[reference].dom.removeAttribute('reference');
             }
@@ -16950,7 +16819,7 @@ Ext.define('Ext.AbstractComponent', {
  */
 Ext.define('Ext.util.HashMap', {
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     /**
@@ -17125,7 +16994,7 @@ Ext.define('Ext.util.HashMap', {
      * Removes all items from the hash.
      * @return {Ext.util.HashMap} this
      */
-    clear: function(/* private */ initial) {
+    clear: function( /* private */ initial) {
         var me = this;
         me.map = {};
         me.length = 0;
@@ -17260,7 +17129,7 @@ Ext.define('Ext.AbstractManager', {
 
     /* Begin Definitions */
 
-                                   
+
 
     /* End Definitions */
 
@@ -17284,7 +17153,7 @@ Ext.define('Ext.AbstractManager', {
      * @param {String} id The `id` of the item.
      * @return {Object} The item, `undefined` if not found.
      */
-    get : function(id) {
+    get: function(id) {
         return this.all.get(id);
     },
 
@@ -17309,7 +17178,7 @@ Ext.define('Ext.AbstractManager', {
      * @param {String} type The mnemonic string by which the class may be looked up.
      * @param {Function} cls The new instance class.
      */
-    registerType : function(type, cls) {
+    registerType: function(type, cls) {
         this.types[type] = cls;
         cls[this.typeName] = type;
     },
@@ -17319,7 +17188,7 @@ Ext.define('Ext.AbstractManager', {
      * @param {String} type The mnemonic string by which the class may be looked up.
      * @return {Boolean} Whether the type is registered.
      */
-    isRegistered : function(type){
+    isRegistered: function(type) {
         return this.types[type] !== undefined;
     },
 
@@ -17331,7 +17200,7 @@ Ext.define('Ext.AbstractManager', {
      * @return {Object} The instance of whatever this manager is managing.
      */
     create: function(config, defaultType) {
-        var type        = config[this.typeName] || config.type || defaultType,
+        var type = config[this.typeName] || config.type || defaultType,
             Constructor = this.types[type];
 
         if (Constructor == undefined) {
@@ -17349,7 +17218,7 @@ Ext.define('Ext.AbstractManager', {
      * @param {Object} scope The scope (`this` reference) in which the callback is executed.
      * Defaults to the item.
      */
-    onAvailable : function(id, fn, scope){
+    onAvailable: function(id, fn, scope) {
         var all = this.all,
             item;
 
@@ -17357,7 +17226,7 @@ Ext.define('Ext.AbstractManager', {
             item = all.get(id);
             fn.call(scope || item, item);
         } else {
-            all.on('add', function(map, key, item){
+            all.on('add', function(map, key, item) {
                 if (key == id) {
                     fn.call(scope || item, item);
                     all.un('add', fn, scope);
@@ -17375,7 +17244,7 @@ Ext.define('Ext.AbstractManager', {
      * @param {Boolean} fn.return False to cease iteration.
      * @param {Object} [scope=this] The scope to execute in.
      */
-    each: function(fn, scope){
+    each: function(fn, scope) {
         this.all.each(fn, scope || this);
     },
 
@@ -17383,7 +17252,7 @@ Ext.define('Ext.AbstractManager', {
      * Gets the number of items in the collection.
      * @return {Number} The number of items in the collection.
      */
-    getCount: function(){
+    getCount: function() {
         return this.all.getCount();
     }
 });
@@ -17393,7 +17262,7 @@ Ext.define('Ext.AbstractManager', {
  * @private
  */
 Ext.define('Ext.mixin.Traversable', {
-    extend:  Ext.mixin.Mixin ,
+    extend: Ext.mixin.Mixin,
 
     mixinConfig: {
         id: 'traversable'
@@ -17520,7 +17389,7 @@ Ext.define('Ext.ComponentManager', {
      * @param {String} component The mnemonic string by which the class may be looked up.
      * @return {Boolean} Whether the type is registered.
      */
-    isRegistered : function(component){
+    isRegistered: function(component) {
         return this.map[component] !== undefined;
     },
 
@@ -17545,11 +17414,9 @@ Ext.define('Ext.ComponentManager', {
     create: function(component, defaultType) {
         if (component.isComponent) {
             return component;
-        }
-        else if (Ext.isString(component)) {
+        } else if (Ext.isString(component)) {
             return Ext.createByAlias('widget.' + component);
-        }
-        else {
+        } else {
             var type = component.xtype || defaultType;
 
             return Ext.createByAlias('widget.' + type, component);
@@ -17696,423 +17563,423 @@ Format  Description                                                             
 
 (function() {
 
-// create private copy of Ext's Ext.util.Format.format() method
-// - to remove unnecessary dependency
-// - to resolve namespace conflict with MS-Ajax's implementation
-function xf(format) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/\{(\d+)\}/g, function(m, i) {
-        return args[i];
-    });
-}
-
-/**
- * Extra methods to be mixed into Ext.Date.
- *
- * Require this class to get Ext.Date with all the methods listed below.
- *
- * Using Ext.setup:
- *
- *     @example
- *     Ext.setup({
- *         requires: 'Ext.DateExtras',
- *         onReady: function() {
- *             var date = new Date();
- *             alert(Ext.Date.format(date, 'n/j/Y'));
- *         }
- *     });
- *
- * Using Ext.application:
- *
- *     @example
- *     Ext.application({
- *         requires: 'Ext.DateExtras',
- *         launch: function() {
- *             var date = new Date();
- *             alert(Ext.Date.format(date, 'n/j/Y'));
- *         }
- *     });
- *
- * @singleton
- */
-Ext.DateExtras = {
-    /**
-     * Returns the current timestamp.
-     * @return {Number} The current timestamp.
-     * @method
-     */
-    now: Date.now || function() {
-        return +new Date();
-    },
+    // create private copy of Ext's Ext.util.Format.format() method
+    // - to remove unnecessary dependency
+    // - to resolve namespace conflict with MS-Ajax's implementation
+    function xf(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/\{(\d+)\}/g, function(m, i) {
+            return args[i];
+        });
+    }
 
     /**
-     * Returns the number of milliseconds between two dates.
-     * @param {Date} dateA The first date.
-     * @param {Date} [dateB=new Date()] (optional) The second date, defaults to now.
-     * @return {Number} The difference in milliseconds.
-     */
-    getElapsed: function(dateA, dateB) {
-        return Math.abs(dateA - (dateB || new Date()));
-    },
-
-    /**
-     * Global flag which determines if strict date parsing should be used.
-     * Strict date parsing will not roll-over invalid dates, which is the
-     * default behavior of JavaScript Date objects.
-     * (see {@link #parse} for more information)
-     * @type Boolean
-    */
-    useStrict: false,
-
-    // @private
-    formatCodeToRegex: function(character, currentGroup) {
-        // Note: currentGroup - position in regex result array (see notes for Ext.Date.parseCodes below)
-        var p = utilDate.parseCodes[character];
-
-        if (p) {
-          p = typeof p == 'function'? p() : p;
-          utilDate.parseCodes[character] = p; // reassign function result to prevent repeated execution
-        }
-
-        return p ? Ext.applyIf({
-          c: p.c ? xf(p.c, currentGroup || "{0}") : p.c
-        }, p) : {
-            g: 0,
-            c: null,
-            s: Ext.String.escapeRegex(character) // treat unrecognized characters as literals
-        };
-    },
-
-    /**
-     * An object hash in which each property is a date parsing function. The property name is the
-     * format string which that function parses.
+     * Extra methods to be mixed into Ext.Date.
      *
-     * This object is automatically populated with date parsing functions as
-     * date formats are requested for Ext standard formatting strings.
+     * Require this class to get Ext.Date with all the methods listed below.
      *
-     * Custom parsing functions may be inserted into this object, keyed by a name which from then on
-     * may be used as a format string to {@link #parse}.
-     *
-     * Example:
-     *
-     *     Ext.Date.parseFunctions['x-date-format'] = myDateParser;
-     *
-     * A parsing function should return a Date object, and is passed the following parameters:
-     *
-     * - `date`: {@link String} - The date string to parse.
-     * - `strict`: {@link Boolean} - `true` to validate date strings while parsing
-     * (i.e. prevent JavaScript Date "rollover"). __The default must be `false`.__
-     * Invalid date strings should return `null` when parsed.
-     *
-     * To enable Dates to also be _formatted_ according to that format, a corresponding
-     * formatting function must be placed into the {@link #formatFunctions} property.
-     * @property parseFunctions
-     * @type Object
-     */
-    parseFunctions: {
-        "MS": function(input, strict) {
-            // note: the timezone offset is ignored since the MS Ajax server sends
-            // a UTC milliseconds-since-Unix-epoch value (negative values are allowed)
-            var re = new RegExp('\\\\?/Date\\(([-+])?(\\d+)(?:[+-]\\d{4})?\\)\\\\?/');
-            var r = (input || '').match(re);
-            return r? new Date(((r[1] || '') + r[2]) * 1) : null;
-        }
-    },
-    parseRegexes: [],
-
-    /**
-     * An object hash in which each property is a date formatting function. The property name is the
-     * format string which corresponds to the produced formatted date string.
-     *
-     * This object is automatically populated with date formatting functions as
-     * date formats are requested for Ext standard formatting strings.
-     *
-     * Custom formatting functions may be inserted into this object, keyed by a name which from then on
-     * may be used as a format string to {@link #format}.
-     *
-     * Example:
-     *
-     *     Ext.Date.formatFunctions['x-date-format'] = myDateFormatter;
-     *
-     * A formatting function should return a string representation of the Date object which is the scope (this) of the function.
-     *
-     * To enable date strings to also be _parsed_ according to that format, a corresponding
-     * parsing function must be placed into the {@link #parseFunctions} property.
-     * @property formatFunctions
-     * @type Object
-     */
-    formatFunctions: {
-        "MS": function() {
-            // UTC milliseconds since Unix epoch (MS-AJAX serialized date format (MRSF))
-            return '\\/Date(' + this.getTime() + ')\\/';
-        }
-    },
-
-    y2kYear : 50,
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    MILLI : "ms",
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    SECOND : "s",
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    MINUTE : "mi",
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    HOUR : "h",
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    DAY : "d",
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    MONTH : "mo",
-
-    /**
-     * Date interval constant.
-     * @type String
-     * @readonly
-     */
-    YEAR : "y",
-
-    /**
-     * An object hash containing default date values used during date parsing.
-     *
-     * The following properties are available:
-     *
-     * - `y`: {@link Number} - The default year value. Defaults to `undefined`.
-     * - `m`: {@link Number} - The default 1-based month value. Defaults to `undefined`.
-     * - `d`: {@link Number} - The default day value. Defaults to `undefined`.
-     * - `h`: {@link Number} - The default hour value. Defaults to `undefined`.
-     * - `i`: {@link Number} - The default minute value. Defaults to `undefined`.
-     * - `s`: {@link Number} - The default second value. Defaults to `undefined`.
-     * - `ms`: {@link Number} - The default millisecond value. Defaults to `undefined`.
-     *
-     * Override these properties to customize the default date values used by the {@link #parse} method.
-     *
-     * __Note:__ In countries which experience Daylight Saving Time (i.e. DST), the `h`, `i`, `s`
-     * and `ms` properties may coincide with the exact time in which DST takes effect.
-     * It is the responsibility of the developer to account for this.
-     *
-     * Example Usage:
+     * Using Ext.setup:
      *
      *     @example
-     *     // set default day value to the first day of the month
-     *     Ext.Date.defaults.d = 1;
+     *     Ext.setup({
+     *         requires: 'Ext.DateExtras',
+     *         onReady: function() {
+     *             var date = new Date();
+     *             alert(Ext.Date.format(date, 'n/j/Y'));
+     *         }
+     *     });
      *
-     *     // parse a February date string containing only year and month values.
-     *     // setting the default day value to 1 prevents weird date rollover issues.
-     *     // when attempting to parse the following date string on, for example, March 31st 2009.
-     *     alert(Ext.Date.parse('2009-02', 'Y-m')); // returns a Date object representing February 1st 2009.
-     *
-     * @property defaults
-     * @type Object
-     */
-    defaults: {},
-
-    /**
-     * An array of textual day names.
-     * Override these values for international dates.
-     * Example:
-     *
-     *     Ext.Date.dayNames = [
-     *         'SundayInYourLang',
-     *         'MondayInYourLang'
-     *         // ...
-     *     ];
-     *
-     * @type Array
-     */
-    dayNames : [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-    ],
-
-    /**
-     * An array of textual month names.
-     * Override these values for international dates.
-     * Example:
-     *
-     *     Ext.Date.monthNames = [
-     *         'JanInYourLang',
-     *         'FebInYourLang'
-     *         // ...
-     *     ];
-     *
-     * @type Array
-     */
-    monthNames : [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ],
-
-    /**
-     * An object hash of zero-based JavaScript month numbers (with short month names as keys).
-     *
-     * __Note:__ keys are case-sensitive.
-     *
-     * Override these values for international dates.
-     * Example:
-     *
-     *     Ext.Date.monthNumbers = {
-     *         'ShortJanNameInYourLang': 0,
-     *         'ShortFebNameInYourLang': 1
-     *         // ...
-     *     };
-     *
-     * @type Object
-     */
-    monthNumbers : {
-        Jan:0,
-        Feb:1,
-        Mar:2,
-        Apr:3,
-        May:4,
-        Jun:5,
-        Jul:6,
-        Aug:7,
-        Sep:8,
-        Oct:9,
-        Nov:10,
-        Dec:11
-    },
-    /**
-     * The date format string that the {@link Ext.util.Format#date} function uses.
-     * See {@link Ext.Date} for details.
-     *
-     * This defaults to `m/d/Y`, but may be overridden in a locale file.
-     * @property defaultFormat
-     * @type String
-     */
-    defaultFormat : "m/d/Y",
-    /**
-     * Get the short month name for the given month number.
-     * Override this function for international dates.
-     * @param {Number} month A zero-based JavaScript month number.
-     * @return {String} The short month name.
-     */
-    getShortMonthName : function(month) {
-        return utilDate.monthNames[month].substring(0, 3);
-    },
-
-    /**
-     * Get the short day name for the given day number.
-     * Override this function for international dates.
-     * @param {Number} day A zero-based JavaScript day number.
-     * @return {String} The short day name.
-     */
-    getShortDayName : function(day) {
-        return utilDate.dayNames[day].substring(0, 3);
-    },
-
-    /**
-     * Get the zero-based JavaScript month number for the given short/full month name.
-     * Override this function for international dates.
-     * @param {String} name The short/full month name.
-     * @return {Number} The zero-based JavaScript month number.
-     */
-    getMonthNumber : function(name) {
-        // handle camel casing for English month names (since the keys for the Ext.Date.monthNumbers hash are case sensitive)
-        return utilDate.monthNumbers[name.substring(0, 1).toUpperCase() + name.substring(1, 3).toLowerCase()];
-    },
-
-    /**
-     * The base format-code to formatting-function hashmap used by the {@link #format} method.
-     * Formatting functions are strings (or functions which return strings) which
-     * will return the appropriate value when evaluated in the context of the Date object
-     * from which the {@link #format} method is called.
-     * Add to / override these mappings for custom date formatting.
-     *
-     * __Note:__ `Ext.Date.format()` treats characters as literals if an appropriate mapping cannot be found.
-     *
-     * Example:
+     * Using Ext.application:
      *
      *     @example
-     *     Ext.Date.formatCodes.x = "Ext.util.Format.leftPad(this.getDate(), 2, '0')";
-     *     alert(Ext.Date.format(new Date(), 'x')); // returns the current day of the month
+     *     Ext.application({
+     *         requires: 'Ext.DateExtras',
+     *         launch: function() {
+     *             var date = new Date();
+     *             alert(Ext.Date.format(date, 'n/j/Y'));
+     *         }
+     *     });
      *
-     * @type Object
+     * @singleton
      */
-    formatCodes : {
-        d: "Ext.String.leftPad(this.getDate(), 2, '0')",
-        D: "Ext.Date.getShortDayName(this.getDay())", // get localized short day name
-        j: "this.getDate()",
-        l: "Ext.Date.dayNames[this.getDay()]",
-        N: "(this.getDay() ? this.getDay() : 7)",
-        S: "Ext.Date.getSuffix(this)",
-        w: "this.getDay()",
-        z: "Ext.Date.getDayOfYear(this)",
-        W: "Ext.String.leftPad(Ext.Date.getWeekOfYear(this), 2, '0')",
-        F: "Ext.Date.monthNames[this.getMonth()]",
-        m: "Ext.String.leftPad(this.getMonth() + 1, 2, '0')",
-        M: "Ext.Date.getShortMonthName(this.getMonth())", // get localized short month name
-        n: "(this.getMonth() + 1)",
-        t: "Ext.Date.getDaysInMonth(this)",
-        L: "(Ext.Date.isLeapYear(this) ? 1 : 0)",
-        o: "(this.getFullYear() + (Ext.Date.getWeekOfYear(this) == 1 && this.getMonth() > 0 ? +1 : (Ext.Date.getWeekOfYear(this) >= 52 && this.getMonth() < 11 ? -1 : 0)))",
-        Y: "Ext.String.leftPad(this.getFullYear(), 4, '0')",
-        y: "('' + this.getFullYear()).substring(2, 4)",
-        a: "(this.getHours() < 12 ? 'am' : 'pm')",
-        A: "(this.getHours() < 12 ? 'AM' : 'PM')",
-        g: "((this.getHours() % 12) ? this.getHours() % 12 : 12)",
-        G: "this.getHours()",
-        h: "Ext.String.leftPad((this.getHours() % 12) ? this.getHours() % 12 : 12, 2, '0')",
-        H: "Ext.String.leftPad(this.getHours(), 2, '0')",
-        i: "Ext.String.leftPad(this.getMinutes(), 2, '0')",
-        s: "Ext.String.leftPad(this.getSeconds(), 2, '0')",
-        u: "Ext.String.leftPad(this.getMilliseconds(), 3, '0')",
-        O: "Ext.Date.getGMTOffset(this)",
-        P: "Ext.Date.getGMTOffset(this, true)",
-        T: "Ext.Date.getTimezone(this)",
-        Z: "(this.getTimezoneOffset() * -60)",
-
-        c: function() { // ISO-8601 -- GMT format
-            for (var c = "Y-m-dTH:i:sP", code = [], i = 0, l = c.length; i < l; ++i) {
-                var e = c.charAt(i);
-                code.push(e == "T" ? "'T'" : utilDate.getFormatCode(e)); // treat T as a character literal
-            }
-            return code.join(" + ");
+    Ext.DateExtras = {
+        /**
+         * Returns the current timestamp.
+         * @return {Number} The current timestamp.
+         * @method
+         */
+        now: Date.now || function() {
+            return +new Date();
         },
-        /*
+
+        /**
+         * Returns the number of milliseconds between two dates.
+         * @param {Date} dateA The first date.
+         * @param {Date} [dateB=new Date()] (optional) The second date, defaults to now.
+         * @return {Number} The difference in milliseconds.
+         */
+        getElapsed: function(dateA, dateB) {
+            return Math.abs(dateA - (dateB || new Date()));
+        },
+
+        /**
+         * Global flag which determines if strict date parsing should be used.
+         * Strict date parsing will not roll-over invalid dates, which is the
+         * default behavior of JavaScript Date objects.
+         * (see {@link #parse} for more information)
+         * @type Boolean
+         */
+        useStrict: false,
+
+        // @private
+        formatCodeToRegex: function(character, currentGroup) {
+            // Note: currentGroup - position in regex result array (see notes for Ext.Date.parseCodes below)
+            var p = utilDate.parseCodes[character];
+
+            if (p) {
+                p = typeof p == 'function' ? p() : p;
+                utilDate.parseCodes[character] = p; // reassign function result to prevent repeated execution
+            }
+
+            return p ? Ext.applyIf({
+                c: p.c ? xf(p.c, currentGroup || "{0}") : p.c
+            }, p) : {
+                g: 0,
+                c: null,
+                s: Ext.String.escapeRegex(character) // treat unrecognized characters as literals
+            };
+        },
+
+        /**
+         * An object hash in which each property is a date parsing function. The property name is the
+         * format string which that function parses.
+         *
+         * This object is automatically populated with date parsing functions as
+         * date formats are requested for Ext standard formatting strings.
+         *
+         * Custom parsing functions may be inserted into this object, keyed by a name which from then on
+         * may be used as a format string to {@link #parse}.
+         *
+         * Example:
+         *
+         *     Ext.Date.parseFunctions['x-date-format'] = myDateParser;
+         *
+         * A parsing function should return a Date object, and is passed the following parameters:
+         *
+         * - `date`: {@link String} - The date string to parse.
+         * - `strict`: {@link Boolean} - `true` to validate date strings while parsing
+         * (i.e. prevent JavaScript Date "rollover"). __The default must be `false`.__
+         * Invalid date strings should return `null` when parsed.
+         *
+         * To enable Dates to also be _formatted_ according to that format, a corresponding
+         * formatting function must be placed into the {@link #formatFunctions} property.
+         * @property parseFunctions
+         * @type Object
+         */
+        parseFunctions: {
+            "MS": function(input, strict) {
+                // note: the timezone offset is ignored since the MS Ajax server sends
+                // a UTC milliseconds-since-Unix-epoch value (negative values are allowed)
+                var re = new RegExp('\\\\?/Date\\(([-+])?(\\d+)(?:[+-]\\d{4})?\\)\\\\?/');
+                var r = (input || '').match(re);
+                return r ? new Date(((r[1] || '') + r[2]) * 1) : null;
+            }
+        },
+        parseRegexes: [],
+
+        /**
+         * An object hash in which each property is a date formatting function. The property name is the
+         * format string which corresponds to the produced formatted date string.
+         *
+         * This object is automatically populated with date formatting functions as
+         * date formats are requested for Ext standard formatting strings.
+         *
+         * Custom formatting functions may be inserted into this object, keyed by a name which from then on
+         * may be used as a format string to {@link #format}.
+         *
+         * Example:
+         *
+         *     Ext.Date.formatFunctions['x-date-format'] = myDateFormatter;
+         *
+         * A formatting function should return a string representation of the Date object which is the scope (this) of the function.
+         *
+         * To enable date strings to also be _parsed_ according to that format, a corresponding
+         * parsing function must be placed into the {@link #parseFunctions} property.
+         * @property formatFunctions
+         * @type Object
+         */
+        formatFunctions: {
+            "MS": function() {
+                // UTC milliseconds since Unix epoch (MS-AJAX serialized date format (MRSF))
+                return '\\/Date(' + this.getTime() + ')\\/';
+            }
+        },
+
+        y2kYear: 50,
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        MILLI: "ms",
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        SECOND: "s",
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        MINUTE: "mi",
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        HOUR: "h",
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        DAY: "d",
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        MONTH: "mo",
+
+        /**
+         * Date interval constant.
+         * @type String
+         * @readonly
+         */
+        YEAR: "y",
+
+        /**
+         * An object hash containing default date values used during date parsing.
+         *
+         * The following properties are available:
+         *
+         * - `y`: {@link Number} - The default year value. Defaults to `undefined`.
+         * - `m`: {@link Number} - The default 1-based month value. Defaults to `undefined`.
+         * - `d`: {@link Number} - The default day value. Defaults to `undefined`.
+         * - `h`: {@link Number} - The default hour value. Defaults to `undefined`.
+         * - `i`: {@link Number} - The default minute value. Defaults to `undefined`.
+         * - `s`: {@link Number} - The default second value. Defaults to `undefined`.
+         * - `ms`: {@link Number} - The default millisecond value. Defaults to `undefined`.
+         *
+         * Override these properties to customize the default date values used by the {@link #parse} method.
+         *
+         * __Note:__ In countries which experience Daylight Saving Time (i.e. DST), the `h`, `i`, `s`
+         * and `ms` properties may coincide with the exact time in which DST takes effect.
+         * It is the responsibility of the developer to account for this.
+         *
+         * Example Usage:
+         *
+         *     @example
+         *     // set default day value to the first day of the month
+         *     Ext.Date.defaults.d = 1;
+         *
+         *     // parse a February date string containing only year and month values.
+         *     // setting the default day value to 1 prevents weird date rollover issues.
+         *     // when attempting to parse the following date string on, for example, March 31st 2009.
+         *     alert(Ext.Date.parse('2009-02', 'Y-m')); // returns a Date object representing February 1st 2009.
+         *
+         * @property defaults
+         * @type Object
+         */
+        defaults: {},
+
+        /**
+         * An array of textual day names.
+         * Override these values for international dates.
+         * Example:
+         *
+         *     Ext.Date.dayNames = [
+         *         'SundayInYourLang',
+         *         'MondayInYourLang'
+         *         // ...
+         *     ];
+         *
+         * @type Array
+         */
+        dayNames: [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ],
+
+        /**
+         * An array of textual month names.
+         * Override these values for international dates.
+         * Example:
+         *
+         *     Ext.Date.monthNames = [
+         *         'JanInYourLang',
+         *         'FebInYourLang'
+         *         // ...
+         *     ];
+         *
+         * @type Array
+         */
+        monthNames: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+
+        /**
+         * An object hash of zero-based JavaScript month numbers (with short month names as keys).
+         *
+         * __Note:__ keys are case-sensitive.
+         *
+         * Override these values for international dates.
+         * Example:
+         *
+         *     Ext.Date.monthNumbers = {
+         *         'ShortJanNameInYourLang': 0,
+         *         'ShortFebNameInYourLang': 1
+         *         // ...
+         *     };
+         *
+         * @type Object
+         */
+        monthNumbers: {
+            Jan: 0,
+            Feb: 1,
+            Mar: 2,
+            Apr: 3,
+            May: 4,
+            Jun: 5,
+            Jul: 6,
+            Aug: 7,
+            Sep: 8,
+            Oct: 9,
+            Nov: 10,
+            Dec: 11
+        },
+        /**
+         * The date format string that the {@link Ext.util.Format#date} function uses.
+         * See {@link Ext.Date} for details.
+         *
+         * This defaults to `m/d/Y`, but may be overridden in a locale file.
+         * @property defaultFormat
+         * @type String
+         */
+        defaultFormat: "m/d/Y",
+        /**
+         * Get the short month name for the given month number.
+         * Override this function for international dates.
+         * @param {Number} month A zero-based JavaScript month number.
+         * @return {String} The short month name.
+         */
+        getShortMonthName: function(month) {
+            return utilDate.monthNames[month].substring(0, 3);
+        },
+
+        /**
+         * Get the short day name for the given day number.
+         * Override this function for international dates.
+         * @param {Number} day A zero-based JavaScript day number.
+         * @return {String} The short day name.
+         */
+        getShortDayName: function(day) {
+            return utilDate.dayNames[day].substring(0, 3);
+        },
+
+        /**
+         * Get the zero-based JavaScript month number for the given short/full month name.
+         * Override this function for international dates.
+         * @param {String} name The short/full month name.
+         * @return {Number} The zero-based JavaScript month number.
+         */
+        getMonthNumber: function(name) {
+            // handle camel casing for English month names (since the keys for the Ext.Date.monthNumbers hash are case sensitive)
+            return utilDate.monthNumbers[name.substring(0, 1).toUpperCase() + name.substring(1, 3).toLowerCase()];
+        },
+
+        /**
+         * The base format-code to formatting-function hashmap used by the {@link #format} method.
+         * Formatting functions are strings (or functions which return strings) which
+         * will return the appropriate value when evaluated in the context of the Date object
+         * from which the {@link #format} method is called.
+         * Add to / override these mappings for custom date formatting.
+         *
+         * __Note:__ `Ext.Date.format()` treats characters as literals if an appropriate mapping cannot be found.
+         *
+         * Example:
+         *
+         *     @example
+         *     Ext.Date.formatCodes.x = "Ext.util.Format.leftPad(this.getDate(), 2, '0')";
+         *     alert(Ext.Date.format(new Date(), 'x')); // returns the current day of the month
+         *
+         * @type Object
+         */
+        formatCodes: {
+            d: "Ext.String.leftPad(this.getDate(), 2, '0')",
+            D: "Ext.Date.getShortDayName(this.getDay())", // get localized short day name
+            j: "this.getDate()",
+            l: "Ext.Date.dayNames[this.getDay()]",
+            N: "(this.getDay() ? this.getDay() : 7)",
+            S: "Ext.Date.getSuffix(this)",
+            w: "this.getDay()",
+            z: "Ext.Date.getDayOfYear(this)",
+            W: "Ext.String.leftPad(Ext.Date.getWeekOfYear(this), 2, '0')",
+            F: "Ext.Date.monthNames[this.getMonth()]",
+            m: "Ext.String.leftPad(this.getMonth() + 1, 2, '0')",
+            M: "Ext.Date.getShortMonthName(this.getMonth())", // get localized short month name
+            n: "(this.getMonth() + 1)",
+            t: "Ext.Date.getDaysInMonth(this)",
+            L: "(Ext.Date.isLeapYear(this) ? 1 : 0)",
+            o: "(this.getFullYear() + (Ext.Date.getWeekOfYear(this) == 1 && this.getMonth() > 0 ? +1 : (Ext.Date.getWeekOfYear(this) >= 52 && this.getMonth() < 11 ? -1 : 0)))",
+            Y: "Ext.String.leftPad(this.getFullYear(), 4, '0')",
+            y: "('' + this.getFullYear()).substring(2, 4)",
+            a: "(this.getHours() < 12 ? 'am' : 'pm')",
+            A: "(this.getHours() < 12 ? 'AM' : 'PM')",
+            g: "((this.getHours() % 12) ? this.getHours() % 12 : 12)",
+            G: "this.getHours()",
+            h: "Ext.String.leftPad((this.getHours() % 12) ? this.getHours() % 12 : 12, 2, '0')",
+            H: "Ext.String.leftPad(this.getHours(), 2, '0')",
+            i: "Ext.String.leftPad(this.getMinutes(), 2, '0')",
+            s: "Ext.String.leftPad(this.getSeconds(), 2, '0')",
+            u: "Ext.String.leftPad(this.getMilliseconds(), 3, '0')",
+            O: "Ext.Date.getGMTOffset(this)",
+            P: "Ext.Date.getGMTOffset(this, true)",
+            T: "Ext.Date.getTimezone(this)",
+            Z: "(this.getTimezoneOffset() * -60)",
+
+            c: function() { // ISO-8601 -- GMT format
+                for (var c = "Y-m-dTH:i:sP", code = [], i = 0, l = c.length; i < l; ++i) {
+                    var e = c.charAt(i);
+                    code.push(e == "T" ? "'T'" : utilDate.getFormatCode(e)); // treat T as a character literal
+                }
+                return code.join(" + ");
+            },
+            /*
         c: function() { // ISO-8601 -- UTC format
             return [
               "this.getUTCFullYear()", "'-'",
@@ -18127,190 +17994,103 @@ Ext.DateExtras = {
         },
         */
 
-        U: "Math.round(this.getTime() / 1000)"
-    },
+            U: "Math.round(this.getTime() / 1000)"
+        },
 
-    /**
-     * Checks if the passed Date parameters will cause a JavaScript Date "rollover".
-     * @param {Number} year 4-digit year.
-     * @param {Number} month 1-based month-of-year.
-     * @param {Number} day Day of month.
-     * @param {Number} [hour] Hour.
-     * @param {Number} [minute] Minute.
-     * @param {Number} [second] Second.
-     * @param {Number} [millisecond] Millisecond.
-     * @return {Boolean} `true` if the passed parameters do not cause a Date "rollover", `false` otherwise.
-     */
-    isValid : function(y, m, d, h, i, s, ms) {
-        // setup defaults
-        h = h || 0;
-        i = i || 0;
-        s = s || 0;
-        ms = ms || 0;
+        /**
+         * Checks if the passed Date parameters will cause a JavaScript Date "rollover".
+         * @param {Number} year 4-digit year.
+         * @param {Number} month 1-based month-of-year.
+         * @param {Number} day Day of month.
+         * @param {Number} [hour] Hour.
+         * @param {Number} [minute] Minute.
+         * @param {Number} [second] Second.
+         * @param {Number} [millisecond] Millisecond.
+         * @return {Boolean} `true` if the passed parameters do not cause a Date "rollover", `false` otherwise.
+         */
+        isValid: function(y, m, d, h, i, s, ms) {
+            // setup defaults
+            h = h || 0;
+            i = i || 0;
+            s = s || 0;
+            ms = ms || 0;
 
-        // Special handling for year < 100
-        var dt = utilDate.add(new Date(y < 100 ? 100 : y, m - 1, d, h, i, s, ms), utilDate.YEAR, y < 100 ? y - 100 : 0);
+            // Special handling for year < 100
+            var dt = utilDate.add(new Date(y < 100 ? 100 : y, m - 1, d, h, i, s, ms), utilDate.YEAR, y < 100 ? y - 100 : 0);
 
-        return y == dt.getFullYear() &&
-            m == dt.getMonth() + 1 &&
-            d == dt.getDate() &&
-            h == dt.getHours() &&
-            i == dt.getMinutes() &&
-            s == dt.getSeconds() &&
-            ms == dt.getMilliseconds();
-    },
+            return y == dt.getFullYear() &&
+                m == dt.getMonth() + 1 &&
+                d == dt.getDate() &&
+                h == dt.getHours() &&
+                i == dt.getMinutes() &&
+                s == dt.getSeconds() &&
+                ms == dt.getMilliseconds();
+        },
 
-    /**
-     * Parses the passed string using the specified date format.
-     * Note that this function expects normal calendar dates, meaning that months are 1-based (i.e. 1 = January).
-     * The {@link #defaults} hash will be used for any date value (i.e. year, month, day, hour, minute, second or millisecond)
-     * which cannot be found in the passed string. If a corresponding default date value has not been specified in the {@link #defaults} hash,
-     * the current date's year, month, day or DST-adjusted zero-hour time value will be used instead.
-     * Keep in mind that the input date string must precisely match the specified format string
-     * in order for the parse operation to be successful (failed parse operations return a `null` value).
-     *
-     * Example:
-     *
-     *     // dt = Fri May 25 2007 (current date)
-     *     var dt = new Date();
-     *
-     *     // dt = Thu May 25 2006 (today's month/day in 2006)
-     *     dt = Ext.Date.parse("2006", "Y");
-     *
-     *     // dt = Sun Jan 15 2006 (all date parts specified)
-     *     dt = Ext.Date.parse("2006-01-15", "Y-m-d");
-     *
-     *     // dt = Sun Jan 15 2006 15:20:01
-     *     dt = Ext.Date.parse("2006-01-15 3:20:01 PM", "Y-m-d g:i:s A");
-     *
-     *     // attempt to parse Sun Feb 29 2006 03:20:01 in strict mode
-     *     dt = Ext.Date.parse("2006-02-29 03:20:01", "Y-m-d H:i:s", true); // null
-     *
-     * @param {String/Number} input The raw date string.
-     * @param {String} format The expected date string format.
-     * @param {Boolean} [strict=false] (optional) `true` to validate date strings while parsing (i.e. prevents JavaScript Date "rollover").
-     * Invalid date strings will return `null` when parsed.
-     * @return {Date/null} The parsed Date, or `null` if an invalid date string.
-     */
-    parse : function(input, format, strict) {
-        var p = utilDate.parseFunctions;
-        if (p[format] == null) {
-            utilDate.createParser(format);
-        }
-        return p[format](input, Ext.isDefined(strict) ? strict : utilDate.useStrict);
-    },
-
-    // Backwards compat
-    parseDate: function(input, format, strict){
-        return utilDate.parse(input, format, strict);
-    },
-
-
-    // @private
-    getFormatCode : function(character) {
-        var f = utilDate.formatCodes[character];
-
-        if (f) {
-          f = typeof f == 'function'? f() : f;
-          utilDate.formatCodes[character] = f; // reassign function result to prevent repeated execution
-        }
-
-        // note: unknown characters are treated as literals
-        return f || ("'" + Ext.String.escape(character) + "'");
-    },
-
-    // @private
-    createFormat : function(format) {
-        var code = [],
-            special = false,
-            ch = '';
-
-        for (var i = 0; i < format.length; ++i) {
-            ch = format.charAt(i);
-            if (!special && ch == "\\") {
-                special = true;
-            } else if (special) {
-                special = false;
-                code.push("'" + Ext.String.escape(ch) + "'");
-            } else if (ch == '\n') {
-                code.push(Ext.JSON.encode(ch));
-            } else {
-                code.push(utilDate.getFormatCode(ch));
+        /**
+         * Parses the passed string using the specified date format.
+         * Note that this function expects normal calendar dates, meaning that months are 1-based (i.e. 1 = January).
+         * The {@link #defaults} hash will be used for any date value (i.e. year, month, day, hour, minute, second or millisecond)
+         * which cannot be found in the passed string. If a corresponding default date value has not been specified in the {@link #defaults} hash,
+         * the current date's year, month, day or DST-adjusted zero-hour time value will be used instead.
+         * Keep in mind that the input date string must precisely match the specified format string
+         * in order for the parse operation to be successful (failed parse operations return a `null` value).
+         *
+         * Example:
+         *
+         *     // dt = Fri May 25 2007 (current date)
+         *     var dt = new Date();
+         *
+         *     // dt = Thu May 25 2006 (today's month/day in 2006)
+         *     dt = Ext.Date.parse("2006", "Y");
+         *
+         *     // dt = Sun Jan 15 2006 (all date parts specified)
+         *     dt = Ext.Date.parse("2006-01-15", "Y-m-d");
+         *
+         *     // dt = Sun Jan 15 2006 15:20:01
+         *     dt = Ext.Date.parse("2006-01-15 3:20:01 PM", "Y-m-d g:i:s A");
+         *
+         *     // attempt to parse Sun Feb 29 2006 03:20:01 in strict mode
+         *     dt = Ext.Date.parse("2006-02-29 03:20:01", "Y-m-d H:i:s", true); // null
+         *
+         * @param {String/Number} input The raw date string.
+         * @param {String} format The expected date string format.
+         * @param {Boolean} [strict=false] (optional) `true` to validate date strings while parsing (i.e. prevents JavaScript Date "rollover").
+         * Invalid date strings will return `null` when parsed.
+         * @return {Date/null} The parsed Date, or `null` if an invalid date string.
+         */
+        parse: function(input, format, strict) {
+            var p = utilDate.parseFunctions;
+            if (p[format] == null) {
+                utilDate.createParser(format);
             }
-        }
-        utilDate.formatFunctions[format] = Ext.functionFactory("return " + code.join('+'));
-    },
+            return p[format](input, Ext.isDefined(strict) ? strict : utilDate.useStrict);
+        },
 
-    // @private
-    createParser : (function() {
-        var code = [
-            "var dt, y, m, d, h, i, s, ms, o, z, zz, u, v,",
-                "def = Ext.Date.defaults,",
-                "results = String(input).match(Ext.Date.parseRegexes[{0}]);", // either null, or an array of matched strings
+        // Backwards compat
+        parseDate: function(input, format, strict) {
+            return utilDate.parse(input, format, strict);
+        },
 
-            "if(results){",
-                "{1}",
 
-                "if(u != null){", // i.e. unix time is defined
-                    "v = new Date(u * 1000);", // give top priority to UNIX time
-                "}else{",
-                    // create Date object representing midnight of the current day;
-                    // this will provide us with our date defaults
-                    // (note: clearTime() handles Daylight Saving Time automatically)
-                    "dt = Ext.Date.clearTime(new Date);",
+        // @private
+        getFormatCode: function(character) {
+            var f = utilDate.formatCodes[character];
 
-                    // date calculations (note: these calculations create a dependency on Ext.Number.from())
-                    "y = Ext.Number.from(y, Ext.Number.from(def.y, dt.getFullYear()));",
-                    "m = Ext.Number.from(m, Ext.Number.from(def.m - 1, dt.getMonth()));",
-                    "d = Ext.Number.from(d, Ext.Number.from(def.d, dt.getDate()));",
+            if (f) {
+                f = typeof f == 'function' ? f() : f;
+                utilDate.formatCodes[character] = f; // reassign function result to prevent repeated execution
+            }
 
-                    // time calculations (note: these calculations create a dependency on Ext.Number.from())
-                    "h  = Ext.Number.from(h, Ext.Number.from(def.h, dt.getHours()));",
-                    "i  = Ext.Number.from(i, Ext.Number.from(def.i, dt.getMinutes()));",
-                    "s  = Ext.Number.from(s, Ext.Number.from(def.s, dt.getSeconds()));",
-                    "ms = Ext.Number.from(ms, Ext.Number.from(def.ms, dt.getMilliseconds()));",
+            // note: unknown characters are treated as literals
+            return f || ("'" + Ext.String.escape(character) + "'");
+        },
 
-                    "if(z >= 0 && y >= 0){",
-                        // both the year and zero-based day of year are defined and >= 0.
-                        // these 2 values alone provide sufficient info to create a full date object
-
-                        // create Date object representing January 1st for the given year
-                        // handle years < 100 appropriately
-                        "v = Ext.Date.add(new Date(y < 100 ? 100 : y, 0, 1, h, i, s, ms), Ext.Date.YEAR, y < 100 ? y - 100 : 0);",
-
-                        // then add day of year, checking for Date "rollover" if necessary
-                        "v = !strict? v : (strict === true && (z <= 364 || (Ext.Date.isLeapYear(v) && z <= 365))? Ext.Date.add(v, Ext.Date.DAY, z) : null);",
-                    "}else if(strict === true && !Ext.Date.isValid(y, m + 1, d, h, i, s, ms)){", // check for Date "rollover"
-                        "v = null;", // invalid date, so return null
-                    "}else{",
-                        // plain old Date object
-                        // handle years < 100 properly
-                        "v = Ext.Date.add(new Date(y < 100 ? 100 : y, m, d, h, i, s, ms), Ext.Date.YEAR, y < 100 ? y - 100 : 0);",
-                    "}",
-                "}",
-            "}",
-
-            "if(v){",
-                // favor UTC offset over GMT offset
-                "if(zz != null){",
-                    // reset to UTC, then add offset
-                    "v = Ext.Date.add(v, Ext.Date.SECOND, -v.getTimezoneOffset() * 60 - zz);",
-                "}else if(o){",
-                    // reset to GMT, then add offset
-                    "v = Ext.Date.add(v, Ext.Date.MINUTE, -v.getTimezoneOffset() + (sn == '+'? -1 : 1) * (hr * 60 + mn));",
-                "}",
-            "}",
-
-            "return v;"
-        ].join('\n');
-
-        return function(format) {
-            var regexNum = utilDate.parseRegexes.length,
-                currentGroup = 1,
-                calc = [],
-                regex = [],
+        // @private
+        createFormat: function(format) {
+            var code = [],
                 special = false,
-                ch = "";
+                ch = '';
 
             for (var i = 0; i < format.length; ++i) {
                 ch = format.charAt(i);
@@ -18318,764 +18098,848 @@ Ext.DateExtras = {
                     special = true;
                 } else if (special) {
                     special = false;
-                    regex.push(Ext.String.escape(ch));
+                    code.push("'" + Ext.String.escape(ch) + "'");
+                } else if (ch == '\n') {
+                    code.push(Ext.JSON.encode(ch));
                 } else {
-                    var obj = utilDate.formatCodeToRegex(ch, currentGroup);
-                    currentGroup += obj.g;
-                    regex.push(obj.s);
-                    if (obj.g && obj.c) {
-                        calc.push(obj.c);
+                    code.push(utilDate.getFormatCode(ch));
+                }
+            }
+            utilDate.formatFunctions[format] = Ext.functionFactory("return " + code.join('+'));
+        },
+
+        // @private
+        createParser: (function() {
+            var code = [
+                "var dt, y, m, d, h, i, s, ms, o, z, zz, u, v,",
+                "def = Ext.Date.defaults,",
+                "results = String(input).match(Ext.Date.parseRegexes[{0}]);", // either null, or an array of matched strings
+
+                "if(results){",
+                "{1}",
+
+                "if(u != null){", // i.e. unix time is defined
+                "v = new Date(u * 1000);", // give top priority to UNIX time
+                "}else{",
+                // create Date object representing midnight of the current day;
+                // this will provide us with our date defaults
+                // (note: clearTime() handles Daylight Saving Time automatically)
+                "dt = Ext.Date.clearTime(new Date);",
+
+                // date calculations (note: these calculations create a dependency on Ext.Number.from())
+                "y = Ext.Number.from(y, Ext.Number.from(def.y, dt.getFullYear()));",
+                "m = Ext.Number.from(m, Ext.Number.from(def.m - 1, dt.getMonth()));",
+                "d = Ext.Number.from(d, Ext.Number.from(def.d, dt.getDate()));",
+
+                // time calculations (note: these calculations create a dependency on Ext.Number.from())
+                "h  = Ext.Number.from(h, Ext.Number.from(def.h, dt.getHours()));",
+                "i  = Ext.Number.from(i, Ext.Number.from(def.i, dt.getMinutes()));",
+                "s  = Ext.Number.from(s, Ext.Number.from(def.s, dt.getSeconds()));",
+                "ms = Ext.Number.from(ms, Ext.Number.from(def.ms, dt.getMilliseconds()));",
+
+                "if(z >= 0 && y >= 0){",
+                // both the year and zero-based day of year are defined and >= 0.
+                // these 2 values alone provide sufficient info to create a full date object
+
+                // create Date object representing January 1st for the given year
+                // handle years < 100 appropriately
+                "v = Ext.Date.add(new Date(y < 100 ? 100 : y, 0, 1, h, i, s, ms), Ext.Date.YEAR, y < 100 ? y - 100 : 0);",
+
+                // then add day of year, checking for Date "rollover" if necessary
+                "v = !strict? v : (strict === true && (z <= 364 || (Ext.Date.isLeapYear(v) && z <= 365))? Ext.Date.add(v, Ext.Date.DAY, z) : null);",
+                "}else if(strict === true && !Ext.Date.isValid(y, m + 1, d, h, i, s, ms)){", // check for Date "rollover"
+                "v = null;", // invalid date, so return null
+                "}else{",
+                // plain old Date object
+                // handle years < 100 properly
+                "v = Ext.Date.add(new Date(y < 100 ? 100 : y, m, d, h, i, s, ms), Ext.Date.YEAR, y < 100 ? y - 100 : 0);",
+                "}",
+                "}",
+                "}",
+
+                "if(v){",
+                // favor UTC offset over GMT offset
+                "if(zz != null){",
+                // reset to UTC, then add offset
+                "v = Ext.Date.add(v, Ext.Date.SECOND, -v.getTimezoneOffset() * 60 - zz);",
+                "}else if(o){",
+                // reset to GMT, then add offset
+                "v = Ext.Date.add(v, Ext.Date.MINUTE, -v.getTimezoneOffset() + (sn == '+'? -1 : 1) * (hr * 60 + mn));",
+                "}",
+                "}",
+
+                "return v;"
+            ].join('\n');
+
+            return function(format) {
+                var regexNum = utilDate.parseRegexes.length,
+                    currentGroup = 1,
+                    calc = [],
+                    regex = [],
+                    special = false,
+                    ch = "";
+
+                for (var i = 0; i < format.length; ++i) {
+                    ch = format.charAt(i);
+                    if (!special && ch == "\\") {
+                        special = true;
+                    } else if (special) {
+                        special = false;
+                        regex.push(Ext.String.escape(ch));
+                    } else {
+                        var obj = utilDate.formatCodeToRegex(ch, currentGroup);
+                        currentGroup += obj.g;
+                        regex.push(obj.s);
+                        if (obj.g && obj.c) {
+                            calc.push(obj.c);
+                        }
                     }
                 }
-            }
 
-            utilDate.parseRegexes[regexNum] = new RegExp("^" + regex.join('') + "$", 'i');
-            utilDate.parseFunctions[format] = Ext.functionFactory("input", "strict", xf(code, regexNum, calc.join('')));
-        };
-    })(),
+                utilDate.parseRegexes[regexNum] = new RegExp("^" + regex.join('') + "$", 'i');
+                utilDate.parseFunctions[format] = Ext.functionFactory("input", "strict", xf(code, regexNum, calc.join('')));
+            };
+        })(),
 
-    // @private
-    parseCodes : {
-        /*
-         * Notes:
-         * g = {Number} calculation group (0 or 1. only group 1 contributes to date calculations.)
-         * c = {String} calculation method (required for group 1. null for group 0. {0} = currentGroup - position in regex result array)
-         * s = {String} regex pattern. all matches are stored in results[], and are accessible by the calculation mapped to 'c'
-         */
-        d: {
-            g:1,
-            c:"d = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" // day of month with leading zeros (01 - 31)
-        },
-        j: {
-            g:1,
-            c:"d = parseInt(results[{0}], 10);\n",
-            s:"(\\d{1,2})" // day of month without leading zeros (1 - 31)
-        },
-        D: function() {
-            for (var a = [], i = 0; i < 7; a.push(utilDate.getShortDayName(i)), ++i); // get localized short day names
-            return {
-                g:0,
-                c:null,
-                s:"(?:" + a.join("|") +")"
-            };
-        },
-        l: function() {
-            return {
-                g:0,
-                c:null,
-                s:"(?:" + utilDate.dayNames.join("|") + ")"
-            };
-        },
-        N: {
-            g:0,
-            c:null,
-            s:"[1-7]" // ISO-8601 day number (1 (monday) - 7 (sunday))
-        },
-        S: {
-            g:0,
-            c:null,
-            s:"(?:st|nd|rd|th)"
-        },
-        w: {
-            g:0,
-            c:null,
-            s:"[0-6]" // JavaScript day number (0 (sunday) - 6 (saturday))
-        },
-        z: {
-            g:1,
-            c:"z = parseInt(results[{0}], 10);\n",
-            s:"(\\d{1,3})" // day of the year (0 - 364 (365 in leap years))
-        },
-        W: {
-            g:0,
-            c:null,
-            s:"(?:\\d{2})" // ISO-8601 week number (with leading zero)
-        },
-        F: function() {
-            return {
-                g:1,
-                c:"m = parseInt(Ext.Date.getMonthNumber(results[{0}]), 10);\n", // get localized month number
-                s:"(" + utilDate.monthNames.join("|") + ")"
-            };
-        },
-        M: function() {
-            for (var a = [], i = 0; i < 12; a.push(utilDate.getShortMonthName(i)), ++i); // get localized short month names
-            return Ext.applyIf({
-                s:"(" + a.join("|") + ")"
-            }, utilDate.formatCodeToRegex("F"));
-        },
-        m: {
-            g:1,
-            c:"m = parseInt(results[{0}], 10) - 1;\n",
-            s:"(\\d{2})" // month number with leading zeros (01 - 12)
-        },
-        n: {
-            g:1,
-            c:"m = parseInt(results[{0}], 10) - 1;\n",
-            s:"(\\d{1,2})" // month number without leading zeros (1 - 12)
-        },
-        t: {
-            g:0,
-            c:null,
-            s:"(?:\\d{2})" // no. of days in the month (28 - 31)
-        },
-        L: {
-            g:0,
-            c:null,
-            s:"(?:1|0)"
-        },
-        o: function() {
-            return utilDate.formatCodeToRegex("Y");
-        },
-        Y: {
-            g:1,
-            c:"y = parseInt(results[{0}], 10);\n",
-            s:"(\\d{4})" // 4-digit year
-        },
-        y: {
-            g:1,
-            c:"var ty = parseInt(results[{0}], 10);\n"
-                + "y = ty > Ext.Date.y2kYear ? 1900 + ty : 2000 + ty;\n", // 2-digit year
-            s:"(\\d{1,2})"
-        },
-        /*
-         * In the am/pm parsing routines, we allow both upper and lower case
-         * even though it doesn't exactly match the spec. It gives much more flexibility
-         * in being able to specify case insensitive regexes.
-         */
-        a: {
-            g:1,
-            c:"if (/(am)/i.test(results[{0}])) {\n"
-                + "if (!h || h == 12) { h = 0; }\n"
-                + "} else { if (!h || h < 12) { h = (h || 0) + 12; }}",
-            s:"(am|pm|AM|PM)"
-        },
-        A: {
-            g:1,
-            c:"if (/(am)/i.test(results[{0}])) {\n"
-                + "if (!h || h == 12) { h = 0; }\n"
-                + "} else { if (!h || h < 12) { h = (h || 0) + 12; }}",
-            s:"(AM|PM|am|pm)"
-        },
-        g: function() {
-            return utilDate.formatCodeToRegex("G");
-        },
-        G: {
-            g:1,
-            c:"h = parseInt(results[{0}], 10);\n",
-            s:"(\\d{1,2})" // 24-hr format of an hour without leading zeros (0 - 23)
-        },
-        h: function() {
-            return utilDate.formatCodeToRegex("H");
-        },
-        H: {
-            g:1,
-            c:"h = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" //  24-hr format of an hour with leading zeros (00 - 23)
-        },
-        i: {
-            g:1,
-            c:"i = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" // minutes with leading zeros (00 - 59)
-        },
-        s: {
-            g:1,
-            c:"s = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" // seconds with leading zeros (00 - 59)
-        },
-        u: {
-            g:1,
-            c:"ms = results[{0}]; ms = parseInt(ms, 10)/Math.pow(10, ms.length - 3);\n",
-            s:"(\\d+)" // decimal fraction of a second (minimum = 1 digit, maximum = unlimited)
-        },
-        O: {
-            g:1,
-            c:[
-                "o = results[{0}];",
-                "var sn = o.substring(0,1),", // get + / - sign
+        // @private
+        parseCodes: {
+            /*
+             * Notes:
+             * g = {Number} calculation group (0 or 1. only group 1 contributes to date calculations.)
+             * c = {String} calculation method (required for group 1. null for group 0. {0} = currentGroup - position in regex result array)
+             * s = {String} regex pattern. all matches are stored in results[], and are accessible by the calculation mapped to 'c'
+             */
+            d: {
+                g: 1,
+                c: "d = parseInt(results[{0}], 10);\n",
+                s: "(\\d{2})" // day of month with leading zeros (01 - 31)
+            },
+            j: {
+                g: 1,
+                c: "d = parseInt(results[{0}], 10);\n",
+                s: "(\\d{1,2})" // day of month without leading zeros (1 - 31)
+            },
+            D: function() {
+                for (var a = [], i = 0; i < 7; a.push(utilDate.getShortDayName(i)), ++i); // get localized short day names
+                return {
+                    g: 0,
+                    c: null,
+                    s: "(?:" + a.join("|") + ")"
+                };
+            },
+            l: function() {
+                return {
+                    g: 0,
+                    c: null,
+                    s: "(?:" + utilDate.dayNames.join("|") + ")"
+                };
+            },
+            N: {
+                g: 0,
+                c: null,
+                s: "[1-7]" // ISO-8601 day number (1 (monday) - 7 (sunday))
+            },
+            S: {
+                g: 0,
+                c: null,
+                s: "(?:st|nd|rd|th)"
+            },
+            w: {
+                g: 0,
+                c: null,
+                s: "[0-6]" // JavaScript day number (0 (sunday) - 6 (saturday))
+            },
+            z: {
+                g: 1,
+                c: "z = parseInt(results[{0}], 10);\n",
+                s: "(\\d{1,3})" // day of the year (0 - 364 (365 in leap years))
+            },
+            W: {
+                g: 0,
+                c: null,
+                s: "(?:\\d{2})" // ISO-8601 week number (with leading zero)
+            },
+            F: function() {
+                return {
+                    g: 1,
+                    c: "m = parseInt(Ext.Date.getMonthNumber(results[{0}]), 10);\n", // get localized month number
+                    s: "(" + utilDate.monthNames.join("|") + ")"
+                };
+            },
+            M: function() {
+                for (var a = [], i = 0; i < 12; a.push(utilDate.getShortMonthName(i)), ++i); // get localized short month names
+                return Ext.applyIf({
+                    s: "(" + a.join("|") + ")"
+                }, utilDate.formatCodeToRegex("F"));
+            },
+            m: {
+                g: 1,
+                c: "m = parseInt(results[{0}], 10) - 1;\n",
+                s: "(\\d{2})" // month number with leading zeros (01 - 12)
+            },
+            n: {
+                g: 1,
+                c: "m = parseInt(results[{0}], 10) - 1;\n",
+                s: "(\\d{1,2})" // month number without leading zeros (1 - 12)
+            },
+            t: {
+                g: 0,
+                c: null,
+                s: "(?:\\d{2})" // no. of days in the month (28 - 31)
+            },
+            L: {
+                g: 0,
+                c: null,
+                s: "(?:1|0)"
+            },
+            o: function() {
+                return utilDate.formatCodeToRegex("Y");
+            },
+            Y: {
+                g: 1,
+                c: "y = parseInt(results[{0}], 10);\n",
+                s: "(\\d{4})" // 4-digit year
+            },
+            y: {
+                g: 1,
+                c: "var ty = parseInt(results[{0}], 10);\n" + "y = ty > Ext.Date.y2kYear ? 1900 + ty : 2000 + ty;\n", // 2-digit year
+                s: "(\\d{1,2})"
+            },
+            /*
+             * In the am/pm parsing routines, we allow both upper and lower case
+             * even though it doesn't exactly match the spec. It gives much more flexibility
+             * in being able to specify case insensitive regexes.
+             */
+            a: {
+                g: 1,
+                c: "if (/(am)/i.test(results[{0}])) {\n" + "if (!h || h == 12) { h = 0; }\n" + "} else { if (!h || h < 12) { h = (h || 0) + 12; }}",
+                s: "(am|pm|AM|PM)"
+            },
+            A: {
+                g: 1,
+                c: "if (/(am)/i.test(results[{0}])) {\n" + "if (!h || h == 12) { h = 0; }\n" + "} else { if (!h || h < 12) { h = (h || 0) + 12; }}",
+                s: "(AM|PM|am|pm)"
+            },
+            g: function() {
+                return utilDate.formatCodeToRegex("G");
+            },
+            G: {
+                g: 1,
+                c: "h = parseInt(results[{0}], 10);\n",
+                s: "(\\d{1,2})" // 24-hr format of an hour without leading zeros (0 - 23)
+            },
+            h: function() {
+                return utilDate.formatCodeToRegex("H");
+            },
+            H: {
+                g: 1,
+                c: "h = parseInt(results[{0}], 10);\n",
+                s: "(\\d{2})" //  24-hr format of an hour with leading zeros (00 - 23)
+            },
+            i: {
+                g: 1,
+                c: "i = parseInt(results[{0}], 10);\n",
+                s: "(\\d{2})" // minutes with leading zeros (00 - 59)
+            },
+            s: {
+                g: 1,
+                c: "s = parseInt(results[{0}], 10);\n",
+                s: "(\\d{2})" // seconds with leading zeros (00 - 59)
+            },
+            u: {
+                g: 1,
+                c: "ms = results[{0}]; ms = parseInt(ms, 10)/Math.pow(10, ms.length - 3);\n",
+                s: "(\\d+)" // decimal fraction of a second (minimum = 1 digit, maximum = unlimited)
+            },
+            O: {
+                g: 1,
+                c: [
+                    "o = results[{0}];",
+                    "var sn = o.substring(0,1),", // get + / - sign
                     "hr = o.substring(1,3)*1 + Math.floor(o.substring(3,5) / 60),", // get hours (performs minutes-to-hour conversion also, just in case)
                     "mn = o.substring(3,5) % 60;", // get minutes
-                "o = ((-12 <= (hr*60 + mn)/60) && ((hr*60 + mn)/60 <= 14))? (sn + Ext.String.leftPad(hr, 2, '0') + Ext.String.leftPad(mn, 2, '0')) : null;\n" // -12hrs <= GMT offset <= 14hrs
-            ].join("\n"),
-            s: "([+\-]\\d{4})" // GMT offset in hrs and mins
-        },
-        P: {
-            g:1,
-            c:[
-                "o = results[{0}];",
-                "var sn = o.substring(0,1),", // get + / - sign
+                    "o = ((-12 <= (hr*60 + mn)/60) && ((hr*60 + mn)/60 <= 14))? (sn + Ext.String.leftPad(hr, 2, '0') + Ext.String.leftPad(mn, 2, '0')) : null;\n" // -12hrs <= GMT offset <= 14hrs
+                ].join("\n"),
+                s: "([+\-]\\d{4})" // GMT offset in hrs and mins
+            },
+            P: {
+                g: 1,
+                c: [
+                    "o = results[{0}];",
+                    "var sn = o.substring(0,1),", // get + / - sign
                     "hr = o.substring(1,3)*1 + Math.floor(o.substring(4,6) / 60),", // get hours (performs minutes-to-hour conversion also, just in case)
                     "mn = o.substring(4,6) % 60;", // get minutes
-                "o = ((-12 <= (hr*60 + mn)/60) && ((hr*60 + mn)/60 <= 14))? (sn + Ext.String.leftPad(hr, 2, '0') + Ext.String.leftPad(mn, 2, '0')) : null;\n" // -12hrs <= GMT offset <= 14hrs
-            ].join("\n"),
-            s: "([+\-]\\d{2}:\\d{2})" // GMT offset in hrs and mins (with colon separator)
-        },
-        T: {
-            g:0,
-            c:null,
-            s:"[A-Z]{1,4}" // timezone abbrev. may be between 1 - 4 chars
-        },
-        Z: {
-            g:1,
-            c:"zz = results[{0}] * 1;\n" // -43200 <= UTC offset <= 50400
-                  + "zz = (-43200 <= zz && zz <= 50400)? zz : null;\n",
-            s:"([+\-]?\\d{1,5})" // leading '+' sign is optional for UTC offset
-        },
-        c: function() {
-            var calc = [],
-                arr = [
-                    utilDate.formatCodeToRegex("Y", 1), // year
-                    utilDate.formatCodeToRegex("m", 2), // month
-                    utilDate.formatCodeToRegex("d", 3), // day
-                    utilDate.formatCodeToRegex("h", 4), // hour
-                    utilDate.formatCodeToRegex("i", 5), // minute
-                    utilDate.formatCodeToRegex("s", 6), // second
-                    {c:"ms = results[7] || '0'; ms = parseInt(ms, 10)/Math.pow(10, ms.length - 3);\n"}, // decimal fraction of a second (minimum = 1 digit, maximum = unlimited)
-                    {c:[ // allow either "Z" (i.e. UTC) or "-0530" or "+08:00" (i.e. UTC offset) timezone delimiters. assumes local timezone if no timezone is specified
-                        "if(results[8]) {", // timezone specified
-                            "if(results[8] == 'Z'){",
+                    "o = ((-12 <= (hr*60 + mn)/60) && ((hr*60 + mn)/60 <= 14))? (sn + Ext.String.leftPad(hr, 2, '0') + Ext.String.leftPad(mn, 2, '0')) : null;\n" // -12hrs <= GMT offset <= 14hrs
+                ].join("\n"),
+                s: "([+\-]\\d{2}:\\d{2})" // GMT offset in hrs and mins (with colon separator)
+            },
+            T: {
+                g: 0,
+                c: null,
+                s: "[A-Z]{1,4}" // timezone abbrev. may be between 1 - 4 chars
+            },
+            Z: {
+                g: 1,
+                c: "zz = results[{0}] * 1;\n" // -43200 <= UTC offset <= 50400
+                + "zz = (-43200 <= zz && zz <= 50400)? zz : null;\n",
+                s: "([+\-]?\\d{1,5})" // leading '+' sign is optional for UTC offset
+            },
+            c: function() {
+                var calc = [],
+                    arr = [
+                        utilDate.formatCodeToRegex("Y", 1), // year
+                        utilDate.formatCodeToRegex("m", 2), // month
+                        utilDate.formatCodeToRegex("d", 3), // day
+                        utilDate.formatCodeToRegex("h", 4), // hour
+                        utilDate.formatCodeToRegex("i", 5), // minute
+                        utilDate.formatCodeToRegex("s", 6), // second
+                        {
+                            c: "ms = results[7] || '0'; ms = parseInt(ms, 10)/Math.pow(10, ms.length - 3);\n"
+                        }, // decimal fraction of a second (minimum = 1 digit, maximum = unlimited)
+                        {
+                            c: [ // allow either "Z" (i.e. UTC) or "-0530" or "+08:00" (i.e. UTC offset) timezone delimiters. assumes local timezone if no timezone is specified
+                                "if(results[8]) {", // timezone specified
+                                "if(results[8] == 'Z'){",
                                 "zz = 0;", // UTC
-                            "}else if (results[8].indexOf(':') > -1){",
+                                "}else if (results[8].indexOf(':') > -1){",
                                 utilDate.formatCodeToRegex("P", 8).c, // timezone offset with colon separator
-                            "}else{",
+                                "}else{",
                                 utilDate.formatCodeToRegex("O", 8).c, // timezone offset without colon separator
-                            "}",
-                        "}"
-                    ].join('\n')}
-                ];
+                                "}",
+                                "}"
+                            ].join('\n')
+                        }
+                    ];
 
-            for (var i = 0, l = arr.length; i < l; ++i) {
-                calc.push(arr[i].c);
+                for (var i = 0, l = arr.length; i < l; ++i) {
+                    calc.push(arr[i].c);
+                }
+
+                return {
+                    g: 1,
+                    c: calc.join(""),
+                    s: [
+                        arr[0].s, // year (required)
+                        "(?:", "-", arr[1].s, // month (optional)
+                        "(?:", "-", arr[2].s, // day (optional)
+                        "(?:",
+                        "(?:T| )?", // time delimiter -- either a "T" or a single blank space
+                        arr[3].s, ":", arr[4].s, // hour AND minute, delimited by a single colon (optional). MUST be preceded by either a "T" or a single blank space
+                        "(?::", arr[5].s, ")?", // seconds (optional)
+                        "(?:(?:\\.|,)(\\d+))?", // decimal fraction of a second (e.g. ",12345" or ".98765") (optional)
+                        "(Z|(?:[-+]\\d{2}(?::)?\\d{2}))?", // "Z" (UTC) or "-0530" (UTC offset without colon delimiter) or "+08:00" (UTC offset with colon delimiter) (optional)
+                        ")?",
+                        ")?",
+                        ")?"
+                    ].join("")
+                };
+            },
+            U: {
+                g: 1,
+                c: "u = parseInt(results[{0}], 10);\n",
+                s: "(-?\\d+)" // leading minus sign indicates seconds before UNIX epoch
+            }
+        },
+
+        // Old Ext.Date prototype methods.
+        // @private
+        dateFormat: function(date, format) {
+            return utilDate.format(date, format);
+        },
+
+        /**
+         * Formats a date given the supplied format string.
+         * @param {Date} date The date to format.
+         * @param {String} format The format string.
+         * @return {String} The formatted date.
+         */
+        format: function(date, format) {
+            if (utilDate.formatFunctions[format] == null) {
+                utilDate.createFormat(format);
+            }
+            var result = utilDate.formatFunctions[format].call(date);
+            return result + '';
+        },
+
+        /**
+         * Get the timezone abbreviation of the current date (equivalent to the format specifier 'T').
+         *
+         * __Note:__ The date string returned by the JavaScript Date object's `toString()` method varies
+         * between browsers (e.g. FF vs IE) and system region settings (e.g. IE in Asia vs IE in America).
+         * For a given date string e.g. "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)",
+         * `getTimezone()` first tries to get the timezone abbreviation from between a pair of parentheses
+         * (which may or may not be present), failing which it proceeds to get the timezone abbreviation
+         * from the GMT offset portion of the date string.
+         *
+         *     @example
+         *     var dt = new Date('9/17/2011');
+         *     alert(Ext.Date.getTimezone(dt));
+         *
+         * @param {Date} date The date.
+         * @return {String} The abbreviated timezone name (e.g. 'CST', 'PDT', 'EDT', 'MPST' ...).
+         */
+        getTimezone: function(date) {
+            // the following list shows the differences between date strings from different browsers on a WinXP SP2 machine from an Asian locale:
+            //
+            // Opera  : "Thu, 25 Oct 2007 22:53:45 GMT+0800" -- shortest (weirdest) date string of the lot
+            // Safari : "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)" -- value in parentheses always gives the correct timezone (same as FF)
+            // FF     : "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)" -- value in parentheses always gives the correct timezone
+            // IE     : "Thu Oct 25 22:54:35 UTC+0800 2007" -- (Asian system setting) look for 3-4 letter timezone abbrev
+            // IE     : "Thu Oct 25 17:06:37 PDT 2007" -- (American system setting) look for 3-4 letter timezone abbrev
+            //
+            // this crazy regex attempts to guess the correct timezone abbreviation despite these differences.
+            // step 1: (?:\((.*)\) -- find timezone in parentheses
+            // step 2: ([A-Z]{1,4})(?:[\-+][0-9]{4})?(?: -?\d+)?) -- if nothing was found in step 1, find timezone from timezone offset portion of date string
+            // step 3: remove all non uppercase characters found in step 1 and 2
+            return date.toString().replace(/^.* (?:\((.*)\)|([A-Z]{1,4})(?:[\-+][0-9]{4})?(?: -?\d+)?)$/, "$1$2").replace(/[^A-Z]/g, "");
+        },
+
+        /**
+         * Get the offset from GMT of the current date (equivalent to the format specifier 'O').
+         *
+         *     @example
+         *     var dt = new Date('9/17/2011');
+         *     alert(Ext.Date.getGMTOffset(dt));
+         *
+         * @param {Date} date The date.
+         * @param {Boolean} [colon=false] (optional) `true` to separate the hours and minutes with a colon.
+         * @return {String} The 4-character offset string prefixed with + or - (e.g. '-0600').
+         */
+        getGMTOffset: function(date, colon) {
+            var offset = date.getTimezoneOffset();
+            return (offset > 0 ? "-" : "+") + Ext.String.leftPad(Math.floor(Math.abs(offset) / 60), 2, "0") + (colon ? ":" : "") + Ext.String.leftPad(Math.abs(offset % 60), 2, "0");
+        },
+
+        /**
+         * Get the numeric day number of the year, adjusted for leap year.
+         *
+         *     @example
+         *     var dt = new Date('9/17/2011');
+         *     alert(Ext.Date.getDayOfYear(dt)); // 259
+         *
+         * @param {Date} date The date.
+         * @return {Number} 0 to 364 (365 in leap years).
+         */
+        getDayOfYear: function(date) {
+            var num = 0,
+                d = Ext.Date.clone(date),
+                m = date.getMonth(),
+                i;
+
+            for (i = 0, d.setDate(1), d.setMonth(0); i < m; d.setMonth(++i)) {
+                num += utilDate.getDaysInMonth(d);
+            }
+            return num + date.getDate() - 1;
+        },
+
+        /**
+         * Get the numeric ISO-8601 week number of the year
+         * (equivalent to the format specifier 'W', but without a leading zero).
+         *
+         *     @example
+         *     var dt = new Date('9/17/2011');
+         *     alert(Ext.Date.getWeekOfYear(dt)); // 37
+         *
+         * @param {Date} date The date.
+         * @return {Number} 1 to 53.
+         * @method
+         */
+        getWeekOfYear: (function() {
+            // adapted from http://www.merlyn.demon.co.uk/weekcalc.htm
+            var ms1d = 864e5, // milliseconds in a day
+                ms7d = 7 * ms1d; // milliseconds in a week
+
+            return function(date) { // return a closure so constants get calculated only once
+                var DC3 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + 3) / ms1d, // an Absolute Day Number
+                    AWN = Math.floor(DC3 / 7), // an Absolute Week Number
+                    Wyr = new Date(AWN * ms7d).getUTCFullYear();
+
+                return AWN - Math.floor(Date.UTC(Wyr, 0, 7) / ms7d) + 1;
+            };
+        })(),
+
+        /**
+         * Checks if the current date falls within a leap year.
+         *
+         *     @example
+         *     var dt = new Date('1/10/2011');
+         *     alert(Ext.Date.isLeapYear(dt)); // false
+         *
+         * @param {Date} date The date.
+         * @return {Boolean} `true` if the current date falls within a leap year, `false` otherwise.
+         */
+        isLeapYear: function(date) {
+            var year = date.getFullYear();
+            return !!((year & 3) == 0 && (year % 100 || (year % 400 == 0 && year)));
+        },
+
+        /**
+         * Get the first day of the current month, adjusted for leap year.  The returned value
+         * is the numeric day index within the week (0-6) which can be used in conjunction with
+         * the {@link #monthNames} array to retrieve the textual day name.
+         *
+         *     @example
+         *     var dt = new Date('1/10/2007'),
+         *         firstDay = Ext.Date.getFirstDayOfMonth(dt);
+         *     alert(Ext.Date.dayNames[firstDay]); // 'Monday'
+         *
+         * @param {Date} date The date
+         * @return {Number} The day number (0-6).
+         */
+        getFirstDayOfMonth: function(date) {
+            var day = (date.getDay() - (date.getDate() - 1)) % 7;
+            return (day < 0) ? (day + 7) : day;
+        },
+
+        /**
+         * Get the last day of the current month, adjusted for leap year.  The returned value
+         * is the numeric day index within the week (0-6) which can be used in conjunction with
+         * the {@link #monthNames} array to retrieve the textual day name.
+         *
+         *     @example
+         *     var dt = new Date('1/10/2007'),
+         *         lastDay = Ext.Date.getLastDayOfMonth(dt);
+         *     alert(Ext.Date.dayNames[lastDay]); // 'Wednesday'
+         *
+         * @param {Date} date The date.
+         * @return {Number} The day number (0-6).
+         */
+        getLastDayOfMonth: function(date) {
+            return utilDate.getLastDateOfMonth(date).getDay();
+        },
+
+
+        /**
+         * Get the date of the first day of the month in which this date resides.
+         *
+         *     @example
+         *     var dt = new Date('1/10/2007'),
+         *         lastDate = Ext.Date.getFirstDateOfMonth(dt);
+         *     alert(lastDate); // Mon Jan 01 2007 00:00:00 GMT-0800 (PST)
+         *
+         * @param {Date} date The date.
+         * @return {Date}
+         */
+        getFirstDateOfMonth: function(date) {
+            return new Date(date.getFullYear(), date.getMonth(), 1);
+        },
+
+        /**
+         * Get the date of the last day of the month in which this date resides.
+         *
+         *     @example
+         *     var dt = new Date('1/10/2007'),
+         *         lastDate = Ext.Date.getLastDateOfMonth(dt);
+         *     alert(lastDate); // Wed Jan 31 2007 00:00:00 GMT-0800 (PST)
+         *
+         * @param {Date} date The date.
+         * @return {Date}
+         */
+        getLastDateOfMonth: function(date) {
+            return new Date(date.getFullYear(), date.getMonth(), utilDate.getDaysInMonth(date));
+        },
+
+        /**
+         * Get the number of days in the current month, adjusted for leap year.
+         *
+         *     @example
+         *     var dt = new Date('1/10/2007');
+         *     alert(Ext.Date.getDaysInMonth(dt)); // 31
+         *
+         * @param {Date} date The date.
+         * @return {Number} The number of days in the month.
+         * @method
+         */
+        getDaysInMonth: (function() {
+            var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            return function(date) { // return a closure for efficiency
+                var m = date.getMonth();
+
+                return m == 1 && utilDate.isLeapYear(date) ? 29 : daysInMonth[m];
+            };
+        })(),
+
+        /**
+         * Get the English ordinal suffix of the current day (equivalent to the format specifier 'S').
+         *
+         *     @example
+         *     var dt = new Date('9/17/2011');
+         *     alert(Ext.Date.getSuffix(dt)); // 'th'
+         *
+         * @param {Date} date The date.
+         * @return {String} 'st', 'nd', 'rd' or 'th'.
+         */
+        getSuffix: function(date) {
+            switch (date.getDate()) {
+                case 1:
+                case 21:
+                case 31:
+                    return "st";
+                case 2:
+                case 22:
+                    return "nd";
+                case 3:
+                case 23:
+                    return "rd";
+                default:
+                    return "th";
+            }
+        },
+
+        /**
+         * Creates and returns a new Date instance with the exact same date value as the called instance.
+         * Dates are copied and passed by reference, so if a copied date variable is modified later, the original
+         * variable will also be changed.  When the intention is to create a new variable that will not
+         * modify the original instance, you should create a clone.
+         *
+         * Example of correctly cloning a date:
+         *
+         *     // wrong way:
+         *     var orig = new Date('10/1/2006');
+         *     var copy = orig;
+         *     copy.setDate(5);
+         *     console.log(orig);  // returns 'Thu Oct 05 2006'!
+         *
+         *     // correct way:
+         *     var orig = new Date('10/1/2006'),
+         *         copy = Ext.Date.clone(orig);
+         *     copy.setDate(5);
+         *     console.log(orig);  // returns 'Thu Oct 01 2006'
+         *
+         * @param {Date} date The date.
+         * @return {Date} The new Date instance.
+         */
+        clone: function(date) {
+            return new Date(date.getTime());
+        },
+
+        /**
+         * Checks if the current date is affected by Daylight Saving Time (DST).
+         *
+         *     @example
+         *     var dt = new Date('9/17/2011');
+         *     alert(Ext.Date.isDST(dt));
+         *
+         * @param {Date} date The date.
+         * @return {Boolean} `true` if the current date is affected by DST.
+         */
+        isDST: function(date) {
+            // adapted from http://sencha.com/forum/showthread.php?p=247172#post247172
+            // courtesy of @geoffrey.mcgill
+            return new Date(date.getFullYear(), 0, 1).getTimezoneOffset() != date.getTimezoneOffset();
+        },
+
+        /**
+         * Attempts to clear all time information from this Date by setting the time to midnight of the same day,
+         * automatically adjusting for Daylight Saving Time (DST) where applicable.
+         *
+         * __Note:__ DST timezone information for the browser's host operating system is assumed to be up-to-date.
+         *
+         * @param {Date} date The date.
+         * @param {Boolean} [clone=false] `true` to create a clone of this date, clear the time and return it.
+         * @return {Date} this or the clone.
+         */
+        clearTime: function(date, clone) {
+            if (clone) {
+                return Ext.Date.clearTime(Ext.Date.clone(date));
             }
 
-            return {
-                g:1,
-                c:calc.join(""),
-                s:[
-                    arr[0].s, // year (required)
-                    "(?:", "-", arr[1].s, // month (optional)
-                        "(?:", "-", arr[2].s, // day (optional)
-                            "(?:",
-                                "(?:T| )?", // time delimiter -- either a "T" or a single blank space
-                                arr[3].s, ":", arr[4].s,  // hour AND minute, delimited by a single colon (optional). MUST be preceded by either a "T" or a single blank space
-                                "(?::", arr[5].s, ")?", // seconds (optional)
-                                "(?:(?:\\.|,)(\\d+))?", // decimal fraction of a second (e.g. ",12345" or ".98765") (optional)
-                                "(Z|(?:[-+]\\d{2}(?::)?\\d{2}))?", // "Z" (UTC) or "-0530" (UTC offset without colon delimiter) or "+08:00" (UTC offset with colon delimiter) (optional)
-                            ")?",
-                        ")?",
-                    ")?"
-                ].join("")
-            };
+            // get current date before clearing time
+            var d = date.getDate();
+
+            // clear time
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            date.setMilliseconds(0);
+
+            if (date.getDate() != d) { // account for DST (i.e. day of month changed when setting hour = 0)
+                // note: DST adjustments are assumed to occur in multiples of 1 hour (this is almost always the case)
+                // refer to http://www.timeanddate.com/time/aboutdst.html for the (rare) exceptions to this rule
+
+                // increment hour until cloned date == current date
+                for (var hr = 1, c = utilDate.add(date, Ext.Date.HOUR, hr); c.getDate() != d; hr++, c = utilDate.add(date, Ext.Date.HOUR, hr));
+
+                date.setDate(d);
+                date.setHours(c.getHours());
+            }
+
+            return date;
         },
-        U: {
-            g:1,
-            c:"u = parseInt(results[{0}], 10);\n",
-            s:"(-?\\d+)" // leading minus sign indicates seconds before UNIX epoch
+
+        /**
+         * Provides a convenient method for performing basic date arithmetic. This method
+         * does not modify the Date instance being called - it creates and returns
+         * a new Date instance containing the resulting date value.
+         *
+         *     @example
+         *     // Basic usage:
+         *     var dt = Ext.Date.add(new Date('10/29/2006'), Ext.Date.DAY, 5);
+         *     alert(dt); // 'Fri Nov 03 2006 00:00:00'
+         *
+         * You can also subtract date values by passing a negative value:
+         *
+         *     @example
+         *     // Negative values will be subtracted:
+         *     var dt2 = Ext.Date.add(new Date('10/1/2006'), Ext.Date.DAY, -5);
+         *     alert(dt2); // 'Tue Sep 26 2006 00:00:00'
+         *
+         * @param {Date} date The date to modify.
+         * @param {String} interval A valid date interval enum value.
+         * @param {Number} value The amount to add to the current date.
+         * @return {Date} The new Date instance.
+         */
+        add: function(date, interval, value) {
+            var d = Ext.Date.clone(date);
+            if (!interval || value === 0) return d;
+
+            switch (interval.toLowerCase()) {
+                case Ext.Date.MILLI:
+                    d = new Date(d.valueOf() + value);
+                    break;
+                case Ext.Date.SECOND:
+                    d = new Date(d.valueOf() + value * 1000);
+                    break;
+                case Ext.Date.MINUTE:
+                    d = new Date(d.valueOf() + value * 60000);
+                    break;
+                case Ext.Date.HOUR:
+                    d = new Date(d.valueOf() + value * 3600000);
+                    break;
+                case Ext.Date.DAY:
+                    d = new Date(d.valueOf() + value * 86400000);
+                    break;
+                case Ext.Date.MONTH:
+                    var day = date.getDate();
+                    if (day > 28) {
+                        day = Math.min(day, Ext.Date.getLastDateOfMonth(Ext.Date.add(Ext.Date.getFirstDateOfMonth(date), 'mo', value)).getDate());
+                    }
+                    d.setDate(day);
+                    d.setMonth(date.getMonth() + value);
+                    break;
+                case Ext.Date.YEAR:
+                    d.setFullYear(date.getFullYear() + value);
+                    break;
+            }
+            return d;
+        },
+
+        /**
+         * Checks if a date falls on or between the given start and end dates.
+         * @param {Date} date The date to check.
+         * @param {Date} start Start date.
+         * @param {Date} end End date.
+         * @return {Boolean} `true` if this date falls on or between the given start and end dates.
+         */
+        between: function(date, start, end) {
+            var t = date.getTime();
+            return start.getTime() <= t && t <= end.getTime();
+        },
+
+        /**
+         * Calculate how many units are there between two time.
+         * @param {Date} min The first time.
+         * @param {Date} max The second time.
+         * @param {String} unit The unit. This unit is compatible with the date interval constants.
+         * @return {Number} The maximum number n of units that min + n * unit <= max.
+         */
+        diff: function(min, max, unit) {
+            var ExtDate = Ext.Date,
+                est, diff = +max - min;
+            switch (unit) {
+                case ExtDate.MILLI:
+                    return diff;
+                case ExtDate.SECOND:
+                    return Math.floor(diff / 1000);
+                case ExtDate.MINUTE:
+                    return Math.floor(diff / 60000);
+                case ExtDate.HOUR:
+                    return Math.floor(diff / 3600000);
+                case ExtDate.DAY:
+                    return Math.floor(diff / 86400000);
+                case 'w':
+                    return Math.floor(diff / 604800000);
+                case ExtDate.MONTH:
+                    est = (max.getFullYear() * 12 + max.getMonth()) - (min.getFullYear() * 12 + min.getMonth());
+                    if (Ext.Date.add(min, unit, est) > max) {
+                        return est - 1;
+                    } else {
+                        return est;
+                    }
+                case ExtDate.YEAR:
+                    est = max.getFullYear() - min.getFullYear();
+                    if (Ext.Date.add(min, unit, est) > max) {
+                        return est - 1;
+                    } else {
+                        return est;
+                    }
+            }
+        },
+
+        /**
+         * Align the date to `unit`.
+         * @param {Date} date The date to be aligned.
+         * @param {String} unit The unit. This unit is compatible with the date interval constants.
+         * @return {Date} The aligned date.
+         */
+        align: function(date, unit, step) {
+            var num = new Date(+date);
+            switch (unit.toLowerCase()) {
+                case Ext.Date.MILLI:
+                    return num;
+                    break;
+                case Ext.Date.SECOND:
+                    num.setUTCSeconds(num.getUTCSeconds() - num.getUTCSeconds() % step);
+                    num.setUTCMilliseconds(0);
+                    return num;
+                    break;
+                case Ext.Date.MINUTE:
+                    num.setUTCMinutes(num.getUTCMinutes() - num.getUTCMinutes() % step);
+                    num.setUTCSeconds(0);
+                    num.setUTCMilliseconds(0);
+                    return num;
+                    break;
+                case Ext.Date.HOUR:
+                    num.setUTCHours(num.getUTCHours() - num.getUTCHours() % step);
+                    num.setUTCMinutes(0);
+                    num.setUTCSeconds(0);
+                    num.setUTCMilliseconds(0);
+                    return num;
+                    break;
+                case Ext.Date.DAY:
+                    if (step == 7 || step == 14) {
+                        num.setUTCDate(num.getUTCDate() - num.getUTCDay() + 1);
+                    }
+                    num.setUTCHours(0);
+                    num.setUTCMinutes(0);
+                    num.setUTCSeconds(0);
+                    num.setUTCMilliseconds(0);
+                    return num;
+                    break;
+                case Ext.Date.MONTH:
+                    num.setUTCMonth(num.getUTCMonth() - (num.getUTCMonth() - 1) % step, 1);
+                    num.setUTCHours(0);
+                    num.setUTCMinutes(0);
+                    num.setUTCSeconds(0);
+                    num.setUTCMilliseconds(0);
+                    return num;
+                    break;
+                case Ext.Date.YEAR:
+                    num.setUTCFullYear(num.getUTCFullYear() - num.getUTCFullYear() % step, 1, 1);
+                    num.setUTCHours(0);
+                    num.setUTCMinutes(0);
+                    num.setUTCSeconds(0);
+                    num.setUTCMilliseconds(0);
+                    return date;
+                    break;
+            }
         }
-    },
+    };
 
-    // Old Ext.Date prototype methods.
-    // @private
-    dateFormat: function(date, format) {
-        return utilDate.format(date, format);
-    },
+    var utilDate = Ext.DateExtras;
 
-    /**
-     * Formats a date given the supplied format string.
-     * @param {Date} date The date to format.
-     * @param {String} format The format string.
-     * @return {String} The formatted date.
-     */
-    format: function(date, format) {
-        if (utilDate.formatFunctions[format] == null) {
-            utilDate.createFormat(format);
-        }
-        var result = utilDate.formatFunctions[format].call(date);
-        return result + '';
-    },
-
-    /**
-     * Get the timezone abbreviation of the current date (equivalent to the format specifier 'T').
-     *
-     * __Note:__ The date string returned by the JavaScript Date object's `toString()` method varies
-     * between browsers (e.g. FF vs IE) and system region settings (e.g. IE in Asia vs IE in America).
-     * For a given date string e.g. "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)",
-     * `getTimezone()` first tries to get the timezone abbreviation from between a pair of parentheses
-     * (which may or may not be present), failing which it proceeds to get the timezone abbreviation
-     * from the GMT offset portion of the date string.
-     *
-     *     @example
-     *     var dt = new Date('9/17/2011');
-     *     alert(Ext.Date.getTimezone(dt));
-     *
-     * @param {Date} date The date.
-     * @return {String} The abbreviated timezone name (e.g. 'CST', 'PDT', 'EDT', 'MPST' ...).
-     */
-    getTimezone : function(date) {
-        // the following list shows the differences between date strings from different browsers on a WinXP SP2 machine from an Asian locale:
-        //
-        // Opera  : "Thu, 25 Oct 2007 22:53:45 GMT+0800" -- shortest (weirdest) date string of the lot
-        // Safari : "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)" -- value in parentheses always gives the correct timezone (same as FF)
-        // FF     : "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)" -- value in parentheses always gives the correct timezone
-        // IE     : "Thu Oct 25 22:54:35 UTC+0800 2007" -- (Asian system setting) look for 3-4 letter timezone abbrev
-        // IE     : "Thu Oct 25 17:06:37 PDT 2007" -- (American system setting) look for 3-4 letter timezone abbrev
-        //
-        // this crazy regex attempts to guess the correct timezone abbreviation despite these differences.
-        // step 1: (?:\((.*)\) -- find timezone in parentheses
-        // step 2: ([A-Z]{1,4})(?:[\-+][0-9]{4})?(?: -?\d+)?) -- if nothing was found in step 1, find timezone from timezone offset portion of date string
-        // step 3: remove all non uppercase characters found in step 1 and 2
-        return date.toString().replace(/^.* (?:\((.*)\)|([A-Z]{1,4})(?:[\-+][0-9]{4})?(?: -?\d+)?)$/, "$1$2").replace(/[^A-Z]/g, "");
-    },
-
-    /**
-     * Get the offset from GMT of the current date (equivalent to the format specifier 'O').
-     *
-     *     @example
-     *     var dt = new Date('9/17/2011');
-     *     alert(Ext.Date.getGMTOffset(dt));
-     *
-     * @param {Date} date The date.
-     * @param {Boolean} [colon=false] (optional) `true` to separate the hours and minutes with a colon.
-     * @return {String} The 4-character offset string prefixed with + or - (e.g. '-0600').
-     */
-    getGMTOffset : function(date, colon) {
-        var offset = date.getTimezoneOffset();
-        return (offset > 0 ? "-" : "+")
-            + Ext.String.leftPad(Math.floor(Math.abs(offset) / 60), 2, "0")
-            + (colon ? ":" : "")
-            + Ext.String.leftPad(Math.abs(offset % 60), 2, "0");
-    },
-
-    /**
-     * Get the numeric day number of the year, adjusted for leap year.
-     *
-     *     @example
-     *     var dt = new Date('9/17/2011');
-     *     alert(Ext.Date.getDayOfYear(dt)); // 259
-     *
-     * @param {Date} date The date.
-     * @return {Number} 0 to 364 (365 in leap years).
-     */
-    getDayOfYear: function(date) {
-        var num = 0,
-            d = Ext.Date.clone(date),
-            m = date.getMonth(),
-            i;
-
-        for (i = 0, d.setDate(1), d.setMonth(0); i < m; d.setMonth(++i)) {
-            num += utilDate.getDaysInMonth(d);
-        }
-        return num + date.getDate() - 1;
-    },
-
-    /**
-     * Get the numeric ISO-8601 week number of the year
-     * (equivalent to the format specifier 'W', but without a leading zero).
-     *
-     *     @example
-     *     var dt = new Date('9/17/2011');
-     *     alert(Ext.Date.getWeekOfYear(dt)); // 37
-     *
-     * @param {Date} date The date.
-     * @return {Number} 1 to 53.
-     * @method
-     */
-    getWeekOfYear : (function() {
-        // adapted from http://www.merlyn.demon.co.uk/weekcalc.htm
-        var ms1d = 864e5, // milliseconds in a day
-            ms7d = 7 * ms1d; // milliseconds in a week
-
-        return function(date) { // return a closure so constants get calculated only once
-            var DC3 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + 3) / ms1d, // an Absolute Day Number
-                AWN = Math.floor(DC3 / 7), // an Absolute Week Number
-                Wyr = new Date(AWN * ms7d).getUTCFullYear();
-
-            return AWN - Math.floor(Date.UTC(Wyr, 0, 7) / ms7d) + 1;
-        };
-    })(),
-
-    /**
-     * Checks if the current date falls within a leap year.
-     *
-     *     @example
-     *     var dt = new Date('1/10/2011');
-     *     alert(Ext.Date.isLeapYear(dt)); // false
-     *
-     * @param {Date} date The date.
-     * @return {Boolean} `true` if the current date falls within a leap year, `false` otherwise.
-     */
-    isLeapYear : function(date) {
-        var year = date.getFullYear();
-        return !!((year & 3) == 0 && (year % 100 || (year % 400 == 0 && year)));
-    },
-
-    /**
-     * Get the first day of the current month, adjusted for leap year.  The returned value
-     * is the numeric day index within the week (0-6) which can be used in conjunction with
-     * the {@link #monthNames} array to retrieve the textual day name.
-     *
-     *     @example
-     *     var dt = new Date('1/10/2007'),
-     *         firstDay = Ext.Date.getFirstDayOfMonth(dt);
-     *     alert(Ext.Date.dayNames[firstDay]); // 'Monday'
-     *
-     * @param {Date} date The date
-     * @return {Number} The day number (0-6).
-     */
-    getFirstDayOfMonth : function(date) {
-        var day = (date.getDay() - (date.getDate() - 1)) % 7;
-        return (day < 0) ? (day + 7) : day;
-    },
-
-    /**
-     * Get the last day of the current month, adjusted for leap year.  The returned value
-     * is the numeric day index within the week (0-6) which can be used in conjunction with
-     * the {@link #monthNames} array to retrieve the textual day name.
-     *
-     *     @example
-     *     var dt = new Date('1/10/2007'),
-     *         lastDay = Ext.Date.getLastDayOfMonth(dt);
-     *     alert(Ext.Date.dayNames[lastDay]); // 'Wednesday'
-     *
-     * @param {Date} date The date.
-     * @return {Number} The day number (0-6).
-     */
-    getLastDayOfMonth : function(date) {
-        return utilDate.getLastDateOfMonth(date).getDay();
-    },
-
-
-    /**
-     * Get the date of the first day of the month in which this date resides.
-     *
-     *     @example
-     *     var dt = new Date('1/10/2007'),
-     *         lastDate = Ext.Date.getFirstDateOfMonth(dt);
-     *     alert(lastDate); // Mon Jan 01 2007 00:00:00 GMT-0800 (PST)
-     *
-     * @param {Date} date The date.
-     * @return {Date}
-     */
-    getFirstDateOfMonth : function(date) {
-        return new Date(date.getFullYear(), date.getMonth(), 1);
-    },
-
-    /**
-     * Get the date of the last day of the month in which this date resides.
-     *
-     *     @example
-     *     var dt = new Date('1/10/2007'),
-     *         lastDate = Ext.Date.getLastDateOfMonth(dt);
-     *     alert(lastDate); // Wed Jan 31 2007 00:00:00 GMT-0800 (PST)
-     *
-     * @param {Date} date The date.
-     * @return {Date}
-     */
-    getLastDateOfMonth : function(date) {
-        return new Date(date.getFullYear(), date.getMonth(), utilDate.getDaysInMonth(date));
-    },
-
-    /**
-     * Get the number of days in the current month, adjusted for leap year.
-     *
-     *     @example
-     *     var dt = new Date('1/10/2007');
-     *     alert(Ext.Date.getDaysInMonth(dt)); // 31
-     *
-     * @param {Date} date The date.
-     * @return {Number} The number of days in the month.
-     * @method
-     */
-    getDaysInMonth: (function() {
-        var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        return function(date) { // return a closure for efficiency
-            var m = date.getMonth();
-
-            return m == 1 && utilDate.isLeapYear(date) ? 29 : daysInMonth[m];
-        };
-    })(),
-
-    /**
-     * Get the English ordinal suffix of the current day (equivalent to the format specifier 'S').
-     *
-     *     @example
-     *     var dt = new Date('9/17/2011');
-     *     alert(Ext.Date.getSuffix(dt)); // 'th'
-     *
-     * @param {Date} date The date.
-     * @return {String} 'st', 'nd', 'rd' or 'th'.
-     */
-    getSuffix : function(date) {
-        switch (date.getDate()) {
-            case 1:
-            case 21:
-            case 31:
-                return "st";
-            case 2:
-            case 22:
-                return "nd";
-            case 3:
-            case 23:
-                return "rd";
-            default:
-                return "th";
-        }
-    },
-
-    /**
-     * Creates and returns a new Date instance with the exact same date value as the called instance.
-     * Dates are copied and passed by reference, so if a copied date variable is modified later, the original
-     * variable will also be changed.  When the intention is to create a new variable that will not
-     * modify the original instance, you should create a clone.
-     *
-     * Example of correctly cloning a date:
-     *
-     *     // wrong way:
-     *     var orig = new Date('10/1/2006');
-     *     var copy = orig;
-     *     copy.setDate(5);
-     *     console.log(orig);  // returns 'Thu Oct 05 2006'!
-     *
-     *     // correct way:
-     *     var orig = new Date('10/1/2006'),
-     *         copy = Ext.Date.clone(orig);
-     *     copy.setDate(5);
-     *     console.log(orig);  // returns 'Thu Oct 01 2006'
-     *
-     * @param {Date} date The date.
-     * @return {Date} The new Date instance.
-     */
-    clone : function(date) {
-        return new Date(date.getTime());
-    },
-
-    /**
-     * Checks if the current date is affected by Daylight Saving Time (DST).
-     *
-     *     @example
-     *     var dt = new Date('9/17/2011');
-     *     alert(Ext.Date.isDST(dt));
-     *
-     * @param {Date} date The date.
-     * @return {Boolean} `true` if the current date is affected by DST.
-     */
-    isDST : function(date) {
-        // adapted from http://sencha.com/forum/showthread.php?p=247172#post247172
-        // courtesy of @geoffrey.mcgill
-        return new Date(date.getFullYear(), 0, 1).getTimezoneOffset() != date.getTimezoneOffset();
-    },
-
-    /**
-     * Attempts to clear all time information from this Date by setting the time to midnight of the same day,
-     * automatically adjusting for Daylight Saving Time (DST) where applicable.
-     *
-     * __Note:__ DST timezone information for the browser's host operating system is assumed to be up-to-date.
-     *
-     * @param {Date} date The date.
-     * @param {Boolean} [clone=false] `true` to create a clone of this date, clear the time and return it.
-     * @return {Date} this or the clone.
-     */
-    clearTime : function(date, clone) {
-        if (clone) {
-            return Ext.Date.clearTime(Ext.Date.clone(date));
-        }
-
-        // get current date before clearing time
-        var d = date.getDate();
-
-        // clear time
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
-
-        if (date.getDate() != d) { // account for DST (i.e. day of month changed when setting hour = 0)
-            // note: DST adjustments are assumed to occur in multiples of 1 hour (this is almost always the case)
-            // refer to http://www.timeanddate.com/time/aboutdst.html for the (rare) exceptions to this rule
-
-            // increment hour until cloned date == current date
-            for (var hr = 1, c = utilDate.add(date, Ext.Date.HOUR, hr); c.getDate() != d; hr++, c = utilDate.add(date, Ext.Date.HOUR, hr));
-
-            date.setDate(d);
-            date.setHours(c.getHours());
-        }
-
-        return date;
-    },
-
-    /**
-     * Provides a convenient method for performing basic date arithmetic. This method
-     * does not modify the Date instance being called - it creates and returns
-     * a new Date instance containing the resulting date value.
-     *
-     *     @example
-     *     // Basic usage:
-     *     var dt = Ext.Date.add(new Date('10/29/2006'), Ext.Date.DAY, 5);
-     *     alert(dt); // 'Fri Nov 03 2006 00:00:00'
-     *
-     * You can also subtract date values by passing a negative value:
-     *
-     *     @example
-     *     // Negative values will be subtracted:
-     *     var dt2 = Ext.Date.add(new Date('10/1/2006'), Ext.Date.DAY, -5);
-     *     alert(dt2); // 'Tue Sep 26 2006 00:00:00'
-     *
-     * @param {Date} date The date to modify.
-     * @param {String} interval A valid date interval enum value.
-     * @param {Number} value The amount to add to the current date.
-     * @return {Date} The new Date instance.
-     */
-    add : function(date, interval, value) {
-        var d = Ext.Date.clone(date);
-        if (!interval || value === 0) return d;
-
-        switch(interval.toLowerCase()) {
-            case Ext.Date.MILLI:
-                d= new Date(d.valueOf() + value);
-                break;
-            case Ext.Date.SECOND:
-                d= new Date(d.valueOf() + value * 1000);
-                break;
-            case Ext.Date.MINUTE:
-                d= new Date(d.valueOf() + value * 60000);
-                break;
-            case Ext.Date.HOUR:
-                d= new Date(d.valueOf() + value * 3600000);
-                break;
-            case Ext.Date.DAY:
-                d= new Date(d.valueOf() + value * 86400000);
-                break;
-            case Ext.Date.MONTH:
-                var day = date.getDate();
-                if (day > 28) {
-                    day = Math.min(day, Ext.Date.getLastDateOfMonth(Ext.Date.add(Ext.Date.getFirstDateOfMonth(date), 'mo', value)).getDate());
-                }
-                d.setDate(day);
-                d.setMonth(date.getMonth() + value);
-                break;
-            case Ext.Date.YEAR:
-                d.setFullYear(date.getFullYear() + value);
-                break;
-        }
-        return d;
-    },
-
-    /**
-     * Checks if a date falls on or between the given start and end dates.
-     * @param {Date} date The date to check.
-     * @param {Date} start Start date.
-     * @param {Date} end End date.
-     * @return {Boolean} `true` if this date falls on or between the given start and end dates.
-     */
-    between : function(date, start, end) {
-        var t = date.getTime();
-        return start.getTime() <= t && t <= end.getTime();
-    },
-
-    /**
-     * Calculate how many units are there between two time.
-     * @param {Date} min The first time.
-     * @param {Date} max The second time.
-     * @param {String} unit The unit. This unit is compatible with the date interval constants.
-     * @return {Number} The maximum number n of units that min + n * unit <= max.
-     */
-    diff: function (min, max, unit) {
-        var ExtDate = Ext.Date, est, diff = +max - min;
-        switch (unit) {
-            case ExtDate.MILLI:
-                return diff;
-            case ExtDate.SECOND:
-                return Math.floor(diff / 1000);
-            case ExtDate.MINUTE:
-                return Math.floor(diff / 60000);
-            case ExtDate.HOUR:
-                return Math.floor(diff / 3600000);
-            case ExtDate.DAY:
-                return Math.floor(diff / 86400000);
-            case 'w':
-                return Math.floor(diff / 604800000);
-            case ExtDate.MONTH:
-                est = (max.getFullYear() * 12 + max.getMonth()) - (min.getFullYear() * 12 + min.getMonth());
-                if (Ext.Date.add(min, unit, est) > max) {
-                    return est - 1;
-                } else {
-                    return est;
-                }
-            case ExtDate.YEAR:
-                est = max.getFullYear() - min.getFullYear();
-                if (Ext.Date.add(min, unit, est) > max) {
-                    return est - 1;
-                } else {
-                    return est;
-                }
-        }
-    },
-
-    /**
-     * Align the date to `unit`.
-     * @param {Date} date The date to be aligned.
-     * @param {String} unit The unit. This unit is compatible with the date interval constants.
-     * @return {Date} The aligned date.
-     */
-    align: function (date, unit, step) {
-        var num = new Date(+date);
-        switch (unit.toLowerCase()) {
-            case Ext.Date.MILLI:
-                return num;
-                break;
-            case Ext.Date.SECOND:
-                num.setUTCSeconds(num.getUTCSeconds() - num.getUTCSeconds() % step);
-                num.setUTCMilliseconds(0);
-                return num;
-                break;
-            case Ext.Date.MINUTE:
-                num.setUTCMinutes(num.getUTCMinutes() - num.getUTCMinutes() % step);
-                num.setUTCSeconds(0);
-                num.setUTCMilliseconds(0);
-                return num;
-                break;
-            case Ext.Date.HOUR:
-                num.setUTCHours(num.getUTCHours() - num.getUTCHours() % step);
-                num.setUTCMinutes(0);
-                num.setUTCSeconds(0);
-                num.setUTCMilliseconds(0);
-                return num;
-                break;
-            case Ext.Date.DAY:
-                if (step == 7 || step == 14){
-                    num.setUTCDate(num.getUTCDate() - num.getUTCDay() + 1);
-                }
-                num.setUTCHours(0);
-                num.setUTCMinutes(0);
-                num.setUTCSeconds(0);
-                num.setUTCMilliseconds(0);
-                return num;
-                break;
-            case Ext.Date.MONTH:
-                num.setUTCMonth(num.getUTCMonth() - (num.getUTCMonth() - 1) % step,1);
-                num.setUTCHours(0);
-                num.setUTCMinutes(0);
-                num.setUTCSeconds(0);
-                num.setUTCMilliseconds(0);
-                return num;
-                break;
-            case Ext.Date.YEAR:
-                num.setUTCFullYear(num.getUTCFullYear() - num.getUTCFullYear() % step, 1, 1);
-                num.setUTCHours(0);
-                num.setUTCMinutes(0);
-                num.setUTCSeconds(0);
-                num.setUTCMilliseconds(0);
-                return date;
-                break;
-        }
-    }
-};
-
-var utilDate = Ext.DateExtras;
-
-Ext.apply(Ext.Date, utilDate);
+    Ext.apply(Ext.Date, utilDate);
 
 
 })();
@@ -19086,9 +18950,8 @@ Ext.apply(Ext.Date, utilDate);
  * Reusable data formatting functions
  */
 Ext.define('Ext.util.Format', {
-               
-                        
-      
+
+
 
     singleton: true,
 
@@ -19116,7 +18979,7 @@ Ext.define('Ext.util.Format', {
         if (value && value.length > len) {
             if (word) {
                 var vs = value.substr(0, len - 2),
-                index = Math.max(vs.lastIndexOf(' '), vs.lastIndexOf('.'), vs.lastIndexOf('!'), vs.lastIndexOf('?'));
+                    index = Math.max(vs.lastIndexOf(' '), vs.lastIndexOf('.'), vs.lastIndexOf('!'), vs.lastIndexOf('?'));
                 if (index != -1 && index >= (len - 15)) {
                     return vs.substr(0, index) + "...";
                 }
@@ -19192,7 +19055,7 @@ Ext.define('Ext.util.Format', {
      * @param {String} [char=' '] (optional) The character with which to pad the original string.
      * @return {String} The padded string.
      */
-    leftPad: function (val, size, ch) {
+    leftPad: function(val, size, ch) {
         var result = String(val);
         ch = ch || " ";
         while (result.length < size) {
@@ -19213,7 +19076,7 @@ Ext.define('Ext.util.Format', {
      * @param {String...} values The values to replace token {0}, {1}, etc.
      * @return {String} The formatted string.
      */
-    format: function (format) {
+    format: function(format) {
         var args = Ext.toArray(arguments, 1);
         return format.replace(Ext.util.Format.formatRe, function(m, i) {
             return args[i];
@@ -19226,7 +19089,7 @@ Ext.define('Ext.util.Format', {
      * @return {String} The encoded text.
      */
     htmlEncode: function(value) {
-        return ! value ? value: String(value).replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+        return !value ? value : String(value).replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
     },
 
     /**
@@ -19235,7 +19098,7 @@ Ext.define('Ext.util.Format', {
      * @return {String} The decoded text.
      */
     htmlDecode: function(value) {
-        return ! value ? value: String(value).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
+        return !value ? value : String(value).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
     },
 
     /**
@@ -19265,7 +19128,7 @@ Ext.define('Ext.util.Format', {
                          * © 2011 Colin Snover <http://zetafleet.com>
                          * Released under MIT license.
                          */
-                        var potentialUndefinedKeys = [ 1, 4, 5, 6, 7, 10, 11 ];
+                        var potentialUndefinedKeys = [1, 4, 5, 6, 7, 10, 11];
                         var dateParsed, minutesOffset = 0;
 
                         // Capture Groups
@@ -19283,7 +19146,8 @@ Ext.define('Ext.util.Format', {
                         if ((dateParsed = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec(value))) {
 
                             //Set any undefined values needed for Date to 0
-                            for (var i = 0, k; (k = potentialUndefinedKeys[i]); ++i) {
+                            for (var i = 0, k;
+                                (k = potentialUndefinedKeys[i]); ++i) {
                                 dateParsed[k] = +dateParsed[k] || 0;
                             }
 
@@ -19353,7 +19217,7 @@ Ext.define('Ext.Template', {
 
     /* Begin Definitions */
 
-                                                    
+
 
     inheritableStatics: {
         /**
@@ -19408,7 +19272,7 @@ Ext.define('Ext.Template', {
             value;
 
         me.initialConfig = {};
-        
+
         // Allow an array to be passed here so we can
         // pass an array of strings and an object
         // at the end
@@ -19488,18 +19352,16 @@ Ext.define('Ext.Template', {
         function fn(m, name, format, args) {
             if (format && useFormat) {
                 if (args) {
-                    args = [values[name]].concat(Ext.functionFactory('return ['+ args +'];')());
+                    args = [values[name]].concat(Ext.functionFactory('return [' + args + '];')());
                 } else {
                     args = [values[name]];
                 }
                 if (format.substr(0, 5) == "this.") {
                     return tpl[format.substr(5)].apply(tpl, args);
-                }
-                else {
+                } else {
                     return fm[format].apply(fm, args);
                 }
-            }
-            else {
+            } else {
                 return values[name] !== undefined ? values[name] : "";
             }
         }
@@ -19532,7 +19394,7 @@ Ext.define('Ext.Template', {
      * Alias for {@link #apply}.
      * @inheritdoc Ext.Template#apply
      */
-    applyTemplate: function () {
+    applyTemplate: function() {
         return this.apply.apply(this, arguments);
     },
 
@@ -19565,15 +19427,13 @@ Ext.define('Ext.Template', {
 
         function fn(m, name, format, args) {
             if (format && useFormat) {
-                args = args ? ',' + args: "";
+                args = args ? ',' + args : "";
                 if (format.substr(0, 5) != "this.") {
                     format = "fm." + format + '(';
-                }
-                else {
+                } else {
                     format = 'this.' + format.substr(5) + '(';
                 }
-            }
-            else {
+            } else {
                 args = '';
                 format = "(values['" + name + "'] == undefined ? '' : ";
             }
@@ -19660,7 +19520,7 @@ Ext.define('Ext.Template', {
  * @private
  */
 Ext.define('Ext.XTemplateParser', {
-    constructor: function (config) {
+    constructor: function(config) {
         Ext.apply(this, config);
     },
 
@@ -19687,7 +19547,7 @@ Ext.define('Ext.XTemplateParser', {
 
     /**
      * This method is called to process simple tags (like `{tag}`).
-     * @param {String} tag 
+     * @param {String} tag
      * @method doTag
      */
     // doTag: function (tag)
@@ -19781,10 +19641,12 @@ Ext.define('Ext.XTemplateParser', {
      */
     doTpl: Ext.emptyFn,
 
-    parse: function (str) {
+    parse: function(str) {
         var me = this,
             len = str.length,
-            aliases = { elseif: 'elif' },
+            aliases = {
+                elseif: 'elif'
+            },
             topRe = me.topRe,
             actionsRe = me.actionsRe,
             index, stack, s, m, t, prev, frame, subMatch, begin, end, actions,
@@ -19810,12 +19672,12 @@ Ext.define('Ext.XTemplateParser', {
             }
 
             if (m[1]) {
-                end = str.indexOf('%}', begin+2);
-                me.doEval(str.substring(begin+2, end));
+                end = str.indexOf('%}', begin + 2);
+                me.doEval(str.substring(begin + 2, end));
                 end += 2;
             } else if (m[2]) {
-                end = str.indexOf(']}', begin+2);
-                me.doExpr(str.substring(begin+2, end));
+                end = str.indexOf(']}', begin + 2);
+                me.doExpr(str.substring(begin + 2, end));
                 end += 2;
             } else if (m[3]) { // if ('{' token)
                 me.doTag(m[3]);
@@ -19847,24 +19709,25 @@ Ext.define('Ext.XTemplateParser', {
                         me.doDefault();
                     } else {
                         me.doTpl();
-                        stack.push({ type: 'tpl' });
+                        stack.push({
+                            type: 'tpl'
+                        });
                     }
-                }
-                else if (actions['if']) {
+                } else if (actions['if']) {
                     me.doIf(actions['if'], actions);
-                    stack.push({ type: 'if' });
-                }
-                else if (actions['switch']) {
+                    stack.push({
+                        type: 'if'
+                    });
+                } else if (actions['switch']) {
                     me.doSwitch(actions['switch'], actions);
-                    stack.push({ type: 'switch' });
-                }
-                else if (actions['case']) {
+                    stack.push({
+                        type: 'switch'
+                    });
+                } else if (actions['case']) {
                     me.doCase(actions['case'], actions);
-                }
-                else if (actions['elif']) {
+                } else if (actions['elif']) {
                     me.doElseIf(actions['elif'], actions);
-                }
-                else if (actions['for']) {
+                } else if (actions['for']) {
                     ++me.level;
 
                     // Extract property name to use from indexed item
@@ -19872,11 +19735,16 @@ Ext.define('Ext.XTemplateParser', {
                         actions.propName = prop[1] || prop[2];
                     }
                     me.doFor(actions['for'], actions);
-                    stack.push({ type: 'for', actions: actions });
-                }
-                else if (actions.exec) {
+                    stack.push({
+                        type: 'for',
+                        actions: actions
+                    });
+                } else if (actions.exec) {
                     me.doExec(actions.exec, actions);
-                    stack.push({ type: 'exec', actions: actions });
+                    stack.push({
+                        type: 'exec',
+                        actions: actions
+                    });
                 }
                 /*
                 else {
@@ -19886,7 +19754,9 @@ Ext.define('Ext.XTemplateParser', {
             } else if (m[0].length === 5) {
                 // if the length of m[0] is 5, assume that we're dealing with an opening tpl tag with no attributes (e.g. <tpl>...</tpl>)
                 // in this case no action is needed other than pushing it on to the stack
-                stack.push({ type: 'tpl' });
+                stack.push({
+                    type: 'tpl'
+                });
             } else {
                 frame = stack.pop();
                 me.doEnd(frame.type, frame.actions);
@@ -19898,12 +19768,12 @@ Ext.define('Ext.XTemplateParser', {
     },
 
     // Internal regexes
-    
-    topRe:     /(?:(\{\%)|(\{\[)|\{([^{}]*)\})|(?:<tpl([^>]*)\>)|(?:<\/tpl>)/g,
+
+    topRe: /(?:(\{\%)|(\{\[)|\{([^{}]*)\})|(?:<tpl([^>]*)\>)|(?:<\/tpl>)/g,
     actionsRe: /\s*(elif|elseif|if|for|exec|switch|case|eval)\s*\=\s*(?:(?:"([^"]*)")|(?:'([^']*)'))\s*/g,
-    propRe:    /prop=(?:(?:"([^"]*)")|(?:'([^']*)'))/,
+    propRe: /prop=(?:(?:"([^"]*)")|(?:'([^']*)'))/,
     defaultRe: /^\s*default\s*$/,
-    elseRe:    /^\s*else\s*$/
+    elseRe: /^\s*else\s*$/
 });
 
 /**
@@ -19918,7 +19788,7 @@ Ext.define('Ext.XTemplateParser', {
  * @private
  */
 Ext.define('Ext.XTemplateCompiler', {
-    extend:  Ext.XTemplateParser ,
+    extend: Ext.XTemplateParser,
 
     // Chrome really likes "new Function" to realize the code block (as in it is
     // 2x-3x faster to call it than using eval), but Firefox chokes on it badly.
@@ -19934,7 +19804,7 @@ Ext.define('Ext.XTemplateCompiler', {
 
     propNameRe: /^[\w\d\$]*$/,
 
-    compile: function (tpl) {
+    compile: function(tpl) {
         var me = this,
             code = me.generate(tpl);
 
@@ -19945,7 +19815,7 @@ Ext.define('Ext.XTemplateCompiler', {
         return me.useEval ? me.evalTpl(code) : (new Function('Ext', code))(Ext);
     },
 
-    generate: function (tpl) {
+    generate: function(tpl) {
         var me = this,
             // note: Ext here is properly sandboxed
             definitions = 'var fm=Ext.util.Format,ts=Object.prototype.toString;',
@@ -19959,12 +19829,12 @@ Ext.define('Ext.XTemplateCompiler', {
         ];
         if (me.definitions) {
             if (typeof me.definitions === 'string') {
-                me.definitions = [me.definitions, definitions ];
+                me.definitions = [me.definitions, definitions];
             } else {
                 me.definitions.push(definitions);
             }
         } else {
-            me.definitions = [ definitions ];
+            me.definitions = [definitions];
         }
         me.switches = [];
 
@@ -19972,7 +19842,7 @@ Ext.define('Ext.XTemplateCompiler', {
 
         me.definitions.push(
             (me.useEval ? '$=' : 'return') + ' function (' + me.fnArgs + ') {',
-                me.body.join(''),
+            me.body.join(''),
             '}'
         );
 
@@ -19991,7 +19861,7 @@ Ext.define('Ext.XTemplateCompiler', {
     // XTemplateParser callouts
 
     //
-    doText: function (text) {
+    doText: function(text) {
         var me = this,
             out = me.body;
 
@@ -20003,32 +19873,32 @@ Ext.define('Ext.XTemplateCompiler', {
         }
     },
 
-    doExpr: function (expr) {
+    doExpr: function(expr) {
         var out = this.body;
-            out.push('v=' + expr + '; if (v !== undefined && v !== null) out');
+        out.push('v=' + expr + '; if (v !== undefined && v !== null) out');
 
         // Coerce value to string using concatenation of an empty string literal.
         // See http://jsperf.com/tostringvscoercion/5
         if (this.useIndex) {
-             out.push('[out.length]=v+\'\'\n');
+            out.push('[out.length]=v+\'\'\n');
         } else {
-             out.push('.push(v+\'\')\n');
+            out.push('.push(v+\'\')\n');
         }
     },
 
-    doTag: function (tag) {
+    doTag: function(tag) {
         this.doExpr(this.parseTag(tag));
     },
 
-    doElse: function () {
+    doElse: function() {
         this.body.push('} else {\n');
     },
 
-    doEval: function (text) {
+    doEval: function(text) {
         this.body.push(text, '\n');
     },
 
-    doIf: function (action, actions) {
+    doIf: function(action, actions) {
         var me = this;
 
         // If it's just a propName, use it directly in the if
@@ -20046,7 +19916,7 @@ Ext.define('Ext.XTemplateCompiler', {
         }
     },
 
-    doElseIf: function (action, actions) {
+    doElseIf: function(action, actions) {
         var me = this;
 
         // If it's just a propName, use it directly in the else if
@@ -20064,7 +19934,7 @@ Ext.define('Ext.XTemplateCompiler', {
         }
     },
 
-    doSwitch: function (action) {
+    doSwitch: function(action) {
         var me = this;
 
         // If it's just a propName, use it directly in the switch
@@ -20080,7 +19950,7 @@ Ext.define('Ext.XTemplateCompiler', {
         me.switches.push(0);
     },
 
-    doCase: function (action) {
+    doCase: function(action) {
         var me = this,
             cases = Ext.isArray(action) ? action : [action],
             n = me.switches.length - 1,
@@ -20094,13 +19964,13 @@ Ext.define('Ext.XTemplateCompiler', {
 
         for (i = 0, n = cases.length; i < n; ++i) {
             match = me.intRe.exec(cases[i]);
-            cases[i] = match ? match[1] : ("'" + cases[i].replace(me.aposRe,"\\'") + "'");
+            cases[i] = match ? match[1] : ("'" + cases[i].replace(me.aposRe, "\\'") + "'");
         }
 
         me.body.push('case ', cases.join(': case '), ':\n');
     },
 
-    doDefault: function () {
+    doDefault: function() {
         var me = this,
             n = me.switches.length - 1;
 
@@ -20113,9 +19983,9 @@ Ext.define('Ext.XTemplateCompiler', {
         me.body.push('default:\n');
     },
 
-    doEnd: function (type, actions) {
+    doEnd: function(type, actions) {
         var me = this,
-            L = me.level-1;
+            L = me.level - 1;
 
         if (type == 'for') {
             /*
@@ -20137,17 +20007,17 @@ Ext.define('Ext.XTemplateCompiler', {
             }
 
             me.body.push('}\n');
-            me.body.push('parent=p',L,';values=r',L+1,';xcount=n',L,';xindex=i',L,'\n');
+            me.body.push('parent=p', L, ';values=r', L + 1, ';xcount=n', L, ';xindex=i', L, '\n');
         } else if (type == 'if' || type == 'switch') {
             me.body.push('}\n');
         }
     },
 
-    doFor: function (action, actions) {
+    doFor: function(action, actions) {
         var me = this,
             s,
             L = me.level,
-            up = L-1,
+            up = L - 1,
             pL = 'p' + L,
             parentAssignment;
 
@@ -20216,16 +20086,16 @@ Ext.define('Ext.XTemplateCompiler', {
             parentAssignment = 'a' + up + '?c' + up + '[i' + up + ']:p' + L;
         }
 
-        me.body.push('i',L,'=0,n', L, '=0,c',L,'=',s,',a',L,'=', me.createArrayTest(L), ',p',L,'=c',up,',r',L,'=values;\n',
-            'parent=',parentAssignment,'\n',
-            'if (c',L,'){if(a',L,'){n', L,'=c', L, '.length;}else if (c', L, '.isMixedCollection){c',L,'=c',L,'.items;n',L,'=c',L,'.length;}else if(c',L,'.isStore){c',L,'=c',L,'.data.items;n',L,'=c',L,'.length;}else{c',L,'=[c',L,'];n',L,'=1;}}\n',
-            'for (xcount=n',L,';i',L,'<n'+L+';++i',L,'){\n',
-            'values=c',L,'[i',L,']');
+        me.body.push('i', L, '=0,n', L, '=0,c', L, '=', s, ',a', L, '=', me.createArrayTest(L), ',p', L, '=c', up, ',r', L, '=values;\n',
+            'parent=', parentAssignment, '\n',
+            'if (c', L, '){if(a', L, '){n', L, '=c', L, '.length;}else if (c', L, '.isMixedCollection){c', L, '=c', L, '.items;n', L, '=c', L, '.length;}else if(c', L, '.isStore){c', L, '=c', L, '.data.items;n', L, '=c', L, '.length;}else{c', L, '=[c', L, '];n', L, '=1;}}\n',
+            'for (xcount=n', L, ';i', L, '<n' + L + ';++i', L, '){\n',
+            'values=c', L, '[i', L, ']');
         if (actions.propName) {
             me.body.push('.', actions.propName);
         }
         me.body.push('\n',
-            'xindex=i',L,'+1\n');
+            'xindex=i', L, '+1\n');
     },
 
     createArrayTest: ('isArray' in Array) ? function(L) {
@@ -20234,17 +20104,17 @@ Ext.define('Ext.XTemplateCompiler', {
         return 'ts.call(c' + L + ')==="[object Array]"';
     },
 
-    doExec: function (action, actions) {
+    doExec: function(action, actions) {
         var me = this,
             name = 'f' + me.definitions.length;
 
         me.definitions.push('function ' + name + '(' + me.fnArgs + ') {',
-                            ' try { with(values) {',
-                            '  ' + action,
-                            ' }} catch(e) {',
-                            'Ext.Logger.log("XTemplate Error: " + e.message);',
-                            '}',
-                      '}');
+            ' try { with(values) {',
+            '  ' + action,
+            ' }} catch(e) {',
+            'Ext.Logger.log("XTemplate Error: " + e.message);',
+            '}',
+            '}');
 
         me.body.push(name + me.callFn + '\n');
     },
@@ -20253,32 +20123,32 @@ Ext.define('Ext.XTemplateCompiler', {
     // Internal
 
     //
-    addFn: function (body) {
+    addFn: function(body) {
         var me = this,
             name = 'f' + me.definitions.length;
 
         if (body === '.') {
             me.definitions.push('function ' + name + '(' + me.fnArgs + ') {',
-                            ' return values',
-                       '}');
+                ' return values',
+                '}');
         } else if (body === '..') {
             me.definitions.push('function ' + name + '(' + me.fnArgs + ') {',
-                            ' return parent',
-                       '}');
+                ' return parent',
+                '}');
         } else {
             me.definitions.push('function ' + name + '(' + me.fnArgs + ') {',
-                            ' try { with(values) {',
-                            '  return(' + body + ')',
-                            ' }} catch(e) {',
-                            'Ext.Logger.log("XTemplate Error: " + e.message);',
-                            '}',
-                       '}');
+                ' try { with(values) {',
+                '  return(' + body + ')',
+                ' }} catch(e) {',
+                'Ext.Logger.log("XTemplate Error: " + e.message);',
+                '}',
+                '}');
         }
 
         return name;
     },
 
-    parseTag: function (tag) {
+    parseTag: function(tag) {
         var me = this,
             m = me.tagRe.exec(tag),
             name = m[1],
@@ -20299,8 +20169,7 @@ Ext.define('Ext.XTemplateCompiler', {
         // name = "#" - Use the xindex
         else if (name == '#') {
             v = 'xindex';
-        }
-        else if (name.substr(0, 7) == "parent.") {
+        } else if (name.substr(0, 7) == "parent.") {
             v = name;
         }
         // compound JavaScript property name (e.g., "foo.bar")
@@ -20332,7 +20201,7 @@ Ext.define('Ext.XTemplateCompiler', {
     },
 
     // @private
-    evalTpl: function ($) {
+    evalTpl: function($) {
 
         // We have to use eval to realize the code block and capture the inner func we also
         // don't want a deep scope chain. We only do this in Firefox and it is also unhappy
@@ -20344,9 +20213,9 @@ Ext.define('Ext.XTemplateCompiler', {
 
     newLineRe: /\r\n|\r|\n/g,
     aposRe: /[']/g,
-    intRe:  /^\s*(\d+)\s*$/,
-    tagRe:  /([\w-\.\#\$]+)(?:\:([\w\.]*)(?:\((.*?)?\))?)?(\s?[\+\-\*\/]\s?[\d\.\+\-\*\/\(\)]+)?/
-}, function () {
+    intRe: /^\s*(\d+)\s*$/,
+    tagRe: /([\w-\.\#\$]+)(?:\:([\w\.]*)(?:\((.*?)?\))?)?(\s?[\+\-\*\/]\s?[\d\.\+\-\*\/\(\)]+)?/
+}, function() {
     var proto = this.prototype;
 
     proto.fnArgs = 'out,values,parent,xindex,xcount';
@@ -20614,9 +20483,9 @@ Ext.define('Ext.XTemplateCompiler', {
  *     tpl.overwrite(panel.body, data);
  */
 Ext.define('Ext.XTemplate', {
-    extend:  Ext.Template ,
+    extend: Ext.Template,
 
-                                      
+
 
     /**
      * @private
@@ -20642,15 +20511,15 @@ Ext.define('Ext.XTemplate', {
      * @return {Array} The given out array.
      */
     applyOut: function(values, out, parent) {
-        var me     = this,
+        var me = this,
             xindex = values.xindex,
             xcount = values.xcount,
             compiler;
 
         if (!me.fn) {
             compiler = new Ext.XTemplateCompiler({
-                useFormat   : me.disableFormats !== true,
-                definitions : me.definitions
+                useFormat: me.disableFormats !== true,
+                definitions: me.definitions
             });
 
             me.fn = compiler.compile(me.html);
@@ -20684,7 +20553,7 @@ Ext.define('Ext.XTemplate', {
          * these templates are seldom actual instances but are rather configurations. For
          * example:
          *
-         *      Ext.define('MyApp.Class', {
+         *      Ext.define('Xpoit.Class', {
          *          someTpl: [
          *              'tpl text here'
          *          ]
@@ -20701,7 +20570,7 @@ Ext.define('Ext.XTemplate', {
          * @return {Ext.XTemplate} The `XTemplate` instance or null if not found.
          * @protected
          */
-        getTpl: function (instance, name) {
+        getTpl: function(instance, name) {
             var tpl = instance[name], // go for it! 99% of the time we will get it!
                 proto;
 
@@ -20786,7 +20655,7 @@ Ext.define('Ext.fx.easing.Abstract', {
  */
 Ext.define('Ext.fx.easing.Linear', {
 
-    extend:  Ext.fx.easing.Abstract ,
+    extend: Ext.fx.easing.Abstract,
 
     alias: 'easing.linear',
 
@@ -20810,8 +20679,7 @@ Ext.define('Ext.fx.easing.Linear', {
         if (deltaTime > duration) {
             this.isEnded = true;
             return this.getEndValue();
-        }
-        else {
+        } else {
             return this.getStartValue() + ((deltaTime / duration) * this.distance);
         }
     }
@@ -20824,9 +20692,9 @@ Ext.define('Ext.fx.easing.Linear', {
  * the 'translate' method
  */
 Ext.define('Ext.util.translatable.Abstract', {
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
-                                       
+
 
     config: {
         useWrapper: null,
@@ -20926,8 +20794,7 @@ Ext.define('Ext.util.translatable.Abstract', {
 
         if (axis == 'x') {
             x = value;
-        }
-        else {
+        } else {
             y = value;
         }
 
@@ -21012,8 +20879,7 @@ Ext.define('Ext.util.translatable.Abstract', {
                 me.activeEasingX = null;
                 me.fireEvent('axisanimationend', me, 'x', x);
             }
-        }
-        else {
+        } else {
             x = me.x;
         }
 
@@ -21024,8 +20890,7 @@ Ext.define('Ext.util.translatable.Abstract', {
                 me.activeEasingY = null;
                 me.fireEvent('axisanimationend', me, 'y', y);
             }
-        }
-        else {
+        } else {
             y = me.y;
         }
 
@@ -21070,7 +20935,7 @@ Ext.define('Ext.util.translatable.Abstract', {
  * @private
  */
 Ext.define('Ext.util.translatable.Dom', {
-    extend:  Ext.util.translatable.Abstract ,
+    extend: Ext.util.translatable.Abstract,
 
     config: {
         element: null
@@ -21095,7 +20960,7 @@ Ext.define('Ext.util.translatable.Dom', {
  * CSS Transform implementation
  */
 Ext.define('Ext.util.translatable.CssTransform', {
-    extend:  Ext.util.translatable.Dom ,
+    extend: Ext.util.translatable.Dom,
 
     doTranslate: function(x, y) {
         var element = this.getElement();
@@ -21121,7 +20986,7 @@ Ext.define('Ext.util.translatable.CssTransform', {
  * Scroll position implementation
  */
 Ext.define('Ext.util.translatable.ScrollPosition', {
-    extend:  Ext.util.translatable.Dom ,
+    extend: Ext.util.translatable.Dom,
 
     type: 'scrollposition',
 
@@ -21147,8 +21012,7 @@ Ext.define('Ext.util.translatable.ScrollPosition', {
 
             if (this.getUseWrapper()) {
                 wrapper = element.wrap();
-            }
-            else {
+            } else {
                 wrapper = container;
             }
 
@@ -21217,7 +21081,7 @@ Ext.define('Ext.util.translatable.ScrollPosition', {
  */
 
 Ext.define('Ext.util.translatable.CssPosition', {
-    extend:  Ext.util.translatable.Dom ,
+    extend: Ext.util.translatable.Dom,
 
     doTranslate: function(x, y) {
         var domStyle = this.getElement().dom.style;
@@ -21248,22 +21112,19 @@ Ext.define('Ext.util.translatable.CssPosition', {
  * @private
  */
 Ext.define('Ext.util.Translatable', {
-               
-                                             
-                                               
-                                           
-      
+
+
 
     constructor: function(config) {
         var namespace = Ext.util.translatable;
 
         switch (Ext.browser.getPreferredTranslationMethod(config)) {
-        case 'scrollposition':
-            return new namespace.ScrollPosition(config);
-        case 'csstransform':
-            return new namespace.CssTransform(config);
-        case 'cssposition':
-            return new namespace.CssPosition(config);
+            case 'scrollposition':
+                return new namespace.ScrollPosition(config);
+            case 'csstransform':
+                return new namespace.CssTransform(config);
+            case 'cssposition':
+                return new namespace.CssPosition(config);
         }
     }
 });
@@ -21273,11 +21134,9 @@ Ext.define('Ext.util.Translatable', {
  */
 Ext.define('Ext.behavior.Translatable', {
 
-    extend:  Ext.behavior.Behavior ,
+    extend: Ext.behavior.Behavior,
 
-               
-                               
-      
+
 
     setConfig: function(config) {
         var translatable = this.translatable,
@@ -21288,12 +21147,10 @@ Ext.define('Ext.behavior.Translatable', {
                 this.translatable = translatable = new Ext.util.Translatable(config);
                 translatable.setElement(component.renderElement);
                 translatable.on('destroy', 'onTranslatableDestroy', this);
-            }
-            else if (Ext.isObject(config)) {
+            } else if (Ext.isObject(config)) {
                 translatable.setConfig(config);
             }
-        }
-        else if (translatable) {
+        } else if (translatable) {
             translatable.destroy();
         }
 
@@ -21326,12 +21183,10 @@ Ext.define('Ext.util.Draggable', {
     isDraggable: true,
 
     mixins: [
-         Ext.mixin.Observable 
+        Ext.mixin.Observable
     ],
 
-               
-                               
-      
+
 
     /**
      * @event dragstart
@@ -21399,8 +21254,14 @@ Ext.define('Ext.util.Draggable', {
     DIRECTION_HORIZONTAL: 'horizontal',
 
     defaultConstraint: {
-        min: { x: -Infinity, y: -Infinity },
-        max: { x: Infinity, y: Infinity }
+        min: {
+            x: -Infinity,
+            y: -Infinity
+        },
+        max: {
+            x: Infinity,
+            y: Infinity
+        }
     },
 
     containerWidth: 0,
@@ -21429,9 +21290,9 @@ Ext.define('Ext.util.Draggable', {
 
         this.listeners = {
             dragstart: 'onDragStart',
-            drag     : 'onDrag',
-            dragend  : 'onDragEnd',
-            resize   : 'onElementResize',
+            drag: 'onDrag',
+            dragend: 'onDragEnd',
+            resize: 'onElementResize',
             scope: this
         };
 
@@ -21532,8 +21393,14 @@ Ext.define('Ext.util.Draggable', {
         }
 
         return {
-            min: { x: 0, y: 0 },
-            max: { x: this.containerWidth - this.width, y: this.containerHeight - this.height }
+            min: {
+                x: 0,
+                y: 0
+            },
+            max: {
+                x: this.containerWidth - this.width,
+                y: this.containerHeight - this.height
+            }
         };
     },
 
@@ -21648,15 +21515,13 @@ Ext.define('Ext.util.Draggable', {
 
         if (this.isAxisEnabled('x') && typeof x == 'number') {
             x = min(max(x, minOffset.x), maxOffset.x);
-        }
-        else {
+        } else {
             x = currentOffset.x;
         }
 
         if (this.isAxisEnabled('y') && typeof y == 'number') {
             y = min(max(y, minOffset.y), maxOffset.y);
-        }
-        else {
+        } else {
             y = currentOffset.y;
         }
 
@@ -21717,8 +21582,7 @@ Ext.define('Ext.util.Draggable', {
         }
     }
 
-}, function() {
-});
+}, function() {});
 
 
 /**
@@ -21726,11 +21590,9 @@ Ext.define('Ext.util.Draggable', {
  */
 Ext.define('Ext.behavior.Draggable', {
 
-    extend:  Ext.behavior.Behavior ,
+    extend: Ext.behavior.Behavior,
 
-               
-                            
-      
+
 
     setConfig: function(config) {
         var draggable = this.draggable,
@@ -21745,12 +21607,10 @@ Ext.define('Ext.behavior.Draggable', {
                 draggable.on('destroy', 'onDraggableDestroy', this);
 
                 component.on(this.listeners);
-            }
-            else if (Ext.isObject(config)) {
+            } else if (Ext.isObject(config)) {
                 draggable.setConfig(config);
             }
-        }
-        else if (draggable) {
+        } else if (draggable) {
             draggable.destroy();
         }
 
@@ -21776,7 +21636,7 @@ Ext.define('Ext.behavior.Draggable', {
 
 (function(clsPrefix) {
 
-/**
+    /**
  * Most of the visual classes you interact with in Sencha Touch are Components. Every Component in Sencha Touch is a
  * subclass of Ext.Component, which means they can all:
  *
@@ -22005,1577 +21865,1465 @@ Ext.define('Ext.behavior.Draggable', {
  * @aside guide events
  *
  */
-Ext.define('Ext.Component', {
+    Ext.define('Ext.Component', {
 
-    extend:  Ext.AbstractComponent ,
+        extend: Ext.AbstractComponent,
 
-    alternateClassName: 'Ext.lib.Component',
+        alternateClassName: 'Ext.lib.Component',
 
-    mixins: [ Ext.mixin.Traversable ],
+        mixins: [Ext.mixin.Traversable],
 
-               
-                               
-                        
-                          
-                                    
-                                
-      
 
-    /**
-     * @cfg {String} xtype
-     * The `xtype` configuration option can be used to optimize Component creation and rendering. It serves as a
-     * shortcut to the full component name. For example, the component `Ext.button.Button` has an xtype of `button`.
-     *
-     * You can define your own xtype on a custom {@link Ext.Component component} by specifying the
-     * {@link Ext.Class#alias alias} config option with a prefix of `widget`. For example:
-     *
-     *     Ext.define('PressMeButton', {
-     *         extend: 'Ext.button.Button',
-     *         alias: 'widget.pressmebutton',
-     *         text: 'Press Me'
-     *     });
-     *
-     * Any Component can be created implicitly as an object config with an xtype specified, allowing it to be
-     * declared and passed into the rendering pipeline without actually being instantiated as an object. Not only is
-     * rendering deferred, but the actual creation of the object itself is also deferred, saving memory and resources
-     * until they are actually needed. In complex, nested layouts containing many Components, this can make a
-     * noticeable improvement in performance.
-     *
-     *     // Explicit creation of contained Components:
-     *     var panel = new Ext.Panel({
-     *        // ...
-     *        items: [
-     *           Ext.create('Ext.button.Button', {
-     *              text: 'OK'
-     *           })
-     *        ]
-     *     });
-     *
-     *     // Implicit creation using xtype:
-     *     var panel = new Ext.Panel({
-     *        // ...
-     *        items: [{
-     *           xtype: 'button',
-     *           text: 'OK'
-     *        }]
-     *     });
-     *
-     * In the first example, the button will always be created immediately during the panel's initialization. With
-     * many added Components, this approach could potentially slow the rendering of the page. In the second example,
-     * the button will not be created or rendered until the panel is actually displayed in the browser. If the panel
-     * is never displayed (for example, if it is a tab that remains hidden) then the button will never be created and
-     * will never consume any resources whatsoever.
-     */
-    xtype: 'component',
-
-    observableType: 'component',
-
-    cachedConfig: {
-        /**
-         * @cfg {String} baseCls
-         * The base CSS class to apply to this component's element. This will also be prepended to
-         * other elements within this component. To add specific styling for sub-classes, use the {@link #cls} config.
-         * @accessor
-         */
-        baseCls: null,
 
         /**
-         * @cfg {String/String[]} cls The CSS class to add to this component's element, in addition to the {@link #baseCls}
-         * @accessor
-         */
-        cls: null,
-
-        /**
-         * @cfg {String} [floatingCls="x-floating"] The CSS class to add to this component when it is floatable.
-         * @accessor
-         */
-        floatingCls: clsPrefix + 'floating',
-
-        /**
-         * @cfg {String} [hiddenCls="x-item-hidden"] The CSS class to add to the component when it is hidden
-         * @accessor
-         */
-        hiddenCls: clsPrefix + 'item-hidden',
-
-        /**
-         * @cfg {String} ui The ui to be used on this Component
-         */
-        ui: null,
-
-        /**
-         * @cfg {Number/String} margin The margin to use on this Component. Can be specified as a number (in which case
-         * all edges get the same margin) or a CSS string like '5 10 10 10'
-         * @accessor
-         */
-        margin: null,
-
-        /**
-         * @cfg {Number/String} padding The padding to use on this Component. Can be specified as a number (in which
-         * case all edges get the same padding) or a CSS string like '5 10 10 10'
-         * @accessor
-         */
-        padding: null,
-
-        /**
-         * @cfg {Number/String} border The border width to use on this Component. Can be specified as a number (in which
-         * case all edges get the same border width) or a CSS string like '5 10 10 10'.
+         * @cfg {String} xtype
+         * The `xtype` configuration option can be used to optimize Component creation and rendering. It serves as a
+         * shortcut to the full component name. For example, the component `Ext.button.Button` has an xtype of `button`.
          *
-         * Please note that this will not add
-         * a `border-color` or `border-style` CSS property to the component; you must do that manually using either CSS or
-         * the {@link #style} configuration.
+         * You can define your own xtype on a custom {@link Ext.Component component} by specifying the
+         * {@link Ext.Class#alias alias} config option with a prefix of `widget`. For example:
          *
-         * ## Using {@link #style}:
-         *
-         *     Ext.Viewport.add({
-         *         centered: true,
-         *         width: 100,
-         *         height: 100,
-         *
-         *         border: 3,
-         *         style: 'border-color: blue; border-style: solid;'
-         *         // ...
+         *     Ext.define('PressMeButton', {
+         *         extend: 'Ext.button.Button',
+         *         alias: 'widget.pressmebutton',
+         *         text: 'Press Me'
          *     });
          *
-         * ## Using CSS:
+         * Any Component can be created implicitly as an object config with an xtype specified, allowing it to be
+         * declared and passed into the rendering pipeline without actually being instantiated as an object. Not only is
+         * rendering deferred, but the actual creation of the object itself is also deferred, saving memory and resources
+         * until they are actually needed. In complex, nested layouts containing many Components, this can make a
+         * noticeable improvement in performance.
          *
-         *     Ext.Viewport.add({
-         *         centered: true,
-         *         width: 100,
-         *         height: 100,
-         *
-         *         border: 3,
-         *         cls: 'my-component'
-         *         // ...
+         *     // Explicit creation of contained Components:
+         *     var panel = new Ext.Panel({
+         *        // ...
+         *        items: [
+         *           Ext.create('Ext.button.Button', {
+         *              text: 'OK'
+         *           })
+         *        ]
          *     });
          *
-         * And your CSS file:
+         *     // Implicit creation using xtype:
+         *     var panel = new Ext.Panel({
+         *        // ...
+         *        items: [{
+         *           xtype: 'button',
+         *           text: 'OK'
+         *        }]
+         *     });
          *
-         *     .my-component {
-         *         border-color: red;
-         *         border-style: solid;
-         *     }
-         *
-         * @accessor
+         * In the first example, the button will always be created immediately during the panel's initialization. With
+         * many added Components, this approach could potentially slow the rendering of the page. In the second example,
+         * the button will not be created or rendered until the panel is actually displayed in the browser. If the panel
+         * is never displayed (for example, if it is a tab that remains hidden) then the button will never be created and
+         * will never consume any resources whatsoever.
          */
-        border: null,
+        xtype: 'component',
+
+        observableType: 'component',
+
+        cachedConfig: {
+            /**
+             * @cfg {String} baseCls
+             * The base CSS class to apply to this component's element. This will also be prepended to
+             * other elements within this component. To add specific styling for sub-classes, use the {@link #cls} config.
+             * @accessor
+             */
+            baseCls: null,
+
+            /**
+             * @cfg {String/String[]} cls The CSS class to add to this component's element, in addition to the {@link #baseCls}
+             * @accessor
+             */
+            cls: null,
+
+            /**
+             * @cfg {String} [floatingCls="x-floating"] The CSS class to add to this component when it is floatable.
+             * @accessor
+             */
+            floatingCls: clsPrefix + 'floating',
+
+            /**
+             * @cfg {String} [hiddenCls="x-item-hidden"] The CSS class to add to the component when it is hidden
+             * @accessor
+             */
+            hiddenCls: clsPrefix + 'item-hidden',
+
+            /**
+             * @cfg {String} ui The ui to be used on this Component
+             */
+            ui: null,
+
+            /**
+             * @cfg {Number/String} margin The margin to use on this Component. Can be specified as a number (in which case
+             * all edges get the same margin) or a CSS string like '5 10 10 10'
+             * @accessor
+             */
+            margin: null,
+
+            /**
+             * @cfg {Number/String} padding The padding to use on this Component. Can be specified as a number (in which
+             * case all edges get the same padding) or a CSS string like '5 10 10 10'
+             * @accessor
+             */
+            padding: null,
+
+            /**
+             * @cfg {Number/String} border The border width to use on this Component. Can be specified as a number (in which
+             * case all edges get the same border width) or a CSS string like '5 10 10 10'.
+             *
+             * Please note that this will not add
+             * a `border-color` or `border-style` CSS property to the component; you must do that manually using either CSS or
+             * the {@link #style} configuration.
+             *
+             * ## Using {@link #style}:
+             *
+             *     Ext.Viewport.add({
+             *         centered: true,
+             *         width: 100,
+             *         height: 100,
+             *
+             *         border: 3,
+             *         style: 'border-color: blue; border-style: solid;'
+             *         // ...
+             *     });
+             *
+             * ## Using CSS:
+             *
+             *     Ext.Viewport.add({
+             *         centered: true,
+             *         width: 100,
+             *         height: 100,
+             *
+             *         border: 3,
+             *         cls: 'my-component'
+             *         // ...
+             *     });
+             *
+             * And your CSS file:
+             *
+             *     .my-component {
+             *         border-color: red;
+             *         border-style: solid;
+             *     }
+             *
+             * @accessor
+             */
+            border: null,
+
+            /**
+             * @cfg {String} [styleHtmlCls="x-html"]
+             * The class that is added to the content target when you set `styleHtmlContent` to `true`.
+             * @accessor
+             */
+            styleHtmlCls: clsPrefix + 'html',
+
+            /**
+             * @cfg {Boolean} [styleHtmlContent=false]
+             * `true` to automatically style the HTML inside the content target of this component (body for panels).
+             * @accessor
+             */
+            styleHtmlContent: null
+        },
+
+        eventedConfig: {
+            /**
+             * @cfg {Number} flex
+             * The flex of this item *if* this item item is inside a {@link Ext.layout.HBox} or {@link Ext.layout.VBox}
+             * layout.
+             *
+             * You can also update the flex of a component dynamically using the {@link Ext.layout.FlexBox#setItemFlex}
+             * method.
+             */
+            flex: null,
+
+            /**
+             * @cfg {Number/String} left
+             * The absolute left position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * Explicitly setting this value will make this Component become 'floating', which means its layout will no
+             * longer be affected by the Container that it resides in.
+             * @accessor
+             * @evented
+             */
+            left: null,
+
+            /**
+             * @cfg {Number/String} top
+             * The absolute top position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * Explicitly setting this value will make this Component become 'floating', which means its layout will no
+             * longer be affected by the Container that it resides in.
+             * @accessor
+             * @evented
+             */
+            top: null,
+
+            /**
+             * @cfg {Number/String} right
+             * The absolute right position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * Explicitly setting this value will make this Component become 'floating', which means its layout will no
+             * longer be affected by the Container that it resides in.
+             * @accessor
+             * @evented
+             */
+            right: null,
+
+            /**
+             * @cfg {Number/String} bottom
+             * The absolute bottom position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * Explicitly setting this value will make this Component become 'floating', which means its layout will no
+             * longer be affected by the Container that it resides in.
+             * @accessor
+             * @evented
+             */
+            bottom: null,
+
+            /**
+             * @cfg {Number/String} width
+             * The width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * By default, if this is not explicitly set, this Component's element will simply have its own natural size.
+             * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
+             * @accessor
+             * @evented
+             */
+            width: null,
+
+            /**
+             * @cfg {Number/String} height
+             * The height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * By default, if this is not explicitly set, this Component's element will simply have its own natural size.
+             * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
+             * @accessor
+             * @evented
+             */
+            height: null,
+
+            /**
+             * @cfg {Number/String} minWidth
+             * The minimum width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
+             * @accessor
+             * @evented
+             */
+            minWidth: null,
+
+            /**
+             * @cfg {Number/String} minHeight
+             * The minimum height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
+             * @accessor
+             * @evented
+             */
+            minHeight: null,
+
+            /**
+             * @cfg {Number/String} maxWidth
+             * The maximum width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
+             * Note that this config will not apply if the Component is 'floating' (absolutely positioned or centered)
+             * @accessor
+             * @evented
+             */
+            maxWidth: null,
+
+            /**
+             * @cfg {Number/String} maxHeight
+             * The maximum height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+             * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
+             * Note that this config will not apply if the Component is 'floating' (absolutely positioned or centered)
+             * @accessor
+             * @evented
+             */
+            maxHeight: null,
+
+            /**
+             * @cfg {String} docked
+             * The dock position of this component in its container. Can be `left`, `top`, `right` or `bottom`.
+             *
+             * __Notes__
+             *
+             * You must use a HTML5 doctype for {@link #docked} `bottom` to work. To do this, simply add the following code to the HTML file:
+             *
+             *     <!doctype html>
+             *
+             * So your index.html file should look a little like this:
+             *
+             *     <!doctype html>
+             *     <html>
+             *         <head>
+             *             <title>MY application title</title>
+             *             ...
+             *
+             * @accessor
+             * @evented
+             */
+            docked: null,
+
+            /**
+             * @cfg {Boolean} centered
+             * Whether or not this Component is absolutely centered inside its Container
+             * @accessor
+             * @evented
+             */
+            centered: null,
+
+            /**
+             * @cfg {Boolean} hidden
+             * Whether or not this Component is hidden (its CSS `display` property is set to `none`)
+             * @accessor
+             * @evented
+             */
+            hidden: null,
+
+            /**
+             * @cfg {Boolean} disabled
+             * Whether or not this component is disabled
+             * @accessor
+             * @evented
+             */
+            disabled: null
+        },
+
+        config: {
+            /**
+             * @cfg {String/Object} style Optional CSS styles that will be rendered into an inline style attribute when the
+             * Component is rendered.
+             *
+             * You can pass either a string syntax:
+             *
+             *     style: 'background:red'
+             *
+             * Or by using an object:
+             *
+             *     style: {
+             *         background: 'red'
+             *     }
+             *
+             * When using the object syntax, you can define CSS Properties by using a string:
+             *
+             *     style: {
+             *         'border-left': '1px solid red'
+             *     }
+             *
+             * Although the object syntax is much easier to read, we suggest you to use the string syntax for better performance.
+             *
+             * @accessor
+             */
+            style: null,
+
+            /**
+             * @cfg {String/Ext.Element/HTMLElement} html Optional HTML content to render inside this Component, or a reference
+             * to an existing element on the page.
+             * @accessor
+             */
+            html: null,
+
+            /**
+             * @cfg {Object} draggable Configuration options to make this Component draggable
+             * @accessor
+             */
+            draggable: null,
+
+            /**
+             * @cfg {Object} translatable
+             * @private
+             * @accessor
+             */
+            translatable: null,
+
+            /**
+             * @cfg {Ext.Element} renderTo Optional element to render this Component to. Usually this is not needed because
+             * a Component is normally full screen or automatically rendered inside another {@link Ext.Container Container}
+             * @accessor
+             */
+            renderTo: null,
+
+            /**
+             * @cfg {Number} zIndex The z-index to give this Component when it is rendered
+             * @accessor
+             */
+            zIndex: null,
+
+            /**
+             * @cfg {String/String[]/Ext.Template/Ext.XTemplate[]} tpl
+             * A {@link String}, {@link Ext.Template}, {@link Ext.XTemplate} or an {@link Array} of strings to form an {@link Ext.XTemplate}.
+             * Used in conjunction with the {@link #data} and {@link #tplWriteMode} configurations.
+             *
+             * __Note__
+             * The {@link #data} configuration _must_ be set for any content to be shown in the component when using this configuration.
+             * @accessor
+             */
+            tpl: null,
+
+            /**
+             * @cfg {String/Mixed} enterAnimation
+             * Animation effect to apply when the Component is being shown.  Typically you want to use an
+             * inbound animation type such as 'fadeIn' or 'slideIn'.
+             * @deprecated 2.0.0 Please use {@link #showAnimation} instead.
+             * @accessor
+             */
+            enterAnimation: null,
+
+            /**
+             * @cfg {String/Mixed} exitAnimation
+             * Animation effect to apply when the Component is being hidden.
+             * @deprecated 2.0.0 Please use {@link #hideAnimation} instead.  Typically you want to use an
+             * outbound animation type such as 'fadeOut' or 'slideOut'.
+             * @accessor
+             */
+            exitAnimation: null,
+
+            /**
+             * @cfg {String/Mixed} showAnimation
+             * Animation effect to apply when the Component is being shown.  Typically you want to use an
+             * inbound animation type such as 'fadeIn' or 'slideIn'. For more animations, check the {@link Ext.fx.Animation#type} config.
+             * @accessor
+             */
+            showAnimation: null,
+
+            /**
+             * @cfg {String/Mixed} hideAnimation
+             * Animation effect to apply when the Component is being hidden.  Typically you want to use an
+             * outbound animation type such as 'fadeOut' or 'slideOut'. For more animations, check the {@link Ext.fx.Animation#type} config.
+             * @accessor
+             */
+            hideAnimation: null,
+
+            /**
+             * @cfg {String} tplWriteMode The Ext.(X)Template method to use when
+             * updating the content area of the Component.
+             * Valid modes are:
+             *
+             * - append
+             * - insertAfter
+             * - insertBefore
+             * - insertFirst
+             * - overwrite
+             * @accessor
+             */
+            tplWriteMode: 'overwrite',
+
+            /**
+             * @cfg {Object} data
+             * The initial set of data to apply to the `{@link #tpl}` to
+             * update the content area of the Component.
+             * @accessor
+             */
+            data: null,
+
+            /**
+             * @cfg {String} [disabledCls="x-item-disabled"] The CSS class to add to the component when it is disabled
+             * @accessor
+             */
+            disabledCls: clsPrefix + 'item-disabled',
+
+            /**
+             * @cfg {Ext.Element/HTMLElement/String} contentEl The configured element will automatically be
+             * added as the content of this component. When you pass a string, we expect it to be an element id.
+             * If the content element is hidden, we will automatically show it.
+             * @accessor
+             */
+            contentEl: null,
+
+            /**
+             * @cfg {String} id
+             * The **unique id of this component instance.**
+             *
+             * It should not be necessary to use this configuration except for singleton objects in your application. Components
+             * created with an id may be accessed globally using {@link Ext#getCmp Ext.getCmp}.
+             *
+             * Instead of using assigned ids, use the {@link #itemId} config, and {@link Ext.ComponentQuery ComponentQuery}
+             * which provides selector-based searching for Sencha Components analogous to DOM querying. The
+             * {@link Ext.Container} class contains {@link Ext.Container#down shortcut methods} to query
+             * its descendant Components by selector.
+             *
+             * Note that this id will also be used as the element id for the containing HTML element that is rendered to the
+             * page for this component. This allows you to write id-based CSS rules to style the specific instance of this
+             * component uniquely, and also to select sub-elements using this component's id as the parent.
+             *
+             * **Note**: to avoid complications imposed by a unique id also see `{@link #itemId}`.
+             *
+             * Defaults to an auto-assigned id.
+             */
+
+            /**
+             * @cfg {String} itemId
+             * An itemId can be used as an alternative way to get a reference to a component when no object reference is
+             * available. Instead of using an `{@link #id}` with {@link Ext#getCmp}, use `itemId` with
+             * {@link Ext.Container#getComponent} which will retrieve `itemId`'s or {@link #id}'s. Since `itemId`'s are an
+             * index to the container's internal MixedCollection, the `itemId` is scoped locally to the container - avoiding
+             * potential conflicts with {@link Ext.ComponentManager} which requires a **unique** `{@link #id}`.
+             *
+             * Also see {@link #id}, {@link Ext.Container#query}, {@link Ext.Container#down} and {@link Ext.Container#child}.
+             *
+             * @accessor
+             */
+            itemId: undefined,
+
+            /**
+             * @cfg {Ext.data.Model} record A model instance which updates the Component's html based on it's tpl. Similar to the data
+             * configuration, but tied to to a record to make allow dynamic updates.  This must be a model
+             * instance and not a configuration of one.
+             * @accessor
+             */
+            record: null,
+
+            /**
+             * @cfg {Object/Array} plugins
+             * @accessor
+             * An object or array of objects that will provide custom functionality for this component.  The only
+             * requirement for a valid plugin is that it contain an init method that accepts a reference of type Ext.Component.
+             *
+             * When a component is created, if any plugins are available, the component will call the init method on each
+             * plugin, passing a reference to itself.  Each plugin can then call methods or respond to events on the
+             * component as needed to provide its functionality.
+             *
+             * For examples of plugins, see Ext.plugin.PullRefresh and Ext.plugin.ListPaging
+             *
+             * ## Example code
+             *
+             * A plugin by alias:
+             *
+             *     Ext.create('Ext.dataview.List', {
+             *         config: {
+             *             plugins: 'listpaging',
+             *             itemTpl: '<div class="item">{title}</div>',
+             *             store: 'Items'
+             *         }
+             *     });
+             *
+             * Multiple plugins by alias:
+             *
+             *     Ext.create('Ext.dataview.List', {
+             *         config: {
+             *             plugins: ['listpaging', 'pullrefresh'],
+             *             itemTpl: '<div class="item">{title}</div>',
+             *             store: 'Items'
+             *         }
+             *     });
+             *
+             * Single plugin by class name with config options:
+             *
+             *     Ext.create('Ext.dataview.List', {
+             *         config: {
+             *             plugins: {
+             *                 xclass: 'Ext.plugin.ListPaging', // Reference plugin by class
+             *                 autoPaging: true
+             *             },
+             *
+             *             itemTpl: '<div class="item">{title}</div>',
+             *             store: 'Items'
+             *         }
+             *     });
+             *
+             * Multiple plugins by class name with config options:
+             *
+             *     Ext.create('Ext.dataview.List', {
+             *         config: {
+             *             plugins: [
+             *                 {
+             *                     xclass: 'Ext.plugin.PullRefresh',
+             *                     pullRefreshText: 'Pull to refresh...'
+             *                 },
+             *                 {
+             *                     xclass: 'Ext.plugin.ListPaging',
+             *                     autoPaging: true
+             *                 }
+             *             ],
+             *
+             *             itemTpl: '<div class="item">{title}</div>',
+             *             store: 'Items'
+             *         }
+             *     });
+             *
+             */
+            plugins: null
+        },
 
         /**
-         * @cfg {String} [styleHtmlCls="x-html"]
-         * The class that is added to the content target when you set `styleHtmlContent` to `true`.
-         * @accessor
+         * @event show
+         * Fires whenever the Component is shown
+         * @param {Ext.Component} this The component instance
          */
-        styleHtmlCls: clsPrefix + 'html',
 
         /**
-         * @cfg {Boolean} [styleHtmlContent=false]
-         * `true` to automatically style the HTML inside the content target of this component (body for panels).
-         * @accessor
+         * @event hide
+         * Fires whenever the Component is hidden
+         * @param {Ext.Component} this The component instance
          */
-        styleHtmlContent: null
-    },
-
-    eventedConfig: {
-        /**
-         * @cfg {Number} flex
-         * The flex of this item *if* this item item is inside a {@link Ext.layout.HBox} or {@link Ext.layout.VBox}
-         * layout.
-         *
-         * You can also update the flex of a component dynamically using the {@link Ext.layout.FlexBox#setItemFlex}
-         * method.
-         */
-        flex: null,
 
         /**
-         * @cfg {Number/String} left
-         * The absolute left position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * Explicitly setting this value will make this Component become 'floating', which means its layout will no
-         * longer be affected by the Container that it resides in.
-         * @accessor
-         * @evented
+         * @event fullscreen
+         * Fires whenever a Component with the fullscreen config is instantiated
+         * @param {Ext.Component} this The component instance
          */
-        left: null,
 
         /**
-         * @cfg {Number/String} top
-         * The absolute top position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * Explicitly setting this value will make this Component become 'floating', which means its layout will no
-         * longer be affected by the Container that it resides in.
-         * @accessor
-         * @evented
+         * @event floatingchange
+         * Fires whenever there is a change in the floating status of a component
+         * @param {Ext.Component} this The component instance
+         * @param {Boolean} floating The component's new floating state
          */
-        top: null,
 
         /**
-         * @cfg {Number/String} right
-         * The absolute right position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * Explicitly setting this value will make this Component become 'floating', which means its layout will no
-         * longer be affected by the Container that it resides in.
-         * @accessor
-         * @evented
+         * @event destroy
+         * Fires when the component is destroyed
          */
-        right: null,
 
         /**
-         * @cfg {Number/String} bottom
-         * The absolute bottom position of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * Explicitly setting this value will make this Component become 'floating', which means its layout will no
-         * longer be affected by the Container that it resides in.
-         * @accessor
-         * @evented
+         * @event beforeorientationchange
+         * Fires before orientation changes.
+         * @removed 2.0.0 This event is now only available `onBefore` the Viewport's {@link Ext.Viewport#orientationchange}
          */
-        bottom: null,
 
         /**
-         * @cfg {Number/String} width
-         * The width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * By default, if this is not explicitly set, this Component's element will simply have its own natural size.
-         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
-         * @accessor
-         * @evented
+         * @event orientationchange
+         * Fires when orientation changes.
+         * @removed 2.0.0 This event is now only available on the Viewport's {@link Ext.Viewport#orientationchange}
          */
-        width: null,
 
         /**
-         * @cfg {Number/String} height
-         * The height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * By default, if this is not explicitly set, this Component's element will simply have its own natural size.
-         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
-         * @accessor
-         * @evented
+         * @event initialize
+         * Fires when the component has been initialized
+         * @param {Ext.Component} this The component instance
          */
-        height: null,
 
         /**
-         * @cfg {Number/String} minWidth
-         * The minimum width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
-         * @accessor
-         * @evented
+         * @event painted
+         * @inheritdoc Ext.dom.Element#painted
+         * @param {Ext.Element} element The component's outer element (this.element)
          */
-        minWidth: null,
 
         /**
-         * @cfg {Number/String} minHeight
-         * The minimum height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
-         * @accessor
-         * @evented
+         * @event erased
+         * Fires when the component is no longer displayed in the DOM.  Listening to this event will
+         * degrade performance not recommend for general use.
+         * @param {Ext.Component} this The component instance
          */
-        minHeight: null,
 
         /**
-         * @cfg {Number/String} maxWidth
-         * The maximum width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
-         * Note that this config will not apply if the Component is 'floating' (absolutely positioned or centered)
-         * @accessor
-         * @evented
+         * @event resize
+         * @inheritdoc Ext.dom.Element#resize
+         * @param {Ext.Element} element The component's outer element (this.element)
          */
-        maxWidth: null,
 
         /**
-         * @cfg {Number/String} maxHeight
-         * The maximum height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
-         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
-         * Note that this config will not apply if the Component is 'floating' (absolutely positioned or centered)
-         * @accessor
-         * @evented
-         */
-        maxHeight: null,
-
-        /**
-         * @cfg {String} docked
-         * The dock position of this component in its container. Can be `left`, `top`, `right` or `bottom`.
-         *
-         * __Notes__
-         *
-         * You must use a HTML5 doctype for {@link #docked} `bottom` to work. To do this, simply add the following code to the HTML file:
-         *
-         *     <!doctype html>
-         *
-         * So your index.html file should look a little like this:
-         *
-         *     <!doctype html>
-         *     <html>
-         *         <head>
-         *             <title>MY application title</title>
-         *             ...
-         *
-         * @accessor
-         * @evented
-         */
-        docked: null,
-
-        /**
-         * @cfg {Boolean} centered
-         * Whether or not this Component is absolutely centered inside its Container
-         * @accessor
-         * @evented
-         */
-        centered: null,
-
-        /**
-         * @cfg {Boolean} hidden
-         * Whether or not this Component is hidden (its CSS `display` property is set to `none`)
-         * @accessor
-         * @evented
-         */
-        hidden: null,
-
-        /**
-         * @cfg {Boolean} disabled
-         * Whether or not this component is disabled
-         * @accessor
-         * @evented
-         */
-        disabled: null
-    },
-
-    config: {
-        /**
-         * @cfg {String/Object} style Optional CSS styles that will be rendered into an inline style attribute when the
-         * Component is rendered.
-         *
-         * You can pass either a string syntax:
-         *
-         *     style: 'background:red'
-         *
-         * Or by using an object:
-         *
-         *     style: {
-         *         background: 'red'
-         *     }
-         *
-         * When using the object syntax, you can define CSS Properties by using a string:
-         *
-         *     style: {
-         *         'border-left': '1px solid red'
-         *     }
-         *
-         * Although the object syntax is much easier to read, we suggest you to use the string syntax for better performance.
-         *
-         * @accessor
-         */
-        style: null,
-
-        /**
-         * @cfg {String/Ext.Element/HTMLElement} html Optional HTML content to render inside this Component, or a reference
-         * to an existing element on the page.
-         * @accessor
-         */
-        html: null,
-
-        /**
-         * @cfg {Object} draggable Configuration options to make this Component draggable
-         * @accessor
-         */
-        draggable: null,
-
-        /**
-         * @cfg {Object} translatable
          * @private
-         * @accessor
          */
-        translatable: null,
+        listenerOptionsRegex: /^(?:delegate|single|delay|buffer|args|prepend|element)$/,
 
         /**
-         * @cfg {Ext.Element} renderTo Optional element to render this Component to. Usually this is not needed because
-         * a Component is normally full screen or automatically rendered inside another {@link Ext.Container Container}
-         * @accessor
+         * @private
          */
-        renderTo: null,
+        alignmentRegex: /^([a-z]+)-([a-z]+)(\?)?$/,
 
         /**
-         * @cfg {Number} zIndex The z-index to give this Component when it is rendered
-         * @accessor
+         * @private
          */
-        zIndex: null,
+        isComponent: true,
 
         /**
-         * @cfg {String/String[]/Ext.Template/Ext.XTemplate[]} tpl
-         * A {@link String}, {@link Ext.Template}, {@link Ext.XTemplate} or an {@link Array} of strings to form an {@link Ext.XTemplate}.
-         * Used in conjunction with the {@link #data} and {@link #tplWriteMode} configurations.
-         *
-         * __Note__
-         * The {@link #data} configuration _must_ be set for any content to be shown in the component when using this configuration.
-         * @accessor
+         * @private
          */
-        tpl: null,
+        floating: false,
 
         /**
-         * @cfg {String/Mixed} enterAnimation
-         * Animation effect to apply when the Component is being shown.  Typically you want to use an
-         * inbound animation type such as 'fadeIn' or 'slideIn'.
-         * @deprecated 2.0.0 Please use {@link #showAnimation} instead.
-         * @accessor
+         * @private
          */
-        enterAnimation: null,
+        rendered: false,
 
         /**
-         * @cfg {String/Mixed} exitAnimation
-         * Animation effect to apply when the Component is being hidden.
-         * @deprecated 2.0.0 Please use {@link #hideAnimation} instead.  Typically you want to use an
-         * outbound animation type such as 'fadeOut' or 'slideOut'.
-         * @accessor
+         * @private
          */
-        exitAnimation: null,
+        isInner: true,
 
         /**
-         * @cfg {String/Mixed} showAnimation
-         * Animation effect to apply when the Component is being shown.  Typically you want to use an
-         * inbound animation type such as 'fadeIn' or 'slideIn'. For more animations, check the {@link Ext.fx.Animation#type} config.
-         * @accessor
+         * @private
          */
-        showAnimation: null,
+        activeAnimation: null,
 
         /**
-         * @cfg {String/Mixed} hideAnimation
-         * Animation effect to apply when the Component is being hidden.  Typically you want to use an
-         * outbound animation type such as 'fadeOut' or 'slideOut'. For more animations, check the {@link Ext.fx.Animation#type} config.
-         * @accessor
+         * @readonly
+         * @private
          */
-        hideAnimation: null,
+        dockPositions: {
+            top: true,
+            right: true,
+            bottom: true,
+            left: true
+        },
+
+        innerElement: null,
+
+        element: null,
+
+        template: [],
+
+        widthLayoutSized: false,
+
+        heightLayoutSized: false,
+
+        layoutStretched: false,
+
+        sizeState: false,
+
+        sizeFlags: 0x0,
+
+        LAYOUT_WIDTH: 0x1,
+
+        LAYOUT_HEIGHT: 0x2,
+
+        LAYOUT_BOTH: 0x3,
+
+        LAYOUT_STRETCHED: 0x4,
 
         /**
-         * @cfg {String} tplWriteMode The Ext.(X)Template method to use when
-         * updating the content area of the Component.
-         * Valid modes are:
-         *
-         * - append
-         * - insertAfter
-         * - insertBefore
-         * - insertFirst
-         * - overwrite
-         * @accessor
+         * Creates new Component.
+         * @param {Object} config The standard configuration object.
          */
-        tplWriteMode: 'overwrite',
+        constructor: function(config) {
+            var me = this,
+                currentConfig = me.config,
+                id;
+
+            me.onInitializedListeners = [];
+            me.initialConfig = config;
+
+            if (config !== undefined && 'id' in config) {
+                id = config.id;
+            } else if ('id' in currentConfig) {
+                id = currentConfig.id;
+            } else {
+                id = me.getId();
+            }
+
+            me.id = id;
+            me.setId(id);
+
+            Ext.ComponentManager.register(me);
+
+            me.initElement();
+
+            me.initConfig(me.initialConfig);
+
+            me.refreshSizeState = me.doRefreshSizeState;
+            me.refreshFloating = me.doRefreshFloating;
+
+            if (me.refreshSizeStateOnInitialized) {
+                me.refreshSizeState();
+            }
+
+            if (me.refreshFloatingOnInitialized) {
+                me.refreshFloating();
+            }
+
+            me.initialize();
+
+            me.triggerInitialized();
+            /**
+             * Force the component to take up 100% width and height available, by adding it to {@link Ext.Viewport}.
+             * @cfg {Boolean} fullscreen
+             */
+            if (me.config.fullscreen) {
+                me.fireEvent('fullscreen', me);
+            }
+
+            me.fireEvent('initialize', me);
+        },
+
+        beforeInitConfig: function(config) {
+            this.beforeInitialize.apply(this, arguments);
+        },
 
         /**
-         * @cfg {Object} data
-         * The initial set of data to apply to the `{@link #tpl}` to
-         * update the content area of the Component.
-         * @accessor
+         * @private
          */
-        data: null,
+        beforeInitialize: Ext.emptyFn,
 
         /**
-         * @cfg {String} [disabledCls="x-item-disabled"] The CSS class to add to the component when it is disabled
-         * @accessor
+         * Allows addition of behavior to the rendering phase.
+         * @protected
+         * @template
          */
-        disabledCls: clsPrefix + 'item-disabled',
+        initialize: Ext.emptyFn,
+
+        getTemplate: function() {
+            return this.template;
+        },
 
         /**
-         * @cfg {Ext.Element/HTMLElement/String} contentEl The configured element will automatically be
-         * added as the content of this component. When you pass a string, we expect it to be an element id.
-         * If the content element is hidden, we will automatically show it.
-         * @accessor
+         * @private
+         * @return {Object}
+         * @return {String} return.reference
+         * @return {Array} return.classList
+         * @return {Object} return.children
          */
-        contentEl: null,
+        getElementConfig: function() {
+            return {
+                reference: 'element',
+                classList: ['x-unsized'],
+                children: this.getTemplate()
+            };
+        },
 
         /**
-         * @cfg {String} id
-         * The **unique id of this component instance.**
-         *
-         * It should not be necessary to use this configuration except for singleton objects in your application. Components
-         * created with an id may be accessed globally using {@link Ext#getCmp Ext.getCmp}.
-         *
-         * Instead of using assigned ids, use the {@link #itemId} config, and {@link Ext.ComponentQuery ComponentQuery}
-         * which provides selector-based searching for Sencha Components analogous to DOM querying. The
-         * {@link Ext.Container} class contains {@link Ext.Container#down shortcut methods} to query
-         * its descendant Components by selector.
-         *
-         * Note that this id will also be used as the element id for the containing HTML element that is rendered to the
-         * page for this component. This allows you to write id-based CSS rules to style the specific instance of this
-         * component uniquely, and also to select sub-elements using this component's id as the parent.
-         *
-         * **Note**: to avoid complications imposed by a unique id also see `{@link #itemId}`.
-         *
-         * Defaults to an auto-assigned id.
+         * @private
          */
+        triggerInitialized: function() {
+            var listeners = this.onInitializedListeners,
+                ln = listeners.length,
+                listener, fn, scope, args, i;
 
-        /**
-         * @cfg {String} itemId
-         * An itemId can be used as an alternative way to get a reference to a component when no object reference is
-         * available. Instead of using an `{@link #id}` with {@link Ext#getCmp}, use `itemId` with
-         * {@link Ext.Container#getComponent} which will retrieve `itemId`'s or {@link #id}'s. Since `itemId`'s are an
-         * index to the container's internal MixedCollection, the `itemId` is scoped locally to the container - avoiding
-         * potential conflicts with {@link Ext.ComponentManager} which requires a **unique** `{@link #id}`.
-         *
-         * Also see {@link #id}, {@link Ext.Container#query}, {@link Ext.Container#down} and {@link Ext.Container#child}.
-         *
-         * @accessor
-         */
-        itemId: undefined,
+            if (!this.initialized) {
+                this.initialized = true;
 
-        /**
-         * @cfg {Ext.data.Model} record A model instance which updates the Component's html based on it's tpl. Similar to the data
-         * configuration, but tied to to a record to make allow dynamic updates.  This must be a model
-         * instance and not a configuration of one.
-         * @accessor
-         */
-        record: null,
+                if (ln > 0) {
+                    for (i = 0; i < ln; i++) {
+                        listener = listeners[i];
+                        fn = listener.fn;
+                        scope = listener.scope;
+                        args = listener.args;
 
-        /**
-         * @cfg {Object/Array} plugins
-         * @accessor
-         * An object or array of objects that will provide custom functionality for this component.  The only
-         * requirement for a valid plugin is that it contain an init method that accepts a reference of type Ext.Component.
-         *
-         * When a component is created, if any plugins are available, the component will call the init method on each
-         * plugin, passing a reference to itself.  Each plugin can then call methods or respond to events on the
-         * component as needed to provide its functionality.
-         *
-         * For examples of plugins, see Ext.plugin.PullRefresh and Ext.plugin.ListPaging
-         *
-         * ## Example code
-         *
-         * A plugin by alias:
-         *
-         *     Ext.create('Ext.dataview.List', {
-         *         config: {
-         *             plugins: 'listpaging',
-         *             itemTpl: '<div class="item">{title}</div>',
-         *             store: 'Items'
-         *         }
-         *     });
-         *
-         * Multiple plugins by alias:
-         *
-         *     Ext.create('Ext.dataview.List', {
-         *         config: {
-         *             plugins: ['listpaging', 'pullrefresh'],
-         *             itemTpl: '<div class="item">{title}</div>',
-         *             store: 'Items'
-         *         }
-         *     });
-         *
-         * Single plugin by class name with config options:
-         *
-         *     Ext.create('Ext.dataview.List', {
-         *         config: {
-         *             plugins: {
-         *                 xclass: 'Ext.plugin.ListPaging', // Reference plugin by class
-         *                 autoPaging: true
-         *             },
-         *
-         *             itemTpl: '<div class="item">{title}</div>',
-         *             store: 'Items'
-         *         }
-         *     });
-         *
-         * Multiple plugins by class name with config options:
-         *
-         *     Ext.create('Ext.dataview.List', {
-         *         config: {
-         *             plugins: [
-         *                 {
-         *                     xclass: 'Ext.plugin.PullRefresh',
-         *                     pullRefreshText: 'Pull to refresh...'
-         *                 },
-         *                 {
-         *                     xclass: 'Ext.plugin.ListPaging',
-         *                     autoPaging: true
-         *                 }
-         *             ],
-         *
-         *             itemTpl: '<div class="item">{title}</div>',
-         *             store: 'Items'
-         *         }
-         *     });
-         *
-         */
-        plugins: null
-    },
-
-    /**
-     * @event show
-     * Fires whenever the Component is shown
-     * @param {Ext.Component} this The component instance
-     */
-
-    /**
-     * @event hide
-     * Fires whenever the Component is hidden
-     * @param {Ext.Component} this The component instance
-     */
-
-    /**
-     * @event fullscreen
-     * Fires whenever a Component with the fullscreen config is instantiated
-     * @param {Ext.Component} this The component instance
-     */
-
-    /**
-     * @event floatingchange
-     * Fires whenever there is a change in the floating status of a component
-     * @param {Ext.Component} this The component instance
-     * @param {Boolean} floating The component's new floating state
-     */
-
-    /**
-     * @event destroy
-     * Fires when the component is destroyed
-     */
-
-    /**
-     * @event beforeorientationchange
-     * Fires before orientation changes.
-     * @removed 2.0.0 This event is now only available `onBefore` the Viewport's {@link Ext.Viewport#orientationchange}
-     */
-
-    /**
-     * @event orientationchange
-     * Fires when orientation changes.
-     * @removed 2.0.0 This event is now only available on the Viewport's {@link Ext.Viewport#orientationchange}
-     */
-
-    /**
-     * @event initialize
-     * Fires when the component has been initialized
-     * @param {Ext.Component} this The component instance
-     */
-
-    /**
-     * @event painted
-     * @inheritdoc Ext.dom.Element#painted
-     * @param {Ext.Element} element The component's outer element (this.element)
-     */
-
-    /**
-     * @event erased
-     * Fires when the component is no longer displayed in the DOM.  Listening to this event will
-     * degrade performance not recommend for general use.
-     * @param {Ext.Component} this The component instance
-     */
-
-    /**
-     * @event resize
-     * @inheritdoc Ext.dom.Element#resize
-     * @param {Ext.Element} element The component's outer element (this.element)
-     */
-
-    /**
-     * @private
-     */
-    listenerOptionsRegex: /^(?:delegate|single|delay|buffer|args|prepend|element)$/,
-
-    /**
-     * @private
-     */
-    alignmentRegex: /^([a-z]+)-([a-z]+)(\?)?$/,
-
-    /**
-     * @private
-     */
-    isComponent: true,
-
-    /**
-     * @private
-     */
-    floating: false,
-
-    /**
-     * @private
-     */
-    rendered: false,
-
-    /**
-     * @private
-     */
-    isInner: true,
-
-    /**
-     * @private
-     */
-    activeAnimation: null,
-
-    /**
-     * @readonly
-     * @private
-     */
-    dockPositions: {
-        top: true,
-        right: true,
-        bottom: true,
-        left: true
-    },
-
-    innerElement: null,
-
-    element: null,
-
-    template: [],
-
-    widthLayoutSized: false,
-
-    heightLayoutSized: false,
-
-    layoutStretched: false,
-
-    sizeState: false,
-
-    sizeFlags: 0x0,
-
-    LAYOUT_WIDTH: 0x1,
-
-    LAYOUT_HEIGHT: 0x2,
-
-    LAYOUT_BOTH: 0x3,
-
-    LAYOUT_STRETCHED: 0x4,
-
-    /**
-     * Creates new Component.
-     * @param {Object} config The standard configuration object.
-     */
-    constructor: function(config) {
-        var me = this,
-            currentConfig = me.config,
-            id;
-
-        me.onInitializedListeners = [];
-        me.initialConfig = config;
-
-        if (config !== undefined && 'id' in config) {
-            id = config.id;
-        }
-        else if ('id' in currentConfig) {
-            id = currentConfig.id;
-        }
-        else {
-            id = me.getId();
-        }
-
-        me.id = id;
-        me.setId(id);
-
-        Ext.ComponentManager.register(me);
-
-        me.initElement();
-
-        me.initConfig(me.initialConfig);
-
-        me.refreshSizeState = me.doRefreshSizeState;
-        me.refreshFloating = me.doRefreshFloating;
-
-        if (me.refreshSizeStateOnInitialized) {
-            me.refreshSizeState();
-        }
-
-        if (me.refreshFloatingOnInitialized) {
-            me.refreshFloating();
-        }
-
-        me.initialize();
-
-        me.triggerInitialized();
-        /**
-         * Force the component to take up 100% width and height available, by adding it to {@link Ext.Viewport}.
-         * @cfg {Boolean} fullscreen
-         */
-        if (me.config.fullscreen) {
-            me.fireEvent('fullscreen', me);
-        }
-
-        me.fireEvent('initialize', me);
-    },
-
-    beforeInitConfig: function(config) {
-        this.beforeInitialize.apply(this, arguments);
-    },
-
-    /**
-     * @private
-     */
-    beforeInitialize: Ext.emptyFn,
-
-    /**
-     * Allows addition of behavior to the rendering phase.
-     * @protected
-     * @template
-     */
-    initialize: Ext.emptyFn,
-
-    getTemplate: function() {
-        return this.template;
-    },
-
-    /**
-     * @private
-     * @return {Object}
-     * @return {String} return.reference
-     * @return {Array} return.classList
-     * @return {Object} return.children
-     */
-    getElementConfig: function() {
-        return {
-            reference: 'element',
-            classList: ['x-unsized'],
-            children: this.getTemplate()
-        };
-    },
-
-    /**
-     * @private
-     */
-    triggerInitialized: function() {
-        var listeners = this.onInitializedListeners,
-            ln = listeners.length,
-            listener, fn, scope, args, i;
-
-        if (!this.initialized) {
-            this.initialized = true;
-
-            if (ln > 0) {
-                for (i = 0; i < ln; i++) {
-                    listener = listeners[i];
-                    fn = listener.fn;
-                    scope = listener.scope;
-                    args = listener.args;
-
-                    if (typeof fn == 'string') {
-                        scope[fn].apply(scope, args);
+                        if (typeof fn == 'string') {
+                            scope[fn].apply(scope, args);
+                        } else {
+                            fn.apply(scope, args);
+                        }
                     }
-                    else {
-                        fn.apply(scope, args);
-                    }
+
+                    listeners.length = 0;
+                }
+            }
+        },
+
+        /**
+         * @private
+         */
+        onInitialized: function(fn, scope, args) {
+            var listeners = this.onInitializedListeners;
+
+            if (!scope) {
+                scope = this;
+            }
+
+            if (this.initialized) {
+                if (typeof fn == 'string') {
+                    scope[fn].apply(scope, args);
+                } else {
+                    fn.apply(scope, args);
+                }
+            } else {
+                listeners.push({
+                    fn: fn,
+                    scope: scope,
+                    args: args
+                });
+            }
+        },
+
+        renderTo: function(container, insertBeforeElement) {
+            var dom = this.renderElement.dom,
+                containerDom = Ext.getDom(container),
+                insertBeforeChildDom = Ext.getDom(insertBeforeElement);
+
+            if (containerDom) {
+                if (insertBeforeChildDom) {
+                    containerDom.insertBefore(dom, insertBeforeChildDom);
+                } else {
+                    containerDom.appendChild(dom);
                 }
 
-                listeners.length = 0;
+                this.setRendered(Boolean(dom.offsetParent));
             }
-        }
-    },
+        },
 
-    /**
-     * @private
-     */
-    onInitialized: function(fn, scope, args) {
-        var listeners = this.onInitializedListeners;
+        /**
+         * @private
+         * @chainable
+         */
+        setParent: function(parent) {
+            var currentParent = this.parent;
 
-        if (!scope) {
-            scope = this;
-        }
-
-        if (this.initialized) {
-            if (typeof fn == 'string') {
-                scope[fn].apply(scope, args);
-            }
-            else {
-                fn.apply(scope, args);
-            }
-        }
-        else {
-            listeners.push({
-                fn: fn,
-                scope: scope,
-                args: args
-            });
-        }
-    },
-
-    renderTo: function(container, insertBeforeElement) {
-        var dom = this.renderElement.dom,
-            containerDom = Ext.getDom(container),
-            insertBeforeChildDom = Ext.getDom(insertBeforeElement);
-
-        if (containerDom) {
-            if (insertBeforeChildDom) {
-                containerDom.insertBefore(dom, insertBeforeChildDom);
-            }
-            else {
-                containerDom.appendChild(dom);
+            if (parent && currentParent && currentParent !== parent) {
+                currentParent.remove(this, false);
             }
 
-            this.setRendered(Boolean(dom.offsetParent));
-        }
-    },
+            this.parent = parent;
 
-    /**
-     * @private
-     * @chainable
-     */
-    setParent: function(parent) {
-        var currentParent = this.parent;
+            return this;
+        },
 
-        if (parent && currentParent && currentParent !== parent) {
-            currentParent.remove(this, false);
-        }
+        applyPlugins: function(config) {
+            var ln, i, configObj;
 
-        this.parent = parent;
+            if (!config) {
+                return config;
+            }
 
-        return this;
-    },
+            config = [].concat(config);
 
-    applyPlugins: function(config) {
-        var ln, i, configObj;
+            for (i = 0, ln = config.length; i < ln; i++) {
+                configObj = config[i];
+                config[i] = Ext.factory(configObj, 'Ext.plugin.Plugin', null, 'plugin');
+            }
 
-        if (!config) {
             return config;
-        }
+        },
 
-        config = [].concat(config);
+        updatePlugins: function(newPlugins, oldPlugins) {
+            var ln, i;
 
-        for (i = 0, ln = config.length; i < ln; i++) {
-            configObj = config[i];
-            config[i] = Ext.factory(configObj, 'Ext.plugin.Plugin', null, 'plugin');
-        }
-
-        return config;
-    },
-
-    updatePlugins: function(newPlugins, oldPlugins) {
-        var ln, i;
-
-        if (newPlugins) {
-            for (i = 0, ln = newPlugins.length; i < ln; i++) {
-                newPlugins[i].init(this);
-            }
-        }
-
-        if (oldPlugins) {
-            for (i = 0, ln = oldPlugins.length; i < ln; i++) {
-                Ext.destroy(oldPlugins[i]);
-            }
-        }
-    },
-
-    updateRenderTo: function(newContainer) {
-        this.renderTo(newContainer);
-    },
-
-    updateStyle: function(style) {
-        this.element.applyStyles(style);
-    },
-
-    updateBorder: function(border) {
-        this.element.setBorder(border);
-    },
-
-    updatePadding: function(padding) {
-       this.innerElement.setPadding(padding);
-    },
-
-    updateMargin: function(margin) {
-        this.element.setMargin(margin);
-    },
-
-    updateUi: function(newUi, oldUi) {
-        var baseCls = this.getBaseCls(),
-            element = this.element,
-            currentUi = this.currentUi;
-
-        if (baseCls) {
-            if (oldUi) {
-                if (currentUi) {
-                    element.removeCls(currentUi);
-                }
-                else {
-                    element.removeCls(baseCls + '-' + oldUi);
+            if (newPlugins) {
+                for (i = 0, ln = newPlugins.length; i < ln; i++) {
+                    newPlugins[i].init(this);
                 }
             }
 
-            if (newUi) {
-                element.addCls(newUi, baseCls);
-                this.currentUi = baseCls + '-' + newUi;
-
-                // The first instance gets stored on the proptotype
-                if (!this.self.prototype.currentUi) {
-                    this.self.prototype.currentUi = this.currentUi;
+            if (oldPlugins) {
+                for (i = 0, ln = oldPlugins.length; i < ln; i++) {
+                    Ext.destroy(oldPlugins[i]);
                 }
             }
-        }
-    },
+        },
 
-    applyBaseCls: function(baseCls) {
-        return baseCls || clsPrefix + this.xtype;
-    },
+        updateRenderTo: function(newContainer) {
+            this.renderTo(newContainer);
+        },
 
-    updateBaseCls: function(newBaseCls, oldBaseCls) {
-        var me = this,
-            ui = me.getUi();
+        updateStyle: function(style) {
+            this.element.applyStyles(style);
+        },
 
+        updateBorder: function(border) {
+            this.element.setBorder(border);
+        },
 
-        if (oldBaseCls) {
-            this.element.removeCls(oldBaseCls);
+        updatePadding: function(padding) {
+            this.innerElement.setPadding(padding);
+        },
 
-            if (ui) {
-                this.element.removeCls(this.currentUi);
-            }
-        }
+        updateMargin: function(margin) {
+            this.element.setMargin(margin);
+        },
 
-        if (newBaseCls) {
-            this.element.addCls(newBaseCls);
+        updateUi: function(newUi, oldUi) {
+            var baseCls = this.getBaseCls(),
+                element = this.element,
+                currentUi = this.currentUi;
 
-            if (ui) {
-                this.element.addCls(newBaseCls, null, ui);
-                this.currentUi = newBaseCls + '-' + ui;
-            }
-        }
-    },
+            if (baseCls) {
+                if (oldUi) {
+                    if (currentUi) {
+                        element.removeCls(currentUi);
+                    } else {
+                        element.removeCls(baseCls + '-' + oldUi);
+                    }
+                }
 
-    /**
-     * Adds a CSS class (or classes) to this Component's rendered element.
-     * @param {String} cls The CSS class to add.
-     * @param {String} [prefix=""] Optional prefix to add to each class.
-     * @param {String} [suffix=""] Optional suffix to add to each class.
-     */
-    addCls: function(cls, prefix, suffix) {
-        var oldCls = this.getCls(),
-            newCls = (oldCls) ? oldCls.slice() : [],
-            ln, i, cachedCls;
+                if (newUi) {
+                    element.addCls(newUi, baseCls);
+                    this.currentUi = baseCls + '-' + newUi;
 
-        prefix = prefix || '';
-        suffix = suffix || '';
-
-        if (typeof cls == "string") {
-            cls = [cls];
-        }
-
-        ln = cls.length;
-
-        //check if there is currently nothing in the array and we don't need to add a prefix or a suffix.
-        //if true, we can just set the newCls value to the cls property, because that is what the value will be
-        //if false, we need to loop through each and add them to the newCls array
-        if (!newCls.length && prefix === '' && suffix === '') {
-            newCls = cls;
-        } else {
-            for (i = 0; i < ln; i++) {
-                cachedCls = prefix + cls[i] + suffix;
-                if (newCls.indexOf(cachedCls) == -1) {
-                    newCls.push(cachedCls);
+                    // The first instance gets stored on the proptotype
+                    if (!this.self.prototype.currentUi) {
+                        this.self.prototype.currentUi = this.currentUi;
+                    }
                 }
             }
-        }
+        },
 
-        this.setCls(newCls);
-    },
+        applyBaseCls: function(baseCls) {
+            return baseCls || clsPrefix + this.xtype;
+        },
 
-    /**
-     * Removes the given CSS class(es) from this Component's rendered element.
-     * @param {String} cls The class(es) to remove.
-     * @param {String} [prefix=""] Optional prefix to prepend before each class.
-     * @param {String} [suffix=""] Optional suffix to append to each class.
-     */
-    removeCls: function(cls, prefix, suffix) {
-        var oldCls = this.getCls(),
-            newCls = (oldCls) ? oldCls.slice() : [],
-            ln, i;
+        updateBaseCls: function(newBaseCls, oldBaseCls) {
+            var me = this,
+                ui = me.getUi();
 
-        prefix = prefix || '';
-        suffix = suffix || '';
 
-        if (typeof cls == "string") {
-            newCls = Ext.Array.remove(newCls, prefix + cls + suffix);
-        } else {
+            if (oldBaseCls) {
+                this.element.removeCls(oldBaseCls);
+
+                if (ui) {
+                    this.element.removeCls(this.currentUi);
+                }
+            }
+
+            if (newBaseCls) {
+                this.element.addCls(newBaseCls);
+
+                if (ui) {
+                    this.element.addCls(newBaseCls, null, ui);
+                    this.currentUi = newBaseCls + '-' + ui;
+                }
+            }
+        },
+
+        /**
+         * Adds a CSS class (or classes) to this Component's rendered element.
+         * @param {String} cls The CSS class to add.
+         * @param {String} [prefix=""] Optional prefix to add to each class.
+         * @param {String} [suffix=""] Optional suffix to add to each class.
+         */
+        addCls: function(cls, prefix, suffix) {
+            var oldCls = this.getCls(),
+                newCls = (oldCls) ? oldCls.slice() : [],
+                ln, i, cachedCls;
+
+            prefix = prefix || '';
+            suffix = suffix || '';
+
+            if (typeof cls == "string") {
+                cls = [cls];
+            }
+
             ln = cls.length;
-            for (i = 0; i < ln; i++) {
-                newCls = Ext.Array.remove(newCls, prefix + cls[i] + suffix);
-            }
-        }
-
-        this.setCls(newCls);
-    },
-
-    /**
-     * Replaces specified classes with the newly specified classes.
-     * It uses the {@link #addCls} and {@link #removeCls} methods, so if the class(es) you are removing don't exist, it will
-     * still add the new classes.
-     * @param {String} oldCls The class(es) to remove.
-     * @param {String} newCls The class(es) to add.
-     * @param {String} [prefix=""] Optional prefix to prepend before each class.
-     * @param {String} [suffix=""] Optional suffix to append to each class.
-     */
-    replaceCls: function(oldCls, newCls, prefix, suffix) {
-        // We could have just called {@link #removeCls} and {@link #addCls}, but that would mean {@link #updateCls}
-        // would get called twice, which would have performance implications because it will update the dom.
-
-        var cls = this.getCls(),
-            array = (cls) ? cls.slice() : [],
-            ln, i, cachedCls;
-
-        prefix = prefix || '';
-        suffix = suffix || '';
-
-        //remove all oldCls
-        if (typeof oldCls == "string") {
-            array = Ext.Array.remove(array, prefix + oldCls + suffix);
-        } else if (oldCls) {
-            ln = oldCls.length;
-            for (i = 0; i < ln; i++) {
-                array = Ext.Array.remove(array, prefix + oldCls[i] + suffix);
-            }
-        }
-
-        //add all newCls
-        if (typeof newCls == "string") {
-            array.push(prefix + newCls + suffix);
-        } else if (newCls) {
-            ln = newCls.length;
 
             //check if there is currently nothing in the array and we don't need to add a prefix or a suffix.
-            //if true, we can just set the array value to the newCls property, because that is what the value will be
-            //if false, we need to loop through each and add them to the array
-            if (!array.length && prefix === '' && suffix === '') {
-                array = newCls;
+            //if true, we can just set the newCls value to the cls property, because that is what the value will be
+            //if false, we need to loop through each and add them to the newCls array
+            if (!newCls.length && prefix === '' && suffix === '') {
+                newCls = cls;
             } else {
                 for (i = 0; i < ln; i++) {
-                    cachedCls = prefix + newCls[i] + suffix;
-                    if (array.indexOf(cachedCls) == -1) {
-                        array.push(cachedCls);
+                    cachedCls = prefix + cls[i] + suffix;
+                    if (newCls.indexOf(cachedCls) == -1) {
+                        newCls.push(cachedCls);
                     }
                 }
             }
-        }
 
-        this.setCls(array);
-    },
+            this.setCls(newCls);
+        },
 
-    /**
-     * @private
-     * @chainable
-     */
-    toggleCls: function(className, force) {
-        this.element.toggleCls(className, force);
+        /**
+         * Removes the given CSS class(es) from this Component's rendered element.
+         * @param {String} cls The class(es) to remove.
+         * @param {String} [prefix=""] Optional prefix to prepend before each class.
+         * @param {String} [suffix=""] Optional suffix to append to each class.
+         */
+        removeCls: function(cls, prefix, suffix) {
+            var oldCls = this.getCls(),
+                newCls = (oldCls) ? oldCls.slice() : [],
+                ln, i;
 
-        return this;
-    },
+            prefix = prefix || '';
+            suffix = suffix || '';
 
-    /**
-     * @private
-     * Checks if the `cls` is a string. If it is, changed it into an array.
-     * @param {String/Array} cls
-     * @return {Array/null}
-     */
-    applyCls: function(cls) {
-        if (typeof cls == "string") {
-            cls = [cls];
-        }
-
-        //reset it back to null if there is nothing.
-        if (!cls || !cls.length) {
-            cls = null;
-        }
-
-        return cls;
-    },
-
-    /**
-     * @private
-     * All cls methods directly report to the {@link #cls} configuration, so anytime it changes, {@link #updateCls} will be called
-     */
-    updateCls: function (newCls, oldCls) {
-        if (this.element && ((newCls && !oldCls) || (!newCls && oldCls) || newCls.length != oldCls.length || Ext.Array.difference(newCls,
-            oldCls).length > 0)) {
-            this.element.replaceCls(oldCls, newCls);
-        }
-    },
-
-    /**
-     * Updates the {@link #styleHtmlCls} configuration
-     */
-    updateStyleHtmlCls: function(newHtmlCls, oldHtmlCls) {
-        var innerHtmlElement = this.innerHtmlElement,
-            innerElement = this.innerElement;
-
-        if (this.getStyleHtmlContent() && oldHtmlCls) {
-            if (innerHtmlElement) {
-                innerHtmlElement.replaceCls(oldHtmlCls, newHtmlCls);
+            if (typeof cls == "string") {
+                newCls = Ext.Array.remove(newCls, prefix + cls + suffix);
             } else {
-                innerElement.replaceCls(oldHtmlCls, newHtmlCls);
+                ln = cls.length;
+                for (i = 0; i < ln; i++) {
+                    newCls = Ext.Array.remove(newCls, prefix + cls[i] + suffix);
+                }
             }
-        }
-    },
 
-    applyStyleHtmlContent: function(config) {
-        return Boolean(config);
-    },
+            this.setCls(newCls);
+        },
 
-    updateStyleHtmlContent: function(styleHtmlContent) {
-        var htmlCls = this.getStyleHtmlCls(),
-            innerElement = this.innerElement,
-            innerHtmlElement = this.innerHtmlElement;
+        /**
+         * Replaces specified classes with the newly specified classes.
+         * It uses the {@link #addCls} and {@link #removeCls} methods, so if the class(es) you are removing don't exist, it will
+         * still add the new classes.
+         * @param {String} oldCls The class(es) to remove.
+         * @param {String} newCls The class(es) to add.
+         * @param {String} [prefix=""] Optional prefix to prepend before each class.
+         * @param {String} [suffix=""] Optional suffix to append to each class.
+         */
+        replaceCls: function(oldCls, newCls, prefix, suffix) {
+            // We could have just called {@link #removeCls} and {@link #addCls}, but that would mean {@link #updateCls}
+            // would get called twice, which would have performance implications because it will update the dom.
 
-        if (styleHtmlContent) {
-            if (innerHtmlElement) {
-                innerHtmlElement.addCls(htmlCls);
+            var cls = this.getCls(),
+                array = (cls) ? cls.slice() : [],
+                ln, i, cachedCls;
+
+            prefix = prefix || '';
+            suffix = suffix || '';
+
+            //remove all oldCls
+            if (typeof oldCls == "string") {
+                array = Ext.Array.remove(array, prefix + oldCls + suffix);
+            } else if (oldCls) {
+                ln = oldCls.length;
+                for (i = 0; i < ln; i++) {
+                    array = Ext.Array.remove(array, prefix + oldCls[i] + suffix);
+                }
+            }
+
+            //add all newCls
+            if (typeof newCls == "string") {
+                array.push(prefix + newCls + suffix);
+            } else if (newCls) {
+                ln = newCls.length;
+
+                //check if there is currently nothing in the array and we don't need to add a prefix or a suffix.
+                //if true, we can just set the array value to the newCls property, because that is what the value will be
+                //if false, we need to loop through each and add them to the array
+                if (!array.length && prefix === '' && suffix === '') {
+                    array = newCls;
+                } else {
+                    for (i = 0; i < ln; i++) {
+                        cachedCls = prefix + newCls[i] + suffix;
+                        if (array.indexOf(cachedCls) == -1) {
+                            array.push(cachedCls);
+                        }
+                    }
+                }
+            }
+
+            this.setCls(array);
+        },
+
+        /**
+         * @private
+         * @chainable
+         */
+        toggleCls: function(className, force) {
+            this.element.toggleCls(className, force);
+
+            return this;
+        },
+
+        /**
+         * @private
+         * Checks if the `cls` is a string. If it is, changed it into an array.
+         * @param {String/Array} cls
+         * @return {Array/null}
+         */
+        applyCls: function(cls) {
+            if (typeof cls == "string") {
+                cls = [cls];
+            }
+
+            //reset it back to null if there is nothing.
+            if (!cls || !cls.length) {
+                cls = null;
+            }
+
+            return cls;
+        },
+
+        /**
+         * @private
+         * All cls methods directly report to the {@link #cls} configuration, so anytime it changes, {@link #updateCls} will be called
+         */
+        updateCls: function(newCls, oldCls) {
+            if (this.element && ((newCls && !oldCls) || (!newCls && oldCls) || newCls.length != oldCls.length || Ext.Array.difference(newCls,
+                oldCls).length > 0)) {
+                this.element.replaceCls(oldCls, newCls);
+            }
+        },
+
+        /**
+         * Updates the {@link #styleHtmlCls} configuration
+         */
+        updateStyleHtmlCls: function(newHtmlCls, oldHtmlCls) {
+            var innerHtmlElement = this.innerHtmlElement,
+                innerElement = this.innerElement;
+
+            if (this.getStyleHtmlContent() && oldHtmlCls) {
+                if (innerHtmlElement) {
+                    innerHtmlElement.replaceCls(oldHtmlCls, newHtmlCls);
+                } else {
+                    innerElement.replaceCls(oldHtmlCls, newHtmlCls);
+                }
+            }
+        },
+
+        applyStyleHtmlContent: function(config) {
+            return Boolean(config);
+        },
+
+        updateStyleHtmlContent: function(styleHtmlContent) {
+            var htmlCls = this.getStyleHtmlCls(),
+                innerElement = this.innerElement,
+                innerHtmlElement = this.innerHtmlElement;
+
+            if (styleHtmlContent) {
+                if (innerHtmlElement) {
+                    innerHtmlElement.addCls(htmlCls);
+                } else {
+                    innerElement.addCls(htmlCls);
+                }
             } else {
-                innerElement.addCls(htmlCls);
+                if (innerHtmlElement) {
+                    innerHtmlElement.removeCls(htmlCls);
+                } else {
+                    innerElement.addCls(htmlCls);
+                }
             }
-        } else {
-            if (innerHtmlElement) {
-                innerHtmlElement.removeCls(htmlCls);
-            } else {
-                innerElement.addCls(htmlCls);
+        },
+
+        applyContentEl: function(contentEl) {
+            if (contentEl) {
+                return Ext.get(contentEl);
             }
-        }
-    },
+        },
 
-    applyContentEl: function(contentEl) {
-        if (contentEl) {
-            return Ext.get(contentEl);
-        }
-    },
-
-    updateContentEl: function(newContentEl, oldContentEl) {
-        if (oldContentEl) {
-            oldContentEl.hide();
-            Ext.getBody().append(oldContentEl);
-        }
-
-        if (newContentEl) {
-            this.setHtml(newContentEl.dom);
-            newContentEl.show();
-        }
-    },
-
-    /**
-     * Returns the height and width of the Component.
-     * @return {Object} The current `height` and `width` of the Component.
-     * @return {Number} return.width
-     * @return {Number} return.height
-     */
-    getSize: function() {
-        return {
-            width: this.getWidth(),
-            height: this.getHeight()
-        };
-    },
-
-    /**
-     * @private
-     * @return {Boolean}
-     */
-    isCentered: function() {
-        return Boolean(this.getCentered());
-    },
-
-    isFloating: function() {
-        return this.floating;
-    },
-
-    isDocked: function() {
-        return Boolean(this.getDocked());
-    },
-
-    isInnerItem: function() {
-        return this.isInner;
-    },
-
-    setIsInner: function(isInner) {
-        if (isInner !== this.isInner) {
-            this.isInner = isInner;
-
-            if (this.initialized) {
-                this.fireEvent('innerstatechange', this, isInner);
-            }
-        }
-    },
-
-    filterLengthValue: function(value) {
-        if (value === 'auto' || (!value && value !== 0)) {
-            return null;
-        }
-
-        return value;
-    },
-
-    applyTop: function(top) {
-        return this.filterLengthValue(top);
-    },
-
-    applyRight: function(right) {
-        return this.filterLengthValue(right);
-    },
-
-    applyBottom: function(bottom) {
-        return this.filterLengthValue(bottom);
-    },
-
-    applyLeft: function(left) {
-        return this.filterLengthValue(left);
-    },
-
-    applyWidth: function(width) {
-        return this.filterLengthValue(width);
-    },
-
-    applyHeight: function(height) {
-        return this.filterLengthValue(height);
-    },
-
-    applyMinWidth: function(width) {
-        return this.filterLengthValue(width);
-    },
-
-    applyMinHeight: function(height) {
-        return this.filterLengthValue(height);
-    },
-
-    applyMaxWidth: function(width) {
-        return this.filterLengthValue(width);
-    },
-
-    applyMaxHeight: function(height) {
-        return this.filterLengthValue(height);
-    },
-
-    doSetTop: function(top) {
-        this.element.setTop(top);
-        this.refreshFloating();
-    },
-
-    doSetRight: function(right) {
-        this.element.setRight(right);
-        this.refreshFloating();
-    },
-
-    doSetBottom: function(bottom) {
-        this.element.setBottom(bottom);
-        this.refreshFloating();
-    },
-
-    doSetLeft: function(left) {
-        this.element.setLeft(left);
-        this.refreshFloating();
-    },
-
-    doSetWidth: function(width) {
-        this.element.setWidth(width);
-        this.refreshSizeState();
-    },
-
-    doSetHeight: function(height) {
-        this.element.setHeight(height);
-        this.refreshSizeState();
-    },
-
-    applyFlex: function(flex) {
-        if (flex) {
-            flex = Number(flex);
-
-            if (isNaN(flex)) {
-                flex = null;
-            }
-        }
-        else {
-            flex = null
-        }
-
-        return flex;
-    },
-
-    doSetFlex: Ext.emptyFn,
-
-    refreshSizeState: function() {
-        this.refreshSizeStateOnInitialized = true;
-    },
-
-    doRefreshSizeState: function() {
-        var hasWidth = this.getWidth() !== null || this.widthLayoutSized || (this.getLeft() !== null && this.getRight() !== null),
-            hasHeight = this.getHeight() !== null || this.heightLayoutSized || (this.getTop() !== null && this.getBottom() !== null),
-            stretched = this.layoutStretched || this.hasCSSMinHeight || (!hasHeight && this.getMinHeight() !== null),
-            state = hasWidth && hasHeight,
-            flags = (hasWidth && this.LAYOUT_WIDTH) | (hasHeight && this.LAYOUT_HEIGHT) | (stretched && this.LAYOUT_STRETCHED);
-
-        if (!state && stretched) {
-            state = null;
-        }
-
-        this.setSizeState(state);
-        this.setSizeFlags(flags);
-    },
-
-    setLayoutSizeFlags: function(flags) {
-        this.layoutStretched = !!(flags & this.LAYOUT_STRETCHED);
-        this.widthLayoutSized = !!(flags & this.LAYOUT_WIDTH);
-        this.heightLayoutSized = !!(flags & this.LAYOUT_HEIGHT);
-
-        this.refreshSizeState();
-    },
-
-    setSizeFlags: function(flags) {
-        if (flags !== this.sizeFlags) {
-            this.sizeFlags = flags;
-
-            var hasWidth = !!(flags & this.LAYOUT_WIDTH),
-                hasHeight = !!(flags & this.LAYOUT_HEIGHT),
-                stretched = !!(flags & this.LAYOUT_STRETCHED);
-
-            if (hasWidth && !stretched && !hasHeight) {
-                this.element.addCls('x-has-width');
-            }
-            else {
-                this.element.removeCls('x-has-width');
+        updateContentEl: function(newContentEl, oldContentEl) {
+            if (oldContentEl) {
+                oldContentEl.hide();
+                Ext.getBody().append(oldContentEl);
             }
 
-            if (hasHeight && !stretched && !hasWidth) {
-                this.element.addCls('x-has-height');
+            if (newContentEl) {
+                this.setHtml(newContentEl.dom);
+                newContentEl.show();
             }
-            else {
-                this.element.removeCls('x-has-height');
+        },
+
+        /**
+         * Returns the height and width of the Component.
+         * @return {Object} The current `height` and `width` of the Component.
+         * @return {Number} return.width
+         * @return {Number} return.height
+         */
+        getSize: function() {
+            return {
+                width: this.getWidth(),
+                height: this.getHeight()
+            };
+        },
+
+        /**
+         * @private
+         * @return {Boolean}
+         */
+        isCentered: function() {
+            return Boolean(this.getCentered());
+        },
+
+        isFloating: function() {
+            return this.floating;
+        },
+
+        isDocked: function() {
+            return Boolean(this.getDocked());
+        },
+
+        isInnerItem: function() {
+            return this.isInner;
+        },
+
+        setIsInner: function(isInner) {
+            if (isInner !== this.isInner) {
+                this.isInner = isInner;
+
+                if (this.initialized) {
+                    this.fireEvent('innerstatechange', this, isInner);
+                }
             }
+        },
 
-            if (this.initialized) {
-                this.fireEvent('sizeflagschange', this, flags);
-            }
-        }
-    },
-
-    getSizeFlags: function() {
-        if (!this.initialized) {
-            this.doRefreshSizeState();
-        }
-
-        return this.sizeFlags;
-    },
-
-    setSizeState: function(state) {
-        if (state !== this.sizeState) {
-            this.sizeState = state;
-
-            this.element.setSizeState(state);
-
-            if (this.initialized) {
-                this.fireEvent('sizestatechange', this, state);
-            }
-        }
-    },
-
-    getSizeState: function() {
-        if (!this.initialized) {
-            this.doRefreshSizeState();
-        }
-
-        return this.sizeState;
-    },
-
-
-    doSetMinWidth: function(width) {
-        this.element.setMinWidth(width);
-    },
-
-    doSetMinHeight: function(height) {
-        this.element.setMinHeight(height);
-        this.refreshSizeState();
-    },
-
-    doSetMaxWidth: function(width) {
-        this.element.setMaxWidth(width);
-    },
-
-    doSetMaxHeight: function(height) {
-        this.element.setMaxHeight(height);
-    },
-
-    /**
-     * @private
-     * @param {Boolean} centered
-     * @return {Boolean}
-     */
-    applyCentered: function(centered) {
-        centered = Boolean(centered);
-
-        if (centered) {
-            this.refreshInnerState = Ext.emptyFn;
-
-            if (this.isFloating()) {
-                this.resetFloating();
+        filterLengthValue: function(value) {
+            if (value === 'auto' || (!value && value !== 0)) {
+                return null;
             }
 
-            if (this.isDocked()) {
-                this.setDocked(false);
-            }
+            return value;
+        },
 
-            this.setIsInner(false);
-            delete this.refreshInnerState;
-        }
+        applyTop: function(top) {
+            return this.filterLengthValue(top);
+        },
 
-        return centered;
-    },
+        applyRight: function(right) {
+            return this.filterLengthValue(right);
+        },
 
-    doSetCentered: function(centered) {
-        this.toggleCls(this.getFloatingCls(), centered);
+        applyBottom: function(bottom) {
+            return this.filterLengthValue(bottom);
+        },
 
-        if (!centered) {
-            this.refreshInnerState();
-        }
-    },
+        applyLeft: function(left) {
+            return this.filterLengthValue(left);
+        },
 
-    applyDocked: function(docked) {
-        if (!docked) {
-            return null;
-        }
+        applyWidth: function(width) {
+            return this.filterLengthValue(width);
+        },
 
-        if (!/^(top|right|bottom|left)$/.test(docked)) {
-            Ext.Logger.error("Invalid docking position of '" + docked.position + "', must be either 'top', 'right', 'bottom', " +
-                "'left' or `null` (for no docking)", this);
-            return;
-        }
+        applyHeight: function(height) {
+            return this.filterLengthValue(height);
+        },
 
-        this.refreshInnerState = Ext.emptyFn;
+        applyMinWidth: function(width) {
+            return this.filterLengthValue(width);
+        },
 
-        if (this.isFloating()) {
-            this.resetFloating();
-        }
+        applyMinHeight: function(height) {
+            return this.filterLengthValue(height);
+        },
 
-        if (this.isCentered()) {
-            this.setCentered(false);
-        }
+        applyMaxWidth: function(width) {
+            return this.filterLengthValue(width);
+        },
 
-        this.setIsInner(false);
+        applyMaxHeight: function(height) {
+            return this.filterLengthValue(height);
+        },
 
-        delete this.refreshInnerState;
+        doSetTop: function(top) {
+            this.element.setTop(top);
+            this.refreshFloating();
+        },
 
-        return docked;
-    },
+        doSetRight: function(right) {
+            this.element.setRight(right);
+            this.refreshFloating();
+        },
 
-    doSetDocked: function(docked, oldDocked) {
-        this.fireEvent('afterdockedchange', this, docked, oldDocked);
-        if (!docked) {
-            this.refreshInnerState();
-        }
-    },
+        doSetBottom: function(bottom) {
+            this.element.setBottom(bottom);
+            this.refreshFloating();
+        },
 
-    /**
-     * Resets {@link #top}, {@link #right}, {@link #bottom} and {@link #left} configurations to `null`, which
-     * will un-float this component.
-     */
-    resetFloating: function() {
-        this.setTop(null);
-        this.setRight(null);
-        this.setBottom(null);
-        this.setLeft(null);
-    },
+        doSetLeft: function(left) {
+            this.element.setLeft(left);
+            this.refreshFloating();
+        },
 
-
-    refreshInnerState: function() {
-        this.setIsInner(!this.isCentered() && !this.isFloating() && !this.isDocked());
-    },
-
-    refreshFloating: function() {
-        this.refreshFloatingOnInitialized = true;
-    },
-
-    doRefreshFloating: function() {
-        var floating = true,
-            floatingCls = this.getFloatingCls();
-
-        if (this.getTop() === null && this.getBottom() === null &&
-            this.getRight() === null && this.getLeft() === null) {
-            floating = false;
-        }
-        else {
+        doSetWidth: function(width) {
+            this.element.setWidth(width);
             this.refreshSizeState();
-        }
+        },
 
-        if (floating !== this.floating) {
-            this.floating = floating;
+        doSetHeight: function(height) {
+            this.element.setHeight(height);
+            this.refreshSizeState();
+        },
 
-            if (floating) {
+        applyFlex: function(flex) {
+            if (flex) {
+                flex = Number(flex);
+
+                if (isNaN(flex)) {
+                    flex = null;
+                }
+            } else {
+                flex = null
+            }
+
+            return flex;
+        },
+
+        doSetFlex: Ext.emptyFn,
+
+        refreshSizeState: function() {
+            this.refreshSizeStateOnInitialized = true;
+        },
+
+        doRefreshSizeState: function() {
+            var hasWidth = this.getWidth() !== null || this.widthLayoutSized || (this.getLeft() !== null && this.getRight() !== null),
+                hasHeight = this.getHeight() !== null || this.heightLayoutSized || (this.getTop() !== null && this.getBottom() !== null),
+                stretched = this.layoutStretched || this.hasCSSMinHeight || (!hasHeight && this.getMinHeight() !== null),
+                state = hasWidth && hasHeight,
+                flags = (hasWidth && this.LAYOUT_WIDTH) | (hasHeight && this.LAYOUT_HEIGHT) | (stretched && this.LAYOUT_STRETCHED);
+
+            if (!state && stretched) {
+                state = null;
+            }
+
+            this.setSizeState(state);
+            this.setSizeFlags(flags);
+        },
+
+        setLayoutSizeFlags: function(flags) {
+            this.layoutStretched = !! (flags & this.LAYOUT_STRETCHED);
+            this.widthLayoutSized = !! (flags & this.LAYOUT_WIDTH);
+            this.heightLayoutSized = !! (flags & this.LAYOUT_HEIGHT);
+
+            this.refreshSizeState();
+        },
+
+        setSizeFlags: function(flags) {
+            if (flags !== this.sizeFlags) {
+                this.sizeFlags = flags;
+
+                var hasWidth = !! (flags & this.LAYOUT_WIDTH),
+                    hasHeight = !! (flags & this.LAYOUT_HEIGHT),
+                    stretched = !! (flags & this.LAYOUT_STRETCHED);
+
+                if (hasWidth && !stretched && !hasHeight) {
+                    this.element.addCls('x-has-width');
+                } else {
+                    this.element.removeCls('x-has-width');
+                }
+
+                if (hasHeight && !stretched && !hasWidth) {
+                    this.element.addCls('x-has-height');
+                } else {
+                    this.element.removeCls('x-has-height');
+                }
+
+                if (this.initialized) {
+                    this.fireEvent('sizeflagschange', this, flags);
+                }
+            }
+        },
+
+        getSizeFlags: function() {
+            if (!this.initialized) {
+                this.doRefreshSizeState();
+            }
+
+            return this.sizeFlags;
+        },
+
+        setSizeState: function(state) {
+            if (state !== this.sizeState) {
+                this.sizeState = state;
+
+                this.element.setSizeState(state);
+
+                if (this.initialized) {
+                    this.fireEvent('sizestatechange', this, state);
+                }
+            }
+        },
+
+        getSizeState: function() {
+            if (!this.initialized) {
+                this.doRefreshSizeState();
+            }
+
+            return this.sizeState;
+        },
+
+
+        doSetMinWidth: function(width) {
+            this.element.setMinWidth(width);
+        },
+
+        doSetMinHeight: function(height) {
+            this.element.setMinHeight(height);
+            this.refreshSizeState();
+        },
+
+        doSetMaxWidth: function(width) {
+            this.element.setMaxWidth(width);
+        },
+
+        doSetMaxHeight: function(height) {
+            this.element.setMaxHeight(height);
+        },
+
+        /**
+         * @private
+         * @param {Boolean} centered
+         * @return {Boolean}
+         */
+        applyCentered: function(centered) {
+            centered = Boolean(centered);
+
+            if (centered) {
                 this.refreshInnerState = Ext.emptyFn;
 
-                if (this.isCentered()) {
-                    this.setCentered(false);
+                if (this.isFloating()) {
+                    this.resetFloating();
                 }
 
                 if (this.isDocked()) {
@@ -23583,879 +23331,971 @@ Ext.define('Ext.Component', {
                 }
 
                 this.setIsInner(false);
-
                 delete this.refreshInnerState;
             }
 
-            this.element.toggleCls(floatingCls, floating);
+            return centered;
+        },
 
-            if (this.initialized) {
-                this.fireEvent('floatingchange', this, floating);
-            }
+        doSetCentered: function(centered) {
+            this.toggleCls(this.getFloatingCls(), centered);
 
-            if (!floating) {
+            if (!centered) {
                 this.refreshInnerState();
             }
-        }
-    },
+        },
 
-    /**
-     * Updates the floatingCls if the component is currently floating
-     * @private
-     */
-    updateFloatingCls: function(newFloatingCls, oldFloatingCls) {
-        if (this.isFloating()) {
-            this.replaceCls(oldFloatingCls, newFloatingCls);
-        }
-    },
+        applyDocked: function(docked) {
+            if (!docked) {
+                return null;
+            }
 
-    applyDisabled: function(disabled) {
-        return Boolean(disabled);
-    },
+            if (!/^(top|right|bottom|left)$/.test(docked)) {
+                Ext.Logger.error("Invalid docking position of '" + docked.position + "', must be either 'top', 'right', 'bottom', " +
+                    "'left' or `null` (for no docking)", this);
+                return;
+            }
 
-    doSetDisabled: function(disabled) {
-        this.element[disabled ? 'addCls' : 'removeCls'](this.getDisabledCls());
-    },
+            this.refreshInnerState = Ext.emptyFn;
 
-    updateDisabledCls: function(newDisabledCls, oldDisabledCls) {
-        if (this.isDisabled()) {
-            this.element.replaceCls(oldDisabledCls, newDisabledCls);
-        }
-    },
+            if (this.isFloating()) {
+                this.resetFloating();
+            }
 
-    /**
-     * Disables this Component
-     */
-    disable: function() {
-       this.setDisabled(true);
-    },
+            if (this.isCentered()) {
+                this.setCentered(false);
+            }
 
-    /**
-     * Enables this Component
-     */
-    enable: function() {
-        this.setDisabled(false);
-    },
+            this.setIsInner(false);
 
-    /**
-     * Returns `true` if this Component is currently disabled.
-     * @return {Boolean} `true` if currently disabled.
-     */
-    isDisabled: function() {
-        return this.getDisabled();
-    },
+            delete this.refreshInnerState;
 
-    applyZIndex: function(zIndex) {
-        if (!zIndex && zIndex !== 0) {
-            zIndex = null;
-        }
+            return docked;
+        },
 
-        if (zIndex !== null) {
-            zIndex = Number(zIndex);
+        doSetDocked: function(docked, oldDocked) {
+            this.fireEvent('afterdockedchange', this, docked, oldDocked);
+            if (!docked) {
+                this.refreshInnerState();
+            }
+        },
 
-            if (isNaN(zIndex)) {
+        /**
+         * Resets {@link #top}, {@link #right}, {@link #bottom} and {@link #left} configurations to `null`, which
+         * will un-float this component.
+         */
+        resetFloating: function() {
+            this.setTop(null);
+            this.setRight(null);
+            this.setBottom(null);
+            this.setLeft(null);
+        },
+
+
+        refreshInnerState: function() {
+            this.setIsInner(!this.isCentered() && !this.isFloating() && !this.isDocked());
+        },
+
+        refreshFloating: function() {
+            this.refreshFloatingOnInitialized = true;
+        },
+
+        doRefreshFloating: function() {
+            var floating = true,
+                floatingCls = this.getFloatingCls();
+
+            if (this.getTop() === null && this.getBottom() === null &&
+                this.getRight() === null && this.getLeft() === null) {
+                floating = false;
+            } else {
+                this.refreshSizeState();
+            }
+
+            if (floating !== this.floating) {
+                this.floating = floating;
+
+                if (floating) {
+                    this.refreshInnerState = Ext.emptyFn;
+
+                    if (this.isCentered()) {
+                        this.setCentered(false);
+                    }
+
+                    if (this.isDocked()) {
+                        this.setDocked(false);
+                    }
+
+                    this.setIsInner(false);
+
+                    delete this.refreshInnerState;
+                }
+
+                this.element.toggleCls(floatingCls, floating);
+
+                if (this.initialized) {
+                    this.fireEvent('floatingchange', this, floating);
+                }
+
+                if (!floating) {
+                    this.refreshInnerState();
+                }
+            }
+        },
+
+        /**
+         * Updates the floatingCls if the component is currently floating
+         * @private
+         */
+        updateFloatingCls: function(newFloatingCls, oldFloatingCls) {
+            if (this.isFloating()) {
+                this.replaceCls(oldFloatingCls, newFloatingCls);
+            }
+        },
+
+        applyDisabled: function(disabled) {
+            return Boolean(disabled);
+        },
+
+        doSetDisabled: function(disabled) {
+            this.element[disabled ? 'addCls' : 'removeCls'](this.getDisabledCls());
+        },
+
+        updateDisabledCls: function(newDisabledCls, oldDisabledCls) {
+            if (this.isDisabled()) {
+                this.element.replaceCls(oldDisabledCls, newDisabledCls);
+            }
+        },
+
+        /**
+         * Disables this Component
+         */
+        disable: function() {
+            this.setDisabled(true);
+        },
+
+        /**
+         * Enables this Component
+         */
+        enable: function() {
+            this.setDisabled(false);
+        },
+
+        /**
+         * Returns `true` if this Component is currently disabled.
+         * @return {Boolean} `true` if currently disabled.
+         */
+        isDisabled: function() {
+            return this.getDisabled();
+        },
+
+        applyZIndex: function(zIndex) {
+            if (!zIndex && zIndex !== 0) {
                 zIndex = null;
             }
-        }
 
-        return zIndex;
-    },
-
-    updateZIndex: function(zIndex) {
-        var element = this.element,
-            domStyle;
-
-        if (element && !element.isDestroyed) {
-            domStyle = element.dom.style;
             if (zIndex !== null) {
-                domStyle.setProperty('z-index', zIndex, 'important');
+                zIndex = Number(zIndex);
+
+                if (isNaN(zIndex)) {
+                    zIndex = null;
+                }
             }
-            else {
-                domStyle.removeProperty('z-index');
+
+            return zIndex;
+        },
+
+        updateZIndex: function(zIndex) {
+            var element = this.element,
+                domStyle;
+
+            if (element && !element.isDestroyed) {
+                domStyle = element.dom.style;
+                if (zIndex !== null) {
+                    domStyle.setProperty('z-index', zIndex, 'important');
+                } else {
+                    domStyle.removeProperty('z-index');
+                }
             }
-        }
-    },
+        },
 
-    getInnerHtmlElement: function() {
-        var innerHtmlElement = this.innerHtmlElement,
-            styleHtmlCls;
+        getInnerHtmlElement: function() {
+            var innerHtmlElement = this.innerHtmlElement,
+                styleHtmlCls;
 
-        if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
-            this.innerHtmlElement = innerHtmlElement = Ext.Element.create({ cls: 'x-innerhtml' });
+            if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
+                this.innerHtmlElement = innerHtmlElement = Ext.Element.create({
+                    cls: 'x-innerhtml'
+                });
 
-            if (this.getStyleHtmlContent()) {
-                styleHtmlCls = this.getStyleHtmlCls();
-                this.innerHtmlElement.addCls(styleHtmlCls);
-                this.innerElement.removeCls(styleHtmlCls);
+                if (this.getStyleHtmlContent()) {
+                    styleHtmlCls = this.getStyleHtmlCls();
+                    this.innerHtmlElement.addCls(styleHtmlCls);
+                    this.innerElement.removeCls(styleHtmlCls);
+                }
+                this.innerElement.appendChild(innerHtmlElement);
             }
-            this.innerElement.appendChild(innerHtmlElement);
-        }
 
-        return innerHtmlElement;
-    },
+            return innerHtmlElement;
+        },
 
-    updateHtml: function(html) {
-        if (!this.isDestroyed) {
-            var innerHtmlElement = this.getInnerHtmlElement();
+        updateHtml: function(html) {
+            if (!this.isDestroyed) {
+                var innerHtmlElement = this.getInnerHtmlElement();
 
-            if (Ext.isElement(html)){
-                innerHtmlElement.setHtml('');
-                innerHtmlElement.append(html);
+                if (Ext.isElement(html)) {
+                    innerHtmlElement.setHtml('');
+                    innerHtmlElement.append(html);
+                } else {
+                    innerHtmlElement.setHtml(html);
+                }
             }
-            else {
-                innerHtmlElement.setHtml(html);
+        },
+
+        applyHidden: function(hidden) {
+            return Boolean(hidden);
+        },
+
+        doSetHidden: function(hidden) {
+            var element = this.renderElement;
+
+            if (element.isDestroyed) {
+                return;
             }
-        }
-    },
 
-    applyHidden: function(hidden) {
-        return Boolean(hidden);
-    },
+            if (hidden) {
+                element.hide();
+            } else {
+                element.show();
+            }
 
-    doSetHidden: function(hidden) {
-        var element = this.renderElement;
+            if (this.element) {
+                this.element[hidden ? 'addCls' : 'removeCls'](this.getHiddenCls());
+            }
 
-        if (element.isDestroyed) {
-            return;
-        }
+            this.fireEvent(hidden ? 'hide' : 'show', this);
+        },
 
-        if (hidden) {
-            element.hide();
-        }
-        else {
-            element.show();
-        }
+        updateHiddenCls: function(newHiddenCls, oldHiddenCls) {
+            if (this.isHidden()) {
+                this.element.replaceCls(oldHiddenCls, newHiddenCls);
+            }
+        },
 
-        if (this.element) {
-            this.element[hidden ? 'addCls' : 'removeCls'](this.getHiddenCls());
-        }
+        /**
+         * Returns `true` if this Component is currently hidden.
+         * @return {Boolean} `true` if currently hidden.
+         */
+        isHidden: function() {
+            return this.getHidden();
+        },
 
-        this.fireEvent(hidden ? 'hide' : 'show', this);
-    },
+        /**
+         * Hides this Component optionally using an animation.
+         * @param {Object/Boolean} [animation] You can specify an animation here or a bool to use the {@link #hideAnimation} config.
+         * @return {Ext.Component}
+         * @chainable
+         */
+        hide: function(animation) {
+            this.setCurrentAlignmentInfo(null);
+            if (this.activeAnimation) {
+                this.activeAnimation.on({
+                    animationend: function() {
+                        this.hide(animation);
+                    },
+                    scope: this,
+                    single: true
+                });
+                return this;
+            }
 
-    updateHiddenCls: function(newHiddenCls, oldHiddenCls) {
-        if (this.isHidden()) {
-            this.element.replaceCls(oldHiddenCls, newHiddenCls);
-        }
-    },
-
-    /**
-     * Returns `true` if this Component is currently hidden.
-     * @return {Boolean} `true` if currently hidden.
-     */
-    isHidden: function() {
-        return this.getHidden();
-    },
-
-    /**
-     * Hides this Component optionally using an animation.
-     * @param {Object/Boolean} [animation] You can specify an animation here or a bool to use the {@link #hideAnimation} config.
-     * @return {Ext.Component}
-     * @chainable
-     */
-    hide: function(animation) {
-        this.setCurrentAlignmentInfo(null);
-        if(this.activeAnimation) {
-            this.activeAnimation.on({
-                animationend: function(){
-                    this.hide(animation);
-                },
-                scope: this,
-                single: true
-            });
+            if (!this.getHidden()) {
+                if (animation === undefined || (animation && animation.isComponent)) {
+                    animation = this.getHideAnimation();
+                }
+                if (animation) {
+                    if (animation === true) {
+                        animation = 'fadeOut';
+                    }
+                    this.onBefore({
+                        hiddenchange: 'animateFn',
+                        scope: this,
+                        single: true,
+                        args: [animation]
+                    });
+                }
+                this.setHidden(true);
+            }
             return this;
-        }
+        },
 
-        if (!this.getHidden()) {
-            if (animation === undefined || (animation && animation.isComponent)) {
-                animation = this.getHideAnimation();
+        /**
+         * Shows this component optionally using an animation.
+         * @param {Object/Boolean} [animation] You can specify an animation here or a bool to use the {@link #showAnimation} config.
+         * @return {Ext.Component}
+         * @chainable
+         */
+        show: function(animation) {
+            if (this.activeAnimation) {
+                this.activeAnimation.on({
+                    animationend: function() {
+                        this.show(animation);
+                    },
+                    scope: this,
+                    single: true
+                });
+                return this;
             }
-            if (animation) {
+
+            var hidden = this.getHidden();
+            if (hidden || hidden === null) {
                 if (animation === true) {
-                    animation = 'fadeOut';
+                    animation = 'fadeIn';
+                } else if (animation === undefined || (animation && animation.isComponent)) {
+                    animation = this.getShowAnimation();
                 }
-                this.onBefore({
-                    hiddenchange: 'animateFn',
-                    scope: this,
-                    single: true,
-                    args: [animation]
-                });
-            }
-            this.setHidden(true);
-        }
-        return this;
-    },
 
-    /**
-     * Shows this component optionally using an animation.
-     * @param {Object/Boolean} [animation] You can specify an animation here or a bool to use the {@link #showAnimation} config.
-     * @return {Ext.Component}
-     * @chainable
-     */
-    show: function(animation) {
-        if(this.activeAnimation) {
-            this.activeAnimation.on({
-                animationend: function(){
-                    this.show(animation);
-                },
-                scope: this,
-                single: true
-            });
+                if (animation) {
+                    this.beforeShowAnimation();
+                    this.onBefore({
+                        hiddenchange: 'animateFn',
+                        scope: this,
+                        single: true,
+                        args: [animation]
+                    });
+                }
+
+                this.setHidden(false);
+            }
+
             return this;
-        }
+        },
 
-        var hidden = this.getHidden();
-        if (hidden || hidden === null) {
-            if (animation === true) {
-                animation = 'fadeIn';
+        beforeShowAnimation: function() {
+            if (this.element) {
+                this.renderElement.show();
+                this.element.removeCls(this.getHiddenCls());
             }
-            else if (animation === undefined || (animation && animation.isComponent)) {
-                animation = this.getShowAnimation();
-            }
+        },
 
-            if (animation) {
-                this.beforeShowAnimation();
-                this.onBefore({
-                    hiddenchange: 'animateFn',
-                    scope: this,
-                    single: true,
-                    args: [animation]
-                });
-            }
+        animateFn: function(animation, component, newState, oldState, options, controller) {
+            var me = this;
+            if (animation && (!newState || (newState && this.isPainted()))) {
 
-            this.setHidden(false);
-        }
+                this.activeAnimation = new Ext.fx.Animation(animation);
+                this.activeAnimation.setElement(component.element);
 
-        return this;
-    },
+                if (!Ext.isEmpty(newState)) {
+                    this.activeAnimation.setOnEnd(function() {
+                        me.activeAnimation = null;
+                        controller.resume();
+                    });
 
-    beforeShowAnimation: function() {
-        if (this.element) {
-            this.renderElement.show();
-            this.element.removeCls(this.getHiddenCls());
-        }
-    },
-
-    animateFn: function(animation, component, newState, oldState, options, controller) {
-        var me = this;
-        if (animation && (!newState || (newState && this.isPainted()))) {
-
-            this.activeAnimation = new Ext.fx.Animation(animation);
-            this.activeAnimation.setElement(component.element);
-
-            if (!Ext.isEmpty(newState)) {
-                this.activeAnimation.setOnEnd(function() {
-                    me.activeAnimation = null;
-                    controller.resume();
-                });
-
-                controller.pause();
-            }
-
-            Ext.Animator.run(me.activeAnimation);
-        }
-    },
-
-    /**
-     * @private
-     */
-    setVisibility: function(isVisible) {
-        this.renderElement.setVisibility(isVisible);
-    },
-
-    /**
-     * @private
-     */
-    isRendered: function() {
-        return this.rendered;
-    },
-
-    /**
-     * @private
-     */
-    isPainted: function() {
-        return this.renderElement.isPainted();
-    },
-
-    /**
-     * @private
-     */
-    applyTpl: function(config) {
-        return (Ext.isObject(config) && config.isTemplate) ? config : new Ext.XTemplate(config);
-    },
-
-    applyData: function(data) {
-        if (Ext.isObject(data)) {
-            return Ext.apply({}, data);
-        } else if (!data) {
-            data = {};
-        }
-
-        return data;
-    },
-
-    /**
-     * @private
-     */
-    updateData: function(newData) {
-        var me = this;
-        if (newData) {
-            var tpl = me.getTpl(),
-                tplWriteMode = me.getTplWriteMode();
-
-            if (tpl) {
-                tpl[tplWriteMode](me.getInnerHtmlElement(), newData);
-            }
-
-            /**
-             * @event updatedata
-             * Fires whenever the data of the component is updated
-             * @param {Ext.Component} this The component instance
-             * @param {Object} newData The new data
-             */
-            this.fireEvent('updatedata', me, newData);
-        }
-    },
-
-    applyRecord: function(config) {
-        if (config && Ext.isObject(config) && config.isModel) {
-            return config;
-        }
-        return  null;
-    },
-
-    updateRecord: function(newRecord, oldRecord) {
-        var me = this;
-
-        if (oldRecord) {
-            oldRecord.unjoin(me);
-        }
-
-        if (!newRecord) {
-            me.updateData('');
-        }
-        else {
-            newRecord.join(me);
-            me.updateData(newRecord.getData(true));
-        }
-    },
-
-    // @private Used to handle joining of a record to a tpl
-    afterEdit: function() {
-        this.updateRecord(this.getRecord());
-    },
-
-    // @private Used to handle joining of a record to a tpl
-    afterErase: function() {
-        this.setRecord(null);
-    },
-
-    applyItemId: function(itemId) {
-        return itemId || this.getId();
-    },
-
-    /**
-     * Tests whether or not this Component is of a specific xtype. This can test whether this Component is descended
-     * from the xtype (default) or whether it is directly of the xtype specified (`shallow = true`).
-     * __If using your own subclasses, be aware that a Component must register its own xtype
-     * to participate in determination of inherited xtypes.__
-     *
-     * For a list of all available xtypes, see the {@link Ext.Component} header.
-     *
-     * Example usage:
-     *
-     *     var t = new Ext.field.Text();
-     *     var isText = t.isXType('textfield'); // true
-     *     var isBoxSubclass = t.isXType('field'); // true, descended from Ext.field.Field
-     *     var isBoxInstance = t.isXType('field', true); // false, not a direct Ext.field.Field instance
-     *
-     * @param {String} xtype The xtype to check for this Component.
-     * @param {Boolean} shallow (optional) `false` to check whether this Component is descended from the xtype (this is
-     * the default), or `true` to check whether this Component is directly of the specified xtype.
-     * @return {Boolean} `true` if this component descends from the specified xtype, `false` otherwise.
-     */
-    isXType: function(xtype, shallow) {
-        if (shallow) {
-            return this.xtypes.indexOf(xtype) != -1;
-        }
-
-        return Boolean(this.xtypesMap[xtype]);
-    },
-
-    /**
-     * Returns this Component's xtype hierarchy as a slash-delimited string. For a list of all
-     * available xtypes, see the {@link Ext.Component} header.
-     *
-     * __Note:__ If using your own subclasses, be aware that a Component must register its own xtype
-     * to participate in determination of inherited xtypes.
-     *
-     * Example usage:
-     *
-     *     var t = new Ext.field.Text();
-     *     alert(t.getXTypes());  // alerts 'component/field/textfield'
-     *
-     * @return {String} The xtype hierarchy string.
-     */
-    getXTypes: function() {
-        return this.xtypesChain.join('/');
-    },
-
-    getDraggableBehavior: function() {
-        var behavior = this.draggableBehavior;
-
-        if (!behavior) {
-            behavior = this.draggableBehavior = new Ext.behavior.Draggable(this);
-        }
-
-        return behavior;
-    },
-
-    applyDraggable: function(config) {
-        this.getDraggableBehavior().setConfig(config);
-    },
-
-    getDraggable: function() {
-        return this.getDraggableBehavior().getDraggable();
-    },
-
-    getTranslatableBehavior: function() {
-        var behavior = this.translatableBehavior;
-
-        if (!behavior) {
-            behavior = this.translatableBehavior = new Ext.behavior.Translatable(this);
-        }
-
-        return behavior;
-    },
-
-    applyTranslatable: function(config) {
-        this.getTranslatableBehavior().setConfig(config);
-    },
-
-    getTranslatable: function() {
-        return this.getTranslatableBehavior().getTranslatable();
-    },
-
-    translateAxis: function(axis, value, animation) {
-        var x, y;
-
-        if (axis === 'x') {
-            x = value;
-        }
-        else {
-            y = value;
-        }
-
-        return this.translate(x, y, animation);
-    },
-
-    translate: function() {
-        var translatable = this.getTranslatable();
-
-        if (!translatable) {
-            this.setTranslatable(true);
-            translatable = this.getTranslatable();
-        }
-
-        translatable.translate.apply(translatable, arguments);
-    },
-
-    /**
-     * @private
-     * @param {Boolean} rendered
-     */
-    setRendered: function(rendered) {
-        var wasRendered = this.rendered;
-
-        if (rendered !== wasRendered) {
-            this.rendered = rendered;
-
-            return true;
-        }
-
-        return false;
-    },
-
-    /**
-     * Sets the size of the Component.
-     * @param {Number} width The new width for the Component.
-     * @param {Number} height The new height for the Component.
-     */
-    setSize: function(width, height) {
-        if (width != undefined) {
-            this.setWidth(width);
-        }
-        if (height != undefined) {
-            this.setHeight(height);
-        }
-    },
-
-    //@private
-    doAddListener: function(name, fn, scope, options, order) {
-        if (options && 'element' in options) {
-            if (this.referenceList.indexOf(options.element) === -1) {
-                Ext.Logger.error("Adding event listener with an invalid element reference of '" + options.element +
-                    "' for this component. Available values are: '" + this.referenceList.join("', '") + "'", this);
-            }
-
-            // The default scope is this component
-            return this[options.element].doAddListener(name, fn, scope || this, options, order);
-        }
-        if (name == 'painted' || name == 'resize') {
-            return this.element.doAddListener(name, fn, scope || this, options, order);
-        }
-
-        return this.callParent(arguments);
-    },
-
-    //@private
-    doRemoveListener: function(name, fn, scope, options, order) {
-        if (options && 'element' in options) {
-            if (this.referenceList.indexOf(options.element) === -1) {
-                Ext.Logger.error("Removing event listener with an invalid element reference of '" + options.element +
-                    "' for this component. Available values are: '" + this.referenceList.join('", "') + "'", this);
-            }
-
-            // The default scope is this component
-            this[options.element].doRemoveListener(name, fn, scope || this, options, order);
-        }
-
-        return this.callParent(arguments);
-    },
-
-    /**
-     * Shows this component by another component. If you specify no alignment, it will automatically
-     * position this component relative to the reference component.
-     *
-     * For example, say we are aligning a Panel next to a Button, the alignment string would look like this:
-     *
-     *     [panel-vertical (t/b/c)][panel-horizontal (l/r/c)]-[button-vertical (t/b/c)][button-horizontal (l/r/c)]
-     *
-     * where t = top, b = bottom, c = center, l = left, r = right.
-     *
-     * ## Examples
-     *
-     *  - `tl-tr` means top-left corner of the Panel to the top-right corner of the Button
-     *  - `tc-bc` means top-center of the Panel to the bottom-center of the Button
-     *
-     * You can put a '?' at the end of the alignment string to constrain the floating element to the
-     * {@link Ext.Viewport Viewport}
-     *
-     *     // show `panel` by `button` using the default positioning (auto fit)
-     *     panel.showBy(button);
-     *
-     *     // align the top left corner of `panel` with the top right corner of `button` (constrained to viewport)
-     *     panel.showBy(button, "tl-tr?");
-     *
-     *     // align the bottom right corner of `panel` with the center left edge of `button` (not constrained by viewport)
-     *     panel.showBy(button, "br-cl");
-     *
-     * @param {Ext.Component} component The target component to show this component by.
-     * @param {String} alignment (optional) The specific alignment.
-     */
-    showBy: function(component, alignment) {
-        var me = this,
-            viewport = Ext.Viewport,
-            parent = me.getParent();
-
-        me.setVisibility(false);
-
-        if (parent !== viewport) {
-            viewport.add(me);
-        }
-
-        me.show();
-
-        me.on({
-            hide: 'onShowByErased',
-            destroy: 'onShowByErased',
-            single: true,
-            scope: me
-        });
-        viewport.on('resize', 'alignTo', me, { args: [component, alignment] });
-
-        me.alignTo(component, alignment);
-        me.setVisibility(true);
-    },
-
-    /**
-     * @private
-     * @param {Ext.Component} component
-     */
-    onShowByErased: function() {
-        Ext.Viewport.un('resize', 'alignTo', this);
-    },
-
-    /**
-     * Prepares information on aligning this to component using alignment.
-     * Also checks to see if this is already aligned to component according to alignment.
-     * @protected
-     */
-    getAlignmentInfo: function (component, alignment){
-        var alignToElement = component.isComponent ? component.renderElement : component,
-            alignToBox = alignToElement.getPageBox(),
-            element = this.renderElement,
-            box = element.getPageBox(),
-            stats = {
-                alignToBox: alignToBox,
-                alignment: alignment,
-                top: alignToBox.top,
-                left: alignToBox.left,
-                alignToWidth: alignToBox.width,
-                alignToHeight: alignToBox.height,
-                width: box.width,
-                height: box.height
-            },
-            currentAlignmentInfo = this.getCurrentAlignmentInfo(),
-            isAligned = true;
-
-        if (!Ext.isEmpty(currentAlignmentInfo)) {
-            Ext.Object.each(stats, function(key, value) {
-                if (!Ext.isObject(value) && currentAlignmentInfo[key] != value) {
-                    isAligned = false;
-                    return false;
+                    controller.pause();
                 }
+
+                Ext.Animator.run(me.activeAnimation);
+            }
+        },
+
+        /**
+         * @private
+         */
+        setVisibility: function(isVisible) {
+            this.renderElement.setVisibility(isVisible);
+        },
+
+        /**
+         * @private
+         */
+        isRendered: function() {
+            return this.rendered;
+        },
+
+        /**
+         * @private
+         */
+        isPainted: function() {
+            return this.renderElement.isPainted();
+        },
+
+        /**
+         * @private
+         */
+        applyTpl: function(config) {
+            return (Ext.isObject(config) && config.isTemplate) ? config : new Ext.XTemplate(config);
+        },
+
+        applyData: function(data) {
+            if (Ext.isObject(data)) {
+                return Ext.apply({}, data);
+            } else if (!data) {
+                data = {};
+            }
+
+            return data;
+        },
+
+        /**
+         * @private
+         */
+        updateData: function(newData) {
+            var me = this;
+            if (newData) {
+                var tpl = me.getTpl(),
+                    tplWriteMode = me.getTplWriteMode();
+
+                if (tpl) {
+                    tpl[tplWriteMode](me.getInnerHtmlElement(), newData);
+                }
+
+                /**
+                 * @event updatedata
+                 * Fires whenever the data of the component is updated
+                 * @param {Ext.Component} this The component instance
+                 * @param {Object} newData The new data
+                 */
+                this.fireEvent('updatedata', me, newData);
+            }
+        },
+
+        applyRecord: function(config) {
+            if (config && Ext.isObject(config) && config.isModel) {
+                return config;
+            }
+            return null;
+        },
+
+        updateRecord: function(newRecord, oldRecord) {
+            var me = this;
+
+            if (oldRecord) {
+                oldRecord.unjoin(me);
+            }
+
+            if (!newRecord) {
+                me.updateData('');
+            } else {
+                newRecord.join(me);
+                me.updateData(newRecord.getData(true));
+            }
+        },
+
+        // @private Used to handle joining of a record to a tpl
+        afterEdit: function() {
+            this.updateRecord(this.getRecord());
+        },
+
+        // @private Used to handle joining of a record to a tpl
+        afterErase: function() {
+            this.setRecord(null);
+        },
+
+        applyItemId: function(itemId) {
+            return itemId || this.getId();
+        },
+
+        /**
+         * Tests whether or not this Component is of a specific xtype. This can test whether this Component is descended
+         * from the xtype (default) or whether it is directly of the xtype specified (`shallow = true`).
+         * __If using your own subclasses, be aware that a Component must register its own xtype
+         * to participate in determination of inherited xtypes.__
+         *
+         * For a list of all available xtypes, see the {@link Ext.Component} header.
+         *
+         * Example usage:
+         *
+         *     var t = new Ext.field.Text();
+         *     var isText = t.isXType('textfield'); // true
+         *     var isBoxSubclass = t.isXType('field'); // true, descended from Ext.field.Field
+         *     var isBoxInstance = t.isXType('field', true); // false, not a direct Ext.field.Field instance
+         *
+         * @param {String} xtype The xtype to check for this Component.
+         * @param {Boolean} shallow (optional) `false` to check whether this Component is descended from the xtype (this is
+         * the default), or `true` to check whether this Component is directly of the specified xtype.
+         * @return {Boolean} `true` if this component descends from the specified xtype, `false` otherwise.
+         */
+        isXType: function(xtype, shallow) {
+            if (shallow) {
+                return this.xtypes.indexOf(xtype) != -1;
+            }
+
+            return Boolean(this.xtypesMap[xtype]);
+        },
+
+        /**
+         * Returns this Component's xtype hierarchy as a slash-delimited string. For a list of all
+         * available xtypes, see the {@link Ext.Component} header.
+         *
+         * __Note:__ If using your own subclasses, be aware that a Component must register its own xtype
+         * to participate in determination of inherited xtypes.
+         *
+         * Example usage:
+         *
+         *     var t = new Ext.field.Text();
+         *     alert(t.getXTypes());  // alerts 'component/field/textfield'
+         *
+         * @return {String} The xtype hierarchy string.
+         */
+        getXTypes: function() {
+            return this.xtypesChain.join('/');
+        },
+
+        getDraggableBehavior: function() {
+            var behavior = this.draggableBehavior;
+
+            if (!behavior) {
+                behavior = this.draggableBehavior = new Ext.behavior.Draggable(this);
+            }
+
+            return behavior;
+        },
+
+        applyDraggable: function(config) {
+            this.getDraggableBehavior().setConfig(config);
+        },
+
+        getDraggable: function() {
+            return this.getDraggableBehavior().getDraggable();
+        },
+
+        getTranslatableBehavior: function() {
+            var behavior = this.translatableBehavior;
+
+            if (!behavior) {
+                behavior = this.translatableBehavior = new Ext.behavior.Translatable(this);
+            }
+
+            return behavior;
+        },
+
+        applyTranslatable: function(config) {
+            this.getTranslatableBehavior().setConfig(config);
+        },
+
+        getTranslatable: function() {
+            return this.getTranslatableBehavior().getTranslatable();
+        },
+
+        translateAxis: function(axis, value, animation) {
+            var x, y;
+
+            if (axis === 'x') {
+                x = value;
+            } else {
+                y = value;
+            }
+
+            return this.translate(x, y, animation);
+        },
+
+        translate: function() {
+            var translatable = this.getTranslatable();
+
+            if (!translatable) {
+                this.setTranslatable(true);
+                translatable = this.getTranslatable();
+            }
+
+            translatable.translate.apply(translatable, arguments);
+        },
+
+        /**
+         * @private
+         * @param {Boolean} rendered
+         */
+        setRendered: function(rendered) {
+            var wasRendered = this.rendered;
+
+            if (rendered !== wasRendered) {
+                this.rendered = rendered;
+
                 return true;
+            }
+
+            return false;
+        },
+
+        /**
+         * Sets the size of the Component.
+         * @param {Number} width The new width for the Component.
+         * @param {Number} height The new height for the Component.
+         */
+        setSize: function(width, height) {
+            if (width != undefined) {
+                this.setWidth(width);
+            }
+            if (height != undefined) {
+                this.setHeight(height);
+            }
+        },
+
+        //@private
+        doAddListener: function(name, fn, scope, options, order) {
+            if (options && 'element' in options) {
+                if (this.referenceList.indexOf(options.element) === -1) {
+                    Ext.Logger.error("Adding event listener with an invalid element reference of '" + options.element +
+                        "' for this component. Available values are: '" + this.referenceList.join("', '") + "'", this);
+                }
+
+                // The default scope is this component
+                return this[options.element].doAddListener(name, fn, scope || this, options, order);
+            }
+            if (name == 'painted' || name == 'resize') {
+                return this.element.doAddListener(name, fn, scope || this, options, order);
+            }
+
+            return this.callParent(arguments);
+        },
+
+        //@private
+        doRemoveListener: function(name, fn, scope, options, order) {
+            if (options && 'element' in options) {
+                if (this.referenceList.indexOf(options.element) === -1) {
+                    Ext.Logger.error("Removing event listener with an invalid element reference of '" + options.element +
+                        "' for this component. Available values are: '" + this.referenceList.join('", "') + "'", this);
+                }
+
+                // The default scope is this component
+                this[options.element].doRemoveListener(name, fn, scope || this, options, order);
+            }
+
+            return this.callParent(arguments);
+        },
+
+        /**
+         * Shows this component by another component. If you specify no alignment, it will automatically
+         * position this component relative to the reference component.
+         *
+         * For example, say we are aligning a Panel next to a Button, the alignment string would look like this:
+         *
+         *     [panel-vertical (t/b/c)][panel-horizontal (l/r/c)]-[button-vertical (t/b/c)][button-horizontal (l/r/c)]
+         *
+         * where t = top, b = bottom, c = center, l = left, r = right.
+         *
+         * ## Examples
+         *
+         *  - `tl-tr` means top-left corner of the Panel to the top-right corner of the Button
+         *  - `tc-bc` means top-center of the Panel to the bottom-center of the Button
+         *
+         * You can put a '?' at the end of the alignment string to constrain the floating element to the
+         * {@link Ext.Viewport Viewport}
+         *
+         *     // show `panel` by `button` using the default positioning (auto fit)
+         *     panel.showBy(button);
+         *
+         *     // align the top left corner of `panel` with the top right corner of `button` (constrained to viewport)
+         *     panel.showBy(button, "tl-tr?");
+         *
+         *     // align the bottom right corner of `panel` with the center left edge of `button` (not constrained by viewport)
+         *     panel.showBy(button, "br-cl");
+         *
+         * @param {Ext.Component} component The target component to show this component by.
+         * @param {String} alignment (optional) The specific alignment.
+         */
+        showBy: function(component, alignment) {
+            var me = this,
+                viewport = Ext.Viewport,
+                parent = me.getParent();
+
+            me.setVisibility(false);
+
+            if (parent !== viewport) {
+                viewport.add(me);
+            }
+
+            me.show();
+
+            me.on({
+                hide: 'onShowByErased',
+                destroy: 'onShowByErased',
+                single: true,
+                scope: me
             });
-        } else {
-            isAligned = false;
-        }
+            viewport.on('resize', 'alignTo', me, {
+                args: [component, alignment]
+            });
 
-        return {isAligned: isAligned, stats: stats};
-    },
+            me.alignTo(component, alignment);
+            me.setVisibility(true);
+        },
 
-    /**
-     * Current Alignment information from the last alignTo call
-     * @private
-     */
-    getCurrentAlignmentInfo: function() {
-        return this.$currentAlignmentInfo;
-    },
+        /**
+         * @private
+         * @param {Ext.Component} component
+         */
+        onShowByErased: function() {
+            Ext.Viewport.un('resize', 'alignTo', this);
+        },
 
-    /**
-     * Sets the current Alignment information, called by alignTo
-     * @private
-     */
-    setCurrentAlignmentInfo: function(alignmentInfo) {
-        this.$currentAlignmentInfo = Ext.isEmpty(alignmentInfo) ? null : Ext.merge({}, alignmentInfo.stats ? alignmentInfo.stats : alignmentInfo);
-    },
+        /**
+         * Prepares information on aligning this to component using alignment.
+         * Also checks to see if this is already aligned to component according to alignment.
+         * @protected
+         */
+        getAlignmentInfo: function(component, alignment) {
+            var alignToElement = component.isComponent ? component.renderElement : component,
+                alignToBox = alignToElement.getPageBox(),
+                element = this.renderElement,
+                box = element.getPageBox(),
+                stats = {
+                    alignToBox: alignToBox,
+                    alignment: alignment,
+                    top: alignToBox.top,
+                    left: alignToBox.left,
+                    alignToWidth: alignToBox.width,
+                    alignToHeight: alignToBox.height,
+                    width: box.width,
+                    height: box.height
+                },
+                currentAlignmentInfo = this.getCurrentAlignmentInfo(),
+                isAligned = true;
 
-    /**
-     * @private
-     */
-    alignTo: function(component, alignment) {
-        var alignmentInfo = this.getAlignmentInfo(component, alignment);
-        if(alignmentInfo.isAligned) return;
-
-        var alignToBox = alignmentInfo.stats.alignToBox,
-            constrainBox = this.getParent().element.getPageBox(),
-            alignToHeight = alignmentInfo.stats.alignToHeight,
-            alignToWidth = alignmentInfo.stats.alignToWidth,
-            height = alignmentInfo.stats.height,
-            width = alignmentInfo.stats.width;
-
-        // Keep off the sides...
-        constrainBox.bottom -= 5;
-        constrainBox.height -= 10;
-        constrainBox.left += 5;
-        constrainBox.right -= 5;
-        constrainBox.top += 5;
-        constrainBox.width -= 10;
-
-        if (!alignment || alignment === 'auto') {
-            if (constrainBox.bottom - alignToBox.bottom < height) {
-                if (alignToBox.top - constrainBox.top < height) {
-                    if (alignToBox.left - constrainBox.left < width) {
-                        alignment = 'cl-cr?';
+            if (!Ext.isEmpty(currentAlignmentInfo)) {
+                Ext.Object.each(stats, function(key, value) {
+                    if (!Ext.isObject(value) && currentAlignmentInfo[key] != value) {
+                        isAligned = false;
+                        return false;
                     }
-                    else {
-                        alignment = 'cr-cl?';
+                    return true;
+                });
+            } else {
+                isAligned = false;
+            }
+
+            return {
+                isAligned: isAligned,
+                stats: stats
+            };
+        },
+
+        /**
+         * Current Alignment information from the last alignTo call
+         * @private
+         */
+        getCurrentAlignmentInfo: function() {
+            return this.$currentAlignmentInfo;
+        },
+
+        /**
+         * Sets the current Alignment information, called by alignTo
+         * @private
+         */
+        setCurrentAlignmentInfo: function(alignmentInfo) {
+            this.$currentAlignmentInfo = Ext.isEmpty(alignmentInfo) ? null : Ext.merge({}, alignmentInfo.stats ? alignmentInfo.stats : alignmentInfo);
+        },
+
+        /**
+         * @private
+         */
+        alignTo: function(component, alignment) {
+            var alignmentInfo = this.getAlignmentInfo(component, alignment);
+            if (alignmentInfo.isAligned) return;
+
+            var alignToBox = alignmentInfo.stats.alignToBox,
+                constrainBox = this.getParent().element.getPageBox(),
+                alignToHeight = alignmentInfo.stats.alignToHeight,
+                alignToWidth = alignmentInfo.stats.alignToWidth,
+                height = alignmentInfo.stats.height,
+                width = alignmentInfo.stats.width;
+
+            // Keep off the sides...
+            constrainBox.bottom -= 5;
+            constrainBox.height -= 10;
+            constrainBox.left += 5;
+            constrainBox.right -= 5;
+            constrainBox.top += 5;
+            constrainBox.width -= 10;
+
+            if (!alignment || alignment === 'auto') {
+                if (constrainBox.bottom - alignToBox.bottom < height) {
+                    if (alignToBox.top - constrainBox.top < height) {
+                        if (alignToBox.left - constrainBox.left < width) {
+                            alignment = 'cl-cr?';
+                        } else {
+                            alignment = 'cr-cl?';
+                        }
+                    } else {
+                        alignment = 'bc-tc?';
+                    }
+                } else {
+                    alignment = 'tc-bc?';
+                }
+            }
+
+            var matches = alignment.match(this.alignmentRegex);
+            if (!matches) {
+                Ext.Logger.error("Invalid alignment value of '" + alignment + "'");
+            }
+
+            var from = matches[1].split(''),
+                to = matches[2].split(''),
+                constrained = (matches[3] === '?'),
+                fromVertical = from[0],
+                fromHorizontal = from[1] || fromVertical,
+                toVertical = to[0],
+                toHorizontal = to[1] || toVertical,
+                top = alignToBox.top,
+                left = alignToBox.left,
+                halfAlignHeight = alignToHeight / 2,
+                halfAlignWidth = alignToWidth / 2,
+                halfWidth = width / 2,
+                halfHeight = height / 2,
+                maxLeft, maxTop;
+
+            switch (fromVertical) {
+                case 't':
+                    switch (toVertical) {
+                        case 'c':
+                            top += halfAlignHeight;
+                            break;
+                        case 'b':
+                            top += alignToHeight;
+                    }
+                    break;
+
+                case 'b':
+                    switch (toVertical) {
+                        case 'c':
+                            top -= (height - halfAlignHeight);
+                            break;
+                        case 't':
+                            top -= height;
+                            break;
+                        case 'b':
+                            top -= height - alignToHeight;
+                    }
+                    break;
+
+                case 'c':
+                    switch (toVertical) {
+                        case 't':
+                            top -= halfHeight;
+                            break;
+                        case 'c':
+                            top -= (halfHeight - halfAlignHeight);
+                            break;
+                        case 'b':
+                            top -= (halfHeight - alignToHeight);
+                    }
+                    break;
+            }
+
+            switch (fromHorizontal) {
+                case 'l':
+                    switch (toHorizontal) {
+                        case 'c':
+                            left += halfAlignHeight;
+                            break;
+                        case 'r':
+                            left += alignToWidth;
+                    }
+                    break;
+
+                case 'r':
+                    switch (toHorizontal) {
+                        case 'r':
+                            left -= (width - alignToWidth);
+                            break;
+                        case 'c':
+                            left -= (width - halfWidth);
+                            break;
+                        case 'l':
+                            left -= width;
+                    }
+                    break;
+
+                case 'c':
+                    switch (toHorizontal) {
+                        case 'l':
+                            left -= halfWidth;
+                            break;
+                        case 'c':
+                            left -= (halfWidth - halfAlignWidth);
+                            break;
+                        case 'r':
+                            left -= (halfWidth - alignToWidth);
+                    }
+                    break;
+            }
+
+            if (constrained) {
+                maxLeft = (constrainBox.left + constrainBox.width) - width;
+                maxTop = (constrainBox.top + constrainBox.height) - height;
+
+                left = Math.max(constrainBox.left, Math.min(maxLeft, left));
+                top = Math.max(constrainBox.top, Math.min(maxTop, top));
+            }
+
+            this.setLeft(left);
+            this.setTop(top);
+            this.setCurrentAlignmentInfo(alignmentInfo);
+        },
+
+        /**
+         * Walks up the `ownerCt` axis looking for an ancestor Container which matches
+         * the passed simple selector.
+         *
+         * Example:
+         *
+         *     var owningTabPanel = grid.up('tabpanel');
+         *
+         * @param {String} selector (optional) The simple selector to test.
+         * @return {Ext.Container} The matching ancestor Container (or `undefined` if no match was found).
+         */
+        up: function(selector) {
+            var result = this.parent;
+
+            if (selector) {
+                for (; result; result = result.parent) {
+                    if (Ext.ComponentQuery.is(result, selector)) {
+                        return result;
                     }
                 }
-                else {
-                    alignment = 'bc-tc?';
-                }
             }
-            else {
-                alignment = 'tc-bc?';
+            return result;
+        },
+
+        getBubbleTarget: function() {
+            return this.getParent();
+        },
+
+        /**
+         * Destroys this Component. If it is currently added to a Container it will first be removed from that Container.
+         * All Ext.Element references are also deleted and the Component is de-registered from Ext.ComponentManager
+         */
+        destroy: function() {
+            this.destroy = Ext.emptyFn;
+
+            var parent = this.getParent(),
+                referenceList = this.referenceList,
+                i, ln, reference;
+
+            this.isDestroying = true;
+            Ext.destroy(this.getTranslatable(), this.getPlugins());
+
+            // Remove this component itself from the container if it's currently contained
+            if (parent) {
+                parent.remove(this, false);
             }
-        }
 
-        var matches = alignment.match(this.alignmentRegex);
-        if (!matches) {
-            Ext.Logger.error("Invalid alignment value of '" + alignment + "'");
-        }
-
-        var from = matches[1].split(''),
-            to = matches[2].split(''),
-            constrained = (matches[3] === '?'),
-            fromVertical = from[0],
-            fromHorizontal = from[1] || fromVertical,
-            toVertical = to[0],
-            toHorizontal = to[1] || toVertical,
-            top = alignToBox.top,
-            left = alignToBox.left,
-            halfAlignHeight = alignToHeight / 2,
-            halfAlignWidth = alignToWidth / 2,
-            halfWidth = width / 2,
-            halfHeight = height / 2,
-            maxLeft, maxTop;
-
-        switch (fromVertical) {
-            case 't':
-                switch (toVertical) {
-                    case 'c':
-                        top += halfAlignHeight;
-                        break;
-                    case 'b':
-                        top += alignToHeight;
-                }
-                break;
-
-            case 'b':
-                switch (toVertical) {
-                    case 'c':
-                        top -= (height - halfAlignHeight);
-                        break;
-                    case 't':
-                        top -= height;
-                        break;
-                    case 'b':
-                        top -= height - alignToHeight;
-                }
-                break;
-
-            case 'c':
-                switch (toVertical) {
-                    case 't':
-                        top -= halfHeight;
-                        break;
-                    case 'c':
-                        top -= (halfHeight - halfAlignHeight);
-                        break;
-                    case 'b':
-                        top -= (halfHeight - alignToHeight);
-                }
-                break;
-        }
-
-        switch (fromHorizontal) {
-            case 'l':
-                switch (toHorizontal) {
-                    case 'c':
-                        left += halfAlignHeight;
-                        break;
-                    case 'r':
-                        left += alignToWidth;
-                }
-                break;
-
-            case 'r':
-                switch (toHorizontal) {
-                    case 'r':
-                        left -= (width - alignToWidth);
-                        break;
-                    case 'c':
-                        left -= (width - halfWidth);
-                        break;
-                    case 'l':
-                        left -= width;
-                }
-                break;
-
-            case 'c':
-                switch (toHorizontal) {
-                    case 'l':
-                        left -= halfWidth;
-                        break;
-                    case 'c':
-                        left -= (halfWidth - halfAlignWidth);
-                        break;
-                    case 'r':
-                        left -= (halfWidth - alignToWidth);
-                }
-                break;
-        }
-
-        if (constrained) {
-            maxLeft = (constrainBox.left + constrainBox.width) - width;
-            maxTop = (constrainBox.top + constrainBox.height) - height;
-
-            left = Math.max(constrainBox.left, Math.min(maxLeft, left));
-            top = Math.max(constrainBox.top, Math.min(maxTop, top));
-        }
-
-        this.setLeft(left);
-        this.setTop(top);
-        this.setCurrentAlignmentInfo(alignmentInfo);
-    },
-
-    /**
-     * Walks up the `ownerCt` axis looking for an ancestor Container which matches
-     * the passed simple selector.
-     *
-     * Example:
-     *
-     *     var owningTabPanel = grid.up('tabpanel');
-     *
-     * @param {String} selector (optional) The simple selector to test.
-     * @return {Ext.Container} The matching ancestor Container (or `undefined` if no match was found).
-     */
-    up: function(selector) {
-        var result = this.parent;
-
-        if (selector) {
-            for (; result; result = result.parent) {
-                if (Ext.ComponentQuery.is(result, selector)) {
-                    return result;
-                }
+            // Destroy all element references
+            for (i = 0, ln = referenceList.length; i < ln; i++) {
+                reference = referenceList[i];
+                this[reference].destroy();
+                delete this[reference];
             }
-        }
-        return result;
-    },
 
-    getBubbleTarget: function() {
-        return this.getParent();
-    },
+            Ext.destroy(this.innerHtmlElement);
+            this.setRecord(null);
 
-    /**
-     * Destroys this Component. If it is currently added to a Container it will first be removed from that Container.
-     * All Ext.Element references are also deleted and the Component is de-registered from Ext.ComponentManager
-     */
-    destroy: function() {
-        this.destroy = Ext.emptyFn;
+            this.callSuper();
 
-        var parent = this.getParent(),
-            referenceList = this.referenceList,
-            i, ln, reference;
-
-        this.isDestroying = true;
-        Ext.destroy(this.getTranslatable(), this.getPlugins());
-
-        // Remove this component itself from the container if it's currently contained
-        if (parent) {
-            parent.remove(this, false);
+            Ext.ComponentManager.unregister(this);
         }
 
-        // Destroy all element references
-        for (i = 0, ln = referenceList.length; i < ln; i++) {
-            reference = referenceList[i];
-            this[reference].destroy();
-            delete this[reference];
-        }
+        // Convert old properties in data into a config object
 
-        Ext.destroy(this.innerHtmlElement);
-        this.setRecord(null);
-
-        this.callSuper();
-
-        Ext.ComponentManager.unregister(this);
-    }
-
-    // Convert old properties in data into a config object
-
-}, function() {
-});
+    }, function() {});
 
 })(Ext.baseCSSPrefix);
 
@@ -24485,8 +24325,8 @@ Ext.define('Ext.layout.wrapper.Inner', {
  *
  */
 Ext.define('Ext.layout.Abstract', {
-    mixins: [ Ext.mixin.Observable ],
-    
+    mixins: [Ext.mixin.Observable],
+
     isLayout: true,
 
     constructor: function(config) {
@@ -24520,7 +24360,7 @@ Ext.define('Ext.layout.Abstract', {
  *
  */
 Ext.define('Ext.mixin.Bindable', {
-    extend:  Ext.mixin.Mixin ,
+    extend: Ext.mixin.Mixin,
 
     mixinConfig: {
         id: 'bindable'
@@ -24557,7 +24397,7 @@ Ext.define('Ext.mixin.Bindable', {
             }
         };
         fn.$binding = {
-            preventDefault: !!preventDefault,
+            preventDefault: !! preventDefault,
             boundFn: boundFn,
             bindingMethod: bindingMethod,
             bindingScope: this
@@ -24581,8 +24421,7 @@ Ext.define('Ext.mixin.Bindable', {
             if (binding.bindingMethod === bindingMethod && binding.bindingScope === this) {
                 if (currentBinding) {
                     currentBinding.boundFn = boundFn;
-                }
-                else {
+                } else {
                     instance[boundMethod] = boundFn;
                 }
 
@@ -24601,7 +24440,7 @@ Ext.define('Ext.mixin.Bindable', {
  *
  */
 Ext.define('Ext.util.Wrapper', {
-    mixins: [ Ext.mixin.Bindable ],
+    mixins: [Ext.mixin.Bindable],
 
     constructor: function(elementConfig, wrappedElement) {
         var element = this.link('element', Ext.Element.create(elementConfig));
@@ -24628,8 +24467,7 @@ Ext.define('Ext.util.Wrapper', {
 
         if (typeof size === 'string' && size.substr(-1) === '%') {
             args[0] = '100%';
-        }
-        else {
+        } else {
             size = '';
         }
 
@@ -24762,8 +24600,7 @@ Ext.define('Ext.layout.wrapper.BoxDock', {
 
         if (position === 'start') {
             element.insertBefore(referenceElement);
-        }
-        else {
+        } else {
             element.insertAfter(referenceElement);
         }
     },
@@ -24855,8 +24692,7 @@ Ext.define('Ext.layout.wrapper.BoxDock', {
         if (innerWrapper) {
             if (outerWrapper) {
                 outerWrapper.setInnerWrapper(innerWrapper);
-            }
-            else {
+            } else {
                 innerWrapperElement = innerWrapper.getElement();
                 if (!innerWrapperElement.isDestroyed) {
                     innerWrapperElement.replace(this.getElement());
@@ -24879,17 +24715,13 @@ Ext.define('Ext.layout.wrapper.BoxDock', {
  *
  */
 Ext.define('Ext.layout.Default', {
-    extend:  Ext.layout.Abstract ,
+    extend: Ext.layout.Abstract,
 
     isAuto: true,
 
     alias: ['layout.default', 'layout.auto'],
 
-               
-                           
-                                     
-                                  
-      
+
 
     config: {
         /**
@@ -24961,14 +24793,11 @@ Ext.define('Ext.layout.Default', {
 
         if (docked !== null) {
             this.dockItem(item);
-        }
-        else if (item.isCentered()) {
+        } else if (item.isCentered()) {
             this.onItemCenteredChange(item, true);
-        }
-        else if (item.isFloating()) {
+        } else if (item.isFloating()) {
             this.onItemFloatingChange(item, true);
-        }
-        else {
+        } else {
             this.onItemInnerStateChange(item, true);
         }
     },
@@ -24981,8 +24810,7 @@ Ext.define('Ext.layout.Default', {
     onItemInnerStateChange: function(item, isInner, destroying) {
         if (isInner) {
             this.insertInnerItem(item, this.container.innerIndexOf(item));
-        }
-        else {
+        } else {
             this.removeInnerItem(item);
         }
     },
@@ -24999,8 +24827,7 @@ Ext.define('Ext.layout.Default', {
             translatable = nextSibling.getTranslatable();
             if (translatable && translatable.getUseWrapper()) {
                 nextSiblingDom = translatable.getWrapper().dom;
-            }
-            else {
+            } else {
                 nextSiblingDom = nextSibling ? nextSibling.element.dom : null;
             }
         }
@@ -25037,14 +24864,11 @@ Ext.define('Ext.layout.Default', {
 
         if (docked) {
             this.undockItem(item);
-        }
-        else if (item.isCentered()) {
+        } else if (item.isCentered()) {
             this.onItemCenteredChange(item, false);
-        }
-        else if (item.isFloating()) {
+        } else if (item.isFloating()) {
             this.onItemFloatingChange(item, false);
-        }
-        else {
+        } else {
             this.onItemInnerStateChange(item, false, destroying);
         }
     },
@@ -25052,11 +24876,9 @@ Ext.define('Ext.layout.Default', {
     onItemMove: function(item, toIndex, fromIndex) {
         if (item.isCentered() || item.isFloating()) {
             item.setZIndex((toIndex + 1) * 2);
-        }
-        else if (item.isInnerItem()) {
+        } else if (item.isInnerItem()) {
             this.insertInnerItem(item, this.container.innerIndexOf(item));
-        }
-        else {
+        } else {
             this.undockItem(item);
             this.dockItem(item);
         }
@@ -25070,8 +24892,7 @@ Ext.define('Ext.layout.Default', {
             item.link(wrapperName, new Ext.util.Wrapper({
                 className: this.centerWrapperClass
             }, item.element));
-        }
-        else {
+        } else {
             item.unlink(wrapperName);
             this.removeBodyItem(item);
         }
@@ -25080,8 +24901,7 @@ Ext.define('Ext.layout.Default', {
     onItemFloatingChange: function(item, floating) {
         if (floating) {
             this.insertBodyItem(item);
-        }
-        else {
+        } else {
             this.removeBodyItem(item);
         }
     },
@@ -25158,8 +24978,7 @@ Ext.define('Ext.layout.Default', {
             newWrapper.getElement().replace(dockInnerWrapper.getElement());
             newWrapper.setInnerWrapper(dockInnerWrapper);
             container.onInitialized('onContainerSizeStateChange', this);
-        }
-        else {
+        } else {
             for (i = 0; i < ln; i++) {
                 dockedItem = dockedItems[i];
                 index = container.indexOf(dockedItem);
@@ -25184,8 +25003,7 @@ Ext.define('Ext.layout.Default', {
 
             if (direction === referenceDirection) {
                 referenceWrapper.addItem(item);
-            }
-            else {
+            } else {
                 slice = referenceWrapper.getItemsSlice(itemIndex);
 
                 newWrapper = new DockClass({
@@ -25198,8 +25016,7 @@ Ext.define('Ext.layout.Default', {
                         nestedWrapper = referenceWrapper;
                         newWrapper.setSizeState(nestedWrapper.getSizeState());
                         newWrapper.getElement().replace(nestedWrapper.getElement());
-                    }
-                    else {
+                    } else {
                         nestedWrapper = new DockClass({
                             container: this.container,
                             direction: referenceDirection
@@ -25210,8 +25027,7 @@ Ext.define('Ext.layout.Default', {
                     }
 
                     newWrapper.setInnerWrapper(nestedWrapper);
-                }
-                else {
+                } else {
                     oldInnerWrapper = referenceWrapper.getInnerWrapper();
                     referenceWrapper.setInnerWrapper(null);
                     newWrapper.setInnerWrapper(oldInnerWrapper);
@@ -25290,7 +25106,7 @@ Ext.define('Ext.layout.Default', {
  * See the {@link Ext.layout.VBox VBox layout docs} for more information on using vboxes.
  */
 Ext.define('Ext.layout.Box', {
-    extend:  Ext.layout.Default ,
+    extend: Ext.layout.Default,
 
     config: {
         orient: 'horizontal',
@@ -25388,7 +25204,7 @@ Ext.define('Ext.layout.Box', {
  * See the {@link Ext.layout.VBox VBox layout docs} for more information on using vboxes.
  */
 Ext.define('Ext.layout.FlexBox', {
-    extend:  Ext.layout.Box ,
+    extend: Ext.layout.Box,
 
     alias: 'layout.box',
 
@@ -25422,8 +25238,7 @@ Ext.define('Ext.layout.FlexBox', {
 
         if (orient === 'horizontal') {
             this.sizePropertyName = 'width';
-        }
-        else {
+        } else {
             this.sizePropertyName = 'height';
         }
 
@@ -25450,8 +25265,7 @@ Ext.define('Ext.layout.FlexBox', {
 
             if (flex) {
                 this.doItemFlexChange(item, flex);
-            }
-            else if (size) {
+            } else if (size) {
                 this.doItemSizeChange(item, size);
             }
         }
@@ -25487,7 +25301,7 @@ Ext.define('Ext.layout.FlexBox', {
         var innerItems = this.container.innerItems,
             i, ln, item;
 
-        for (i = 0,ln = innerItems.length; i < ln; i++) {
+        for (i = 0, ln = innerItems.length; i < ln; i++) {
             item = innerItems[i];
             this.refreshItemSizeState(item);
         }
@@ -25524,8 +25338,7 @@ Ext.define('Ext.layout.FlexBox', {
 
         if (flex) {
             item.set(this.sizePropertyName, null);
-        }
-        else {
+        } else {
             this.redrawContainer();
         }
     },
@@ -25547,22 +25360,19 @@ Ext.define('Ext.layout.FlexBox', {
     setItemFlex: function(item, flex) {
         var element = item.element;
 
-        element.toggleCls('x-flexed', !!flex);
+        element.toggleCls('x-flexed', !! flex);
 
         if (!flex) {
             flex = '';
-        }
-        else {
+        } else {
             flex = String(flex);
         }
 
         if (Ext.browser.is.WebKit) {
             element.dom.style.setProperty('-webkit-box-flex', flex, null);
-        }
-        else if (Ext.browser.is.IE) {
+        } else if (Ext.browser.is.IE) {
             element.dom.style.setProperty('-ms-flex', flex + ' 0 0px', null);
-        }
-        else {
+        } else {
             element.dom.style.setProperty('flex', flex + ' 0 0px', null);
         }
     },
@@ -25667,7 +25477,7 @@ Ext.define('Ext.layout.FlexBox', {
  * [Layout Guide](#!/guide/layouts).
  */
 Ext.define('Ext.layout.HBox', {
-    extend:  Ext.layout.FlexBox ,
+    extend: Ext.layout.FlexBox,
 
     alias: 'layout.hbox'
 });
@@ -25676,7 +25486,7 @@ Ext.define('Ext.layout.HBox', {
  *
  */
 Ext.define('Ext.layout.Fit', {
-    extend:  Ext.layout.Default ,
+    extend: Ext.layout.Default,
 
     isFit: true,
 
@@ -25703,7 +25513,7 @@ Ext.define('Ext.layout.Fit', {
 
         this.callSuper();
 
-        for (i = 0,ln = innerItems.length; i < ln; i++) {
+        for (i = 0, ln = innerItems.length; i < ln; i++) {
             item = innerItems[i];
             item.setLayoutSizeFlags(sizeFlags);
         }
@@ -25722,7 +25532,7 @@ Ext.define('Ext.layout.Fit', {
  *
  */
 Ext.define('Ext.layout.Float', {
-    extend:  Ext.layout.Default ,
+    extend: Ext.layout.Default,
 
     alias: 'layout.float',
 
@@ -25756,9 +25566,8 @@ Ext.define('Ext.layout.Float', {
  *
  */
 Ext.define('Ext.layout.wrapper.Dock', {
-               
-                          
-      
+
+
 
     config: {
         direction: 'horizontal',
@@ -25841,8 +25650,7 @@ Ext.define('Ext.layout.wrapper.Dock', {
 
         if (position === 'start') {
             element.insertBefore(referenceElement);
-        }
-        else {
+        } else {
             element.insertAfter(referenceElement);
         }
 
@@ -25936,8 +25744,7 @@ Ext.define('Ext.layout.wrapper.Dock', {
         if (innerWrapper) {
             if (outerWrapper) {
                 outerWrapper.setInnerWrapper(innerWrapper);
-            }
-            else {
+            } else {
                 innerWrapper.getElement().replace(this.getElement());
                 delete innerWrapper.$outerWrapper;
             }
@@ -26021,7 +25828,7 @@ Ext.define('Ext.layout.wrapper.Dock', {
  *
  */
 Ext.define('Ext.layout.VBox', {
-    extend:  Ext.layout.FlexBox ,
+    extend: Ext.layout.FlexBox,
 
     alias: 'layout.vbox',
 
@@ -26034,7 +25841,7 @@ Ext.define('Ext.layout.VBox', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Abstract', {
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
     isAnimation: true,
 
     config: {
@@ -26091,7 +25898,7 @@ Ext.define('Ext.fx.layout.card.Abstract', {
             this.clearManagedListeners();
         }
 
-//        this.callSuper(arguments);
+        //        this.callSuper(arguments);
     }
 });
 
@@ -26101,56 +25908,56 @@ Ext.define('Ext.fx.layout.card.Abstract', {
 Ext.define('Ext.fx.State', {
 
     isAnimatable: {
-        'background-color'   : true,
-        'background-image'   : true,
+        'background-color': true,
+        'background-image': true,
         'background-position': true,
         'border-bottom-color': true,
         'border-bottom-width': true,
-        'border-color'       : true,
-        'border-left-color'  : true,
-        'border-left-width'  : true,
-        'border-right-color' : true,
-        'border-right-width' : true,
-        'border-spacing'     : true,
-        'border-top-color'   : true,
-        'border-top-width'   : true,
-        'border-width'       : true,
-        'bottom'             : true,
-        'color'              : true,
-        'crop'               : true,
-        'font-size'          : true,
-        'font-weight'        : true,
-        'height'             : true,
-        'left'               : true,
-        'letter-spacing'     : true,
-        'line-height'        : true,
-        'margin-bottom'      : true,
-        'margin-left'        : true,
-        'margin-right'       : true,
-        'margin-top'         : true,
-        'max-height'         : true,
-        'max-width'          : true,
-        'min-height'         : true,
-        'min-width'          : true,
-        'opacity'            : true,
-        'outline-color'      : true,
-        'outline-offset'     : true,
-        'outline-width'      : true,
-        'padding-bottom'     : true,
-        'padding-left'       : true,
-        'padding-right'      : true,
-        'padding-top'        : true,
-        'right'              : true,
-        'text-indent'        : true,
-        'text-shadow'        : true,
-        'top'                : true,
-        'vertical-align'     : true,
-        'visibility'         : true,
-        'width'              : true,
-        'word-spacing'       : true,
-        'z-index'            : true,
-        'zoom'               : true,
-        'transform'          : true
+        'border-color': true,
+        'border-left-color': true,
+        'border-left-width': true,
+        'border-right-color': true,
+        'border-right-width': true,
+        'border-spacing': true,
+        'border-top-color': true,
+        'border-top-width': true,
+        'border-width': true,
+        'bottom': true,
+        'color': true,
+        'crop': true,
+        'font-size': true,
+        'font-weight': true,
+        'height': true,
+        'left': true,
+        'letter-spacing': true,
+        'line-height': true,
+        'margin-bottom': true,
+        'margin-left': true,
+        'margin-right': true,
+        'margin-top': true,
+        'max-height': true,
+        'max-width': true,
+        'min-height': true,
+        'min-width': true,
+        'opacity': true,
+        'outline-color': true,
+        'outline-offset': true,
+        'outline-width': true,
+        'padding-bottom': true,
+        'padding-left': true,
+        'padding-right': true,
+        'padding-top': true,
+        'right': true,
+        'text-indent': true,
+        'text-shadow': true,
+        'top': true,
+        'vertical-align': true,
+        'visibility': true,
+        'width': true,
+        'word-spacing': true,
+        'z-index': true,
+        'zoom': true,
+        'transform': true
     },
 
     constructor: function(data) {
@@ -26204,19 +26011,24 @@ Ext.define('Ext.fx.State', {
                     if (isArray) {
                         ln = value.length;
 
-                        if (ln == 0) { break; }
+                        if (ln == 0) {
+                            break;
+                        }
 
                         transform.translateX = value[0];
 
-                        if (ln == 1) { break; }
+                        if (ln == 1) {
+                            break;
+                        }
 
                         transform.translateY = value[1];
 
-                        if (ln == 2) { break; }
+                        if (ln == 2) {
+                            break;
+                        }
 
                         transform.translateZ = value[2];
-                    }
-                    else {
+                    } else {
                         transform.translateX = value;
                     }
                     break;
@@ -26225,19 +26037,24 @@ Ext.define('Ext.fx.State', {
                     if (isArray) {
                         ln = value.length;
 
-                        if (ln == 0) { break; }
+                        if (ln == 0) {
+                            break;
+                        }
 
                         transform.rotateX = value[0];
 
-                        if (ln == 1) { break; }
+                        if (ln == 1) {
+                            break;
+                        }
 
                         transform.rotateY = value[1];
 
-                        if (ln == 2) { break; }
+                        if (ln == 2) {
+                            break;
+                        }
 
                         transform.rotateZ = value[2];
-                    }
-                    else {
+                    } else {
                         transform.rotate = value;
                     }
                     break;
@@ -26247,19 +26064,24 @@ Ext.define('Ext.fx.State', {
                     if (isArray) {
                         ln = value.length;
 
-                        if (ln == 0) { break; }
+                        if (ln == 0) {
+                            break;
+                        }
 
                         transform.scaleX = value[0];
 
-                        if (ln == 1) { break; }
+                        if (ln == 1) {
+                            break;
+                        }
 
                         transform.scaleY = value[1];
 
-                        if (ln == 2) { break; }
+                        if (ln == 2) {
+                            break;
+                        }
 
                         transform.scaleZ = value[2];
-                    }
-                    else {
+                    } else {
                         transform.scaleX = value;
                         transform.scaleY = value;
                     }
@@ -26269,15 +26091,18 @@ Ext.define('Ext.fx.State', {
                     if (isArray) {
                         ln = value.length;
 
-                        if (ln == 0) { break; }
+                        if (ln == 0) {
+                            break;
+                        }
 
                         transform.skewX = value[0];
 
-                        if (ln == 1) { break; }
+                        if (ln == 1) {
+                            break;
+                        }
 
                         transform.skewY = value[1];
-                    }
-                    else {
+                    } else {
                         transform.skewX = value;
                     }
                     break;
@@ -26285,8 +26110,7 @@ Ext.define('Ext.fx.State', {
                 default:
                     transform[name] = value;
             }
-        }
-        else {
+        } else {
             for (key in name) {
                 if (name.hasOwnProperty(key)) {
                     value = name[key];
@@ -26307,17 +26131,14 @@ Ext.define('Ext.fx.State', {
 
                 if (key === 'transform') {
                     this.setTransform(value);
-                }
-                else {
+                } else {
                     data[key] = value;
                 }
             }
-        }
-        else {
+        } else {
             if (name === 'transform') {
                 this.setTransform(value);
-            }
-            else {
+            } else {
                 data[name] = value;
             }
         }
@@ -26347,13 +26168,11 @@ Ext.define('Ext.fx.State', {
  */
 Ext.define('Ext.fx.animation.Abstract', {
 
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
     isAnimation: true,
 
-               
-                      
-      
+
 
     config: {
         name: '',
@@ -26374,7 +26193,7 @@ Ext.define('Ext.fx.animation.Abstract', {
 
         states: {},
 
-        duration:  300,
+        duration: 300,
 
         /**
          * @cfg
@@ -26491,8 +26310,7 @@ Ext.define('Ext.fx.animation.Abstract', {
 
         if (stateInstance) {
             states[name] = stateInstance;
-        }
-        else if (name === this.STATE_TO) {
+        } else if (name === this.STATE_TO) {
             Ext.Logger.error("Setting and invalid '100%' / 'to' state of: " + state);
         }
 
@@ -26552,7 +26370,7 @@ Ext.define('Ext.fx.animation.Abstract', {
  */
 Ext.define('Ext.fx.animation.Slide', {
 
-    extend:  Ext.fx.animation.Abstract ,
+    extend: Ext.fx.animation.Abstract,
 
     alternateClassName: 'Ext.fx.animation.SlideIn',
 
@@ -26654,8 +26472,7 @@ Ext.define('Ext.fx.animation.Slide', {
             case this.DIRECTION_UP:
                 if (out) {
                     translateY = containerBox.top - box.top - box.height - offset;
-                }
-                else {
+                } else {
                     translateY = containerBox.bottom - box.bottom + box.height + offset;
                 }
 
@@ -26664,8 +26481,7 @@ Ext.define('Ext.fx.animation.Slide', {
             case this.DIRECTION_DOWN:
                 if (out) {
                     translateY = containerBox.bottom - box.bottom + box.height + offset;
-                }
-                else {
+                } else {
                     translateY = containerBox.top - box.height - box.top - offset;
                 }
 
@@ -26674,8 +26490,7 @@ Ext.define('Ext.fx.animation.Slide', {
             case this.DIRECTION_RIGHT:
                 if (out) {
                     translateX = containerBox.right - box.right + box.width + offset;
-                }
-                else {
+                } else {
                     translateX = containerBox.left - box.left - box.width - offset;
                 }
 
@@ -26684,8 +26499,7 @@ Ext.define('Ext.fx.animation.Slide', {
             case this.DIRECTION_LEFT:
                 if (out) {
                     translateX = containerBox.left - box.left - box.width - offset;
-                }
-                else {
+                } else {
                     translateX = containerBox.right - box.right + box.width + offset;
                 }
 
@@ -26700,8 +26514,7 @@ Ext.define('Ext.fx.animation.Slide', {
                 translateX: fromX,
                 translateY: fromY
             });
-        }
-        else {
+        } else {
             from.set('left', fromX);
             from.set('top', fromY);
         }
@@ -26714,8 +26527,7 @@ Ext.define('Ext.fx.animation.Slide', {
                 translateX: toX,
                 translateY: toY
             });
-        }
-        else {
+        } else {
             to.set('left', toX);
             to.set('top', toY);
         }
@@ -26728,7 +26540,7 @@ Ext.define('Ext.fx.animation.Slide', {
  * @private
  */
 Ext.define('Ext.fx.animation.SlideOut', {
-    extend:  Ext.fx.animation.Slide ,
+    extend: Ext.fx.animation.Slide,
     alias: ['animation.slideOut'],
 
     config: {
@@ -26741,7 +26553,7 @@ Ext.define('Ext.fx.animation.SlideOut', {
  * @private
  */
 Ext.define('Ext.fx.animation.Fade', {
-    extend:  Ext.fx.animation.Abstract ,
+    extend: Ext.fx.animation.Abstract,
 
     alternateClassName: 'Ext.fx.animation.FadeIn',
 
@@ -26767,15 +26579,15 @@ Ext.define('Ext.fx.animation.Fade', {
     },
 
     updateOut: function(newOut) {
-        var to   = this.getTo(),
+        var to = this.getTo(),
             from = this.getFrom();
 
         if (newOut) {
             from.set('opacity', 1);
-            to.set('opacity',   0);
+            to.set('opacity', 0);
         } else {
             from.set('opacity', 0);
-            to.set('opacity',   1);
+            to.set('opacity', 1);
         }
     }
 });
@@ -26784,7 +26596,7 @@ Ext.define('Ext.fx.animation.Fade', {
  * @private
  */
 Ext.define('Ext.fx.animation.FadeOut', {
-    extend:  Ext.fx.animation.Fade ,
+    extend: Ext.fx.animation.Fade,
     alias: 'animation.fadeOut',
 
     config: {
@@ -26799,7 +26611,7 @@ Ext.define('Ext.fx.animation.FadeOut', {
  * @private
  */
 Ext.define('Ext.fx.animation.Flip', {
-    extend:  Ext.fx.animation.Abstract ,
+    extend: Ext.fx.animation.Abstract,
 
     alias: 'animation.flip',
 
@@ -26834,8 +26646,7 @@ Ext.define('Ext.fx.animation.Flip', {
 
         if (out) {
             toScale = 0.8;
-        }
-        else {
+        } else {
             fromScale = 0.8;
         }
 
@@ -26843,8 +26654,7 @@ Ext.define('Ext.fx.animation.Flip', {
             case this.DIRECTION_UP:
                 if (out) {
                     toRotateX = rotate;
-                }
-                else {
+                } else {
                     fromRotateX = -rotate;
                 }
                 break;
@@ -26852,8 +26662,7 @@ Ext.define('Ext.fx.animation.Flip', {
             case this.DIRECTION_DOWN:
                 if (out) {
                     toRotateX = -rotate;
-                }
-                else {
+                } else {
                     fromRotateX = rotate;
                 }
                 break;
@@ -26861,8 +26670,7 @@ Ext.define('Ext.fx.animation.Flip', {
             case this.DIRECTION_RIGHT:
                 if (out) {
                     toRotateY = rotate;
-                }
-                else {
+                } else {
                     fromRotateY = -rotate;
                 }
                 break;
@@ -26870,8 +26678,7 @@ Ext.define('Ext.fx.animation.Flip', {
             case this.DIRECTION_LEFT:
                 if (out) {
                     toRotateY = -rotate;
-                }
-                else {
+                } else {
                     fromRotateY = rotate;
                 }
                 break;
@@ -26897,7 +26704,7 @@ Ext.define('Ext.fx.animation.Flip', {
  * @private
  */
 Ext.define('Ext.fx.animation.Pop', {
-    extend:  Ext.fx.animation.Abstract ,
+    extend: Ext.fx.animation.Abstract,
 
     alias: ['animation.pop', 'animation.popIn'],
 
@@ -26934,8 +26741,7 @@ Ext.define('Ext.fx.animation.Pop', {
             to.setTransform({
                 scale: 0
             });
-        }
-        else {
+        } else {
             from.set('opacity', 0);
             from.setTransform({
                 scale: 0
@@ -26955,7 +26761,7 @@ Ext.define('Ext.fx.animation.Pop', {
  * @private
  */
 Ext.define('Ext.fx.animation.PopOut', {
-    extend:  Ext.fx.animation.Pop ,
+    extend: Ext.fx.animation.Pop,
 
     alias: 'animation.popOut',
 
@@ -26975,15 +26781,7 @@ Ext.define('Ext.fx.animation.PopOut', {
  */
 Ext.define('Ext.fx.Animation', {
 
-               
-                                 
-                                    
-                                
-                                   
-                                
-                               
-                                 
-      
+
 
     /**
      * @cfg {String} type The type of animation to use. The possible values are:
@@ -27004,8 +26802,7 @@ Ext.define('Ext.fx.Animation', {
         if (typeof config == 'string') {
             type = config;
             config = {};
-        }
-        else if (config && config.type) {
+        } else if (config && config.type) {
             type = config.type;
         }
 
@@ -27037,11 +26834,9 @@ Ext.define('Ext.fx.Animation', {
  */
 Ext.define('Ext.fx.layout.card.Style', {
 
-    extend:  Ext.fx.layout.card.Abstract ,
+    extend: Ext.fx.layout.card.Abstract,
 
-               
-                          
-      
+
 
     config: {
         inAnimation: {
@@ -27142,7 +26937,7 @@ Ext.define('Ext.fx.layout.card.Style', {
         }
     },
 
-    destroy:  function () {
+    destroy: function() {
         Ext.destroy(this.getInAnimation(), this.getOutAnimation());
 
         this.callParent(arguments);
@@ -27153,7 +26948,7 @@ Ext.define('Ext.fx.layout.card.Style', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Slide', {
-    extend:  Ext.fx.layout.card.Style ,
+    extend: Ext.fx.layout.card.Style,
 
     alias: 'fx.layout.card.slide',
 
@@ -27179,7 +26974,7 @@ Ext.define('Ext.fx.layout.card.Slide', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Cover', {
-    extend:  Ext.fx.layout.card.Style ,
+    extend: Ext.fx.layout.card.Style,
 
     alias: 'fx.layout.card.cover',
 
@@ -27218,7 +27013,7 @@ Ext.define('Ext.fx.layout.card.Cover', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Reveal', {
-    extend:  Ext.fx.layout.card.Style ,
+    extend: Ext.fx.layout.card.Style,
 
     alias: 'fx.layout.card.reveal',
 
@@ -27255,13 +27050,13 @@ Ext.define('Ext.fx.layout.card.Reveal', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Fade', {
-    extend:  Ext.fx.layout.card.Style ,
+    extend: Ext.fx.layout.card.Style,
 
     alias: 'fx.layout.card.fade',
 
     config: {
         reverse: null,
-        
+
         inAnimation: {
             type: 'fade',
             easing: 'ease-out'
@@ -27278,7 +27073,7 @@ Ext.define('Ext.fx.layout.card.Fade', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Flip', {
-    extend:  Ext.fx.layout.card.Style ,
+    extend: Ext.fx.layout.card.Style,
 
     alias: 'fx.layout.card.flip',
 
@@ -27316,7 +27111,9 @@ Ext.define('Ext.fx.layout.card.Flip', {
 
         this.on('animationend', function() {
             parent.removeCls('x-layout-card-perspective');
-        }, this, {single: true});
+        }, this, {
+            single: true
+        });
 
         this.callParent(arguments);
     },
@@ -27336,7 +27133,7 @@ Ext.define('Ext.fx.layout.card.Flip', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Pop', {
-    extend:  Ext.fx.layout.card.Style ,
+    extend: Ext.fx.layout.card.Style,
 
     alias: 'fx.layout.card.pop',
 
@@ -27369,11 +27166,9 @@ Ext.define('Ext.fx.layout.card.Pop', {
  * @private
  */
 Ext.define('Ext.fx.layout.card.Scroll', {
-    extend:  Ext.fx.layout.card.Abstract ,
+    extend: Ext.fx.layout.card.Abstract,
 
-               
-                              
-      
+
 
     alias: 'fx.layout.card.scroll',
 
@@ -27430,8 +27225,7 @@ Ext.define('Ext.fx.layout.card.Scroll', {
             if (direction == 'right') {
                 direction = 'left';
                 this.isReverse = reverse = !reverse;
-            }
-            else if (direction == 'down') {
+            } else if (direction == 'down') {
                 direction = 'up';
                 this.isReverse = reverse = !reverse;
             }
@@ -27445,8 +27239,7 @@ Ext.define('Ext.fx.layout.card.Scroll', {
 
                     containerElement.dom.scrollLeft = containerWidth;
                     outElement.setLeft(containerWidth);
-                }
-                else {
+                } else {
                     easing.setConfig({
                         startValue: 0,
                         endValue: containerWidth
@@ -27454,8 +27247,7 @@ Ext.define('Ext.fx.layout.card.Scroll', {
 
                     inElement.setLeft(containerWidth);
                 }
-            }
-            else {
+            } else {
                 if (reverse) {
                     easing.setConfig({
                         startValue: containerHeight,
@@ -27464,8 +27256,7 @@ Ext.define('Ext.fx.layout.card.Scroll', {
 
                     containerElement.dom.scrollTop = containerHeight;
                     outElement.setTop(containerHeight);
-                }
-                else {
+                } else {
                     easing.setConfig({
                         startValue: 0,
                         endValue: containerHeight
@@ -27499,8 +27290,7 @@ Ext.define('Ext.fx.layout.card.Scroll', {
 
         if (easing.isEnded) {
             this.stopAnimation();
-        }
-        else {
+        } else {
             value = easing.getValue();
             this.containerElement.dom[scroll] = value;
         }
@@ -27521,8 +27311,7 @@ Ext.define('Ext.fx.layout.card.Scroll', {
 
         if (me.isReverse && oldItem && oldItem.renderElement && oldItem.renderElement.dom) {
             oldItem.renderElement[scroll](null);
-        }
-        else if (newItem && newItem.renderElement && newItem.renderElement.dom) {
+        } else if (newItem && newItem.renderElement && newItem.renderElement.dom) {
             newItem.renderElement[scroll](null);
         }
 
@@ -27536,16 +27325,8 @@ Ext.define('Ext.fx.layout.card.Scroll', {
  * @private
  */
 Ext.define('Ext.fx.layout.Card', {
-               
-                                   
-                                   
-                                    
-                                  
-                                  
-                                 
-                                    
-                                   
-      
+
+
 
     constructor: function(config) {
         var defaultClass = Ext.fx.layout.card.Abstract,
@@ -27559,8 +27340,7 @@ Ext.define('Ext.fx.layout.Card', {
             type = config;
 
             config = {};
-        }
-        else if (config.type) {
+        } else if (config.type) {
             type = config.type;
         }
 
@@ -27634,7 +27414,7 @@ Ext.define('Ext.fx.layout.Card', {
 
 
 Ext.define('Ext.layout.Card', {
-    extend:  Ext.layout.Default ,
+    extend: Ext.layout.Default,
 
     alias: 'layout.card',
 
@@ -27648,14 +27428,12 @@ Ext.define('Ext.layout.Card', {
      * @param {Mixed} newActiveItem The new active item
      * @param {Mixed} oldActiveItem The old active item
      */
-        
+
     layoutClass: 'x-layout-card',
 
     itemClass: 'x-layout-card-item',
 
-               
-                            
-      
+
 
     /**
      * @private
@@ -27691,7 +27469,7 @@ Ext.define('Ext.layout.Card', {
 
         if (activeItem) {
             activeItem.show();
-            if(firstItem && firstItem !== activeItem) {
+            if (firstItem && firstItem !== activeItem) {
                 firstItem.hide();
             }
         }
@@ -27718,8 +27496,7 @@ Ext.define('Ext.layout.Card', {
             if (activeItem !== container.innerIndexOf(item) && activeItem !== item && item !== container.pendingActiveItem) {
                 item.hide();
             }
-        }
-        else {
+        } else {
             if (!destroying && !item.isDestroyed && item.isDestroying !== true) {
                 item.show();
             }
@@ -27739,7 +27516,7 @@ Ext.define('Ext.layout.Card', {
         }
     },
 
-    destroy:  function () {
+    destroy: function() {
         this.callParent(arguments);
         Ext.destroy(this.getAnimation());
     }
@@ -27791,7 +27568,7 @@ Ext.define('Ext.util.Filter', {
         /**
          * @cfg {RegExp/Mixed} [value=null]
          * The value you want to match against. Can be a regular expression which will be used as matcher or any other
-         * value. Mixed can be an object or an array of objects. 
+         * value. Mixed can be an object or an array of objects.
          */
         value: null,
 
@@ -27874,8 +27651,7 @@ Ext.define('Ext.util.Filter', {
             if (!this.getProperty() && !value && value !== 0) {
                 Ext.Logger.error('A Filter requires either a property and value, or a filterFn to be set');
                 return Ext.emptyFn;
-            }
-            else {
+            } else {
                 return this.createFilterFn();
             }
         }
@@ -27887,11 +27663,11 @@ Ext.define('Ext.util.Filter', {
      * Creates a filter function for the configured property/value/anyMatch/caseSensitive options for this Filter
      */
     createFilterFn: function() {
-        var me       = this,
-            matcher  = me.createValueMatcher();
+        var me = this,
+            matcher = me.createValueMatcher();
 
         return function(item) {
-            var root     = me.getRoot(),
+            var root = me.getRoot(),
                 property = me.getProperty();
 
             if (root) {
@@ -27907,12 +27683,12 @@ Ext.define('Ext.util.Filter', {
      * Returns a regular expression based on the given value and matching options
      */
     createValueMatcher: function() {
-        var me            = this,
-            value         = me.getValue(),
-            anyMatch      = me.getAnyMatch(),
-            exactMatch    = me.getExactMatch(),
+        var me = this,
+            value = me.getValue(),
+            anyMatch = me.getAnyMatch(),
+            exactMatch = me.getExactMatch(),
             caseSensitive = me.getCaseSensitive(),
-            escapeRe      = Ext.String.escapeRegex;
+            escapeRe = Ext.String.escapeRegex;
 
         if (value === null || value === undefined || !value.exec) { // not a regex
             value = String(value);
@@ -27926,9 +27702,9 @@ Ext.define('Ext.util.Filter', {
                 }
             }
             value = new RegExp(value, caseSensitive ? '' : 'i');
-         }
+        }
 
-         return value;
+        return value;
     }
 });
 
@@ -27936,10 +27712,10 @@ Ext.define('Ext.util.Filter', {
  * @private
  */
 Ext.define('Ext.util.AbstractMixedCollection', {
-                                  
+
 
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     /**
@@ -28000,7 +27776,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @cfg {Boolean} allowFunctions Specify `true` if the {@link #addAll}
      * function should add function references to the collection.
      */
-    allowFunctions : false,
+    allowFunctions: false,
 
     /**
      * Adds an item to the collection. Fires the {@link #event-add} event when complete.
@@ -28013,7 +27789,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} obj The item to add.
      * @return {Object} The item added.
      */
-    add: function(key, obj){
+    add: function(key, obj) {
         var me = this,
             myObj = obj,
             myKey = key,
@@ -28066,8 +27842,8 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} item The item for which to find the key.
      * @return {Object} The key for the passed item.
      */
-    getKey: function(o){
-         return o.id;
+    getKey: function(o) {
+        return o.id;
     },
 
     /**
@@ -28082,7 +27858,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * with that key.
      * @return {Object}  The new item.
      */
-    replace: function(key, o){
+    replace: function(key, o) {
         var me = this,
             old,
             index;
@@ -28093,7 +27869,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
         }
         old = me.map[key];
         if (typeof key == 'undefined' || key === null || typeof old == 'undefined') {
-             return me.add(key, o);
+            return me.add(key, o);
         }
         index = me.indexOfKey(key);
         me.items[index] = o;
@@ -28109,7 +27885,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * Functions references will be added to the collection if `{@link #allowFunctions}`
      * has been set to `true`.
      */
-    addAll: function(objs){
+    addAll: function(objs) {
         var me = this,
             i = 0,
             args,
@@ -28134,7 +27910,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
 
     /**
      * Executes the specified function once for every item in the collection.
-     * 
+     *
      * @param {Function} fn The function to execute for each item.
      * @param {Mixed} fn.item The collection item.
      * @param {Number} fn.index The item's index.
@@ -28143,7 +27919,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} scope (optional) The scope (`this` reference) in which the function is executed.
      * Defaults to the current item in the iteration.
      */
-    each: function(fn, scope){
+    each: function(fn, scope) {
         var items = [].concat(this.items), // each safe for removal
             i = 0,
             len = items.length,
@@ -28163,7 +27939,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Function} fn The function to execute for each item.
      * @param {Object} scope (optional) The scope (`this` reference) in which the function is executed. Defaults to the browser window.
      */
-    eachKey: function(fn, scope){
+    eachKey: function(fn, scope) {
         var keys = this.keys,
             items = this.items,
             i = 0,
@@ -28202,7 +27978,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} [obj] If the second parameter was a key, the new item.
      * @return {Object} The item inserted.
      */
-    insert: function(index, key, obj){
+    insert: function(index, key, obj) {
         var me = this,
             myKey = key,
             myObj = obj;
@@ -28234,7 +28010,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} o The item to remove.
      * @return {Object} The item removed or `false` if no item was removed.
      */
-    remove: function(o){
+    remove: function(o) {
         return this.removeAt(this.indexOf(o));
     },
 
@@ -28243,7 +28019,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Array} items An array of items to be removed.
      * @return {Ext.util.MixedCollection} this object
      */
-    removeAll: function(items){
+    removeAll: function(items) {
         Ext.each(items || [], function(item) {
             this.remove(item);
         }, this);
@@ -28256,7 +28032,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Number} index The index within the collection of the item to remove.
      * @return {Object/Boolean} The item removed or `false` if no item was removed.
      */
-    removeAt: function(index){
+    removeAt: function(index) {
         var me = this,
             o,
             key;
@@ -28281,7 +28057,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {String} key The key of the item to remove.
      * @return {Object/Boolean} The item removed or `false` if no item was removed.
      */
-    removeAtKey: function(key){
+    removeAtKey: function(key) {
         return this.removeAt(this.indexOfKey(key));
     },
 
@@ -28289,7 +28065,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * Returns the number of items in the collection.
      * @return {Number} the number of items in the collection.
      */
-    getCount: function(){
+    getCount: function() {
         return this.length;
     },
 
@@ -28298,7 +28074,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} o The item to find the index of.
      * @return {Number} index of the item. Returns -1 if not found.
      */
-    indexOf: function(o){
+    indexOf: function(o) {
         return Ext.Array.indexOf(this.items, o);
     },
 
@@ -28307,7 +28083,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {String} key The key to find the index of.
      * @return {Number} The index of the key.
      */
-    indexOfKey: function(key){
+    indexOfKey: function(key) {
         return Ext.Array.indexOf(this.keys, key);
     },
 
@@ -28349,7 +28125,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Object} o  The Object to look for in the collection.
      * @return {Boolean} `true` if the collection contains the Object as an item.
      */
-    contains: function(o){
+    contains: function(o) {
         return Ext.Array.contains(this.items, o);
     },
 
@@ -28358,14 +28134,14 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {String} key The key to look for in the collection.
      * @return {Boolean} `true` if the collection contains the Object as a key.
      */
-    containsKey: function(key){
+    containsKey: function(key) {
         return typeof this.map[key] != 'undefined';
     },
 
     /**
      * Removes all items from the collection.  Fires the `{@link #event-clear}` event when complete.
      */
-    clear: function(){
+    clear: function() {
         var me = this;
 
         me.length = 0;
@@ -28403,11 +28179,11 @@ Ext.define('Ext.util.AbstractMixedCollection', {
     sum: function(property, root, start, end) {
         var values = this.extractValues(property, root),
             length = values.length,
-            sum    = 0,
+            sum = 0,
             i;
 
         start = start || 0;
-        end   = (end || end === 0) ? end : length - 1;
+        end = (end || end === 0) ? end : length - 1;
 
         for (i = start; i <= end; i++) {
             sum += values[i];
@@ -28427,7 +28203,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
     collect: function(property, root, allowNull) {
         var values = this.extractValues(property, root),
             length = values.length,
-            hits   = {},
+            hits = {},
             unique = [],
             value, strValue, i;
 
@@ -28469,7 +28245,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Number} [end=-1] The ending index.
      * @return {Array} An array of items
      */
-    getRange: function(start, end){
+    getRange: function(start, end) {
         var me = this,
             items = me.items,
             range = [],
@@ -28525,9 +28301,9 @@ Ext.define('Ext.util.AbstractMixedCollection', {
         //support for the simple case of filtering by property/value
         if (Ext.isString(property)) {
             filters.push(Ext.create('Ext.util.Filter', {
-                property     : property,
-                value        : value,
-                anyMatch     : anyMatch,
+                property: property,
+                value: value,
+                anyMatch: anyMatch,
                 caseSensitive: caseSensitive
             }));
         } else if (Ext.isArray(property) || property instanceof Ext.util.Filter) {
@@ -28543,8 +28319,8 @@ Ext.define('Ext.util.AbstractMixedCollection', {
 
             for (i = 0; i < length; i++) {
                 var filter = filters[i],
-                    fn     = filter.getFilterFn(),
-                    scope  = filter.getScope();
+                    fn = filter.getFilterFn(),
+                    scope = filter.getScope();
 
                 isMatch = isMatch && fn.call(scope, record);
             }
@@ -28565,9 +28341,9 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      */
     filterBy: function(fn, scope) {
         var me = this,
-            newMC  = new this.self(),
-            keys   = me.keys,
-            items  = me.items,
+            newMC = new this.self(),
+            keys = me.keys,
+            items = me.items,
             length = items.length,
             i;
 
@@ -28592,12 +28368,12 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Boolean} caseSensitive (optional) `true` for case sensitive comparison.
      * @return {Number} The matched index or -1.
      */
-    findIndex: function(property, value, start, anyMatch, caseSensitive){
-        if(Ext.isEmpty(value, false)){
+    findIndex: function(property, value, start, anyMatch, caseSensitive) {
+        if (Ext.isEmpty(value, false)) {
             return -1;
         }
         value = this.createValueMatcher(value, anyMatch, caseSensitive);
-        return this.findIndexBy(function(o){
+        return this.findIndexBy(function(o) {
             return o && value.test(o[property]);
         }, null, start);
     },
@@ -28610,7 +28386,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
      * @param {Number} [start=0] (optional) The index to start searching at.
      * @return {Number} The matched index or -1.
      */
-    findIndexBy: function(fn, scope, start){
+    findIndexBy: function(fn, scope, start) {
         var me = this,
             keys = me.keys,
             items = me.items,
@@ -28664,7 +28440,7 @@ Ext.define('Ext.util.AbstractMixedCollection', {
             i = 0,
             len = items.length;
 
-        for(; i < len; i++){
+        for (; i < len; i++) {
             copy.add(keys[i], items[i]);
         }
         copy.getKey = me.getKey;
@@ -28811,8 +28587,8 @@ Ext.define('Ext.util.Sorter', {
      * @return {Function} A function which sorts by the property/direction combination provided
      */
     createSortFunction: function(sorterFn) {
-        var me        = this,
-            modifier  = me.getDirection().toUpperCase() == "DESC" ? -1 : 1;
+        var me = this,
+            modifier = me.getDirection().toUpperCase() == "DESC" ? -1 : 1;
 
         //create a comparison function. Takes 2 objects, returns 1 if object 1 is greater,
         //-1 if object 2 is greater or 0 if they are equal
@@ -28875,35 +28651,33 @@ Ext.define('Ext.util.Sorter', {
  * {@link Ext.data.Store} or {@link Ext.data.TreeStore}.
  */
 Ext.define("Ext.util.Sortable", {
-    extend:  Ext.mixin.Mixin ,
+    extend: Ext.mixin.Mixin,
     /**
      * @property {Boolean} isSortable
      * Flag denoting that this object is sortable. Always `true`.
      * @readonly
      */
     isSortable: true,
-    
+
     mixinConfig: {
         hooks: {
             destroy: 'destroy'
         }
     },
-    
+
     /**
      * @property {String} defaultSortDirection
      * The default sort direction to use if one is not specified.
      */
     defaultSortDirection: "ASC",
-    
-               
-                         
-      
+
+
 
     /**
      * @property {String} sortRoot
      * The property in each item that contains the data to sort.
-     */    
-    
+     */
+
     /**
      * Performs initialization of this mixin. Component classes using this mixin should call this method during their
      * own initialization.
@@ -28911,7 +28685,7 @@ Ext.define("Ext.util.Sortable", {
     initSortable: function() {
         var me = this,
             sorters = me.sorters;
-        
+
         /**
          * @property {Ext.util.MixedCollection} sorters
          * The collection of {@link Ext.util.Sorter Sorters} currently applied to this Store
@@ -28919,7 +28693,7 @@ Ext.define("Ext.util.Sortable", {
         me.sorters = Ext.create('Ext.util.AbstractMixedCollection', false, function(item) {
             return item.id || item.property;
         });
-        
+
         if (sorters) {
             me.sorters.addAll(me.decodeSorters(sorters));
         }
@@ -28967,59 +28741,53 @@ Ext.define("Ext.util.Sortable", {
         var me = this,
             sorter, sorterFn,
             newSorters;
-        
+
         if (Ext.isArray(sorters)) {
             doSort = where;
             where = direction;
             newSorters = sorters;
-        }
-        else if (Ext.isObject(sorters)) {
+        } else if (Ext.isObject(sorters)) {
             doSort = where;
             where = direction;
             newSorters = [sorters];
-        }
-        else if (Ext.isString(sorters)) {
+        } else if (Ext.isString(sorters)) {
             sorter = me.sorters.get(sorters);
 
             if (!sorter) {
                 sorter = {
-                    property : sorters,
+                    property: sorters,
                     direction: direction
                 };
                 newSorters = [sorter];
-            }
-            else if (direction === undefined) {
+            } else if (direction === undefined) {
                 sorter.toggle();
-            }
-            else {
+            } else {
                 sorter.setDirection(direction);
             }
         }
-        
+
         if (newSorters && newSorters.length) {
             newSorters = me.decodeSorters(newSorters);
             if (Ext.isString(where)) {
                 if (where === 'prepend') {
                     sorters = me.sorters.clone().items;
-                    
+
                     me.sorters.clear();
                     me.sorters.addAll(newSorters);
                     me.sorters.addAll(sorters);
-                }
-                else {
+                } else {
                     me.sorters.addAll(newSorters);
                 }
-            }
-            else {
+            } else {
                 me.sorters.clear();
                 me.sorters.addAll(newSorters);
             }
-            
+
             if (doSort !== false) {
                 me.onBeforeSort(newSorters);
             }
         }
-        
+
         if (doSort !== false) {
             sorters = me.sorters.items;
             if (sorters.length) {
@@ -29029,23 +28797,23 @@ Ext.define("Ext.util.Sortable", {
                         length = sorters.length,
                         i;
 
-                        //if we have more than one sorter, OR any additional sorter functions together
-                        for (i = 1; i < length; i++) {
-                            result = result || sorters[i].sort.call(this, r1, r2);
-                        }
+                    //if we have more than one sorter, OR any additional sorter functions together
+                    for (i = 1; i < length; i++) {
+                        result = result || sorters[i].sort.call(this, r1, r2);
+                    }
 
                     return result;
                 };
 
-                me.doSort(sorterFn);                
+                me.doSort(sorterFn);
             }
         }
-        
+
         return sorters;
     },
-    
+
     onBeforeSort: Ext.emptyFn,
-        
+
     /**
      * @private
      * Normalizes an array of sorter objects, ensuring that they are all {@link Ext.util.Sorter} instances.
@@ -29076,9 +28844,9 @@ Ext.define("Ext.util.Sortable", {
                         property: config
                     };
                 }
-                
+
                 Ext.applyIf(config, {
-                    root     : this.sortRoot,
+                    root: this.sortRoot,
                     direction: "ASC"
                 });
 
@@ -29104,12 +28872,12 @@ Ext.define("Ext.util.Sortable", {
 
         return sorters;
     },
-    
+
     getSorters: function() {
         return this.sorters.items;
     },
-    
-    destroy: function () {
+
+    destroy: function() {
         this.callSuper();
         Ext.destroy(this.sorters);
     }
@@ -29144,9 +28912,9 @@ Ext.define("Ext.util.Sortable", {
  *     alert(biggerThanZero.getCount()); // 2
  */
 Ext.define('Ext.util.MixedCollection', {
-    extend:  Ext.util.AbstractMixedCollection ,
+    extend: Ext.util.AbstractMixedCollection,
     mixins: {
-        sortable:  Ext.util.Sortable 
+        sortable: Ext.util.Sortable
     },
 
     /**
@@ -29175,14 +28943,14 @@ Ext.define('Ext.util.MixedCollection', {
      * @param {Function} fn (optional) Comparison function that defines the sort order.
      * Defaults to sorting by numeric value.
      */
-    _sort: function(property, dir, fn){
+    _sort: function(property, dir, fn) {
         var me = this,
             i, len,
-            dsc   = String(dir).toUpperCase() == 'DESC' ? -1 : 1,
+            dsc = String(dir).toUpperCase() == 'DESC' ? -1 : 1,
 
             //this is a temporary array used to apply the sorting function
-            c     = [],
-            keys  = me.keys,
+            c = [],
+            keys = me.keys,
             items = me.items;
 
         //default to a simple sorter function if one is not provided
@@ -29191,27 +28959,27 @@ Ext.define('Ext.util.MixedCollection', {
         };
 
         //copy all the items into a temporary array, which we will sort
-        for(i = 0, len = items.length; i < len; i++){
+        for (i = 0, len = items.length; i < len; i++) {
             c[c.length] = {
-                key  : keys[i],
+                key: keys[i],
                 value: items[i],
                 index: i
             };
         }
 
         //sort the temporary array
-        Ext.Array.sort(c, function(a, b){
+        Ext.Array.sort(c, function(a, b) {
             var v = fn(a[property], b[property]) * dsc;
-            if(v === 0){
+            if (v === 0) {
                 v = (a.index < b.index ? -1 : 1);
             }
             return v;
         });
 
         //copy the temporary array back into the main this.items and this.keys objects
-        for(i = 0, len = c.length; i < len; i++){
+        for (i = 0, len = c.length; i < len; i++) {
             items[i] = c[i].value;
-            keys[i]  = c[i].key;
+            keys[i] = c[i].key;
         }
 
         me.fireEvent('sort', me);
@@ -29222,17 +28990,17 @@ Ext.define('Ext.util.MixedCollection', {
      * @param {Function} sorterFn The function to sort by.
      */
     sortBy: function(sorterFn) {
-        var me     = this,
-            items  = me.items,
-            keys   = me.keys,
+        var me = this,
+            items = me.items,
+            keys = me.keys,
             length = items.length,
-            temp   = [],
+            temp = [],
             i;
 
         //first we create a copy of the items array so that we can sort it
         for (i = 0; i < length; i++) {
             temp[i] = {
-                key  : keys[i],
+                key: keys[i],
                 value: items[i],
                 index: i
             };
@@ -29250,7 +29018,7 @@ Ext.define('Ext.util.MixedCollection', {
         //copy the temporary array back into the main this.items and this.keys objects
         for (i = 0; i < length; i++) {
             items[i] = temp[i].value;
-            keys[i]  = temp[i].key;
+            keys[i] = temp[i].key;
         }
 
         me.fireEvent('sort', me, items, keys);
@@ -29302,9 +29070,10 @@ Ext.define('Ext.util.MixedCollection', {
      * @param {Function} [fn] Comparison function that defines the sort order. Defaults to sorting by case insensitive
      * string.
      */
-    sortByKey: function(dir, fn){
-        this._sort('key', dir, fn || function(a, b){
-            var v1 = String(a).toUpperCase(), v2 = String(b).toUpperCase();
+    sortByKey: function(dir, fn) {
+        this._sort('key', dir, fn || function(a, b) {
+            var v1 = String(a).toUpperCase(),
+                v2 = String(b).toUpperCase();
             return v1 > v2 ? 1 : (v1 < v2 ? -1 : 0);
         });
     }
@@ -29314,7 +29083,7 @@ Ext.define('Ext.util.MixedCollection', {
  * @private
  */
 Ext.define('Ext.ItemCollection', {
-    extend:  Ext.util.MixedCollection ,
+    extend: Ext.util.MixedCollection,
 
     getKey: function(item) {
         return item.getItemId();
@@ -29330,7 +29099,7 @@ Ext.define('Ext.ItemCollection', {
  */
 Ext.define('Ext.fx.easing.Momentum', {
 
-    extend:  Ext.fx.easing.Abstract ,
+    extend: Ext.fx.easing.Abstract,
 
     config: {
         acceleration: 30,
@@ -29378,7 +29147,7 @@ Ext.define('Ext.fx.easing.Momentum', {
  */
 Ext.define('Ext.fx.easing.Bounce', {
 
-    extend:  Ext.fx.easing.Abstract ,
+    extend: Ext.fx.easing.Abstract,
 
     config: {
         springTension: 0.3,
@@ -29404,12 +29173,9 @@ Ext.define('Ext.fx.easing.Bounce', {
  */
 
 Ext.define('Ext.fx.easing.BoundMomentum', {
-    extend:  Ext.fx.easing.Abstract ,
+    extend: Ext.fx.easing.Abstract,
 
-               
-                                 
-                              
-      
+
 
     config: {
         /**
@@ -29507,8 +29273,8 @@ Ext.define('Ext.fx.easing.BoundMomentum', {
             this.isOutOfBound = true;
 
             bounce.setStartTime(Ext.Date.now())
-                  .setStartVelocity(velocity)
-                  .setStartValue(boundedValue);
+                .setStartVelocity(velocity)
+                .setStartValue(boundedValue);
         }
 
         value = bounce.getValue();
@@ -29520,8 +29286,7 @@ Ext.define('Ext.fx.easing.BoundMomentum', {
                         this.isBouncingBack = true;
                     }
                 }
-            }
-            else {
+            } else {
                 if (Math.round(value) == boundedValue) {
                     this.isEnded = true;
                 }
@@ -29538,7 +29303,7 @@ Ext.define('Ext.fx.easing.BoundMomentum', {
  * @private
  */
 Ext.define('Ext.fx.easing.EaseOut', {
-    extend:  Ext.fx.easing.Linear ,
+    extend: Ext.fx.easing.Linear,
 
     alias: 'easing.ease-out',
 
@@ -29609,13 +29374,9 @@ Ext.define('Ext.fx.easing.EaseOut', {
  */
 Ext.define('Ext.scroll.Scroller', {
 
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
-               
-                                      
-                                
-                               
-      
+
 
     /**
      * @event maxpositionchange
@@ -29854,23 +29615,50 @@ Ext.define('Ext.scroll.Scroller', {
             dragend: 'onDragEnd'
         };
 
-        this.minPosition = { x: 0, y: 0 };
+        this.minPosition = {
+            x: 0,
+            y: 0
+        };
 
-        this.startPosition = { x: 0, y: 0 };
+        this.startPosition = {
+            x: 0,
+            y: 0
+        };
 
-        this.position = { x: 0, y: 0 };
+        this.position = {
+            x: 0,
+            y: 0
+        };
 
-        this.velocity = { x: 0, y: 0 };
+        this.velocity = {
+            x: 0,
+            y: 0
+        };
 
-        this.isAxisEnabledFlags = { x: false, y: false };
+        this.isAxisEnabledFlags = {
+            x: false,
+            y: false
+        };
 
-        this.flickStartPosition = { x: 0, y: 0 };
+        this.flickStartPosition = {
+            x: 0,
+            y: 0
+        };
 
-        this.flickStartTime = { x: 0, y: 0 };
+        this.flickStartTime = {
+            x: 0,
+            y: 0
+        };
 
-        this.lastDragPosition = { x: 0, y: 0 };
+        this.lastDragPosition = {
+            x: 0,
+            y: 0
+        };
 
-        this.dragDirection = { x: 0, y: 0};
+        this.dragDirection = {
+            x: 0,
+            y: 0
+        };
 
         this.initialConfig = config;
 
@@ -29956,8 +29744,7 @@ Ext.define('Ext.scroll.Scroller', {
     updateDisabled: function(disabled) {
         if (disabled) {
             this.detachListeners();
-        }
-        else {
+        } else {
             this.attachListeneners();
         }
     },
@@ -29996,11 +29783,9 @@ Ext.define('Ext.scroll.Scroller', {
 
             if (isHorizontal && isVertical) {
                 direction = 'both';
-            }
-            else if (isHorizontal) {
+            } else if (isHorizontal) {
                 direction = 'horizontal';
-            }
-            else {
+            } else {
                 direction = 'vertical';
             }
         }
@@ -30158,8 +29943,7 @@ Ext.define('Ext.scroll.Scroller', {
         if (size === 'auto') {
             x = containerDom.offsetWidth;
             y = containerDom.offsetHeight;
-        }
-        else {
+        } else {
             x = size.x;
             y = size.y;
         }
@@ -30188,12 +29972,10 @@ Ext.define('Ext.scroll.Scroller', {
         if (size === 'auto') {
             x = dom.offsetWidth;
             y = dom.offsetHeight;
-        }
-        else if (typeof size == 'number') {
+        } else if (typeof size == 'number') {
             x = size;
             y = size;
-        }
-        else {
+        } else {
             x = size.x;
             y = size.y;
         }
@@ -30314,8 +30096,7 @@ Ext.define('Ext.scroll.Scroller', {
         if (this.isAxisEnabled('x')) {
             if (isNaN(x) || typeof x != 'number') {
                 x = position.x;
-            }
-            else {
+            } else {
                 if (position.x !== x) {
                     position.x = x;
                     positionChanged = true;
@@ -30328,8 +30109,7 @@ Ext.define('Ext.scroll.Scroller', {
         if (this.isAxisEnabled('y')) {
             if (isNaN(y) || typeof y != 'number') {
                 y = position.y;
-            }
-            else {
+            } else {
                 if (position.y !== y) {
                     position.y = y;
                     positionChanged = true;
@@ -30342,8 +30122,7 @@ Ext.define('Ext.scroll.Scroller', {
         if (positionChanged) {
             if (animation !== undefined && animation !== false) {
                 translatable.translateAnimated(translationX, translationY, animation);
-            }
-            else {
+            } else {
                 this.fireEvent('scroll', this, position.x, position.y);
                 translatable.translate(translationX, translationY);
             }
@@ -30369,7 +30148,7 @@ Ext.define('Ext.scroll.Scroller', {
      * @chainable
      */
     scrollToEnd: function(animation) {
-        var size    = this.getSize(),
+        var size = this.getSize(),
             cntSize = this.getContainerSize();
 
         return this.scrollTo(size.x - cntSize.x, size.y - cntSize.y, animation);
@@ -30434,11 +30213,9 @@ Ext.define('Ext.scroll.Scroller', {
         this.isDragging = true;
 
         if (directionLock && direction !== 'both') {
-            if ((direction === 'horizontal' && absDeltaX > absDeltaY)
-                    || (direction === 'vertical' && absDeltaY > absDeltaX)) {
+            if ((direction === 'horizontal' && absDeltaX > absDeltaY) || (direction === 'vertical' && absDeltaY > absDeltaX)) {
                 e.stopPropagation();
-            }
-            else {
+            } else {
                 this.isDragging = false;
                 return;
             }
@@ -30492,21 +30269,18 @@ Ext.define('Ext.scroll.Scroller', {
 
         if (current < min) {
             current *= restrictFactor;
-        }
-        else if (current > max) {
+        } else if (current > max) {
             distance = current - max;
             current = max + distance * restrictFactor;
         }
 
         if (current > last) {
             dragDirection[axis] = 1;
-        }
-        else if (current < last) {
+        } else if (current < last) {
             dragDirection[axis] = -1;
         }
 
-        if ((lastDirection !== 0 && (dragDirection[axis] !== lastDirection))
-                || (now - flickStartTime[axis]) > startMomentumResetTime) {
+        if ((lastDirection !== 0 && (dragDirection[axis] !== lastDirection)) || (now - flickStartTime[axis]) > startMomentumResetTime) {
             flickStartPosition[axis] = old;
             flickStartTime[axis] = now;
         }
@@ -30551,8 +30325,7 @@ Ext.define('Ext.scroll.Scroller', {
 
         if (easingX || easingY) {
             this.getTranslatable().animate(easingX, easingY);
-        }
-        else {
+        } else {
             this.onScrollEnd();
         }
     },
@@ -30576,8 +30349,7 @@ Ext.define('Ext.scroll.Scroller', {
 
         if (currentPosition < minPosition) {
             boundValue = minPosition;
-        }
-        else if (currentPosition > maxPosition) {
+        } else if (currentPosition > maxPosition) {
             boundValue = maxPosition;
         }
 
@@ -30599,8 +30371,7 @@ Ext.define('Ext.scroll.Scroller', {
 
         if (velocity < -maxAbsVelocity) {
             velocity = -maxAbsVelocity;
-        }
-        else if (velocity > maxAbsVelocity) {
+        } else if (velocity > maxAbsVelocity) {
             velocity = maxAbsVelocity;
         }
 
@@ -30700,12 +30471,10 @@ Ext.define('Ext.scroll.Scroller', {
                 if (position !== maxPosition) {
                     if (Math.abs(mod) > snapSize / 2) {
                         snapPosition = Math.min(maxPosition, position + ((mod > 0) ? snapSize - mod : mod - snapSize));
-                    }
-                    else {
+                    } else {
                         snapPosition = position - mod;
                     }
-                }
-                else {
+                } else {
                     snapPosition = position - mod;
                 }
             }
@@ -30730,15 +30499,13 @@ Ext.define('Ext.scroll.Scroller', {
 
         if (x < minX) {
             x = minX;
-        }
-        else if (x > maxX) {
+        } else if (x > maxX) {
             x = maxX;
         }
 
         if (y < minY) {
             y = minY;
-        }
-        else if (y > maxY) {
+        } else if (y > maxY) {
             y = maxY;
         }
 
@@ -30768,8 +30535,7 @@ Ext.define('Ext.scroll.Scroller', {
         this.callParent(arguments);
     }
 
-}, function() {
-});
+}, function() {});
 
 (function() {
     var lastTime = 0,
@@ -30794,8 +30560,7 @@ Ext.define('Ext.scroll.Scroller', {
         Ext.performance.now = function() {
             return window.performance.now();
         }
-    }
-    else {
+    } else {
         Ext.performance.now = function() {
             return Date.now();
         }
@@ -30811,8 +30576,7 @@ Ext.define('Ext.scroll.Scroller', {
             lastTime = currTime + timeToCall;
             return id;
         };
-    }
-    else {
+    } else {
         Ext.trueRequestAnimationFrames = true;
     }
 
@@ -30825,275 +30589,274 @@ Ext.define('Ext.scroll.Scroller', {
 
 (function(global) {
 
-/**
- * @private
- */
-Ext.define('Ext.AnimationQueue', {
-    singleton: true,
-
-    constructor: function() {
-        var bind = Ext.Function.bind;
-
-        this.queue = [];
-        this.taskQueue = [];
-        this.runningQueue = [];
-        this.idleQueue = [];
-        this.isRunning = false;
-        this.isIdle = true;
-
-        this.run = bind(this.run, this);
-        this.whenIdle = bind(this.whenIdle, this);
-        this.processIdleQueueItem = bind(this.processIdleQueueItem, this);
-        this.processTaskQueueItem = bind(this.processTaskQueueItem, this);
-
-
-        // iOS has a nasty bug which causes pending requestAnimationFrame to not release
-        // the callback when the WebView is switched back and forth from / to being background process
-        // We use a watchdog timer to workaround this, and restore the pending state correctly if this happens
-        // This timer has to be set as an interval from the very beginning and we have to keep it running for
-        // as long as the app lives, setting it later doesn't seem to work
-        if (Ext.os.is.iOS) {
-            setInterval(this.watch, 500);
-        }
-    },
-
     /**
-     *
-     * @param {Function} fn
-     * @param {Object} [scope]
-     * @param {Object} [args]
+     * @private
      */
-    start: function(fn, scope, args) {
-        this.queue.push(arguments);
+    Ext.define('Ext.AnimationQueue', {
+        singleton: true,
 
-        if (!this.isRunning) {
-            if (this.hasOwnProperty('idleTimer')) {
-                clearTimeout(this.idleTimer);
-                delete this.idleTimer;
-            }
+        constructor: function() {
+            var bind = Ext.Function.bind;
 
-            if (this.hasOwnProperty('idleQueueTimer')) {
-                clearTimeout(this.idleQueueTimer);
-                delete this.idleQueueTimer;
-            }
-
-            this.isIdle = false;
-            this.isRunning = true;
-            this.startCountTime = Ext.performance.now();
-            this.count = 0;
-            this.doStart();
-        }
-    },
-
-    watch: function() {
-        if (this.isRunning && Date.now() - this.lastRunTime >= 500) {
-            this.run();
-        }
-    },
-
-    run: function() {
-        if (!this.isRunning) {
-            return;
-        }
-
-        var queue = this.runningQueue,
-            i, ln;
-
-        this.lastRunTime = Date.now();
-        this.frameStartTime = Ext.performance.now();
-
-        queue.push.apply(queue, this.queue);
-
-        for (i = 0, ln = queue.length; i < ln; i++) {
-            this.invoke(queue[i]);
-        }
-
-        queue.length = 0;
-
-        var now = this.frameStartTime,
-            startCountTime = this.startCountTime,
-            elapse = now - startCountTime,
-            count = ++this.count;
-
-        if (elapse >= 200) {
-            this.onFpsChanged(count * 1000 / elapse, count, elapse);
-            this.startCountTime = now;
-            this.count = 0;
-        }
-
-        this.doIterate();
-    },
-
-    onFpsChanged: Ext.emptyFn,
-
-    onStop: Ext.emptyFn,
-
-    doStart: function() {
-        this.animationFrameId = requestAnimationFrame(this.run);
-        this.lastRunTime = Date.now();
-    },
-
-    doIterate: function() {
-        this.animationFrameId = requestAnimationFrame(this.run);
-    },
-
-    doStop: function() {
-        cancelAnimationFrame(this.animationFrameId);
-    },
-
-    /**
-     *
-     * @param {Function} fn
-     * @param {Object} [scope]
-     * @param {Object} [args]
-     */
-    stop: function(fn, scope, args) {
-        if (!this.isRunning) {
-            return;
-        }
-
-        var queue = this.queue,
-            ln = queue.length,
-            i, item;
-
-        for (i = 0; i < ln; i++) {
-            item = queue[i];
-            if (item[0] === fn && item[1] === scope && item[2] === args) {
-                queue.splice(i, 1);
-                i--;
-                ln--;
-            }
-        }
-
-        if (ln === 0) {
-            this.doStop();
-            this.onStop();
+            this.queue = [];
+            this.taskQueue = [];
+            this.runningQueue = [];
+            this.idleQueue = [];
             this.isRunning = false;
+            this.isIdle = true;
 
-            this.idleTimer = setTimeout(this.whenIdle, 100);
-        }
-    },
+            this.run = bind(this.run, this);
+            this.whenIdle = bind(this.whenIdle, this);
+            this.processIdleQueueItem = bind(this.processIdleQueueItem, this);
+            this.processTaskQueueItem = bind(this.processTaskQueueItem, this);
 
-    onIdle: function(fn, scope, args) {
-        var listeners = this.idleQueue,
-            i, ln, listener;
 
-        for (i = 0, ln = listeners.length; i < ln; i++) {
-            listener = listeners[i];
-            if (fn === listener[0] && scope === listener[1] && args === listener[2]) {
+            // iOS has a nasty bug which causes pending requestAnimationFrame to not release
+            // the callback when the WebView is switched back and forth from / to being background process
+            // We use a watchdog timer to workaround this, and restore the pending state correctly if this happens
+            // This timer has to be set as an interval from the very beginning and we have to keep it running for
+            // as long as the app lives, setting it later doesn't seem to work
+            if (Ext.os.is.iOS) {
+                setInterval(this.watch, 500);
+            }
+        },
+
+        /**
+         *
+         * @param {Function} fn
+         * @param {Object} [scope]
+         * @param {Object} [args]
+         */
+        start: function(fn, scope, args) {
+            this.queue.push(arguments);
+
+            if (!this.isRunning) {
+                if (this.hasOwnProperty('idleTimer')) {
+                    clearTimeout(this.idleTimer);
+                    delete this.idleTimer;
+                }
+
+                if (this.hasOwnProperty('idleQueueTimer')) {
+                    clearTimeout(this.idleQueueTimer);
+                    delete this.idleQueueTimer;
+                }
+
+                this.isIdle = false;
+                this.isRunning = true;
+                this.startCountTime = Ext.performance.now();
+                this.count = 0;
+                this.doStart();
+            }
+        },
+
+        watch: function() {
+            if (this.isRunning && Date.now() - this.lastRunTime >= 500) {
+                this.run();
+            }
+        },
+
+        run: function() {
+            if (!this.isRunning) {
                 return;
             }
-        }
 
-        listeners.push(arguments);
+            var queue = this.runningQueue,
+                i, ln;
 
-        if (this.isIdle) {
-            this.processIdleQueue();
-        }
-    },
+            this.lastRunTime = Date.now();
+            this.frameStartTime = Ext.performance.now();
 
-    unIdle: function(fn, scope, args) {
-        var listeners = this.idleQueue,
-            i, ln, listener;
+            queue.push.apply(queue, this.queue);
 
-        for (i = 0, ln = listeners.length; i < ln; i++) {
-            listener = listeners[i];
-            if (fn === listener[0] && scope === listener[1] && args === listener[2]) {
-                listeners.splice(i, 1);
-                return true;
+            for (i = 0, ln = queue.length; i < ln; i++) {
+                this.invoke(queue[i]);
             }
-        }
 
-        return false;
-    },
+            queue.length = 0;
 
-    queueTask: function(fn, scope, args) {
-        this.taskQueue.push(arguments);
-        this.processTaskQueue();
-    },
+            var now = this.frameStartTime,
+                startCountTime = this.startCountTime,
+                elapse = now - startCountTime,
+                count = ++this.count;
 
-    dequeueTask: function(fn, scope, args) {
-        var listeners = this.taskQueue,
-            i, ln, listener;
-
-        for (i = 0, ln = listeners.length; i < ln; i++) {
-            listener = listeners[i];
-            if (fn === listener[0] && scope === listener[1] && args === listener[2]) {
-                listeners.splice(i, 1);
-                i--;
-                ln--;
+            if (elapse >= 200) {
+                this.onFpsChanged(count * 1000 / elapse, count, elapse);
+                this.startCountTime = now;
+                this.count = 0;
             }
-        }
-    },
 
-    invoke: function(listener) {
-        var fn = listener[0],
-            scope = listener[1],
-            args = listener[2];
+            this.doIterate();
+        },
 
-        fn = (typeof fn == 'string' ? scope[fn] : fn);
+        onFpsChanged: Ext.emptyFn,
 
-        if (Ext.isArray(args)) {
-            fn.apply(scope, args);
-        }
-        else {
-            fn.call(scope, args);
-        }
-    },
+        onStop: Ext.emptyFn,
 
-    whenIdle: function() {
-        this.isIdle = true;
-        this.processIdleQueue();
-    },
+        doStart: function() {
+            this.animationFrameId = requestAnimationFrame(this.run);
+            this.lastRunTime = Date.now();
+        },
 
-    processIdleQueue: function() {
-        if (!this.hasOwnProperty('idleQueueTimer')) {
-            this.idleQueueTimer = setTimeout(this.processIdleQueueItem, 1);
-        }
-    },
+        doIterate: function() {
+            this.animationFrameId = requestAnimationFrame(this.run);
+        },
 
-    processIdleQueueItem: function() {
-        delete this.idleQueueTimer;
+        doStop: function() {
+            cancelAnimationFrame(this.animationFrameId);
+        },
 
-        if (!this.isIdle) {
-            return;
-        }
+        /**
+         *
+         * @param {Function} fn
+         * @param {Object} [scope]
+         * @param {Object} [args]
+         */
+        stop: function(fn, scope, args) {
+            if (!this.isRunning) {
+                return;
+            }
 
-        var listeners = this.idleQueue,
-            listener;
+            var queue = this.queue,
+                ln = queue.length,
+                i, item;
 
-        if (listeners.length > 0) {
-            listener = listeners.shift();
-            this.invoke(listener);
-            this.processIdleQueue();
-        }
-    },
+            for (i = 0; i < ln; i++) {
+                item = queue[i];
+                if (item[0] === fn && item[1] === scope && item[2] === args) {
+                    queue.splice(i, 1);
+                    i--;
+                    ln--;
+                }
+            }
 
-    processTaskQueue: function() {
-        if (!this.hasOwnProperty('taskQueueTimer')) {
-            this.taskQueueTimer = setTimeout(this.processTaskQueueItem, 15);
-        }
-    },
+            if (ln === 0) {
+                this.doStop();
+                this.onStop();
+                this.isRunning = false;
 
-    processTaskQueueItem: function() {
-        delete this.taskQueueTimer;
+                this.idleTimer = setTimeout(this.whenIdle, 100);
+            }
+        },
 
-        var listeners = this.taskQueue,
-            listener;
+        onIdle: function(fn, scope, args) {
+            var listeners = this.idleQueue,
+                i, ln, listener;
 
-        if (listeners.length > 0) {
-            listener = listeners.shift();
-            this.invoke(listener);
+            for (i = 0, ln = listeners.length; i < ln; i++) {
+                listener = listeners[i];
+                if (fn === listener[0] && scope === listener[1] && args === listener[2]) {
+                    return;
+                }
+            }
+
+            listeners.push(arguments);
+
+            if (this.isIdle) {
+                this.processIdleQueue();
+            }
+        },
+
+        unIdle: function(fn, scope, args) {
+            var listeners = this.idleQueue,
+                i, ln, listener;
+
+            for (i = 0, ln = listeners.length; i < ln; i++) {
+                listener = listeners[i];
+                if (fn === listener[0] && scope === listener[1] && args === listener[2]) {
+                    listeners.splice(i, 1);
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        queueTask: function(fn, scope, args) {
+            this.taskQueue.push(arguments);
             this.processTaskQueue();
-        }
-    },
+        },
 
-    showFps: function() {
-        if (!Ext.trueRequestAnimationFrames) {
-            alert("This browser does not support requestAnimationFrame. The FPS listed will not be accurate");
-        }
-        Ext.onReady(function() {
-            Ext.Viewport.add([{
+        dequeueTask: function(fn, scope, args) {
+            var listeners = this.taskQueue,
+                i, ln, listener;
+
+            for (i = 0, ln = listeners.length; i < ln; i++) {
+                listener = listeners[i];
+                if (fn === listener[0] && scope === listener[1] && args === listener[2]) {
+                    listeners.splice(i, 1);
+                    i--;
+                    ln--;
+                }
+            }
+        },
+
+        invoke: function(listener) {
+            var fn = listener[0],
+                scope = listener[1],
+                args = listener[2];
+
+            fn = (typeof fn == 'string' ? scope[fn] : fn);
+
+            if (Ext.isArray(args)) {
+                fn.apply(scope, args);
+            } else {
+                fn.call(scope, args);
+            }
+        },
+
+        whenIdle: function() {
+            this.isIdle = true;
+            this.processIdleQueue();
+        },
+
+        processIdleQueue: function() {
+            if (!this.hasOwnProperty('idleQueueTimer')) {
+                this.idleQueueTimer = setTimeout(this.processIdleQueueItem, 1);
+            }
+        },
+
+        processIdleQueueItem: function() {
+            delete this.idleQueueTimer;
+
+            if (!this.isIdle) {
+                return;
+            }
+
+            var listeners = this.idleQueue,
+                listener;
+
+            if (listeners.length > 0) {
+                listener = listeners.shift();
+                this.invoke(listener);
+                this.processIdleQueue();
+            }
+        },
+
+        processTaskQueue: function() {
+            if (!this.hasOwnProperty('taskQueueTimer')) {
+                this.taskQueueTimer = setTimeout(this.processTaskQueueItem, 15);
+            }
+        },
+
+        processTaskQueueItem: function() {
+            delete this.taskQueueTimer;
+
+            var listeners = this.taskQueue,
+                listener;
+
+            if (listeners.length > 0) {
+                listener = listeners.shift();
+                this.invoke(listener);
+                this.processTaskQueue();
+            }
+        },
+
+        showFps: function() {
+            if (!Ext.trueRequestAnimationFrames) {
+                alert("This browser does not support requestAnimationFrame. The FPS listed will not be accurate");
+            }
+            Ext.onReady(function() {
+                Ext.Viewport.add([{
                     xtype: 'component',
                     bottom: 50,
                     left: 0,
@@ -31101,8 +30864,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 20,
                     html: 'Average',
                     style: 'background-color: black; color: white; text-align: center; line-height: 20px; font-size: 8px;'
-                },
-                {
+                }, {
                     id: '__averageFps',
                     xtype: 'component',
                     bottom: 0,
@@ -31111,8 +30873,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 50,
                     html: '0',
                     style: 'background-color: red; color: white; text-align: center; line-height: 50px;'
-                },
-                {
+                }, {
                     xtype: 'component',
                     bottom: 50,
                     left: 50,
@@ -31120,8 +30881,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 20,
                     html: 'Min (Last 1k)',
                     style: 'background-color: black; color: white; text-align: center; line-height: 20px; font-size: 8px;'
-                },
-                {
+                }, {
                     id: '__minFps',
                     xtype: 'component',
                     bottom: 0,
@@ -31130,8 +30890,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 50,
                     html: '0',
                     style: 'background-color: orange; color: white; text-align: center; line-height: 50px;'
-                },
-                {
+                }, {
                     xtype: 'component',
                     bottom: 50,
                     left: 100,
@@ -31139,8 +30898,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 20,
                     html: 'Max (Last 1k)',
                     style: 'background-color: black; color: white; text-align: center; line-height: 20px; font-size: 8px;'
-                },
-                {
+                }, {
                     id: '__maxFps',
                     xtype: 'component',
                     bottom: 0,
@@ -31149,8 +30907,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 50,
                     html: '0',
                     style: 'background-color: yellow; color: black; text-align: center; line-height: 50px;'
-                },
-                {
+                }, {
                     xtype: 'component',
                     bottom: 50,
                     left: 150,
@@ -31158,8 +30915,7 @@ Ext.define('Ext.AnimationQueue', {
                     height: 20,
                     html: 'Current',
                     style: 'background-color: black; color: white; text-align: center; line-height: 20px; font-size: 8px;'
-                },
-                {
+                }, {
                     id: '__currentFps',
                     xtype: 'component',
                     bottom: 0,
@@ -31168,53 +30924,52 @@ Ext.define('Ext.AnimationQueue', {
                     height: 50,
                     html: '0',
                     style: 'background-color: green; color: white; text-align: center; line-height: 50px;'
+                }]);
+                Ext.AnimationQueue.resetFps();
+            });
+
+        },
+
+        resetFps: function() {
+            var currentFps = Ext.getCmp('__currentFps'),
+                averageFps = Ext.getCmp('__averageFps'),
+                minFps = Ext.getCmp('__minFps'),
+                maxFps = Ext.getCmp('__maxFps'),
+                min = 1000,
+                max = 0,
+                count = 0,
+                sum = 0;
+
+            Ext.AnimationQueue.onFpsChanged = function(fps) {
+                count++;
+
+                if (!(count % 10)) {
+                    min = 1000;
+                    max = 0;
                 }
-            ]);
-            Ext.AnimationQueue.resetFps();
-        });
 
-    },
-
-    resetFps: function() {
-        var currentFps = Ext.getCmp('__currentFps'),
-            averageFps = Ext.getCmp('__averageFps'),
-            minFps = Ext.getCmp('__minFps'),
-            maxFps = Ext.getCmp('__maxFps'),
-            min = 1000,
-            max = 0,
-            count = 0,
-            sum = 0;
-
-        Ext.AnimationQueue.onFpsChanged = function(fps) {
-            count++;
-
-            if (!(count % 10)) {
-                min = 1000;
-                max = 0;
-            }
-
-            sum += fps;
-            min = Math.min(min, fps);
-            max = Math.max(max, fps);
-            currentFps.setHtml(Math.round(fps));
-            averageFps.setHtml(Math.round(sum / count));
-            minFps.setHtml(Math.round(min));
-            maxFps.setHtml(Math.round(max));
-        };
-    }
-}, function() {
-    /*
+                sum += fps;
+                min = Math.min(min, fps);
+                max = Math.max(max, fps);
+                currentFps.setHtml(Math.round(fps));
+                averageFps.setHtml(Math.round(sum / count));
+                minFps.setHtml(Math.round(min));
+                maxFps.setHtml(Math.round(max));
+            };
+        }
+    }, function() {
+        /*
         Global FPS indicator. Add ?showfps to use in any application. Note that this REQUIRES true requestAnimationFrame
         to be accurate.
      */
-    var paramsString = window.location.search.substr(1),
-        paramsArray = paramsString.split("&");
+        var paramsString = window.location.search.substr(1),
+            paramsArray = paramsString.split("&");
 
-    if (paramsArray.indexOf("showfps") !== -1) {
-        Ext.AnimationQueue.showFps();
-    }
+        if (paramsArray.indexOf("showfps") !== -1) {
+            Ext.AnimationQueue.showFps();
+        }
 
-});
+    });
 
 })(this);
 
@@ -31223,7 +30978,7 @@ Ext.define('Ext.AnimationQueue', {
  * Handle batch read / write of DOMs, currently used in SizeMonitor + PaintMonitor
  */
 Ext.define('Ext.TaskQueue', {
-                                   
+
 
     singleton: true,
 
@@ -31291,8 +31046,7 @@ Ext.define('Ext.TaskQueue', {
             if (writeQueue.length > 0) {
                 request = false;
             }
-        }
-        else {
+        } else {
             queue = writeQueue;
 
             if (readQueue.length > 0) {
@@ -31316,8 +31070,7 @@ Ext.define('Ext.TaskQueue', {
 
             if (task.length > 2) {
                 fn.apply(scope, task[2]);
-            }
-            else {
+            } else {
                 fn.call(scope);
             }
         }
@@ -31334,11 +31087,9 @@ Ext.define('Ext.TaskQueue', {
  * @private
  */
 Ext.define('Ext.scroll.indicator.Abstract', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
 
-               
-                       
-      
+
 
     config: {
         baseCls: 'x-scroll-indicator',
@@ -31358,7 +31109,7 @@ Ext.define('Ext.scroll.indicator.Abstract', {
         /**
          * @cfg {Boolean} [autoHide=true] Set to `false` to always show the indicator for this axis.
          */
-        autoHide : true
+        autoHide: true
     },
 
     cachedConfig: {
@@ -31425,15 +31176,13 @@ Ext.define('Ext.scroll.indicator.Abstract', {
         if (value <= 0) {
             offset = 0;
             this.updateLength(this.applyLength(length + value * barLength));
-        }
-        else if (value >= 1) {
+        } else if (value >= 1) {
             extra = Math.round((value - 1) * barLength);
             newLength = this.applyLength(length - extra);
             extra = length - newLength;
             this.updateLength(newLength);
             offset = gapLength + extra;
-        }
-        else {
+        } else {
             offset = gapLength * value;
         }
 
@@ -31469,15 +31218,14 @@ Ext.define('Ext.scroll.indicator.Abstract', {
         Ext.TaskQueue.requestWrite('doUpdateLength', this, [length]);
     },
 
-    doUpdateLength: function(length){
+    doUpdateLength: function(length) {
         if (!this.isDestroyed) {
             var axis = this.getAxis(),
                 element = this.element;
 
             if (axis === 'x') {
                 element.setWidth(length);
-            }
-            else {
+            } else {
                 element.setHeight(length);
             }
         }
@@ -31489,7 +31237,7 @@ Ext.define('Ext.scroll.indicator.Abstract', {
             return;
         }
         this.lastOffset = offset;
-        Ext.TaskQueue.requestWrite('doSetOffset', this,[offset]);
+        Ext.TaskQueue.requestWrite('doSetOffset', this, [offset]);
     },
 
     doSetOffset: function(offset) {
@@ -31499,8 +31247,7 @@ Ext.define('Ext.scroll.indicator.Abstract', {
 
             if (axis === 'x') {
                 element.translate(offset, 0);
-            }
-            else {
+            } else {
                 element.translate(0, offset);
             }
         }
@@ -31511,7 +31258,7 @@ Ext.define('Ext.scroll.indicator.Abstract', {
  * @private
  */
 Ext.define('Ext.scroll.indicator.CssTransform', {
-    extend:  Ext.scroll.indicator.Abstract ,
+    extend: Ext.scroll.indicator.Abstract,
 
     config: {
         cls: 'csstransform'
@@ -31522,7 +31269,7 @@ Ext.define('Ext.scroll.indicator.CssTransform', {
  * @private
  */
 Ext.define('Ext.scroll.indicator.ScrollPosition', {
-    extend:  Ext.scroll.indicator.Abstract ,
+    extend: Ext.scroll.indicator.Abstract,
 
     config: {
         cls: 'scrollposition'
@@ -31545,8 +31292,7 @@ Ext.define('Ext.scroll.indicator.ScrollPosition', {
             }
 
             this.setOffset(this.barLength * value);
-        }
-        else {
+        } else {
             this.setOffset(this.gapLength * value);
         }
     },
@@ -31560,8 +31306,7 @@ Ext.define('Ext.scroll.indicator.ScrollPosition', {
 
             if (this.getAxis() === 'x') {
                 element.setLeft(scrollOffset);
-            }
-            else {
+            } else {
                 element.setTop(scrollOffset);
             }
         }
@@ -31580,8 +31325,7 @@ Ext.define('Ext.scroll.indicator.ScrollPosition', {
 
             if (this.getAxis() === 'x') {
                 barDom.scrollLeft = offset;
-            }
-            else {
+            } else {
                 barDom.scrollTop = offset;
             }
         }
@@ -31592,7 +31336,7 @@ Ext.define('Ext.scroll.indicator.ScrollPosition', {
  * @private
  */
 Ext.define('Ext.scroll.indicator.Rounded', {
-    extend:  Ext.scroll.indicator.Abstract ,
+    extend: Ext.scroll.indicator.Abstract,
 
     config: {
         cls: 'rounded'
@@ -31606,17 +31350,13 @@ Ext.define('Ext.scroll.indicator.Rounded', {
     getElementConfig: function() {
         var config = this.callParent();
 
-        config.children[0].children = [
-            {
-                reference: 'startElement'
-            },
-            {
-                reference: 'middleElement'
-            },
-            {
-                reference: 'endElement'
-            }
-        ];
+        config.children[0].children = [{
+            reference: 'startElement'
+        }, {
+            reference: 'middleElement'
+        }, {
+            reference: 'endElement'
+        }];
 
         return config;
     },
@@ -31632,8 +31372,7 @@ Ext.define('Ext.scroll.indicator.Rounded', {
             startElementLength = startElementDom.offsetWidth;
             endElementLength = endElementDom.offsetWidth;
             middleElement.setLeft(startElementLength);
-        }
-        else {
+        } else {
             startElementLength = startElementDom.offsetHeight;
             endElementLength = endElementDom.offsetHeight;
             middleElement.setTop(startElementLength);
@@ -31658,8 +31397,7 @@ Ext.define('Ext.scroll.indicator.Rounded', {
             if (axis === 'x') {
                 endElement.translate(endElementOffset, 0);
                 middleElementStyle[transformPropertyName] = 'translate3d(0, 0, 0) scaleX(' + middleElementLength + ')';
-            }
-            else {
+            } else {
                 endElement.translate(0, endElementOffset);
                 middleElementStyle[transformPropertyName] = 'translate3d(0, 0, 0) scaleY(' + middleElementLength + ')';
             }
@@ -31671,11 +31409,8 @@ Ext.define('Ext.scroll.indicator.Rounded', {
  * @private
  */
 Ext.define('Ext.scroll.Indicator', {
-               
-                                            
-                                              
-                                      
-      
+
+
 
     alternateClassName: 'Ext.util.Indicator',
 
@@ -31683,14 +31418,14 @@ Ext.define('Ext.scroll.Indicator', {
         var namespace = Ext.scroll.indicator;
 
         switch (Ext.browser.getPreferredTranslationMethod(config)) {
-        case 'scrollposition':
-            return new namespace.ScrollPosition(config);
-        case 'csstransform':
-            if (Ext.browser.is.AndroidStock4) {
-                return new namespace.CssTransform(config);
-            } else {
-                return new namespace.Rounded(config);
-            }
+            case 'scrollposition':
+                return new namespace.ScrollPosition(config);
+            case 'csstransform':
+                if (Ext.browser.is.AndroidStock4) {
+                    return new namespace.CssTransform(config);
+                } else {
+                    return new namespace.Rounded(config);
+                }
         }
     }
 });
@@ -31704,14 +31439,11 @@ Ext.define('Ext.scroll.Indicator', {
  * This should never be extended.
  */
 Ext.define('Ext.scroll.View', {
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
     alternateClassName: 'Ext.util.ScrollView',
 
-               
-                              
-                              
-      
+
 
     config: {
         /**
@@ -31783,7 +31515,10 @@ Ext.define('Ext.scroll.View', {
     constructor: function(config) {
         config = this.processConfig(config);
 
-        this.useIndicators = { x: true, y: true };
+        this.useIndicators = {
+            x: true,
+            y: true
+        };
 
         this.doHideIndicators = Ext.Function.bind(this.doHideIndicators, this);
 
@@ -31833,18 +31568,15 @@ Ext.define('Ext.scroll.View', {
             className: 'x-scroll-bar-grid-wrapper',
             children: [{
                 className: 'x-scroll-bar-grid',
-                children: [
-                    {
-                        children: [{}, {
-                            children: [indicators.y.barElement]
-                        }]
-                    },
-                    {
-                        children: [{
-                            children: [indicators.x.barElement]
-                        }, {}]
-                    }
-                ]
+                children: [{
+                    children: [{}, {
+                        children: [indicators.y.barElement]
+                    }]
+                }, {
+                    children: [{
+                        children: [indicators.x.barElement]
+                    }, {}]
+                }]
             }]
         });
     },
@@ -31911,8 +31643,7 @@ Ext.define('Ext.scroll.View', {
 
         if (delay > 0) {
             this.indicatorsHidingTimer = setTimeout(this.doHideIndicators, delay);
-        }
-        else {
+        } else {
             this.doHideIndicators();
         }
     },
@@ -31958,8 +31689,7 @@ Ext.define('Ext.scroll.View', {
         if (!this.isBenchmarking) {
             this.isBenchmarking = true;
             fps = 0;
-        }
-        else {
+        } else {
             fps = Math.round(this.framesCount * 1000 / (now - this.framesCountStartTime));
         }
 
@@ -31985,15 +31715,12 @@ Ext.define('Ext.scroll.View', {
             if (scrollerPosition >= 0) {
                 value += 1;
             }
-        }
-        else {
+        } else {
             if (scrollerPosition > scrollerMaxPosition) {
                 value = 1 + ((scrollerPosition - scrollerMaxPosition) / scrollerContainerSize);
-            }
-            else if (scrollerPosition < 0) {
+            } else if (scrollerPosition < 0) {
                 value = scrollerPosition / scrollerContainerSize;
-            }
-            else {
+            } else {
                 value = scrollerPosition / scrollerMaxPosition;
             }
         }
@@ -32059,11 +31786,9 @@ Ext.define('Ext.scroll.View', {
  */
 Ext.define('Ext.behavior.Scrollable', {
 
-    extend:  Ext.behavior.Behavior ,
+    extend: Ext.behavior.Behavior,
 
-               
-                         
-      
+
 
     constructor: function() {
         this.listeners = {
@@ -32100,16 +31825,16 @@ Ext.define('Ext.behavior.Scrollable', {
                         extraWrap = scrollerElement.wrap();
                         extraWrap.addCls(Ext.baseCSSPrefix + 'translatable-hboxfix');
                         if (direction == 'horizontal') {
-                            extraWrap.setStyle({height: '100%'});
+                            extraWrap.setStyle({
+                                height: '100%'
+                            });
                         }
                         this.scrollContainer = extraWrap.wrap();
                         scrollView.FixedHBoxStretching = scroller.FixedHBoxStretching = true;
-                    }
-                    else {
+                    } else {
                         this.scrollContainer = scrollerElement.wrap();
                     }
-                }
-                else {
+                } else {
                     this.scrollContainer = scrollerElement.wrap();
                 }
 
@@ -32120,12 +31845,10 @@ Ext.define('Ext.behavior.Scrollable', {
                 }
 
                 component.on(this.listeners);
-            }
-            else if (Ext.isString(config) || Ext.isObject(config)) {
+            } else if (Ext.isString(config) || Ext.isObject(config)) {
                 scrollView.setConfig(config);
             }
-        }
-        else if (scrollView) {
+        } else if (scrollView) {
             scrollView.destroy();
         }
 
@@ -32171,19 +31894,19 @@ Ext.define('Ext.behavior.Scrollable', {
  */
 Ext.define('Ext.util.InputBlocker', {
     singleton: true,
-    blockInputs: function () {
+    blockInputs: function() {
         if (Ext.browser.is.ie) {
-            Ext.select('.x-field-text .x-field-input:not(.x-item-disabled) .x-input-el, .x-field-textarea .x-field-input:not(.x-item-disabled) .x-input-el, .x-field-search .x-field-input:not(.x-item-disabled) .x-input-el').each(function (item) {
-				if (item.dom.offsetWidth > 0) {
+            Ext.select('.x-field-text .x-field-input:not(.x-item-disabled) .x-input-el, .x-field-textarea .x-field-input:not(.x-item-disabled) .x-input-el, .x-field-search .x-field-input:not(.x-item-disabled) .x-input-el').each(function(item) {
+                if (item.dom.offsetWidth > 0) {
                     item.dom.setAttribute('disabled', true);
                     item.dom.setAttribute('overlayfix', true);
                 }
             });
         }
     },
-    unblockInputs: function () {
+    unblockInputs: function() {
         if (Ext.browser.is.ie) {
-            Ext.select('[overlayfix]').each(function (item) {
+            Ext.select('[overlayfix]').each(function(item) {
                 item.dom.removeAttribute('disabled');
                 item.dom.removeAttribute('overlayfix');
             });
@@ -32211,9 +31934,9 @@ Ext.define('Ext.util.InputBlocker', {
  *     container.setMasked(true);
  */
 Ext.define('Ext.Mask', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
     xtype: 'mask',
-                                        
+
 
     config: {
         /**
@@ -32268,7 +31991,7 @@ Ext.define('Ext.Mask', {
         });
     },
 
-    onHide: function(){
+    onHide: function() {
         Ext.util.InputBlocker.unblockInputs();
 
         // Oh how I loves the Android
@@ -32376,16 +32099,11 @@ Ext.define('Ext.Mask', {
  * @aside guide layouts
  */
 Ext.define('Ext.Container', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
 
     alternateClassName: 'Ext.lib.Container',
 
-               
-                       
-                             
-                                  
-                  
-      
+
 
     xtype: 'container',
 
@@ -32742,14 +32460,13 @@ Ext.define('Ext.Container', {
             if (modal) {
                 container.insertBefore(modal, this);
                 modal.setZIndex(this.getZIndex() - 1);
-            }
-            else {
+            } else {
                 container.remove(modal);
             }
         }
     },
 
-    updateHideOnMaskTap : function(hide) {
+    updateHideOnMaskTap: function(hide) {
         var mask = this.getModal();
 
         if (mask) {
@@ -32824,27 +32541,27 @@ Ext.define('Ext.Container', {
     /**
      * @private
      */
-     applyControl: function(selectors) {
-         var selector, key, listener, listeners;
+    applyControl: function(selectors) {
+        var selector, key, listener, listeners;
 
-         for (selector in selectors) {
-             listeners = selectors[selector];
+        for (selector in selectors) {
+            listeners = selectors[selector];
 
-             for (key in listeners) {
-                 listener = listeners[key];
+            for (key in listeners) {
+                listener = listeners[key];
 
-                 if (Ext.isObject(listener)) {
-                     listener.delegate = selector;
-                 }
-             }
+                if (Ext.isObject(listener)) {
+                    listener.delegate = selector;
+                }
+            }
 
-             listeners.delegate = selector;
+            listeners.delegate = selector;
 
-             this.addListener(listeners);
-         }
+            this.addListener(listeners);
+        }
 
-         return selectors;
-     },
+        return selectors;
+    },
 
     /**
      * Initialize layout and event listeners the very first time an item is added
@@ -32936,13 +32653,13 @@ Ext.define('Ext.Container', {
                 // - defaults is only applied to inner items
                 // - we merge the given config together with defaults into a new object so that the original object stays intact
                 if (!(
-                        item.hasOwnProperty('left') &&
-                        item.hasOwnProperty('right') &&
-                        item.hasOwnProperty('top') &&
-                        item.hasOwnProperty('bottom') &&
-                        item.hasOwnProperty('docked') &&
-                        item.hasOwnProperty('centered')
-                    )) {
+                    item.hasOwnProperty('left') &&
+                    item.hasOwnProperty('right') &&
+                    item.hasOwnProperty('top') &&
+                    item.hasOwnProperty('bottom') &&
+                    item.hasOwnProperty('docked') &&
+                    item.hasOwnProperty('centered')
+                )) {
                     item = Ext.mergeIf({}, item, defaults);
                 }
             }
@@ -33042,8 +32759,7 @@ Ext.define('Ext.Container', {
                 });
 
                 me.doResetActiveItem(innerItems.indexOf(item));
-            }
-            else {
+            } else {
                 me.doRemove(item, index, destroy);
                 if (innerItems.length === 0) {
                     me.setActiveItem(null);
@@ -33057,8 +32773,7 @@ Ext.define('Ext.Container', {
     doResetActiveItem: function(innerIndex) {
         if (innerIndex === 0) {
             this.setActiveItem(1);
-        }
-        else {
+        } else {
             this.setActiveItem(0);
         }
     },
@@ -33318,8 +33033,7 @@ Ext.define('Ext.Container', {
 
         if (currentIndex !== -1) {
             me.onItemMove(item, index, currentIndex);
-        }
-        else {
+        } else {
             me.onItemAdd(item, index);
         }
     },
@@ -33377,9 +33091,10 @@ Ext.define('Ext.Container', {
         var layout = this.getLayout();
 
         if (this.isRendered() && item.setRendered(true)) {
-            item.fireAction('renderedchange', [this, item, true], 'onItemAdd', layout, { args: [item, index] });
-        }
-        else {
+            item.fireAction('renderedchange', [this, item, true], 'onItemAdd', layout, {
+                args: [item, index]
+            });
+        } else {
             layout.onItemAdd(item, index);
         }
     },
@@ -33397,9 +33112,10 @@ Ext.define('Ext.Container', {
         var layout = this.getLayout();
 
         if (this.isRendered() && item.setRendered(false)) {
-            item.fireAction('renderedchange', [this, item, false], 'onItemRemove', layout, { args: [item, index, destroying] });
-        }
-        else {
+            item.fireAction('renderedchange', [this, item, false], 'onItemRemove', layout, {
+                args: [item, index, destroying]
+            });
+        } else {
             layout.onItemRemove(item, index, destroying);
         }
     },
@@ -33426,8 +33142,7 @@ Ext.define('Ext.Container', {
 
         if (isInner) {
             this.insertInner(item, this.items.indexOf(item));
-        }
-        else {
+        } else {
             this.removeInner(item);
         }
 
@@ -33475,19 +33190,16 @@ Ext.define('Ext.Container', {
         // No items left to be active, reset back to 0 on falsy changes
         if (!activeItem && innerItems.length === 0) {
             return 0;
-        }
-        else if (typeof activeItem == 'number') {
+        } else if (typeof activeItem == 'number') {
             activeItem = Math.max(0, Math.min(activeItem, innerItems.length - 1));
             activeItem = innerItems[activeItem];
 
             if (activeItem) {
                 return activeItem;
-            }
-            else if (currentActiveItem) {
+            } else if (currentActiveItem) {
                 return null;
             }
-        }
-        else if (activeItem) {
+        } else if (activeItem) {
             var item;
 
             //ComponentQuery selector?
@@ -33495,7 +33207,7 @@ Ext.define('Ext.Container', {
                 item = this.child(activeItem);
 
                 activeItem = {
-                    xtype : activeItem
+                    xtype: activeItem
                 };
             }
 
@@ -33561,7 +33273,7 @@ Ext.define('Ext.Container', {
         }
     },
 
-    show:function(){
+    show: function() {
         this.callParent(arguments);
 
         var modal = this.getModal();
@@ -33573,7 +33285,7 @@ Ext.define('Ext.Container', {
         return this;
     },
 
-    hide:function(){
+    hide: function() {
         this.callParent(arguments);
 
         var modal = this.getModal();
@@ -33603,7 +33315,7 @@ Ext.define('Ext.Container', {
             var items = this.items.items,
                 i, ln;
 
-            for (i = 0,ln = items.length; i < ln; i++) {
+            for (i = 0, ln = items.length; i < ln; i++) {
                 items[i].setRendered(rendered);
             }
 
@@ -33635,7 +33347,9 @@ Ext.define('Ext.Container', {
                 Ext.Logger.warn("This container is set to scrollable: false but has no specified height. " +
                     "You may need to set the container to scrollable: null or provide a height.", this);
             }
-            this.getScrollableBehavior().setConfig({disabled: !config});
+            this.getScrollableBehavior().setConfig({
+                disabled: !config
+            });
         } else if (config && !config.isObservable) {
             this.getScrollableBehavior().setConfig(config);
         }
@@ -33914,7 +33628,9 @@ Ext.define('Ext.util.Point', {
      */
     isCloseTo: function(point, threshold) {
         if (typeof threshold == 'number') {
-            threshold = {x: threshold};
+            threshold = {
+                x: threshold
+            };
             threshold.y = threshold.x;
         }
 
@@ -33924,7 +33640,7 @@ Ext.define('Ext.util.Point', {
             thresholdY = threshold.y;
 
         return (this.x <= x + thresholdX && this.x >= x - thresholdX &&
-                this.y <= y + thresholdY && this.y >= y - thresholdY);
+            this.y <= y + thresholdY && this.y >= y - thresholdY);
     },
 
     /**
@@ -33958,16 +33674,22 @@ Ext.define('Ext.util.Point', {
      */
     roundedEquals: function(point) {
         if (typeof point != 'object') {
-            point = { x: 0, y: 0};
+            point = {
+                x: 0,
+                y: 0
+            };
         }
 
         return (Math.round(this.x) === Math.round(point.x) &&
-                Math.round(this.y) === Math.round(point.y));
+            Math.round(this.y) === Math.round(point.y));
     },
 
     getDistanceTo: function(point) {
         if (typeof point != 'object') {
-            point = { x: 0, y: 0};
+            point = {
+                x: 0,
+                y: 0
+            };
         }
 
         var deltaX = this.x - point.x,
@@ -33978,7 +33700,10 @@ Ext.define('Ext.util.Point', {
 
     getAngleTo: function(point) {
         if (typeof point != 'object') {
-            point = { x: 0, y: 0};
+            point = {
+                x: 0,
+                y: 0
+            };
         }
 
         var deltaX = this.x - point.x,
@@ -33994,7 +33719,7 @@ Ext.define('Ext.util.Point', {
  * Utility class that represents a line segment, constructed by two {@link Ext.util.Point}
  */
 Ext.define('Ext.util.LineSegment', {
-                                 
+
 
     /**
      * Creates new LineSegment out of two points.
@@ -34036,10 +33761,7 @@ Ext.define('Ext.util.LineSegment', {
         xi = ((x3 - x4) * (x1 * y2 - y1 * x2) - (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
         yi = ((y3 - y4) * (x1 * y2 - y1 * x2) - (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
 
-        if (xi < Math.min(x1, x2) || xi > Math.max(x1, x2)
-            || xi < Math.min(x3, x4) || xi > Math.max(x3, x4)
-            || yi < Math.min(y1, y2) || yi > Math.max(y1, y2)
-            || yi < Math.min(y3, y4) || yi > Math.max(y3, y4)) {
+        if (xi < Math.min(x1, x2) || xi > Math.max(x1, x2) || xi < Math.min(x3, x4) || xi > Math.max(x3, x4) || yi < Math.min(y1, y2) || yi > Math.max(y1, y2) || yi < Math.min(y3, y4) || yi > Math.max(y3, y4)) {
             return null;
         }
 
@@ -34115,8 +33837,8 @@ Ext.define('Ext.util.LineSegment', {
  *
  */
 Ext.define('Ext.Panel', {
-    extend:  Ext.Container ,
-                                       
+    extend: Ext.Container,
+
 
     alternateClassName: 'Ext.lib.Panel',
 
@@ -34156,17 +33878,14 @@ Ext.define('Ext.Panel', {
         return {
             reference: 'element',
             classList: ['x-container', 'x-unsized'],
-            children: [
-                {
-                    reference: 'innerElement',
-                    className: 'x-inner'
-                },
-                {
-                    reference: 'tipElement',
-                    className: 'x-anchor',
-                    hidden: true
-                }
-            ]
+            children: [{
+                reference: 'innerElement',
+                className: 'x-inner'
+            }, {
+                reference: 'tipElement',
+                className: 'x-anchor',
+                hidden: true
+            }]
         };
     },
 
@@ -34220,7 +33939,7 @@ Ext.define('Ext.Panel', {
 
     alignTo: function(component, alignment) {
         var alignmentInfo = this.getAlignmentInfo(component, alignment);
-        if(alignmentInfo.isAligned) return;
+        if (alignmentInfo.isAligned) return;
         var tipElement = this.tipElement;
 
         tipElement.hide();
@@ -34242,14 +33961,32 @@ Ext.define('Ext.Panel', {
             bottom = box.bottom,
             centerX = left + (box.width / 2),
             centerY = top + (box.height / 2),
-            leftTopPoint = { x: left, y: top },
-            rightTopPoint = { x: right, y: top },
-            leftBottomPoint = { x: left, y: bottom },
-            rightBottomPoint = { x: right, y: bottom },
-            boxCenterPoint = { x: centerX, y: centerY },
+            leftTopPoint = {
+                x: left,
+                y: top
+            },
+            rightTopPoint = {
+                x: right,
+                y: top
+            },
+            leftBottomPoint = {
+                x: left,
+                y: bottom
+            },
+            rightBottomPoint = {
+                x: right,
+                y: bottom
+            },
+            boxCenterPoint = {
+                x: centerX,
+                y: centerY
+            },
             alignToCenterX = alignToBox.left + (alignToBox.width / 2),
             alignToCenterY = alignToBox.top + (alignToBox.height / 2),
-            alignToBoxCenterPoint = { x: alignToCenterX, y: alignToCenterY },
+            alignToBoxCenterPoint = {
+                x: alignToCenterX,
+                y: alignToCenterY
+            },
             centerLineSegment = new LineSegment(boxCenterPoint, alignToBoxCenterPoint),
             offsetLeft = 0,
             offsetTop = 0,
@@ -34266,20 +34003,17 @@ Ext.define('Ext.Panel', {
             tipY = top;
             offsetTop = tipHeight + 10;
             tipPosition = 'top';
-        }
-        else if (centerLineSegment.intersects(new LineSegment(leftTopPoint, leftBottomPoint))) {
+        } else if (centerLineSegment.intersects(new LineSegment(leftTopPoint, leftBottomPoint))) {
             tipX = left;
             tipY = Math.min(Math.max(alignToCenterY + (tipWidth / 2), tipWidth * 1.6), bottom - (tipWidth / 2.2));
             offsetLeft = tipHeight + 10;
             tipPosition = 'left';
-        }
-        else if (centerLineSegment.intersects(new LineSegment(leftBottomPoint, rightBottomPoint))) {
+        } else if (centerLineSegment.intersects(new LineSegment(leftBottomPoint, rightBottomPoint))) {
             tipX = Math.min(Math.max(alignToCenterX, left + tipWidth), right - tipWidth);
             tipY = bottom;
             offsetTop = -tipHeight - 10;
             tipPosition = 'bottom';
-        }
-        else if (centerLineSegment.intersects(new LineSegment(rightTopPoint, rightBottomPoint))) {
+        } else if (centerLineSegment.intersects(new LineSegment(rightTopPoint, rightBottomPoint))) {
             tipX = right;
             tipY = Math.max(Math.min(alignToCenterY - tipHeight, bottom - tipWidth * 1.3), tipWidth / 2);
             offsetLeft = -tipHeight - 10;
@@ -34326,7 +34060,7 @@ Ext.define('Ext.Panel', {
  *     });
  *     Ext.Viewport.add({ xtype: 'container', padding: 10, items: [button] });
  *
- * Sencha provides the "Font" and "PNG" icons packs from http://wwww.pictos.cc. 
+ * Sencha provides the "Font" and "PNG" icons packs from http://wwww.pictos.cc.
  * Use icons with the {@link Global_CSS#icon icon} mixin in your Sass.
  *
  * ## Badges
@@ -34483,7 +34217,7 @@ Ext.define('Ext.Panel', {
  *
  */
 Ext.define('Ext.Button', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
 
     xtype: 'button',
 
@@ -34637,32 +34371,28 @@ Ext.define('Ext.Button', {
         baseCls: Ext.baseCSSPrefix + 'button'
     },
 
-    template: [
-        {
-            tag: 'span',
-            reference: 'badgeElement',
-            hidden: true
-        },
-        {
-            tag: 'span',
-            className: Ext.baseCSSPrefix + 'button-icon',
-            reference: 'iconElement'
-        },
-        {
-            tag: 'span',
-            reference: 'textElement',
-            hidden: true
-        }
-    ],
+    template: [{
+        tag: 'span',
+        reference: 'badgeElement',
+        hidden: true
+    }, {
+        tag: 'span',
+        className: Ext.baseCSSPrefix + 'button-icon',
+        reference: 'iconElement'
+    }, {
+        tag: 'span',
+        reference: 'textElement',
+        hidden: true
+    }],
 
     initialize: function() {
         this.callParent();
 
         this.element.on({
-            scope      : this,
-            tap        : 'onTap',
-            touchstart : 'onPress',
-            touchend   : 'onRelease'
+            scope: this,
+            tap: 'onTap',
+            touchstart: 'onPress',
+            touchend: 'onRelease'
         });
     },
 
@@ -34676,8 +34406,7 @@ Ext.define('Ext.Button', {
         if (badgeText) {
             badgeElement.show();
             badgeElement.setText(badgeText);
-        }
-        else {
+        } else {
             badgeElement.hide();
         }
 
@@ -34689,7 +34418,7 @@ Ext.define('Ext.Button', {
      */
     updateText: function(text) {
         var textElement = this.textElement;
-        
+
         if (textElement) {
             if (text) {
                 textElement.show();
@@ -34711,8 +34440,7 @@ Ext.define('Ext.Button', {
         if (html) {
             textElement.show();
             textElement.setHtml(html);
-        }
-        else {
+        } else {
             textElement.hide();
         }
     },
@@ -34765,7 +34493,7 @@ Ext.define('Ext.Button', {
             element.setStyle('background-image', 'url(' + icon + ')');
             me.refreshIconAlign();
         } else {
-        	element.setStyle('background-image', '');
+            element.setStyle('background-image', '');
             me.hideIconElement();
         }
     },
@@ -34782,7 +34510,7 @@ Ext.define('Ext.Button', {
             element.replaceCls(oldIconCls, iconCls);
             me.refreshIconAlign();
         } else {
-			element.removeCls(oldIconCls);
+            element.removeCls(oldIconCls);
             me.hideIconElement();
         }
     },
@@ -34814,7 +34542,7 @@ Ext.define('Ext.Button', {
 
         if (typeof autoEvent == 'string') {
             autoEvent = {
-                name : autoEvent,
+                name: autoEvent,
                 scope: me.scope || me
             };
         }
@@ -34826,7 +34554,7 @@ Ext.define('Ext.Button', {
      * @private
      */
     updateAutoEvent: function(autoEvent) {
-        var name  = autoEvent.name,
+        var name = autoEvent.name,
             scope = autoEvent.scope;
 
         this.setHandler(function() {
@@ -34871,7 +34599,7 @@ Ext.define('Ext.Button', {
      */
     applyUi: function(config) {
         if (config && Ext.isString(config)) {
-            var array  = config.split('-');
+            var array = config.split('-');
             if (array && (array[1] == "back" || array[1] == "forward")) {
                 return array;
             }
@@ -34911,8 +34639,7 @@ Ext.define('Ext.Button', {
                         element.addCls(pressedCls);
                     }
                 }, pressedDelay);
-            }
-            else {
+            } else {
                 element.addCls(pressedCls);
             }
         }
@@ -34929,8 +34656,7 @@ Ext.define('Ext.Button', {
             if (me.hasOwnProperty('pressedTimeout')) {
                 clearTimeout(me.pressedTimeout);
                 delete me.pressedTimeout;
-            }
-            else {
+            } else {
                 me.element.removeCls(me.getPressedCls());
             }
         }
@@ -34968,8 +34694,7 @@ Ext.define('Ext.Button', {
 
         handler.apply(scope, arguments);
     }
-}, function() {
-});
+}, function() {});
 
 /**
  * A general sheet class. This renderable container provides base support for orientation-aware transitions for popup or
@@ -34978,11 +34703,11 @@ Ext.define('Ext.Button', {
  * In most cases, you should use {@link Ext.ActionSheet}, {@link Ext.MessageBox}, {@link Ext.picker.Picker}, or {@link Ext.picker.Date}.
  */
 Ext.define('Ext.Sheet', {
-    extend:  Ext.Panel ,
+    extend: Ext.Panel,
 
     xtype: 'sheet',
 
-                                                 
+
 
     config: {
         /**
@@ -35191,7 +34916,7 @@ Ext.define('Ext.Sheet', {
  */
 Ext.define('Ext.data.Connection', {
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     statics: {
@@ -35240,7 +34965,7 @@ Ext.define('Ext.data.Connection', {
          * The timeout in milliseconds to be used for requests.
          * @accessor
          */
-        timeout : 30000,
+        timeout: 30000,
 
         /**
          * @cfg {Object} extraParams
@@ -35256,8 +34981,8 @@ Ext.define('Ext.data.Connection', {
          */
         defaultHeaders: null,
 
-        useDefaultHeader : true,
-        defaultPostHeader : 'application/x-www-form-urlencoded; charset=UTF-8',
+        useDefaultHeader: true,
+        defaultPostHeader: 'application/x-www-form-urlencoded; charset=UTF-8',
 
         /**
          * @cfg {Boolean} useDefaultXhrHeader
@@ -35265,14 +34990,14 @@ Ext.define('Ext.data.Connection', {
          * This should be set to false when making CORS (cross-domain) requests.
          * @accessor
          */
-        useDefaultXhrHeader : true,
+        useDefaultXhrHeader: true,
 
         /**
          * @cfg {String} defaultXhrHeader
          * The value of the default Xhr header (X-Requested-With). This is only used when {@link #useDefaultXhrHeader}
          * is set to `true`.
          */
-        defaultXhrHeader : 'XMLHttpRequest',
+        defaultXhrHeader: 'XMLHttpRequest',
 
         autoAbort: false
     },
@@ -35281,7 +35006,7 @@ Ext.define('Ext.data.Connection', {
     multiPartRe: /multipart\/form-data/i,
     lineBreakRe: /\r\n/g,
 
-    constructor : function(config) {
+    constructor: function(config) {
         this.initConfig(config);
 
         /**
@@ -35438,7 +35163,7 @@ Ext.define('Ext.data.Connection', {
             useXhr2 = options.xhr2 === true && Ext.feature.has.XHR2,
             async, requestOptions, request, headers, xhr;
 
-        if(!Ext.isEmpty(username) && !Ext.isEmpty(password, true) && Ext.isEmpty(options.withCredentials)){
+        if (!Ext.isEmpty(username) && !Ext.isEmpty(password, true) && Ext.isEmpty(options.withCredentials)) {
             options.withCredentials = true;
         }
 
@@ -35489,14 +35214,14 @@ Ext.define('Ext.data.Connection', {
                 xhr[useXhr2 ? 'onload' : 'onreadystatechange'] = Ext.Function.bind(me.onStateChange, me, [request]);
             }
 
-            if(useXhr2) {
+            if (useXhr2) {
                 xhr.onerror = Ext.Function.bind(me.onStateChange, me, [request]);
             }
 
-            if(options.progress) {
+            if (options.progress) {
                 xhr.onprogress = function(e) {
-                    if(options.progress.isProgressable) {
-                        if(e.total === 0 && options.progress.getDynamic()) {
+                    if (options.progress.isProgressable) {
+                        if (e.total === 0 && options.progress.getDynamic()) {
                             Ext.Logger.warn("Server is not configured to properly return Content-Length. Dynamic progress will be disabled");
                             options.progress.setState.call(options.progress, "download");
                             options.progress.setDynamic(false);
@@ -35506,27 +35231,27 @@ Ext.define('Ext.data.Connection', {
 
                         Ext.callback(options.progress.updateProgress, options.progress, [(e.loaded / e.total), "download"]);
 
-                        if(e.total > 0 && !options.progress.getDynamic() && options.progress.getInitialConfig().dynamic) {
+                        if (e.total > 0 && !options.progress.getDynamic() && options.progress.getInitialConfig().dynamic) {
                             options.progress.setDynamic(true);
                         }
-                    }else if(Ext.isFunction(options.progress)) {
+                    } else if (Ext.isFunction(options.progress)) {
                         Ext.callback(options.progress, options.progressScope || request, [e, "download"])
                     }
                 };
 
-                if(Ext.feature.has.XHRUploadProgress) {
-                        xhr.upload.onprogress = function (e){
+                if (Ext.feature.has.XHRUploadProgress) {
+                    xhr.upload.onprogress = function(e) {
                         me.fireEvent('requestuploadprogress', me, request, e);
-                        if(options.progress.isProgressable) {
+                        if (options.progress.isProgressable) {
                             Ext.callback(options.progress.updateProgress, options.progress, [(e.loaded / e.total), "upload"]);
-                        }else if(Ext.isFunction(options.progress)) {
+                        } else if (Ext.isFunction(options.progress)) {
                             Ext.callback(options.progress, options.progressScope || request, [e, "upload"])
                         }
                     };
                 }
 
-                if(options.progress.isProgressable) {
-                    if(!Ext.feature.has.XHRUploadProgress) options.progress.setDynamic(false);
+                if (options.progress.isProgressable) {
+                    if (!Ext.feature.has.XHRUploadProgress) options.progress.setDynamic(false);
                     Ext.callback(options.progress.startProgress, options.progress);
                 }
             }
@@ -35567,15 +35292,15 @@ Ext.define('Ext.data.Connection', {
                 enctype: form.enctype,
                 action: form.action
             }, addField = function(name, value) {
-            hiddenItem = document.createElement('input');
-            Ext.fly(hiddenItem).set({
-                type: 'hidden',
-                value: value,
-                name: name
-            });
-            form.appendChild(hiddenItem);
-            hiddens.push(hiddenItem);
-        }, hiddenItem;
+                hiddenItem = document.createElement('input');
+                Ext.fly(hiddenItem).set({
+                    type: 'hidden',
+                    value: value,
+                    name: name
+                });
+                form.appendChild(hiddenItem);
+                hiddens.push(hiddenItem);
+            }, hiddenItem;
 
         /*
          * Originally this behavior was modified for Opera 10 to apply the secure URL after
@@ -35634,9 +35359,9 @@ Ext.define('Ext.data.Connection', {
     onUploadComplete: function(frame, options, id) {
         // bogus response object
         var response = {
-                responseText: '',
-                responseXML: null
-            }, doc, firstChild;
+            responseText: '',
+            responseXML: null
+        }, doc, firstChild;
 
         try {
             doc = frame.contentWindow || frame.contentWindow.document || frame.contentDocument || window.frames[id].document;
@@ -35878,8 +35603,8 @@ Ext.define('Ext.data.Connection', {
             headers['X-Requested-With'] = me.getDefaultXhrHeader();
         }
 
-        if(!Ext.isEmpty(options.username) && !Ext.isEmpty(options.password)) {
-            headers['Authorization'] = "Basic " + btoa(options.username+":"+options.password);
+        if (!Ext.isEmpty(options.username) && !Ext.isEmpty(options.password)) {
+            headers['Authorization'] = "Basic " + btoa(options.username + ":" + options.password);
         }
 
         // set up all the request headers on the xhr object
@@ -35891,11 +35616,11 @@ Ext.define('Ext.data.Connection', {
                 }
 
             }
-        } catch(e) {
+        } catch (e) {
             me.fireEvent('exception', key, header);
         }
 
-        if(options.responseType) {
+        if (options.responseType) {
             try {
                 xhr.responseType = options.responseType === "blob" && Ext.browser.is.Safari ? "arraybuffer" : options.responseType;
             } catch (e) {
@@ -35915,15 +35640,21 @@ Ext.define('Ext.data.Connection', {
      * @private
      */
     getXhrInstance: (function() {
-        var options = [function() {
-            return new XMLHttpRequest();
-        }, function() {
-            return new ActiveXObject('MSXML2.XMLHTTP.3.0');
-        }, function() {
-            return new ActiveXObject('MSXML2.XMLHTTP');
-        }, function() {
-            return new ActiveXObject('Microsoft.XMLHTTP');
-        }], i = 0,
+        var options = [
+            function() {
+                return new XMLHttpRequest();
+            },
+            function() {
+                return new ActiveXObject('MSXML2.XMLHTTP.3.0');
+            },
+            function() {
+                return new ActiveXObject('MSXML2.XMLHTTP');
+            },
+            function() {
+                return new ActiveXObject('Microsoft.XMLHTTP');
+            }
+        ],
+            i = 0,
             len = options.length,
             xhr;
 
@@ -35932,8 +35663,7 @@ Ext.define('Ext.data.Connection', {
                 xhr = options[i];
                 xhr();
                 break;
-            } catch(e) {
-            }
+            } catch (e) {}
         }
         return xhr;
     })(),
@@ -35943,7 +35673,7 @@ Ext.define('Ext.data.Connection', {
      * @param {Object} request The request to check.
      * @return {Boolean} True if there is an outstanding request.
      */
-    isLoading : function(request) {
+    isLoading: function(request) {
         if (!(request && request.xhr)) {
             return false;
         }
@@ -35956,7 +35686,7 @@ Ext.define('Ext.data.Connection', {
      * Aborts any outstanding request.
      * @param {Object} request (Optional) Defaults to the last request.
      */
-    abort : function(request) {
+    abort: function(request) {
         var me = this,
             requests = me.requests,
             id;
@@ -35996,7 +35726,7 @@ Ext.define('Ext.data.Connection', {
      * @private
      * @param {Object} request The request
      */
-    onStateChange : function(request) {
+    onStateChange: function(request) {
         if (request.xhr.readyState == 4) {
             this.clearTimeout(request);
             this.onComplete(request);
@@ -36030,7 +35760,7 @@ Ext.define('Ext.data.Connection', {
      * @param {Object} request
      * @return {Object} The response.
      */
-    onComplete : function(request) {
+    onComplete: function(request) {
         var me = this,
             options = request.options,
             result,
@@ -36046,8 +35776,8 @@ Ext.define('Ext.data.Connection', {
         } catch (e) {
             // in some browsers we can't access the status if the readyState is not 4, so the request has failed
             result = {
-                success : false,
-                isException : false
+                success: false,
+                isException: false
             };
         }
         success = result.success;
@@ -36067,7 +35797,7 @@ Ext.define('Ext.data.Connection', {
         }
         Ext.callback(options.callback, options.scope, [options, success, response]);
 
-        if(options.progress && options.progress.isProgressable) {
+        if (options.progress && options.progress.isProgressable) {
             Ext.callback(options.progress.endProgress, options.progress, [result]);
         }
 
@@ -36111,7 +35841,7 @@ Ext.define('Ext.data.Connection', {
      * @private
      * @param {Object} request
      */
-    createResponse : function(request) {
+    createResponse: function(request) {
         var xhr = request.xhr,
             headers = {},
             lines, count, line, index, key, response,
@@ -36147,22 +35877,24 @@ Ext.define('Ext.data.Connection', {
         delete request.xhr;
         response = {
             request: request,
-            requestId : request.id,
-            status : xhr.status,
-            statusText : xhr.statusText,
-            getResponseHeader : function(header) {
+            requestId: request.id,
+            status: xhr.status,
+            statusText: xhr.statusText,
+            getResponseHeader: function(header) {
                 return headers[header.toLowerCase()];
             },
-            getAllResponseHeaders : function() {
+            getAllResponseHeaders: function() {
                 return headers;
             },
-            responseText : binaryResponse ? null : documentResponse ? null : xhr.responseText,
-            responseXML : binaryResponse ? null : textResponse ? null : xhr.responseXML,
-            responseBytes : binaryResponse ? xhr.response : null
+            responseText: binaryResponse ? null : documentResponse ? null : xhr.responseText,
+            responseXML: binaryResponse ? null : textResponse ? null : xhr.responseXML,
+            responseBytes: binaryResponse ? xhr.response : null
         };
 
-        if(request.options.responseType === "blob" && xhr.responseType === "arraybuffer") {
-            response.responseBytes = new Blob([response.responseBytes], {type:xhr.getResponseHeader("Content-Type")})
+        if (request.options.responseType === "blob" && xhr.responseType === "arraybuffer") {
+            response.responseBytes = new Blob([response.responseBytes], {
+                type: xhr.getResponseHeader("Content-Type")
+            })
         }
 
         // If we don't explicitly tear down the xhr reference, IE6/IE7 will hold this in the closure of the
@@ -36176,12 +35908,12 @@ Ext.define('Ext.data.Connection', {
      * @private
      * @param {Object} request
      */
-    createException : function(request) {
+    createException: function(request) {
         return {
-            request : request,
-            requestId : request.id,
-            status : request.aborted ? -1 : 0,
-            statusText : request.aborted ? 'transaction aborted' : 'communication failure',
+            request: request,
+            requestId: request.id,
+            status: request.aborted ? -1 : 0,
+            statusText: request.aborted ? 'transaction aborted' : 'communication failure',
             aborted: request.aborted,
             timedout: request.timedout
         };
@@ -36225,14 +35957,14 @@ Ext.define('Ext.data.Connection', {
  * requests in the application.
  */
 Ext.define('Ext.Ajax', {
-    extend:  Ext.data.Connection ,
+    extend: Ext.data.Connection,
     singleton: true,
 
     /**
      * @property {Boolean} autoAbort
      * Whether a new request should abort any pending requests.
      */
-    autoAbort : false
+    autoAbort: false
 });
 
 /**
@@ -36242,7 +35974,7 @@ Ext.define('Ext.Ajax', {
  * @private
  */
 Ext.define('Ext.Media', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
     xtype: 'media',
 
     /**
@@ -36373,7 +36105,7 @@ Ext.define('Ext.Media', {
         me.on({
             scope: me,
 
-            activate  : me.onActivate,
+            activate: me.onActivate,
             deactivate: me.onDeactivate
         });
 
@@ -36572,7 +36304,7 @@ Ext.define('Ext.Media', {
 
     destroy: function() {
         var me = this,
-            dom  = me.media.dom,
+            dom = me.media.dom,
             mediaEvents = me.mediaEvents;
 
         Ext.Object.each(mediaEvents, function(event, fn) {
@@ -36655,8 +36387,8 @@ Ext.define('Ext.Media', {
  * {@link Ext.Component#up}.
  */
 Ext.define('Ext.ComponentQuery', {
-    singleton: true 
-                                  
+    singleton: true
+
 }, function() {
 
     var cq = this,
@@ -36665,15 +36397,15 @@ Ext.define('Ext.ComponentQuery', {
         // as a member on each item in the passed array.
         filterFnPattern = [
             'var r = [],',
-                'i = 0,',
-                'it = items,',
-                'l = it.length,',
-                'c;',
+            'i = 0,',
+            'it = items,',
+            'l = it.length,',
+            'c;',
             'for (; i < l; i++) {',
-                'c = it[i];',
-                'if (c.{0}) {',
-                   'r.push(c);',
-                '}',
+            'c = it[i];',
+            'if (c.{0}) {',
+            'r.push(c);',
+            '}',
             '}',
             'return r;'
         ].join(''),
@@ -36682,7 +36414,7 @@ Ext.define('Ext.ComponentQuery', {
             // Argument list for the operation is [ itemsArray, operationArg1, operationArg2...]
             // The operation's method loops over each item in the candidate array and
             // returns an array of items which match its criteria
-            return operation.method.apply(this, [ items ].concat(operation.args));
+            return operation.method.apply(this, [items].concat(operation.args));
         },
 
         getItems = function(items, mode) {
@@ -36708,7 +36440,7 @@ Ext.define('Ext.ComponentQuery', {
                 candidate;
             for (; i < length; i++) {
                 candidate = items[i];
-                while (!!(candidate = (candidate.ownerCt || candidate.floatParent))) {
+                while ( !! (candidate = (candidate.ownerCt || candidate.floatParent))) {
                     result.push(candidate);
                 }
             }
@@ -36719,8 +36451,7 @@ Ext.define('Ext.ComponentQuery', {
         filterByXType = function(items, xtype, shallow) {
             if (xtype === '*') {
                 return items.slice();
-            }
-            else {
+            } else {
                 var result = [],
                     i = 0,
                     length = items.length,
@@ -36762,16 +36493,14 @@ Ext.define('Ext.ComponentQuery', {
                 getter = Ext.Class.getConfigNameMap(property).get;
                 if (candidate[getter]) {
                     getValue = candidate[getter]();
-                    if (!value ? !!getValue : (String(getValue) === value)) {
+                    if (!value ? !! getValue : (String(getValue) === value)) {
                         result.push(candidate);
                     }
-                }
-                else if (candidate.config && candidate.config[property]) {
-                    if (!value ? !!candidate.config[property] : (String(candidate.config[property]) === value)) {
+                } else if (candidate.config && candidate.config[property]) {
+                    if (!value ? !! candidate.config[property] : (String(candidate.config[property]) === value)) {
                         result.push(candidate);
                     }
-                }
-                else if (!value ? !!candidate[property] : (String(candidate[property]) === value)) {
+                } else if (!value ? !! candidate[property] : (String(candidate[property]) === value)) {
                     result.push(candidate);
                 }
             }
@@ -36809,7 +36538,7 @@ Ext.define('Ext.ComponentQuery', {
             // Checks for .xtype with possibly (true|false) appended for the "shallow" parameter
             re: /^\.([\w\-]+)(?:\((true|false)\))?/,
             method: filterByXType
-        },{
+        }, {
             // checks for [attribute=value]
             re: /^(?:[\[](?:@)?([\w\-]+)\s?(?:(=|.=)\s?['"]?(.*?)["']?)?[\]])/,
             method: filterByAttribute
@@ -36844,7 +36573,7 @@ Ext.define('Ext.ComponentQuery', {
          * docked items within a Panel.
          * root may be an array of candidate Components to filter using this Query.
          */
-        execute : function(root) {
+        execute: function(root) {
             var operations = this.operations,
                 i = 0,
                 length = operations.length,
@@ -36873,17 +36602,15 @@ Ext.define('Ext.ComponentQuery', {
                 // children we get. (e.g. > only gets direct children)
                 if (operation.mode === '^') {
                     workingItems = getAncestors(workingItems || [root]);
-                }
-                else if (operation.mode) {
+                } else if (operation.mode) {
                     workingItems = getItems(workingItems || [root], operation.mode);
-                }
-                else {
+                } else {
                     workingItems = filterItems(workingItems || getItems([root]), operation);
                 }
 
                 // If this is the last operation, it means our current working
                 // items are the final matched items. Thus return them!
-                if (i === length -1) {
+                if (i === length - 1) {
                     return workingItems;
                 }
             }
@@ -36894,7 +36621,7 @@ Ext.define('Ext.ComponentQuery', {
             var operations = this.operations,
                 components = Ext.isArray(component) ? component : [component],
                 originalLength = components.length,
-                lastOperation = operations[operations.length-1],
+                lastOperation = operations[operations.length - 1],
                 ln, i;
 
             components = filterItems(components, lastOperation);
@@ -36919,7 +36646,7 @@ Ext.define('Ext.ComponentQuery', {
 
         // private cache of pseudo class filter functions
         pseudos: {
-            not: function(components, selector){
+            not: function(components, selector) {
                 var CQ = Ext.ComponentQuery,
                     i = 0,
                     length = components.length,
@@ -36927,7 +36654,7 @@ Ext.define('Ext.ComponentQuery', {
                     index = -1,
                     component;
 
-                for(; i < length; ++i) {
+                for (; i < length; ++i) {
                     component = components[i];
                     if (!CQ.is(component, selector)) {
                         results[++index] = component;
@@ -36966,10 +36693,10 @@ Ext.define('Ext.ComponentQuery', {
             for (; i < length; i++) {
                 selector = Ext.String.trim(selectors[i]);
                 query = this.parse(selector);
-//                query = this.cache[selector];
-//                if (!query) {
-//                    this.cache[selector] = query = this.parse(selector);
-//                }
+                //                query = this.cache[selector];
+                //                if (!query) {
+                //                    this.cache[selector] = query = this.parse(selector);
+                //                }
                 results = results.concat(query.execute(root));
             }
 
@@ -37074,11 +36801,10 @@ Ext.define('Ext.ComponentQuery', {
                         if (selectorMatch) {
                             operations.push({
                                 method: Ext.isString(matcher.method)
-                                    // Turn a string method into a function by formatting the string with our selector matche expression
-                                    // A new method is created for different match expressions, eg {id=='textfield-1024'}
-                                    // Every expression may be different in different selectors.
-                                    ? Ext.functionFactory('items', Ext.String.format.apply(Ext.String, [method].concat(selectorMatch.slice(1))))
-                                    : matcher.method,
+                                // Turn a string method into a function by formatting the string with our selector matche expression
+                                // A new method is created for different match expressions, eg {id=='textfield-1024'}
+                                // Every expression may be different in different selectors.
+                                ? Ext.functionFactory('items', Ext.String.format.apply(Ext.String, [method].concat(selectorMatch.slice(1)))) : matcher.method,
                                 args: selectorMatch.slice(1)
                             });
                             selector = selector.replace(selectorMatch[0], '');
@@ -37097,7 +36823,7 @@ Ext.define('Ext.ComponentQuery', {
                 // ownerCt axis as the candidate source.
                 if (modeMatch[1]) { // Assignment, and test for truthiness!
                     operations.push({
-                        mode: modeMatch[2]||modeMatch[1]
+                        mode: modeMatch[2] || modeMatch[1]
                     });
                     selector = selector.replace(modeMatch[0], '');
                 }
@@ -37153,7 +36879,7 @@ Ext.define('Ext.ComponentQuery', {
  * automatically generated. These methods all proxy to the same method names that exist within the Component instance.
  */
 Ext.define('Ext.Decorator', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
 
     isDecorator: true,
 
@@ -37216,9 +36942,10 @@ Ext.define('Ext.Decorator', {
         if (oldComponent) {
             if (this.isRendered() && oldComponent.setRendered(false)) {
                 oldComponent.fireAction('renderedchange', [this, oldComponent, false],
-                    'doUnsetComponent', this, { args: [oldComponent] });
-            }
-            else {
+                    'doUnsetComponent', this, {
+                        args: [oldComponent]
+                    });
+            } else {
                 this.doUnsetComponent(oldComponent);
             }
         }
@@ -37226,9 +36953,10 @@ Ext.define('Ext.Decorator', {
         if (newComponent) {
             if (this.isRendered() && newComponent.setRendered(true)) {
                 newComponent.fireAction('renderedchange', [this, newComponent, true],
-                    'doSetComponent', this, { args: [newComponent] });
-            }
-            else {
+                    'doSetComponent', this, {
+                        args: [newComponent]
+                    });
+            } else {
                 this.doSetComponent(newComponent);
             }
         }
@@ -37306,7 +37034,7 @@ Ext.define('Ext.Decorator', {
  *
  */
 Ext.define('Ext.LoadMask', {
-    extend:  Ext.Mask ,
+    extend: Ext.Mask,
     xtype: 'loadmask',
 
     config: {
@@ -37342,35 +37070,38 @@ Ext.define('Ext.LoadMask', {
     getTemplate: function() {
         var prefix = Ext.baseCSSPrefix;
 
-        return [
-            {
-                //it needs an inner so it can be centered within the mask, and have a background
-                reference: 'innerElement',
-                cls: prefix + 'mask-inner',
-                children: [
-                    //the elements required for the CSS loading {@link #indicator}
-                    {
-                        reference: 'indicatorElement',
-                        cls: prefix + 'loading-spinner-outer',
-                        children: [
-                            {
-                                cls: prefix + 'loading-spinner',
-                                children: [
-                                    { tag: 'span', cls: prefix + 'loading-top' },
-                                    { tag: 'span', cls: prefix + 'loading-right' },
-                                    { tag: 'span', cls: prefix + 'loading-bottom' },
-                                    { tag: 'span', cls: prefix + 'loading-left' }
-                                ]
-                            }
-                        ]
-                    },
-                    //the element used to display the {@link #message}
-                    {
-                        reference: 'messageElement'
-                    }
-                ]
-            }
-        ];
+        return [{
+            //it needs an inner so it can be centered within the mask, and have a background
+            reference: 'innerElement',
+            cls: prefix + 'mask-inner',
+            children: [
+                //the elements required for the CSS loading {@link #indicator}
+                {
+                    reference: 'indicatorElement',
+                    cls: prefix + 'loading-spinner-outer',
+                    children: [{
+                        cls: prefix + 'loading-spinner',
+                        children: [{
+                            tag: 'span',
+                            cls: prefix + 'loading-top'
+                        }, {
+                            tag: 'span',
+                            cls: prefix + 'loading-right'
+                        }, {
+                            tag: 'span',
+                            cls: prefix + 'loading-bottom'
+                        }, {
+                            tag: 'span',
+                            cls: prefix + 'loading-left'
+                        }]
+                    }]
+                },
+                //the element used to display the {@link #message}
+                {
+                    reference: 'messageElement'
+                }
+            ]
+        }];
     },
 
     /**
@@ -37405,15 +37136,14 @@ Ext.define('Ext.LoadMask', {
         this[newIndicator ? 'removeCls' : 'addCls'](Ext.baseCSSPrefix + 'indicator-hidden');
     }
 
-}, function() {
-});
+}, function() {});
 
 /**
  * {@link Ext.Title} is used for the {@link Ext.Toolbar#title} configuration in the {@link Ext.Toolbar} component.
  * @private
  */
 Ext.define('Ext.Title', {
-    extend:  Ext.Component ,
+    extend: Ext.Component,
     xtype: 'title',
 
     config: {
@@ -37551,8 +37281,8 @@ You can also insert multiple {@link Ext.Spacer}'s:
     });
  */
 Ext.define('Ext.Spacer', {
-    extend:  Ext.Component ,
-    alias : 'widget.spacer',
+    extend: Ext.Component,
+    alias: 'widget.spacer',
 
     config: {
         /**
@@ -37560,7 +37290,7 @@ Ext.define('Ext.Spacer', {
          * The flex value of this spacer. This defaults to 1, if no width has been set.
          * @accessor
          */
-        
+
         /**
          * @cfg {Number} width
          * The width of this spacer. If this is set, the value of {@link #flex} will be ignored.
@@ -37665,15 +37395,10 @@ Ext.define('Ext.Spacer', {
  *
  */
 Ext.define('Ext.Toolbar', {
-    extend:  Ext.Container ,
-    xtype : 'toolbar',
+    extend: Ext.Container,
+    xtype: 'toolbar',
 
-               
-                     
-                    
-                     
-                         
-      
+
 
     // @private
     isToolbar: true,
@@ -37776,7 +37501,7 @@ Ext.define('Ext.Toolbar', {
         if (typeof title == 'string') {
             title = {
                 title: title,
-                centered : Ext.theme.is.Tizen ? false : true
+                centered: Ext.theme.is.Tizen ? false : true
             };
         }
 
@@ -37830,16 +37555,15 @@ Ext.define('Ext.Toolbar', {
      * @param {String/Ext.Title} title You can either pass a String, or a config/instance of {@link Ext.Title}.
      */
 
-}, function() {
-});
+}, function() {});
 
 
 /**
  * @private
  */
 Ext.define('Ext.field.Input', {
-    extend:  Ext.Component ,
-    xtype : 'input',
+    extend: Ext.Component,
+    xtype: 'input',
 
     /**
      * @event clearicontap
@@ -37917,7 +37641,7 @@ Ext.define('Ext.field.Input', {
         maskCls: Ext.baseCSSPrefix + 'field-mask',
 
         /**
-          * @cfg {String/Boolean} useMask
+         * @cfg {String/Boolean} useMask
          * `true` to use a mask on this field, or `auto` to automatically select when you should use it.
          * @private
          * @accessor
@@ -38097,20 +37821,16 @@ Ext.define('Ext.field.Input', {
 
     // @private
     getTemplate: function() {
-        var items = [
-            {
-                reference: 'input',
-                tag: this.tag
-            },
-            {
-                reference: 'mask',
-                classList: [this.config.maskCls]
-            },
-            {
-                reference: 'clearIcon',
-                cls: 'x-clear-icon'
-            }
-        ];
+        var items = [{
+            reference: 'input',
+            tag: this.tag
+        }, {
+            reference: 'mask',
+            classList: [this.config.maskCls]
+        }, {
+            reference: 'clearIcon',
+            cls: 'x-clear-icon'
+        }];
 
         return items;
     },
@@ -38147,7 +37867,7 @@ Ext.define('Ext.field.Input', {
         }
 
         // Hack for IE10. Seems like keyup event is not fired for 'enter' keyboard button, so we use keypress event instead to handle enter.
-        if(Ext.browser.is.ie && Ext.browser.version.major >=10){
+        if (Ext.browser.is.ie && Ext.browser.version.major >= 10) {
             me.input.on({
                 scope: me,
                 keypress: 'onKeyPress'
@@ -38156,20 +37876,20 @@ Ext.define('Ext.field.Input', {
     },
 
     updateFastFocus: function(newValue) {
-       // This is used to prevent 300ms delayed focus bug on iOS
-       if (newValue) {
-           if (this.getFastFocus() && Ext.os.is.iOS) {
-               this.input.on({
-                   scope: this,
-                   touchstart: "onTouchStart"
-               });
-           }
-       } else {
-           this.input.un({
-               scope: this,
-               touchstart: "onTouchStart"
-           });
-       }
+        // This is used to prevent 300ms delayed focus bug on iOS
+        if (newValue) {
+            if (this.getFastFocus() && Ext.os.is.iOS) {
+                this.input.on({
+                    scope: this,
+                    touchstart: "onTouchStart"
+                });
+            }
+        } else {
+            this.input.un({
+                scope: this,
+                touchstart: "onTouchStart"
+            });
+        }
     },
 
     /**
@@ -38196,7 +37916,7 @@ Ext.define('Ext.field.Input', {
         this.mask[newUseMask ? 'show' : 'hide']();
     },
 
-    updatePattern : function (pattern) {
+    updatePattern: function(pattern) {
         this.updateFieldAttribute('pattern', pattern);
     },
 
@@ -38597,7 +38317,7 @@ Ext.define('Ext.field.Input', {
 
     onTouchStart: function(e) {
         // This will prevent 300ms delayed focus from occurring on iOS
-        if(document.activeElement != e.target) {
+        if (document.activeElement != e.target) {
             e.preventDefault();
         }
     },
@@ -38693,7 +38413,7 @@ Ext.define('Ext.field.Input', {
 
     // Hack for IE10 mobile. Handle pressing 'enter' button and fire keyup event in this case.
     onKeyPress: function(e) {
-        if(e.browserEvent.keyCode == 13){
+        if (e.browserEvent.keyCode == 13) {
             this.fireEvent('keyup', e);
         }
     },
@@ -38740,12 +38460,11 @@ Ext.define('Ext.field.Input', {
  * functionality.
  */
 Ext.define('Ext.field.Field', {
-    extend:  Ext.Decorator ,
+    extend: Ext.Decorator,
     alternateClassName: 'Ext.form.Field',
     xtype: 'field',
-               
-                         
-      
+
+
 
     /**
      * Set to `true` on all Ext.field.Field subclasses. This is used by {@link Ext.form.Panel#getValues} to determine which
@@ -38894,20 +38613,17 @@ Ext.define('Ext.field.Field', {
         return {
             reference: 'element',
             className: 'x-container',
-            children: [
-                {
-                    reference: 'label',
-                    cls: prefix + 'form-label',
-                    children: [{
-                        reference: 'labelspan',
-                        tag: 'span'
-                    }]
-                },
-                {
-                    reference: 'innerElement',
-                    cls: prefix + 'component-outer'
-                }
-            ]
+            children: [{
+                reference: 'label',
+                cls: prefix + 'form-label',
+                children: [{
+                    reference: 'labelspan',
+                    tag: 'span'
+                }]
+            }, {
+                reference: 'innerElement',
+                cls: prefix + 'component-outer'
+            }]
         };
     },
 
@@ -39059,8 +38775,7 @@ Ext.define('Ext.field.Field', {
     isDirty: function() {
         return false;
     }
-}, function() {
-});
+}, function() {});
 
 /**
  * @aside guide forms
@@ -39129,7 +38844,7 @@ Ext.define('Ext.field.Field', {
  * {@link Ext.field.Field} documentation to see how to leverage its capabilities.
  */
 Ext.define('Ext.field.Text', {
-    extend:  Ext.field.Field ,
+    extend: Ext.field.Field,
     xtype: 'textfield',
     alternateClassName: 'Ext.form.Text',
 
@@ -39270,12 +38985,12 @@ Ext.define('Ext.field.Text', {
         me.getComponent().on({
             scope: this,
 
-            keyup       : 'onKeyUp',
-            change      : 'onChange',
-            focus       : 'onFocus',
-            blur        : 'onBlur',
-            paste       : 'onPaste',
-            mousedown   : 'onMouseDown',
+            keyup: 'onKeyUp',
+            change: 'onChange',
+            focus: 'onFocus',
+            blur: 'onBlur',
+            paste: 'onPaste',
+            mousedown: 'onMouseDown',
             clearicontap: 'onClearIconTap'
         });
 
@@ -39299,7 +39014,7 @@ Ext.define('Ext.field.Text', {
 
     // @private
     updateValue: function(newValue) {
-        var component  = this.getComponent(),
+        var component = this.getComponent(),
             // allows newValue to be zero but not undefined or null (other falsey values)
             valueValid = newValue !== undefined && newValue !== null && newValue !== "";
 
@@ -39412,8 +39127,8 @@ Ext.define('Ext.field.Text', {
 
     // @private
     showClearIcon: function() {
-        var me         = this,
-            value      = me.getValue(),
+        var me = this,
+            value = me.getValue(),
             // allows value to be zero but not undefined or null (other falsey values)
             valueValid = value !== undefined && value !== null && value !== "";
 
@@ -39441,7 +39156,7 @@ Ext.define('Ext.field.Text', {
      */
     doKeyUp: function(me, e) {
         // getValue to ensure that we are in sync with the dom
-        var value      = me.getValue(),
+        var value = me.getValue(),
             // allows value to be zero but not undefined or null (other falsey values)
             valueValid = value !== undefined && value !== null && value !== "";
 
@@ -39529,7 +39244,7 @@ Ext.define('Ext.field.Text', {
     resetOriginalValue: function() {
         this.callParent();
         var component = this.getComponent();
-        if(component && component.hasOwnProperty("originalValue")) {
+        if (component && component.hasOwnProperty("originalValue")) {
             this.getComponent().originalValue = this.originalValue;
         }
         this.reset();
@@ -39558,8 +39273,8 @@ Ext.define('Ext.field.Text', {
  * @private
  */
 Ext.define('Ext.field.TextAreaInput', {
-    extend:  Ext.field.Input ,
-    xtype : 'textareainput',
+    extend: Ext.field.Input,
+    xtype: 'textareainput',
 
     tag: 'textarea'
 });
@@ -39611,9 +39326,9 @@ Ext.define('Ext.field.TextAreaInput', {
  *     });
  */
 Ext.define('Ext.field.TextArea', {
-    extend:  Ext.field.Text ,
+    extend: Ext.field.Text,
     xtype: 'textareafield',
-                                          
+
     alternateClassName: 'Ext.form.TextArea',
 
     config: {
@@ -39692,13 +39407,9 @@ Ext.define('Ext.field.TextArea', {
  *
  */
 Ext.define('Ext.MessageBox', {
-    extend  :  Ext.Sheet ,
-               
-                      
-                         
-                             
-                               
-      
+    extend: Ext.Sheet,
+
+
 
     config: {
         /**
@@ -39828,29 +39539,57 @@ Ext.define('Ext.MessageBox', {
     }],
 
     statics: {
-        OK    : {text: 'OK',     itemId: 'ok',  ui: 'action'},
-        YES   : {text: 'Yes',    itemId: 'yes', ui: 'action'},
-        NO    : {text: 'No',     itemId: 'no'},
-        CANCEL: {text: 'Cancel', itemId: 'cancel'},
+        OK: {
+            text: 'OK',
+            itemId: 'ok',
+            ui: 'action'
+        },
+        YES: {
+            text: 'Yes',
+            itemId: 'yes',
+            ui: 'action'
+        },
+        NO: {
+            text: 'No',
+            itemId: 'no'
+        },
+        CANCEL: {
+            text: 'Cancel',
+            itemId: 'cancel'
+        },
 
-        INFO    : Ext.baseCSSPrefix + 'msgbox-info',
-        WARNING : Ext.baseCSSPrefix + 'msgbox-warning',
+        INFO: Ext.baseCSSPrefix + 'msgbox-info',
+        WARNING: Ext.baseCSSPrefix + 'msgbox-warning',
         QUESTION: Ext.baseCSSPrefix + 'msgbox-question',
-        ERROR   : Ext.baseCSSPrefix + 'msgbox-error',
+        ERROR: Ext.baseCSSPrefix + 'msgbox-error',
 
-        OKCANCEL: [
-            {text: 'Cancel', itemId: 'cancel'},
-            {text: 'OK',     itemId: 'ok',  ui : 'action'}
-        ],
-        YESNOCANCEL: [
-            {text: 'Cancel', itemId: 'cancel'},
-            {text: 'No',     itemId: 'no'},
-            {text: 'Yes',    itemId: 'yes', ui: 'action'}
-        ],
-        YESNO: [
-            {text: 'No',  itemId: 'no'},
-            {text: 'Yes', itemId: 'yes', ui: 'action'}
-        ]
+        OKCANCEL: [{
+            text: 'Cancel',
+            itemId: 'cancel'
+        }, {
+            text: 'OK',
+            itemId: 'ok',
+            ui: 'action'
+        }],
+        YESNOCANCEL: [{
+            text: 'Cancel',
+            itemId: 'cancel'
+        }, {
+            text: 'No',
+            itemId: 'no'
+        }, {
+            text: 'Yes',
+            itemId: 'yes',
+            ui: 'action'
+        }],
+        YESNO: [{
+            text: 'No',
+            itemId: 'no'
+        }, {
+            text: 'Yes',
+            itemId: 'yes',
+            ui: 'action'
+        }]
     },
 
     constructor: function(config) {
@@ -39911,7 +39650,7 @@ Ext.define('Ext.MessageBox', {
             docked: 'top',
             minHeight: minHeight,
             ui: Ext.filterPlatform('blackberry') ? 'light' : 'dark',
-            cls   : this.getBaseCls() + '-title'
+            cls: this.getBaseCls() + '-title'
         });
 
         if (Ext.theme.is.Tizen) {
@@ -39955,7 +39694,7 @@ Ext.define('Ext.MessageBox', {
                     pack: 'center'
                 };
 
-                var isFlexed = Ext.theme.is.CupertinoClassic  || Ext.theme.is.MountainView  || Ext.theme.is.Blackberry;
+                var isFlexed = Ext.theme.is.CupertinoClassic || Ext.theme.is.MountainView || Ext.theme.is.Blackberry;
 
                 me.buttonsToolbar = Ext.create('Ext.Toolbar', {
                     docked: 'bottom',
@@ -39982,8 +39721,8 @@ Ext.define('Ext.MessageBox', {
      */
     applyMessage: function(config) {
         config = {
-            html : config,
-            cls  : this.getBaseCls() + '-text'
+            html: config,
+            cls: this.getBaseCls() + '-text'
         };
 
         return Ext.factory(config, Ext.Component, this._message);
@@ -40011,9 +39750,9 @@ Ext.define('Ext.MessageBox', {
      */
     applyIconCls: function(config) {
         config = {
-            xtype : 'component',
+            xtype: 'component',
             docked: 'left',
-            width : 40,
+            width: 40,
             height: 40,
             baseCls: Ext.baseCSSPrefix + 'icon',
             hidden: (config) ? false : true,
@@ -40033,8 +39772,7 @@ Ext.define('Ext.MessageBox', {
 
         if (newIconCls) {
             this.add(newIconCls);
-        }
-        else {
+        } else {
             this.remove(oldIconCls);
         }
     },
@@ -40211,9 +39949,9 @@ Ext.define('Ext.MessageBox', {
             value: ''
         }, initialConfig);
 
-        var buttons        = initialConfig.buttons || Ext.MessageBox.OK || [],
+        var buttons = initialConfig.buttons || Ext.MessageBox.OK || [],
             buttonBarItems = [],
-            userConfig     = initialConfig;
+            userConfig = initialConfig;
 
         Ext.each(buttons, function(buttonConfig) {
             if (!buttonConfig) {
@@ -40222,8 +39960,8 @@ Ext.define('Ext.MessageBox', {
 
             buttonBarItems.push(Ext.apply({
                 userConfig: userConfig,
-                scope     : this,
-                handler   : 'onClick'
+                scope: this,
+                handler: 'onClick'
             }, buttonConfig));
         }, this);
 
@@ -40304,11 +40042,11 @@ Ext.define('Ext.MessageBox', {
      */
     confirm: function(title, message, fn, scope) {
         return this.show({
-            title       : title || null,
-            message     : message || null,
-            buttons     : Ext.MessageBox.YESNO,
+            title: title || null,
+            message: message || null,
+            buttons: Ext.MessageBox.YESNO,
             promptConfig: false,
-            scope       : scope,
+            scope: scope,
             fn: function() {
                 if (fn) {
                     fn.apply(scope, arguments);
@@ -40364,13 +40102,13 @@ Ext.define('Ext.MessageBox', {
      */
     prompt: function(title, message, fn, scope, multiLine, value, prompt) {
         return this.show({
-            title    : title || null,
-            message  : message || null,
-            buttons  : Ext.MessageBox.OKCANCEL,
-            scope    : scope,
-            prompt   : prompt || true,
+            title: title || null,
+            message: message || null,
+            buttons: Ext.MessageBox.OKCANCEL,
+            scope: scope,
+            prompt: prompt || true,
             multiLine: multiLine,
-            value    : value,
+            value: value,
             fn: function() {
                 if (fn) {
                     fn.apply(scope, arguments);
@@ -40502,14 +40240,10 @@ Ext.define('Ext.MessageBox', {
  * The {@link #defaultType} of Toolbar's is {@link Ext.Button button}.
  */
 Ext.define('Ext.TitleBar', {
-    extend:  Ext.Container ,
+    extend: Ext.Container,
     xtype: 'titlebar',
 
-               
-                     
-                    
-                    
-      
+
 
     // @private
     isToolbar: true,
@@ -40658,7 +40392,7 @@ Ext.define('Ext.TitleBar', {
         });
 
 
-        switch(titleAlign) {
+        switch (titleAlign) {
             case 'left':
                 me.titleComponent = me.leftBox.add({
                     xtype: 'title',
@@ -40666,7 +40400,7 @@ Ext.define('Ext.TitleBar', {
                     hidden: defaults.hidden
                 });
                 me.refreshTitlePosition = Ext.emptyFn;
-            break;
+                break;
             case 'right':
                 me.titleComponent = me.rightBox.add({
                     xtype: 'title',
@@ -40674,14 +40408,14 @@ Ext.define('Ext.TitleBar', {
                     hidden: defaults.hidden
                 });
                 me.refreshTitlePosition = Ext.emptyFn;
-            break;
+                break;
             default:
                 me.titleComponent = me.add({
                     xtype: 'title',
                     hidden: defaults.hidden,
                     centered: true
                 });
-            break;
+                break;
         }
 
         me.doAdd = me.doBoxAdd;
@@ -40692,8 +40426,7 @@ Ext.define('Ext.TitleBar', {
     doBoxAdd: function(item) {
         if (item.config.align == 'right') {
             this.rightBox.add(item);
-        }
-        else {
+        } else {
             this.leftBox.add(item);
         }
     },
@@ -40701,8 +40434,7 @@ Ext.define('Ext.TitleBar', {
     doBoxRemove: function(item, destroy) {
         if (item.config.align == 'right') {
             this.rightBox.remove(item, destroy);
-        }
-        else {
+        } else {
             this.leftBox.remove(item, destroy);
         }
     },
@@ -40710,8 +40442,7 @@ Ext.define('Ext.TitleBar', {
     doBoxInsert: function(index, item) {
         if (item.config.align == 'right') {
             this.rightBox.insert(index, item);
-        }
-        else {
+        } else {
             this.leftBox.insert(index, item);
         }
     },
@@ -40782,8 +40513,7 @@ Ext.define('Ext.TitleBar', {
 
         if (leftDiff > 0) {
             titleElement.setLeft(leftDiff);
-        }
-        else if (rightDiff > 0) {
+        } else if (rightDiff > 0) {
             titleElement.setLeft(-rightDiff);
         }
 
@@ -40839,7 +40569,7 @@ Ext.define('Ext.TitleBar', {
  *     });
  */
 Ext.define('Ext.Video', {
-    extend:  Ext.Media ,
+    extend: Ext.Media,
     xtype: 'video',
 
     config: {
@@ -41081,7 +40811,7 @@ Ext.define('Ext.app.Action', {
      * this is the final filter, the original {@link Ext.app.Controller Controller} function.
      */
     resume: function() {
-        var index   = this.getCurrentFilterIndex() + 1,
+        var index = this.getCurrentFilterIndex() + 1,
             filters = this.getBeforeFilters(),
             controller = this.getController(),
             nextFilter = filters[index];
@@ -41161,8 +40891,8 @@ Ext.define('Ext.app.Action', {
  * {@link Ext.app.Application#controllers} config. The Application automatically instantiates each Controller and keeps
  * references to each, so it is unusual to need to instantiate Controllers directly. By convention each Controller is
  * named after the thing (usually the Model) that it deals with primarily, usually in the plural - for example if your
- * app is called 'MyApp' and you have a Controller that manages Products, convention is to create a
- * MyApp.controller.Products class in the file app/controller/Products.js.
+ * app is called 'Xpoit' and you have a Controller that manages Products, convention is to create a
+ * Xpoit.controller.Products class in the file app/controller/Products.js.
  *
  * ## Refs and Control
  *
@@ -41176,7 +40906,7 @@ Ext.define('Ext.app.Action', {
  * page. We can define as many refs as we like for each Controller, for example here we define a ref called 'nav' that
  * finds a Component on the page with the ID 'mainNav'. We then use that ref in the addLogoutButton beneath it:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -41220,7 +40950,7 @@ Ext.define('Ext.app.Action', {
  * Refs can also be passed a couple of additional options, beyond name and selector. These are autoCreate and xtype,
  * which are almost always used together:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -41251,7 +40981,7 @@ Ext.define('Ext.app.Action', {
  * to events fired by Components and have your Controller react in some way. Control accepts both ComponentQuery
  * selectors and refs as its keys, and listener objects as values - for example:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -41295,7 +41025,7 @@ Ext.define('Ext.app.Action', {
  * For example, let's say we have a Controller responsible for logging in and viewing user profiles, and want to make
  * those screens accessible via urls. We could achieve that like this:
  *
- *     Ext.define('MyApp.controller.Users', {
+ *     Ext.define('Xpoit.controller.Users', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -41319,7 +41049,7 @@ Ext.define('Ext.app.Action', {
  *
  *         //Loads the User then adds a 'userprofile' view to the main TabPanel
  *         showUserById: function(id) {
- *             MyApp.model.User.load(id, {
+ *             Xpoit.model.User.load(id, {
  *                 scope: this,
  *                 success: function(user) {
  *                     this.getMain().add({
@@ -41333,8 +41063,8 @@ Ext.define('Ext.app.Action', {
  *
  * The routes we specified above simply map the contents of the browser address bar to a Controller function to call
  * when that route is matched. The routes can be simple text like the login route, which matches against
- * http://myapp.com/#login, or contain wildcards like the 'user/:id' route, which matches urls like
- * http://myapp.com/#user/123. Whenever the address changes the Controller automatically calls the function specified.
+ * http://Xpoit.com/#login, or contain wildcards like the 'user/:id' route, which matches urls like
+ * http://Xpoit.com/#user/123. Whenever the address changes the Controller automatically calls the function specified.
  *
  * Note that in the showUserById function we had to first load the User instance. Whenever you use a route, the
  * function that is called by that route is completely responsible for loading its data and restoring state. This is
@@ -41349,7 +41079,7 @@ Ext.define('Ext.app.Action', {
  */
 Ext.define('Ext.app.Controller', {
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     config: {
@@ -41391,8 +41121,8 @@ Ext.define('Ext.app.Controller', {
          *         'users/:id': 'showUserById'
          *     }
          *
-         * The first route will match against http://myapp.com/#login and call the Controller's showLogin function. The
-         * second route contains a wildcard (':id') and will match all urls like http://myapp.com/#users/123, calling
+         * The first route will match against http://Xpoit.com/#login and call the Controller's showLogin function. The
+         * second route contains a wildcard (':id') and will match all urls like http://Xpoit.com/#users/123, calling
          * the showUserById function with the matched ID as the first argument.
          *
          * @accessor
@@ -41427,7 +41157,7 @@ Ext.define('Ext.app.Controller', {
          * when dispatched to from a route. These are usually used to run pre-processing functions like authentication
          * before a certain function is executed. They are only called when dispatching from a route. Example usage:
          *
-         *     Ext.define('MyApp.controller.Products', {
+         *     Ext.define('Xpoit.controller.Products', {
          *         config: {
          *             before: {
          *                 editProduct: 'authenticate'
@@ -41445,7 +41175,7 @@ Ext.define('Ext.app.Controller', {
          *
          *         //this is run before editProduct
          *         authenticate: function(action) {
-         *             MyApp.authenticate({
+         *             Xpoit.authenticate({
          *                 success: function() {
          *                     action.resume();
          *                 },
@@ -41570,7 +41300,7 @@ Ext.define('Ext.app.Controller', {
 
         for (name in before) {
             filters = Ext.Array.from(before[name]);
-            length  = filters.length;
+            length = filters.length;
 
             for (i = 0; i < length; i++) {
                 filters[i] = this[filters[i]];
@@ -41609,7 +41339,7 @@ Ext.define('Ext.app.Controller', {
      * Adds any routes specified in this Controller to the global Application router
      */
     applyRoutes: function(routes) {
-        var app    = this instanceof Ext.app.Application ? this : this.getApplication(),
+        var app = this instanceof Ext.app.Application ? this : this.getApplication(),
             router = app.getRouter(),
             route, url, config;
 
@@ -41635,7 +41365,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify store names (e.g. 'MyStore' vs
-     * 'MyApp.store.MyStore'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.store.MyStore'). This just makes sure everything ends up fully qualified
      */
     applyStores: function(stores) {
         return this.getFullyQualified(stores, 'store');
@@ -41644,7 +41374,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify model names (e.g. 'MyModel' vs
-     * 'MyApp.model.MyModel'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.model.MyModel'). This just makes sure everything ends up fully qualified
      */
     applyModels: function(models) {
         return this.getFullyQualified(models, 'model');
@@ -41653,7 +41383,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify view names (e.g. 'MyView' vs
-     * 'MyApp.view.MyView'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.view.MyView'). This just makes sure everything ends up fully qualified
      */
     applyViews: function(views) {
         return this.getFullyQualified(views, 'view');
@@ -41668,14 +41398,14 @@ Ext.define('Ext.app.Controller', {
      * @return {String} The fully-qualified name of the class
      */
     getFullyQualified: function(items, namespace) {
-        var length  = items.length,
+        var length = items.length,
             appName = this.getApplication().getName(),
             name, i;
 
         for (i = 0; i < length; i++) {
             name = items[i];
 
-            //we check name === appName to allow MyApp.profile.MyApp to exist
+            //we check name === appName to allow Xpoit.profile.Xpoit to exist
             if (Ext.isString(name) && (Ext.Loader.getPrefix(name) === "" || name === appName)) {
                 items[i] = appName + '.' + namespace + '.' + name;
             }
@@ -41765,8 +41495,7 @@ Ext.define('Ext.app.Controller', {
         return this.references && this.references.indexOf(ref.toLowerCase()) !== -1;
     }
 
-}, function() {
-});
+}, function() {});
 
 /**
  * @author Ed Spencer
@@ -41779,12 +41508,12 @@ Ext.define('Ext.app.Controller', {
  * interactions with the History object, no additional integration should be required.
  */
 Ext.define('Ext.app.History', {
-    mixins: [ Ext.mixin.Observable ],
+    mixins: [Ext.mixin.Observable],
 
     /**
      * @event change
      * Fires when a change in browser url is detected
-     * @param {String} url The new url, after the hash (e.g. http://myapp.com/#someUrl returns 'someUrl')
+     * @param {String} url The new url, after the hash (e.g. http://Xpoit.com/#someUrl returns 'someUrl')
      */
 
     config: {
@@ -41807,8 +41536,7 @@ Ext.define('Ext.app.History', {
     constructor: function(config) {
         if (Ext.feature.has.History) {
             window.addEventListener('hashchange', Ext.bind(this.detectStateChange, this));
-        }
-        else {
+        } else {
             setInterval(Ext.bind(this.detectStateChange, this), 100);
         }
 
@@ -41855,8 +41583,7 @@ Ext.define('Ext.app.History', {
             actions.pop();
 
             previousAction.getController().getApplication().redirectTo(previousAction.getUrl());
-        }
-        else {
+        } else {
             actions[actions.length - 1].getController().getApplication().redirectTo('');
         }
     },
@@ -41910,13 +41637,13 @@ Ext.define('Ext.app.History', {
  * First you need to tell your Application about your Profile(s):
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *         profiles: ['Phone', 'Tablet']
  *     });
  *
  * This will load app/profile/Phone.js and app/profile/Tablet.js. Here's how we might define the Phone profile:
  *
- *     Ext.define('MyApp.profile.Phone', {
+ *     Ext.define('Xpoit.profile.Phone', {
  *         extend: 'Ext.app.Profile',
  *
  *         views: ['Main'],
@@ -41935,12 +41662,12 @@ Ext.define('Ext.app.History', {
  * in a Profile are expected to be namespaced under the name of the Profile. Here's an expanded form of the example
  * above:
  *
- *     Ext.define('MyApp.profile.Phone', {
+ *     Ext.define('Xpoit.profile.Phone', {
  *         extend: 'Ext.app.Profile',
  *
  *         views: ['Main'],
  *         controllers: ['Signup'],
- *         models: ['MyApp.model.Group'],
+ *         models: ['Xpoit.model.Group'],
  *
  *         isActive: function() {
  *             return Ext.os.is('Phone');
@@ -41954,20 +41681,20 @@ Ext.define('Ext.app.History', {
  *
  * For a fuller understanding of the ideas behind Profiles and how best to use them in your app, we suggest you read
  * the [device profiles guide](#!/guide/profiles).
- * 
+ *
  * @aside guide profiles
  */
 Ext.define('Ext.app.Profile', {
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     config: {
         /**
          * @cfg {String} namespace The namespace that this Profile's classes can be found in. Defaults to the lowercased
-         * Profile {@link #name}, for example a Profile called MyApp.profile.Phone will by default have a 'phone'
+         * Profile {@link #name}, for example a Profile called Xpoit.profile.Phone will by default have a 'phone'
          * namespace, which means that this Profile's additional models, stores, views and controllers will be loaded
-         * from the MyApp.model.phone.*, MyApp.store.phone.*, MyApp.view.phone.* and MyApp.controller.phone.* namespaces
+         * from the Xpoit.model.phone.*, Xpoit.store.phone.*, Xpoit.view.phone.* and Xpoit.controller.phone.* namespaces
          * respectively.
          * @accessor
          */
@@ -41975,7 +41702,7 @@ Ext.define('Ext.app.Profile', {
 
         /**
          * @cfg {String} name The name of this Profile. Defaults to the last section of the class name (e.g. a profile
-         * called MyApp.profile.Phone will default the name to 'Phone').
+         * called Xpoit.profile.Phone will default the name to 'Phone').
          * @accessor
          */
         name: 'auto',
@@ -41986,10 +41713,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     controllers: [
          *         'Users',
-         *         'MyApp.controller.Products'
+         *         'Xpoit.controller.Products'
          *     ]
          *
-         * This will load *MyApp.controller.tablet.Users* and *MyApp.controller.Products*.
+         * This will load *Xpoit.controller.tablet.Users* and *Xpoit.controller.Products*.
          * @accessor
          */
         controllers: [],
@@ -42000,10 +41727,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     models: [
          *         'Group',
-         *         'MyApp.model.User'
+         *         'Xpoit.model.User'
          *     ]
          *
-         * This will load *MyApp.model.tablet.Group* and *MyApp.model.User*.
+         * This will load *Xpoit.model.tablet.Group* and *Xpoit.model.User*.
          * @accessor
          */
         models: [],
@@ -42014,10 +41741,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     views: [
          *         'Main',
-         *         'MyApp.view.Login'
+         *         'Xpoit.view.Login'
          *     ]
          *
-         * This will load *MyApp.view.tablet.Main* and *MyApp.view.Login*.
+         * This will load *Xpoit.view.tablet.Main* and *Xpoit.view.Login*.
          * @accessor
          */
         views: [],
@@ -42028,10 +41755,10 @@ Ext.define('Ext.app.Profile', {
          *
          *     stores: [
          *         'Users',
-         *         'MyApp.store.Products'
+         *         'Xpoit.store.Products'
          *     ]
          *
-         * This will load *MyApp.store.tablet.Users* and *MyApp.store.Products*.
+         * This will load *Xpoit.store.tablet.Users* and *Xpoit.store.Products*.
          * @accessor
          */
         stores: [],
@@ -42071,7 +41798,7 @@ Ext.define('Ext.app.Profile', {
      * usage:
      *
      *     launch: function() {
-     *         Ext.create('MyApp.view.tablet.Main');
+     *         Ext.create('Xpoit.view.tablet.Main');
      *     }
      */
     launch: Ext.emptyFn,
@@ -42122,7 +41849,7 @@ Ext.define('Ext.app.Profile', {
 
             Ext.each(map[classType], function(className) {
                 if (Ext.isString(className)) {
-                    //we check name === appName to allow MyApp.profile.MyApp to exist
+                    //we check name === appName to allow Xpoit.profile.Xpoit to exist
                     if (Ext.isString(className) && (Ext.Loader.getPrefix(className) === "" || className === appName)) {
                         className = appName + '.' + classType + '.' + namespace + '.' + className;
                     }
@@ -42213,15 +41940,15 @@ Ext.define('Ext.app.Route', {
 
         if (this.recognizes(url)) {
             var matches = this.matchesFor(url),
-                args    = url.match(this.matcherRegex);
+                args = url.match(this.matcherRegex);
 
             args.shift();
 
             return Ext.applyIf(matches, {
                 controller: this.getController(),
-                action    : this.getAction(),
-                url       : url,
-                args      : args,
+                action: this.getAction(),
+                url: url,
+                args: args,
 
                 // We keep the historyUrl in here for backwards compatibility
                 historyUrl: url
@@ -42270,7 +41997,7 @@ Ext.define('Ext.app.Route', {
      */
     matchesFor: function(url) {
         var params = {},
-            keys   = this.paramsInMatchString,
+            keys = this.paramsInMatchString,
             values = url.match(this.matcherRegex),
             length = keys.length,
             i;
@@ -42292,8 +42019,8 @@ Ext.define('Ext.app.Route', {
      * @return {Array} matching url segments
      */
     argsFor: function(url) {
-        var args   = [],
-            keys   = this.paramsInMatchString,
+        var args = [],
+            keys = this.paramsInMatchString,
             values = url.match(this.matcherRegex),
             length = keys.length,
             i;
@@ -42342,7 +42069,7 @@ Ext.define('Ext.app.Route', {
             i, cond, matcher;
 
         for (i = 0; i < length; i++) {
-            cond    = this.getConditions()[paramsInMatchString[i]];
+            cond = this.getConditions()[paramsInMatchString[i]];
             matcher = Ext.util.Format.format("({0})", cond || "[%a-zA-Z0-9\\-\\_\\s,]+");
 
             url = url.replace(new RegExp(paramsInMatchString[i]), matcher);
@@ -42368,7 +42095,7 @@ Ext.define('Ext.app.Route', {
  * information on specifying routes.
  */
 Ext.define('Ext.app.Router', {
-                                
+
 
     config: {
         /**
@@ -42395,7 +42122,9 @@ Ext.define('Ext.app.Router', {
      * @param {Object} [params] Additional parameters.
      */
     connect: function(url, params) {
-        params = Ext.apply({url: url}, params || {}, this.getDefaults());
+        params = Ext.apply({
+            url: url
+        }, params || {}, this.getDefaults());
         var route = Ext.create('Ext.app.Route', params);
 
         this.getRoutes().push(route);
@@ -42445,8 +42174,7 @@ Ext.define('Ext.app.Router', {
     clear: function() {
         this.setRoutes([]);
     }
-}, function() {
-});
+}, function() {});
 
 /**
  * @author Ed Spencer
@@ -42464,7 +42192,7 @@ Ext.define('Ext.app.Router', {
  * Sample usage:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         models: ['User', 'Group'],
  *         stores: ['Users'],
@@ -42472,7 +42200,7 @@ Ext.define('Ext.app.Router', {
  *         views: ['Main', 'ShowUser'],
  *
  *         launch: function() {
- *             Ext.create('MyApp.view.Main');
+ *             Ext.create('Xpoit.view.Main');
  *         }
  *     });
  *
@@ -42490,7 +42218,7 @@ Ext.define('Ext.app.Router', {
  * specify the last part of each class name and Application will figure out the rest for you:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         controllers: ['Users'],
  *         models: ['User', 'Group'],
@@ -42516,7 +42244,7 @@ Ext.define('Ext.app.Router', {
  * To specify dependencies in subfolders just use a period (".") to specify the folder:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         controllers: ['Users', 'nested.MyController'],
  *         views: ['products.Show', 'products.Edit', 'user.Login']
@@ -42600,7 +42328,7 @@ Ext.define('Ext.app.Router', {
  * specified in the Ext.application setup block:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         {@link #icon}: 'resources/img/icon.png',
  *         {@link #isIconPrecomposed}: false,
@@ -42617,7 +42345,7 @@ Ext.define('Ext.app.Router', {
  *
  * When the user adds your app to the home screen, your resources/img/icon.png file will be used as the application
  * {@link #icon}. We also used the {@link #isIconPrecomposed} configuration to turn off the gloss effect that is automatically added
- * to icons in iOS. Finally we used the {@link #startupImage} configuration to provide the images that will be displayed 
+ * to icons in iOS. Finally we used the {@link #startupImage} configuration to provide the images that will be displayed
  * while your application is starting up. See also {@link #statusBarStyle}.
  *
  * ## Find out more
@@ -42627,14 +42355,9 @@ Ext.define('Ext.app.Router', {
  * with Sencha Touch.
  */
 Ext.define('Ext.app.Application', {
-    extend:  Ext.app.Controller ,
+    extend: Ext.app.Controller,
 
-               
-                          
-                          
-                         
-                        
-      
+
 
     config: {
         /**
@@ -42675,7 +42398,7 @@ Ext.define('Ext.app.Application', {
          *         }
          *     });
          */
-        
+
         /**
          * @cfg {Object} startupImage
          * Specifies a set of URLs to the application startup images for different device form factors. This image is
@@ -42711,7 +42434,7 @@ Ext.define('Ext.app.Application', {
          * Please note that there's no automatic fallback mechanism for the startup images. In other words, if you don't specify
          * a valid image for a certain device, nothing will be displayed while the application is being launched on that device.
          */
-        
+
         /**
          * @cfg {Boolean} isIconPrecomposed
          * `true` to not having a glossy effect added to the icon by the OS, which will preserve its exact look. This currently
@@ -42723,7 +42446,7 @@ Ext.define('Ext.app.Application', {
          * home screen on iOS devices. Alternative is to set to 'black-translucent', which turns
          * the status bar semi-transparent and overlaps the app content. This is usually not a good option for web apps
          */
-        
+
         /**
          * @cfg {String} tabletIcon Path to the _.png_ image file to use when your app is added to the home screen on an
          * iOS **tablet** device (iPad).
@@ -42793,7 +42516,7 @@ Ext.define('Ext.app.Application', {
 
         /**
          * @cfg {Ext.app.History} history The global {@link Ext.app.History History} instance attached to this
-         * Application. For more information, see 
+         * Application. For more information, see
          * [Routing, Deep Linking, and the Back Button](http://docs.sencha.com/touch/#!/guide/history_support).
          * @accessor
          * @readonly
@@ -42803,8 +42526,8 @@ Ext.define('Ext.app.Application', {
         /**
          * @cfg {String} name The name of the Application. This should be a single word without spaces or periods
          * because it is used as the Application's global namespace. All classes in your application should be
-         * namespaced under the Application's name - for example if your application name is 'MyApp', your classes
-         * should be named 'MyApp.model.User', 'MyApp.controller.Users', 'MyApp.view.Main' etc
+         * namespaced under the Application's name - for example if your application name is 'Xpoit', your classes
+         * should be named 'Xpoit.model.User', 'Xpoit.controller.Users', 'Xpoit.view.Main' etc
          * @accessor
          */
         name: null,
@@ -42814,7 +42537,7 @@ Ext.define('Ext.app.Application', {
          * This path will be registered via {@link Ext.Loader#setPath} for the namespace specified in the {@link #name name} config.
          * @accessor
          */
-        appFolder : 'app',
+        appFolder: 'app',
 
         /**
          * @cfg {Ext.app.Router} router The global {@link Ext.app.Router Router} instance attached to this Application.
@@ -42880,7 +42603,7 @@ Ext.define('Ext.app.Application', {
          * has the property 'transition: color 4s, background 6s, background-color 1s' the delay will be 6s (the largest time used in that class.
          *
          * @accessor
-        */
+         */
         themeVariationTransitionCls: null,
 
         /**
@@ -42889,7 +42612,7 @@ Ext.define('Ext.app.Application', {
          * must return a string.
          *
          *  //This will result in 'x-theme-variation-dark' being added as a class to the html tag of your application
-         *  MyApp.app.setThemeVariation("dark");
+         *  Xpoit.app.setThemeVariation("dark");
          *
          * @accessor
          */
@@ -42915,7 +42638,9 @@ Ext.define('Ext.app.Application', {
         }
 
 
-        Ext.Loader.setConfig({ enabled: true });
+        Ext.Loader.setConfig({
+            enabled: true
+        });
 
         Ext.require(this.getRequires(), function() {
             if (this.getEnableLoader() !== false) {
@@ -42940,8 +42665,8 @@ Ext.define('Ext.app.Application', {
         action = Ext.factory(action, Ext.app.Action);
 
         if (action) {
-            var profile    = this.getCurrentProfile(),
-                profileNS  = profile ? profile.getNamespace() : undefined,
+            var profile = this.getCurrentProfile(),
+                profileNS = profile ? profile.getNamespace() : undefined,
                 controller = this.getController(action.getController(), profileNS);
 
             if (controller) {
@@ -43024,8 +42749,8 @@ Ext.define('Ext.app.Application', {
      */
     getController: function(name, profileName) {
         var instances = this.getControllerInstances(),
-            appName   = this.getName(),
-            format    = Ext.String.format,
+            appName = this.getName(),
+            format = Ext.String.format,
             topLevelName;
 
         if (name instanceof Ext.app.Controller) {
@@ -43036,7 +42761,7 @@ Ext.define('Ext.app.Application', {
             return instances[name];
         } else {
             topLevelName = format("{0}.controller.{1}", appName, name);
-            profileName  = format("{0}.controller.{1}.{2}", appName, profileName, name);
+            profileName = format("{0}.controller.{1}.{2}", appName, profileName, name);
 
             return instances[profileName] || instances[topLevelName];
         }
@@ -43048,10 +42773,10 @@ Ext.define('Ext.app.Application', {
      * gathers any additional dependencies from that profile, then loads all of those dependencies.
      */
     onProfilesLoaded: function() {
-        var profiles  = this.getProfiles(),
-            length    = profiles.length,
+        var profiles = this.getProfiles(),
+            length = profiles.length,
             instances = [],
-            requires  = this.gatherDependencies(),
+            requires = this.gatherDependencies(),
             current, i, profileDeps;
 
         for (i = 0; i < length; i++) {
@@ -43168,12 +42893,12 @@ Ext.define('Ext.app.Application', {
      * @private
      * Should be called after dependencies are loaded, instantiates all of the Stores specified in the {@link #stores}
      * config. For each item in the stores array we make sure the Store is instantiated. When strings are specified,
-     * the corresponding _app/store/StoreName.js_ was loaded so we now instantiate a `MyApp.store.StoreName`, giving it the
+     * the corresponding _app/store/StoreName.js_ was loaded so we now instantiate a `Xpoit.store.StoreName`, giving it the
      * id `StoreName`.
      */
     instantiateStores: function() {
-        var stores  = this.getStores(),
-            length  = stores.length,
+        var stores = this.getStores(),
+            length = stores.length,
             store, storeClass, storeName, splits, i;
 
         for (i = 0; i < length; i++) {
@@ -43227,7 +42952,7 @@ Ext.define('Ext.app.Application', {
     /**
      * @private
      * As a convenience developers can locally qualify controller names (e.g. 'MyController' vs
-     * 'MyApp.controller.MyController'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.controller.MyController'). This just makes sure everything ends up fully qualified
      */
     applyControllers: function(controllers) {
         return this.getFullyQualified(controllers, 'controller');
@@ -43236,7 +42961,7 @@ Ext.define('Ext.app.Application', {
     /**
      * @private
      * As a convenience developers can locally qualify profile names (e.g. 'MyProfile' vs
-     * 'MyApp.profile.MyProfile'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.profile.MyProfile'). This just makes sure everything ends up fully qualified
      */
     applyProfiles: function(profiles) {
         return this.getFullyQualified(profiles, 'profile');
@@ -43305,32 +43030,33 @@ Ext.define('Ext.app.Application', {
             newVariation = newVariation.call(this);
         }
 
-        if(!Ext.isString(newVariation)) {
+        if (!Ext.isString(newVariation)) {
             Ext.Error.raise("Theme variation must be a String.'");
         }
 
-        if(transitionCls) {
-            var css = "", duration = 0,
+        if (transitionCls) {
+            var css = "",
+                duration = 0,
                 rules = document.styleSheets[0].cssRules,
                 i, rule, times, time;
 
             html.addCls(transitionCls);
-            for(i in rules) {
+            for (i in rules) {
                 rule = rules[i];
-                if(rule.selectorText && rule.selectorText.indexOf("." + transitionCls) >=1) {
+                if (rule.selectorText && rule.selectorText.indexOf("." + transitionCls) >= 1) {
                     css += rule.cssText;
                 }
             }
 
             times = css.match(/[0-9]+s/g);
-            for(i in times) {
+            for (i in times) {
                 time = parseInt(times[i]);
-                if(time > duration) {
+                if (time > duration) {
                     duration = time;
                 }
             }
 
-            if(this.$themeVariationChangeTimeout) {
+            if (this.$themeVariationChangeTimeout) {
                 clearTimeout(this.$themeVariationChangeTimeout);
                 this.$themeVariationChangeTimeout = null;
             }
@@ -43343,18 +43069,15 @@ Ext.define('Ext.app.Application', {
         html.removeCls(themeVariationPrefix + oldVariation);
         html.addCls(themeVariationPrefix + newVariation);
     }
-}, function() {
-});
+}, function() {});
 
 /**
  * @private
  */
 Ext.define('Ext.mixin.Sortable', {
-    extend:  Ext.mixin.Mixin ,
+    extend: Ext.mixin.Mixin,
 
-               
-                         
-      
+
 
     mixinConfig: {
         id: 'sortable'
@@ -43529,8 +43252,7 @@ Ext.define('Ext.mixin.Sortable', {
                     }
 
                     sorterConfig = Ext.apply(sorterConfig, sorter);
-                }
-                else {
+                } else {
                     newSorters.push(sorter);
                     if (!sorter.getRoot()) {
                         sorter.setRoot(sortRoot);
@@ -43591,15 +43313,13 @@ Ext.define('Ext.mixin.Sortable', {
 
             if (typeof sorter === 'string') {
                 currentSorters.removeAtKey(sorter);
-            }
-            else if (typeof sorter === 'function') {
+            } else if (typeof sorter === 'function') {
                 currentSorters.each(function(item) {
                     if (item.getSorterFn() === sorter) {
                         currentSorters.remove(item);
                     }
                 });
-            }
-            else if (sorter.isSorter) {
+            } else if (sorter.isSorter) {
                 currentSorters.remove(sorter);
             }
         }
@@ -43671,7 +43391,7 @@ Ext.define('Ext.mixin.Sortable', {
      */
     findInsertionIndex: function(items, item, sortFn) {
         var start = 0,
-            end   = items.length - 1,
+            end = items.length - 1,
             sorterFn = sortFn || this.getSortFn(),
             middle,
             comparison;
@@ -43694,11 +43414,9 @@ Ext.define('Ext.mixin.Sortable', {
  * @private
  */
 Ext.define('Ext.mixin.Filterable', {
-    extend:  Ext.mixin.Mixin ,
+    extend: Ext.mixin.Mixin,
 
-               
-                         
-      
+
 
     mixinConfig: {
         id: 'filterable'
@@ -43840,8 +43558,7 @@ Ext.define('Ext.mixin.Filterable', {
                     }
 
                     filterConfig = Ext.apply(filterConfig, filter);
-                }
-                else {
+                } else {
                     newFilters.push(filter);
                     if (!filter.getRoot()) {
                         filter.setRoot(filterRoot);
@@ -43898,19 +43615,16 @@ Ext.define('Ext.mixin.Filterable', {
                         currentFilters.remove(item);
                     }
                 });
-            }
-            else if (typeof filter === 'function') {
+            } else if (typeof filter === 'function') {
                 currentFilters.each(function(item) {
                     if (item.getFilterFn() === filter) {
                         currentFilters.remove(item);
                     }
                 });
-            }
-            else {
+            } else {
                 if (filter.isFilter) {
                     currentFilters.remove(filter);
-                }
-                else if (filter.property !== undefined && filter.value !== undefined) {
+                } else if (filter.property !== undefined && filter.value !== undefined) {
                     currentFilters.each(function(item) {
                         if (item.getProperty() === filter.property && item.getValue() === filter.value) {
                             currentFilters.remove(item);
@@ -43940,8 +43654,8 @@ Ext.define('Ext.mixin.Filterable', {
 
             for (i = 0; i < length; i++) {
                 var filter = filters[i],
-                    fn     = filter.getFilterFn(),
-                    scope  = filter.getScope() || this;
+                    fn = filter.getFilterFn(),
+                    scope = filter.getScope() || this;
 
                 isMatch = isMatch && fn.call(scope, item);
             }
@@ -43998,8 +43712,8 @@ Ext.define('Ext.util.Collection', {
     },
 
     mixins: {
-        sortable:  Ext.mixin.Sortable ,
-        filterable:  Ext.mixin.Filterable 
+        sortable: Ext.mixin.Sortable,
+        filterable: Ext.mixin.Filterable
     },
 
     constructor: function(keyFn, config) {
@@ -44125,14 +43839,13 @@ Ext.define('Ext.util.Collection', {
         if (property) {
             if (Ext.isString(property)) {
                 this.addFilters({
-                    property     : property,
-                    value        : value,
-                    anyMatch     : anyMatch,
+                    property: property,
+                    value: value,
+                    anyMatch: anyMatch,
                     caseSensitive: caseSensitive
                 });
                 return this.items;
-            }
-            else {
+            } else {
                 this.addFilters(property);
                 return this.items;
             }
@@ -44299,7 +44012,7 @@ Ext.define('Ext.util.Collection', {
      * @return {Object} The key for the passed item.
      */
     getKey: function(item) {
-         return item.id;
+        return item.id;
     },
 
     /**
@@ -44338,7 +44051,7 @@ Ext.define('Ext.util.Collection', {
 
         oldItem = map[oldKey];
         if (typeof oldKey == 'undefined' || oldKey === null || typeof oldItem == 'undefined') {
-             return me.add(newKey, item);
+            return me.add(newKey, item);
         }
 
         me.map[newKey] = item;
@@ -44386,8 +44099,7 @@ Ext.define('Ext.util.Collection', {
                         me.dirtyIndices = true;
                     }
                     return null;
-                }
-                else if (me.indexOf(oldItem) === -1) {
+                } else if (me.indexOf(oldItem) === -1) {
                     items.push(item);
                     keys.push(newKey);
                     me.indices[newKey] = me.length;
@@ -44519,7 +44231,8 @@ Ext.define('Ext.util.Collection', {
     eachKey: function(fn, scope) {
         var keys = this.keys,
             items = this.items,
-            ln = keys.length, i;
+            ln = keys.length,
+            i;
 
         for (i = 0; i < ln; i++) {
             fn.call(scope || window, keys[i], items[i], i, ln);
@@ -44560,8 +44273,8 @@ Ext.define('Ext.util.Collection', {
     filterBy: function(fn, scope) {
         var me = this,
             newCollection = new this.self(),
-            keys   = me.keys,
-            items  = me.all,
+            keys = me.keys,
+            items = me.all,
             length = items.length,
             i;
 
@@ -44731,7 +44444,8 @@ Ext.define('Ext.util.Collection', {
      */
     removeAll: function(items) {
         if (items) {
-            var ln = items.length, i;
+            var ln = items.length,
+                i;
 
             for (i = 0; i < ln; i++) {
                 this.remove(items[i]);
@@ -44851,8 +44565,7 @@ Ext.define('Ext.util.Collection', {
 
         if (fromMap !== undefined) {
             item = fromMap;
-        }
-        else if (typeof key == 'number') {
+        } else if (typeof key == 'number') {
             item = me.items[key];
         }
 
@@ -44903,7 +44616,7 @@ Ext.define('Ext.util.Collection', {
     /**
      * Removes all items from the collection. Fires the {@link #clear} event when complete.
      */
-    clear: function(){
+    clear: function() {
         var me = this;
 
         me.length = 0;
@@ -45001,7 +44714,7 @@ Ext.define('Ext.util.Collection', {
             i = 0,
             ln = items.length;
 
-        for(; i < ln; i++) {
+        for (; i < ln; i++) {
             copy.add(keys[i], items[i]);
         }
 
@@ -45258,7 +44971,7 @@ Ext.define('Ext.data.Operation', {
      */
     setCompleted: function() {
         this.complete = true;
-        this.running  = false;
+        this.running = false;
     },
 
     /**
@@ -45385,8 +45098,7 @@ Ext.define('Ext.data.Operation', {
 
             if (currentRecord) {
                 this.updateRecord(currentRecord, updatedRecord);
-            }
-            else {
+            } else {
                 Ext.Logger.warn('Unable to match the record that came back from the server.');
             }
         }
@@ -45406,8 +45118,7 @@ Ext.define('Ext.data.Operation', {
 
             if (currentRecord) {
                 this.updateRecord(currentRecord, updatedRecord);
-            }
-            else {
+            } else {
                 Ext.Logger.warn('Unable to match the updated record that came back from the server.');
             }
         }
@@ -45427,8 +45138,7 @@ Ext.define('Ext.data.Operation', {
             if (currentRecord) {
                 currentRecord.setIsErased(true);
                 currentRecord.notifyStores('afterErase', currentRecord);
-            }
-            else {
+            } else {
                 Ext.Logger.warn('Unable to match the destroyed record that came back from the server.');
             }
         }
@@ -45526,7 +45236,7 @@ Ext.define('Ext.data.ResultSet', {
         }
         return count;
     },
-    
+
     /**
      * @private
      * Make sure we set the right count when new records have been sent in
@@ -45738,12 +45448,12 @@ Ext.define('Ext.data.ResultSet', {
  *     3 orders of iPhone
  */
 Ext.define('Ext.data.reader.Reader', {
-               
-                            
-      
+
+
+
     alternateClassName: ['Ext.data.Reader', 'Ext.data.DataReader'],
 
-    mixins: [ Ext.mixin.Observable ],
+    mixins: [Ext.mixin.Observable],
 
     // @private
     isReader: true,
@@ -45921,7 +45631,8 @@ Ext.define('Ext.data.reader.Reader', {
                 '    idPropertyIsFn = (typeof idProperty == "function"),',
                 '    value,\n',
                 '    internalId'
-            ], i, field, varName, fieldName;
+            ],
+            i, field, varName, fieldName;
 
         fields = fields.items;
 
@@ -45962,7 +45673,9 @@ Ext.define('Ext.data.reader.Reader', {
         // clientId handles the case where a client side record did not previously exist on the server,
         // so the server is passing back a client id that can be used to pair the server side record up with the client record
         if (clientIdProp) {
-            code.push('        internalId = ' + me.createFieldAccessExpression(Ext.create('Ext.data.Field', {name: clientIdProp}), null, 'source') + ';\n');
+            code.push('        internalId = ' + me.createFieldAccessExpression(Ext.create('Ext.data.Field', {
+                name: clientIdProp
+            }), null, 'source') + ';\n');
             code.push('        if (internalId !== undefined) {\n');
             code.push('            dest["_clientId"] = internalId;\n        }\n');
         }
@@ -46064,7 +45777,7 @@ Ext.define('Ext.data.reader.Reader', {
      * @return {Ext.data.ResultSet} A ResultSet object
      */
     readRecords: function(data) {
-        var me  = this;
+        var me = this;
 
         /**
          * @property {Object} rawData
@@ -46123,8 +45836,8 @@ Ext.define('Ext.data.reader.Reader', {
         }
 
         return new Ext.data.ResultSet({
-            total  : total,
-            count  : recordCount,
+            total: total,
+            count: recordCount,
             records: records,
             success: success,
             message: message
@@ -46136,10 +45849,10 @@ Ext.define('Ext.data.reader.Reader', {
      * @param {Object[]/Object} root from server response
      * @private
      */
-    extractData : function(root) {
+    extractData: function(root) {
         var me = this,
             records = [],
-            length  = root.length,
+            length = root.length,
             model = me.getModel(),
             idProperty = model.getIdProperty(),
             fieldsCollection = model.getFields(),
@@ -46186,7 +45899,7 @@ Ext.define('Ext.data.reader.Reader', {
             }
 
             if (me.getImplicitIncludes()) {
-                 me.readAssociated(data, node);
+                me.readAssociated(data, node);
             }
 
             records.push({
@@ -46235,7 +45948,7 @@ Ext.define('Ext.data.reader.Reader', {
      */
     getAssociatedDataRoot: function(data, associationName) {
         var re = /[\[\.]/,
-            i  = String(associationName).search(re);
+            i = String(associationName).search(re);
 
         if (i >= 0) {
             return Ext.functionFactory('obj', 'return obj' + (i > 0 ? '.' : '') + associationName)(data);
@@ -46248,7 +45961,7 @@ Ext.define('Ext.data.reader.Reader', {
      * @private
      * Reconfigures the meta data tied to this Reader
      */
-    onMetaChange : function(meta) {
+    onMetaChange: function(meta) {
         var fields = meta.fields,
             me = this,
             newModel, config, idProperty;
@@ -46259,8 +45972,7 @@ Ext.define('Ext.data.reader.Reader', {
         // set any reader-specific configs from meta if available
         if (meta.rootProperty !== undefined) {
             me.setRootProperty(meta.rootProperty);
-        }
-        else if (meta.root !== undefined) {
+        } else if (meta.root !== undefined) {
             me.setRootProperty(meta.root);
         }
 
@@ -46281,10 +45993,11 @@ Ext.define('Ext.data.reader.Reader', {
             if (me.getModel()) {
                 me.getModel().setFields(fields);
                 me.buildExtractors();
-            }
-            else {
+            } else {
                 idProperty = me.getIdProperty();
-                config = {fields: fields};
+                config = {
+                    fields: fields
+                };
 
                 if (idProperty) {
                     config.idProperty = idProperty;
@@ -46297,8 +46010,7 @@ Ext.define('Ext.data.reader.Reader', {
 
                 me.setModel(newModel);
             }
-        }
-        else {
+        } else {
             me.buildExtractors();
         }
     }
@@ -46310,8 +46022,8 @@ Ext.define('Ext.data.reader.Reader', {
         // @private
         // Empty ResultSet to return when response is falsy (null|undefined|empty string)
         nullResultSet: new Ext.data.ResultSet({
-            total  : 0,
-            count  : 0,
+            total: 0,
+            count: 0,
             records: [],
             success: false
         })
@@ -46501,9 +46213,9 @@ Ext.define('Ext.data.reader.Reader', {
  *     }
  */
 Ext.define('Ext.data.reader.Json', {
-    extend:  Ext.data.reader.Reader ,
+    extend: Ext.data.reader.Reader,
     alternateClassName: 'Ext.data.JsonReader',
-    alias : 'reader.json',
+    alias: 'reader.json',
 
     config: {
         /**
@@ -46542,8 +46254,7 @@ Ext.define('Ext.data.reader.Json', {
         var data;
         try {
             data = Ext.decode(responseText);
-        }
-        catch (ex) {
+        } catch (ex) {
             /**
              * @event exception Fires whenever the reader is unable to parse a response.
              * @param {Ext.data.reader.Xml} reader A reference to this reader.
@@ -46674,23 +46385,21 @@ Ext.define('Ext.data.reader.Json', {
      * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
      */
     createFieldAccessExpression: function(field, fieldVarName, dataName) {
-        var me     = this,
-            re     = me.objectRe,
+        var me = this,
+            re = me.objectRe,
             hasMap = (field.getMapping() !== null),
-            map    = hasMap ? field.getMapping() : field.getName(),
+            map = hasMap ? field.getMapping() : field.getName(),
             result, operatorSearch;
 
         if (typeof map === 'function') {
             result = fieldVarName + '.getMapping()(' + dataName + ', this)';
-        }
-        else if (me.getUseSimpleAccessors() === true || ((operatorSearch = String(map).search(re)) < 0)) {
+        } else if (me.getUseSimpleAccessors() === true || ((operatorSearch = String(map).search(re)) < 0)) {
             if (!hasMap || isNaN(map)) {
                 // If we don't provide a mapping, we may have a field name that is numeric
                 map = '"' + map + '"';
             }
             result = dataName + "[" + map + "]";
-        }
-        else {
+        } else {
             result = dataName + (operatorSearch > 0 ? '.' : '') + map;
         }
 
@@ -46774,10 +46483,10 @@ Ext.define('Ext.data.writer.Writer', {
      */
     write: function(request) {
         var operation = request.getOperation(),
-            records   = operation.getRecords() || [],
-            len       = records.length,
-            i         = 0,
-            data      = [];
+            records = operation.getRecords() || [],
+            len = records.length,
+            i = 0,
+            data = [];
 
         for (; i < len; i++) {
             data.push(this.getRecordData(records[i]));
@@ -46793,7 +46502,7 @@ Ext.define('Ext.data.writer.Writer', {
         var dateFormat = field.getDateFormat() || 'timestamp';
         switch (dateFormat) {
             case 'timestamp':
-                return date.getTime()/1000;
+                return date.getTime() / 1000;
             case 'time':
                 return date.getTime();
             default:
@@ -46860,7 +46569,7 @@ Ext.define('Ext.data.writer.Writer', {
  * encoded in an array, even if there is only a single record being sent.
  */
 Ext.define('Ext.data.writer.Json', {
-    extend:  Ext.data.writer.Writer ,
+    extend: Ext.data.writer.Writer,
     alternateClassName: 'Ext.data.JsonWriter',
     alias: 'writer.json',
 
@@ -47031,7 +46740,7 @@ Ext.define('Ext.data.writer.Json', {
  */
 Ext.define('Ext.data.Batch', {
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     config: {
@@ -47238,18 +46947,13 @@ Ext.define('Ext.data.Batch', {
  * method.
  */
 Ext.define('Ext.data.proxy.Proxy', {
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
     alias: 'proxy.proxy',
 
     alternateClassName: ['Ext.data.DataProxy', 'Ext.data.Proxy'],
 
-               
-                               
-                               
-                         
-                            
-      
+
 
     config: {
         /**
@@ -47340,7 +47044,7 @@ Ext.define('Ext.data.proxy.Proxy', {
             }
 
             if (reader.onMetaChange) {
-                 reader.onMetaChange = Ext.Function.createSequence(reader.onMetaChange, this.onMetaChange, this);
+                reader.onMetaChange = Ext.Function.createSequence(reader.onMetaChange, this.onMetaChange, this);
             }
         }
     },
@@ -47459,7 +47163,7 @@ Ext.define('Ext.data.proxy.Proxy', {
      *
      * @return {Ext.data.Batch} The newly created Batch
      */
-    batch: function(options, /* deprecated */listeners) {
+    batch: function(options, /* deprecated */ listeners) {
         var me = this,
             useBatch = me.getBatchActions(),
             model = me.getModel(),
@@ -47491,24 +47195,24 @@ Ext.define('Ext.data.proxy.Proxy', {
         }
 
         Ext.each(me.getBatchOrder().split(','), function(action) {
-             records = options.operations[action];
-             if (records) {
-                 if (useBatch) {
-                     batch.add(new Ext.data.Operation({
-                         action: action,
-                         records: records,
-                         model: model
-                     }));
-                 } else {
-                     Ext.each(records, function(record) {
-                         batch.add(new Ext.data.Operation({
-                             action : action,
-                             records: [record],
-                             model: model
-                         }));
-                     });
-                 }
-             }
+            records = options.operations[action];
+            if (records) {
+                if (useBatch) {
+                    batch.add(new Ext.data.Operation({
+                        action: action,
+                        records: records,
+                        model: model
+                    }));
+                } else {
+                    Ext.each(records, function(record) {
+                        batch.add(new Ext.data.Operation({
+                            action: action,
+                            records: [record],
+                            model: model
+                        }));
+                    });
+                }
+            }
         }, me);
 
         batch.start();
@@ -47516,25 +47220,25 @@ Ext.define('Ext.data.proxy.Proxy', {
     },
 
     /**
-      * @private
-      * The internal callback that the proxy uses to call any specified user callbacks after completion of a batch
-      */
+     * @private
+     * The internal callback that the proxy uses to call any specified user callbacks after completion of a batch
+     */
     onBatchComplete: function(batchOptions, batch) {
-         var scope = batchOptions.scope || this;
+        var scope = batchOptions.scope || this;
 
-         if (batch.hasException) {
-             if (Ext.isFunction(batchOptions.failure)) {
-                 Ext.callback(batchOptions.failure, scope, [batch, batchOptions]);
-             }
-         } else if (Ext.isFunction(batchOptions.success)) {
-             Ext.callback(batchOptions.success, scope, [batch, batchOptions]);
-         }
+        if (batch.hasException) {
+            if (Ext.isFunction(batchOptions.failure)) {
+                Ext.callback(batchOptions.failure, scope, [batch, batchOptions]);
+            }
+        } else if (Ext.isFunction(batchOptions.success)) {
+            Ext.callback(batchOptions.success, scope, [batch, batchOptions]);
+        }
 
-         if (Ext.isFunction(batchOptions.callback)) {
-             Ext.callback(batchOptions.callback, scope, [batch, batchOptions]);
-         }
+        if (Ext.isFunction(batchOptions.callback)) {
+            Ext.callback(batchOptions.callback, scope, [batch, batchOptions]);
+        }
 
-         Ext.destroy(batch);
+        Ext.destroy(batch);
     }
 
 }, function() {
@@ -47555,7 +47259,7 @@ Ext.define('Ext.data.proxy.Proxy', {
  * @private
  */
 Ext.define('Ext.data.proxy.Client', {
-    extend:  Ext.data.proxy.Proxy ,
+    extend: Ext.data.proxy.Proxy,
     alternateClassName: 'Ext.proxy.ClientProxy',
 
     /**
@@ -47622,7 +47326,7 @@ Ext.define('Ext.data.proxy.Client', {
  *     });
  */
 Ext.define('Ext.data.proxy.Memory', {
-    extend:  Ext.data.proxy.Client ,
+    extend: Ext.data.proxy.Client,
     alias: 'proxy.memory',
     alternateClassName: 'Ext.data.MemoryProxy',
 
@@ -47712,7 +47416,7 @@ Ext.define('Ext.data.proxy.Memory', {
      * @param {Object} scope The scope to call the callback function in
      */
     read: function(operation, callback, scope) {
-        var me     = this,
+        var me = this,
             reader = me.getReader();
 
         if (operation.process('read', reader.process(me.getData())) === false) {
@@ -47776,14 +47480,14 @@ Ext.define('Ext.data.SortTypes', {
      * @type {RegExp}
      * @property
      */
-    stripTagsRE : /<\/?[^>]+>/gi,
+    stripTagsRE: /<\/?[^>]+>/gi,
 
     /**
      * Default sort that does nothing.
      * @param {Object} value The value being converted.
      * @return {Object} The comparison value.
      */
-    none : function(value) {
+    none: function(value) {
         return value;
     },
 
@@ -47792,7 +47496,7 @@ Ext.define('Ext.data.SortTypes', {
      * @param {Object} value The value being converted.
      * @return {String} The comparison value.
      */
-    asText : function(value) {
+    asText: function(value) {
         return String(value).replace(this.stripTagsRE, "");
     },
 
@@ -47801,7 +47505,7 @@ Ext.define('Ext.data.SortTypes', {
      * @param {Object} value The value being converted.
      * @return {String} The comparison value.
      */
-    asUCText : function(value) {
+    asUCText: function(value) {
         return String(value).toUpperCase().replace(this.stripTagsRE, "");
     },
 
@@ -47810,7 +47514,7 @@ Ext.define('Ext.data.SortTypes', {
      * @param {Object} value The value being converted.
      * @return {String} The comparison value.
      */
-    asUCString : function(value) {
+    asUCString: function(value) {
         return String(value).toUpperCase();
     },
 
@@ -47819,7 +47523,7 @@ Ext.define('Ext.data.SortTypes', {
      * @param {Object} value The value being converted.
      * @return {Number} The comparison value.
      */
-    asDate : function(value) {
+    asDate: function(value) {
         if (!value) {
             return 0;
         }
@@ -47834,7 +47538,7 @@ Ext.define('Ext.data.SortTypes', {
      * @param {Object} value The value being converted.
      * @return {Number} The comparison value.
      */
-    asFloat : function(value) {
+    asFloat: function(value) {
         value = parseFloat(String(value).replace(/,/g, ""));
         return isNaN(value) ? 0 : value;
     },
@@ -47844,7 +47548,7 @@ Ext.define('Ext.data.SortTypes', {
      * @param {Object} value The value being converted.
      * @return {Number} The comparison value.
      */
-    asInt : function(value) {
+    asInt: function(value) {
         value = parseInt(String(value).replace(/,/g, ""), 10);
         return isNaN(value) ? 0 : value;
     }
@@ -47905,7 +47609,7 @@ Ext.define('Ext.data.SortTypes', {
  */
 Ext.define('Ext.data.Types', {
     singleton: true,
-                                     
+
 
     /**
      * @property {RegExp} stripRe
@@ -47941,9 +47645,7 @@ Ext.define('Ext.data.Types', {
         STRING: {
             convert: function(value) {
                 // 'this' is the actual field that calls this convert method
-                return (value === undefined || value === null)
-                    ? (this.getAllowNull() ? null : '')
-                    : String(value);
+                return (value === undefined || value === null) ? (this.getAllowNull() ? null : '') : String(value);
             },
             sortType: sortTypes.asUCString,
             type: 'string'
@@ -47958,12 +47660,7 @@ Ext.define('Ext.data.Types', {
          */
         INT: {
             convert: function(value) {
-                return (value !== undefined && value !== null && value !== '')
-                    ? ((typeof value === 'number')
-                        ? parseInt(value, 10)
-                        : parseInt(String(value).replace(Types.stripRe, ''), 10)
-                    )
-                    : (this.getAllowNull() ? null : 0);
+                return (value !== undefined && value !== null && value !== '') ? ((typeof value === 'number') ? parseInt(value, 10) : parseInt(String(value).replace(Types.stripRe, ''), 10)) : (this.getAllowNull() ? null : 0);
             },
             sortType: sortTypes.none,
             type: 'int'
@@ -47978,12 +47675,7 @@ Ext.define('Ext.data.Types', {
          */
         FLOAT: {
             convert: function(value) {
-                return (value !== undefined && value !== null && value !== '')
-                    ? ((typeof value === 'number')
-                        ? value
-                        : parseFloat(String(value).replace(Types.stripRe, ''), 10)
-                    )
-                    : (this.getAllowNull() ? null : 0);
+                return (value !== undefined && value !== null && value !== '') ? ((typeof value === 'number') ? value : parseFloat(String(value).replace(Types.stripRe, ''), 10)) : (this.getAllowNull() ? null : 0);
             },
             sortType: sortTypes.none,
             type: 'float'
@@ -48001,7 +47693,7 @@ Ext.define('Ext.data.Types', {
                 if ((value === undefined || value === null || value === '') && this.getAllowNull()) {
                     return null;
                 }
-                return value !== 'false' && value !== '0' && !!value;
+                return value !== 'false' && value !== '0' && !! value;
             },
             sortType: sortTypes.none,
             type: 'bool'
@@ -48026,7 +47718,7 @@ Ext.define('Ext.data.Types', {
                 }
                 if (dateFormat) {
                     if (dateFormat == 'timestamp') {
-                        return new Date(value*1000);
+                        return new Date(value * 1000);
                     }
                     if (dateFormat == 'time') {
                         return new Date(parseInt(value, 10));
@@ -48039,7 +47731,7 @@ Ext.define('Ext.data.Types', {
                     // Dates with ISO 8601 format are not well supported by mobile devices, this can work around the issue.
                     if (Types.iso8601TestRe.test(value)) {
                         parsed = value.split(Types.iso8601SplitRe);
-                        parsed = new Date(parsed[0], parsed[1]-1, parsed[2], parsed[3], parsed[4], parsed[5]);
+                        parsed = new Date(parsed[0], parsed[1] - 1, parsed[2], parsed[3], parsed[4], parsed[5]);
                     }
                     if (isNaN(parsed)) {
                         // Dates with the format "2012-01-20" fail, but "2012/01/20" work in some browsers. We'll try and
@@ -48182,7 +47874,7 @@ Ext.define('Ext.data.Types', {
  *     ed.get('age'); //returns 25 - we wanted an int, not a float, so no decimal places allowed
  */
 Ext.define('Ext.data.Field', {
-                                                       
+
     alias: 'data.field',
 
     isField: true,
@@ -48367,14 +48059,14 @@ Ext.define('Ext.data.Field', {
          *        }
          *     }
          */
-        sortType : undefined,
+        sortType: undefined,
 
         /**
          * @cfg {String} sortDir
          *
          * Initial direction to sort (`"ASC"` or `"DESC"`).
          */
-        sortDir : "ASC",
+        sortDir: "ASC",
 
         /**
          * @cfg {Boolean} allowBlank
@@ -48383,7 +48075,7 @@ Ext.define('Ext.data.Field', {
          * Used for validating a {@link Ext.data.Model model}. An empty value here will cause
          * {@link Ext.data.Model}.{@link Ext.data.Model#isValid isValid} to evaluate to `false`.
          */
-        allowBlank : true,
+        allowBlank: true,
 
         /**
          * @cfg {Boolean} persist
@@ -48401,10 +48093,12 @@ Ext.define('Ext.data.Field', {
         bubbleEvents: 'action'
     },
 
-    constructor : function(config) {
+    constructor: function(config) {
         // This adds support for just passing a string used as the field name
         if (Ext.isString(config)) {
-            config = {name: config};
+            config = {
+                name: config
+            };
         }
 
         this.initConfig(config);
@@ -48474,7 +48168,7 @@ Ext.define('Ext.data.Field', {
  *
  * An example of a configured simple generator would be:
  *
- *     Ext.define('MyApp.data.MyModel', {
+ *     Ext.define('Xpoit.data.MyModel', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             identifier: {
@@ -48488,7 +48182,7 @@ Ext.define('Ext.data.Field', {
  */
 Ext.define('Ext.data.identifier.Simple', {
     alias: 'data.identifier.simple',
-    
+
     statics: {
         AUTO_ID: 1
     },
@@ -48561,7 +48255,7 @@ Ext.define('Ext.data.identifier.Simple', {
  *     var UserType = User;
  */
 Ext.define('Ext.data.ModelManager', {
-    extend:  Ext.AbstractManager ,
+    extend: Ext.AbstractManager,
     alternateClassName: ['Ext.ModelMgr', 'Ext.ModelManager'],
 
     singleton: true,
@@ -48839,10 +48533,10 @@ Ext.define('Ext.data.Request', {
  * @private
  */
 Ext.define('Ext.data.proxy.Server', {
-    extend:  Ext.data.proxy.Proxy ,
-    alias : 'proxy.server',
+    extend: Ext.data.proxy.Proxy,
+    alias: 'proxy.server',
     alternateClassName: 'Ext.data.ServerProxy',
-                                     
+
 
     config: {
         /**
@@ -48919,7 +48613,7 @@ Ext.define('Ext.data.proxy.Server', {
          * @cfg {Boolean} noCache
          * Disable caching by adding a unique parameter name to the request. Set to `false` to allow caching.
          */
-        noCache : true,
+        noCache: true,
 
         /**
          * @cfg {String} cacheString
@@ -48931,7 +48625,7 @@ Ext.define('Ext.data.proxy.Server', {
          * @cfg {Number} timeout
          * The number of milliseconds to wait for a response.
          */
-        timeout : 30000,
+        timeout: 30000,
 
         /**
          * @cfg {Object} api
@@ -48961,10 +48655,10 @@ Ext.define('Ext.data.proxy.Server', {
          * configured {@link Ext.data.proxy.Server#url url}.
          */
         api: {
-            create  : undefined,
-            read    : undefined,
-            update  : undefined,
-            destroy : undefined
+            create: undefined,
+            read: undefined,
+            update: undefined,
+            destroy: undefined
         },
 
         /**
@@ -49025,12 +48719,12 @@ Ext.define('Ext.data.proxy.Server', {
         params = Ext.applyIf(params, me.getParams(operation));
 
         request = Ext.create('Ext.data.Request', {
-            params   : params,
-            action   : operation.getAction(),
-            records  : operation.getRecords(),
-            url      : operation.getUrl(),
+            params: params,
+            action: operation.getAction(),
+            records: operation.getRecords(),
+            url: operation.getUrl(),
             operation: operation,
-            proxy    : me
+            proxy: me
         });
 
         request.setUrl(me.buildUrl(request));
@@ -49060,7 +48754,7 @@ Ext.define('Ext.data.proxy.Server', {
 
             try {
                 resultSet = reader.process(me.getResponseResult(response));
-            } catch(e) {
+            } catch (e) {
                 operation.setException(e.message);
 
                 me.fireEvent('exception', me, response, operation);
@@ -49141,7 +48835,7 @@ Ext.define('Ext.data.proxy.Server', {
 
         for (; i < length; i++) {
             min[i] = {
-                property : sorters[i].getProperty(),
+                property: sorters[i].getProperty(),
                 direction: sorters[i].getDirection()
             };
         }
@@ -49163,7 +48857,7 @@ Ext.define('Ext.data.proxy.Server', {
         for (; i < length; i++) {
             min[i] = {
                 property: filters[i].getProperty(),
-                value   : filters[i].getValue()
+                value: filters[i].getValue()
             };
         }
         return this.applyEncoding(min);
@@ -49506,9 +49200,9 @@ Ext.define('Ext.data.proxy.Server', {
  * make the request.
  */
 Ext.define('Ext.data.proxy.Ajax', {
-    extend:  Ext.data.proxy.Server ,
+    extend: Ext.data.proxy.Server,
 
-                                                       
+
     alias: 'proxy.ajax',
     alternateClassName: ['Ext.data.HttpProxy', 'Ext.data.AjaxProxy'],
 
@@ -49551,9 +49245,9 @@ Ext.define('Ext.data.proxy.Ajax', {
          * The {@link Ext.data.proxy.Rest} maps these to the correct RESTful methods.
          */
         actionMethods: {
-            create : 'POST',
-            read   : 'GET',
-            update : 'POST',
+            create: 'POST',
+            read: 'GET',
+            update: 'POST',
             destroy: 'POST'
         },
 
@@ -49574,7 +49268,7 @@ Ext.define('Ext.data.proxy.Ajax', {
      */
     doRequest: function(operation, callback, scope) {
         var me = this,
-            writer  = me.getWriter(),
+            writer = me.getWriter(),
             request = me.buildRequest(operation);
 
         request.setConfig({
@@ -49637,24 +49331,24 @@ Ext.define('Ext.data.proxy.Ajax', {
  * writing an ecommerce system where Users can make Orders - there's a relationship between these Models that we can
  * express like this:
  *
- *     Ext.define('MyApp.model.User', {
+ *     Ext.define('Xpoit.model.User', {
  *         extend: 'Ext.data.Model',
  *
  *         config: {
  *             fields: ['id', 'name', 'email'],
  *             hasMany: {
- *                 model: 'MyApp.model.Order',
+ *                 model: 'Xpoit.model.Order',
  *                 name: 'orders'
  *             }
  *         }
  *     });
  *
- *     Ext.define('MyApp.model.Order', {
+ *     Ext.define('Xpoit.model.Order', {
  *         extend: 'Ext.data.Model',
  *
  *         config: {
  *             fields: ['id', 'user_id', 'status', 'price'],
- *             belongsTo: 'MyApp.model.User'
+ *             belongsTo: 'Xpoit.model.User'
  *         }
  *     });
  *
@@ -49705,7 +49399,7 @@ Ext.define('Ext.data.proxy.Ajax', {
  *     }
  *
  *     // Client code
- *     Ext.define('MyApp.model.Group', {
+ *     Ext.define('Xpoit.model.Group', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             fields: ['id', 'parent_id', 'name'],
@@ -49719,14 +49413,14 @@ Ext.define('Ext.data.proxy.Ajax', {
  *             },
  *             associations: [{
  *                 type: 'hasMany',
- *                 model: 'MyApp.model.Group',
+ *                 model: 'Xpoit.model.Group',
  *                 primaryKey: 'id',
  *                 foreignKey: 'parent_id',
  *                 autoLoad: true,
  *                 associationKey: 'nested.child_groups' // read child data from nested.child_groups
  *             }, {
  *                 type: 'belongsTo',
- *                 model: 'MyApp.model.Group',
+ *                 model: 'Xpoit.model.Group',
  *                 primaryKey: 'id',
  *                 foreignKey: 'parent_id',
  *                 associationKey: 'parent_group' // read parent data from parent_group
@@ -49736,7 +49430,7 @@ Ext.define('Ext.data.proxy.Ajax', {
  *
  *
  *     Ext.onReady(function(){
- *         MyApp.model.Group.load(10, {
+ *         Xpoit.model.Group.load(10, {
  *             success: function(group){
  *                 console.log(group.getGroup().get('name'));
  *
@@ -49751,7 +49445,7 @@ Ext.define('Ext.data.proxy.Ajax', {
 Ext.define('Ext.data.association.Association', {
     alternateClassName: 'Ext.data.Association',
 
-                                        
+
 
     config: {
         /**
@@ -49856,7 +49550,7 @@ Ext.define('Ext.data.association.Association', {
         if (!ownerName) {
             ownerName = this.getOwnerModel().modelName;
         }
-        ownerName = ownerName.slice(ownerName.lastIndexOf('.')+1);
+        ownerName = ownerName.slice(ownerName.lastIndexOf('.') + 1);
         return ownerName;
     },
 
@@ -49878,7 +49572,7 @@ Ext.define('Ext.data.association.Association', {
         if (!associatedName) {
             associatedName = this.getAssociatedModel().modelName;
         }
-        associatedName = associatedName.slice(associatedName.lastIndexOf('.')+1);
+        associatedName = associatedName.slice(associatedName.lastIndexOf('.') + 1);
         return associatedName;
     },
 
@@ -49914,7 +49608,7 @@ Ext.define('Ext.data.association.Association', {
 });
 
 /**
- * General purpose inflector class that {@link #pluralize pluralizes}, {@link #singularize singularizes} and 
+ * General purpose inflector class that {@link #pluralize pluralizes}, {@link #singularize singularizes} and
  * {@link #ordinalize ordinalizes} words. Sample usage:
  *
  *     // turning singular words into plurals
@@ -49965,71 +49659,71 @@ Ext.define('Ext.util.Inflector', {
      * @type Array
      */
     plurals: [
-        [(/(quiz)$/i),                "$1zes"  ],
-        [(/^(ox)$/i),                 "$1en"   ],
-        [(/([m|l])ouse$/i),           "$1ice"  ],
-        [(/(matr|vert|ind)ix|ex$/i),  "$1ices" ],
-        [(/(x|ch|ss|sh)$/i),          "$1es"   ],
-        [(/([^aeiouy]|qu)y$/i),       "$1ies"  ],
-        [(/(hive)$/i),                "$1s"    ],
-        [(/(?:([^f])fe|([lr])f)$/i),  "$1$2ves"],
-        [(/sis$/i),                   "ses"    ],
-        [(/([ti])um$/i),              "$1a"    ],
-        [(/(buffal|tomat|potat)o$/i), "$1oes"  ],
-        [(/(bu)s$/i),                 "$1ses"  ],
-        [(/(alias|status|sex)$/i),    "$1es"   ],
-        [(/(octop|vir)us$/i),         "$1i"    ],
-        [(/(ax|test)is$/i),           "$1es"   ],
-        [(/^person$/),                "people" ],
-        [(/^man$/),                   "men"    ],
-        [(/^(child)$/),               "$1ren"  ],
-        [(/s$/i),                     "s"      ],
-        [(/$/),                       "s"      ]
+        [(/(quiz)$/i), "$1zes"],
+        [(/^(ox)$/i), "$1en"],
+        [(/([m|l])ouse$/i), "$1ice"],
+        [(/(matr|vert|ind)ix|ex$/i), "$1ices"],
+        [(/(x|ch|ss|sh)$/i), "$1es"],
+        [(/([^aeiouy]|qu)y$/i), "$1ies"],
+        [(/(hive)$/i), "$1s"],
+        [(/(?:([^f])fe|([lr])f)$/i), "$1$2ves"],
+        [(/sis$/i), "ses"],
+        [(/([ti])um$/i), "$1a"],
+        [(/(buffal|tomat|potat)o$/i), "$1oes"],
+        [(/(bu)s$/i), "$1ses"],
+        [(/(alias|status|sex)$/i), "$1es"],
+        [(/(octop|vir)us$/i), "$1i"],
+        [(/(ax|test)is$/i), "$1es"],
+        [(/^person$/), "people"],
+        [(/^man$/), "men"],
+        [(/^(child)$/), "$1ren"],
+        [(/s$/i), "s"],
+        [(/$/), "s"]
     ],
-    
+
     /**
      * @private
-     * The set of registered singular matchers. Each item in the array should contain two items - the first must be a 
-     * regular expression that matches the plural form of a word, the second must be a String that replaces the 
+     * The set of registered singular matchers. Each item in the array should contain two items - the first must be a
+     * regular expression that matches the plural form of a word, the second must be a String that replaces the
      * matched part of the regular expression. This is managed by the {@link #singular} method.
      * @property singulars
      * @type Array
      */
     singulars: [
-      [(/(quiz)zes$/i),                                                    "$1"     ],
-      [(/(matr)ices$/i),                                                   "$1ix"   ],
-      [(/(vert|ind)ices$/i),                                               "$1ex"   ],
-      [(/^(ox)en/i),                                                       "$1"     ],
-      [(/(alias|status)es$/i),                                             "$1"     ],
-      [(/(octop|vir)i$/i),                                                 "$1us"   ],
-      [(/(cris|ax|test)es$/i),                                             "$1is"   ],
-      [(/(shoe)s$/i),                                                      "$1"     ],
-      [(/(o)es$/i),                                                        "$1"     ],
-      [(/(bus)es$/i),                                                      "$1"     ],
-      [(/([m|l])ice$/i),                                                   "$1ouse" ],
-      [(/(x|ch|ss|sh)es$/i),                                               "$1"     ],
-      [(/(m)ovies$/i),                                                     "$1ovie" ],
-      [(/(s)eries$/i),                                                     "$1eries"],
-      [(/([^aeiouy]|qu)ies$/i),                                            "$1y"    ],
-      [(/([lr])ves$/i),                                                    "$1f"    ],
-      [(/(tive)s$/i),                                                      "$1"     ],
-      [(/(hive)s$/i),                                                      "$1"     ],
-      [(/([^f])ves$/i),                                                    "$1fe"   ],
-      [(/(^analy)ses$/i),                                                  "$1sis"  ],
-      [(/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i), "$1$2sis"],
-      [(/([ti])a$/i),                                                      "$1um"   ],
-      [(/(n)ews$/i),                                                       "$1ews"  ],
-      [(/people$/i),                                                       "person" ],
-      [(/s$/i),                                                            ""       ]
+        [(/(quiz)zes$/i), "$1"],
+        [(/(matr)ices$/i), "$1ix"],
+        [(/(vert|ind)ices$/i), "$1ex"],
+        [(/^(ox)en/i), "$1"],
+        [(/(alias|status)es$/i), "$1"],
+        [(/(octop|vir)i$/i), "$1us"],
+        [(/(cris|ax|test)es$/i), "$1is"],
+        [(/(shoe)s$/i), "$1"],
+        [(/(o)es$/i), "$1"],
+        [(/(bus)es$/i), "$1"],
+        [(/([m|l])ice$/i), "$1ouse"],
+        [(/(x|ch|ss|sh)es$/i), "$1"],
+        [(/(m)ovies$/i), "$1ovie"],
+        [(/(s)eries$/i), "$1eries"],
+        [(/([^aeiouy]|qu)ies$/i), "$1y"],
+        [(/([lr])ves$/i), "$1f"],
+        [(/(tive)s$/i), "$1"],
+        [(/(hive)s$/i), "$1"],
+        [(/([^f])ves$/i), "$1fe"],
+        [(/(^analy)ses$/i), "$1sis"],
+        [(/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i), "$1$2sis"],
+        [(/([ti])a$/i), "$1um"],
+        [(/(n)ews$/i), "$1ews"],
+        [(/people$/i), "person"],
+        [(/s$/i), ""]
     ],
-    
+
     /**
      * @private
      * The registered uncountable words
      * @property uncountable
      * @type Array
      */
-     uncountable: [
+    uncountable: [
         "sheep",
         "fish",
         "series",
@@ -50044,7 +49738,7 @@ Ext.define('Ext.util.Inflector', {
         "deer",
         "means"
     ],
-    
+
     /**
      * Adds a new singularization rule to the Inflector. See the intro docs for more information
      * @param {RegExp} matcher The matcher regex
@@ -50053,7 +49747,7 @@ Ext.define('Ext.util.Inflector', {
     singular: function(matcher, replacer) {
         this.singulars.unshift([matcher, replacer]);
     },
-    
+
     /**
      * Adds a new pluralization rule to the Inflector. See the intro docs for more information
      * @param {RegExp} matcher The matcher regex
@@ -50062,21 +49756,21 @@ Ext.define('Ext.util.Inflector', {
     plural: function(matcher, replacer) {
         this.plurals.unshift([matcher, replacer]);
     },
-    
+
     /**
      * Removes all registered singularization rules
      */
     clearSingulars: function() {
         this.singulars = [];
     },
-    
+
     /**
      * Removes all registered pluralization rules
      */
     clearPlurals: function() {
         this.plurals = [];
     },
-    
+
     /**
      * Returns true if the given word is transnumeral (the word is its own singular and plural form - e.g. sheep, fish)
      * @param {String} word The word to test
@@ -50097,21 +49791,21 @@ Ext.define('Ext.util.Inflector', {
         }
 
         var plurals = this.plurals,
-            length  = plurals.length,
+            length = plurals.length,
             tuple, regex, i;
-        
+
         for (i = 0; i < length; i++) {
             tuple = plurals[i];
             regex = tuple[0];
-            
+
             if (regex == word || (regex.test && regex.test(word))) {
                 return word.replace(regex, tuple[1]);
             }
         }
-        
+
         return word;
     },
-    
+
     /**
      * Returns the singularized form of a word (e.g. Ext.util.Inflector.singularize('words') returns 'word')
      * @param {String} word The word to singularize
@@ -50123,23 +49817,23 @@ Ext.define('Ext.util.Inflector', {
         }
 
         var singulars = this.singulars,
-            length    = singulars.length,
+            length = singulars.length,
             tuple, regex, i;
-        
+
         for (i = 0; i < length; i++) {
             tuple = singulars[i];
             regex = tuple[0];
-            
+
             if (regex == word || (regex.test && regex.test(word))) {
                 return word.replace(regex, tuple[1]);
             }
         }
-        
+
         return word;
     },
-    
+
     /**
-     * Returns the correct {@link Ext.data.Model Model} name for a given string. Mostly used internally by the data 
+     * Returns the correct {@link Ext.data.Model Model} name for a given string. Mostly used internally by the data
      * package
      * @param {String} word The word to classify
      * @return {String} The classified version of the word
@@ -50147,67 +49841,71 @@ Ext.define('Ext.util.Inflector', {
     classify: function(word) {
         return Ext.String.capitalize(this.singularize(word));
     },
-    
+
     /**
-     * Ordinalizes a given number by adding a prefix such as 'st', 'nd', 'rd' or 'th' based on the last digit of the 
+     * Ordinalizes a given number by adding a prefix such as 'st', 'nd', 'rd' or 'th' based on the last digit of the
      * number. 21 -> 21st, 22 -> 22nd, 23 -> 23rd, 24 -> 24th etc
      * @param {Number} number The number to ordinalize
      * @return {String} The ordinalized number
      */
     ordinalize: function(number) {
         var parsed = parseInt(number, 10),
-            mod10  = parsed % 10,
+            mod10 = parsed % 10,
             mod100 = parsed % 100;
-        
+
         //11 through 13 are a special case
         if (11 <= mod100 && mod100 <= 13) {
             return number + "th";
         } else {
-            switch(mod10) {
-                case 1 : return number + "st";
-                case 2 : return number + "nd";
-                case 3 : return number + "rd";
-                default: return number + "th";
+            switch (mod10) {
+                case 1:
+                    return number + "st";
+                case 2:
+                    return number + "nd";
+                case 3:
+                    return number + "rd";
+                default:
+                    return number + "th";
             }
         }
     }
 }, function() {
     //aside from the rules above, there are a number of words that have irregular pluralization so we add them here
     var irregulars = {
-            alumnus: 'alumni',
-            cactus : 'cacti',
-            focus  : 'foci',
-            nucleus: 'nuclei',
-            radius: 'radii',
-            stimulus: 'stimuli',
-            ellipsis: 'ellipses',
-            paralysis: 'paralyses',
-            oasis: 'oases',
-            appendix: 'appendices',
-            index: 'indexes',
-            beau: 'beaux',
-            bureau: 'bureaux',
-            tableau: 'tableaux',
-            woman: 'women',
-            child: 'children',
-            man: 'men',
-            corpus:	'corpora',
-            criterion: 'criteria',
-            curriculum:	'curricula',
-            genus: 'genera',
-            memorandum:	'memoranda',
-            phenomenon:	'phenomena',
-            foot: 'feet',
-            goose: 'geese',
-            tooth: 'teeth',
-            antenna: 'antennae',
-            formula: 'formulae',
-            nebula: 'nebulae',
-            vertebra: 'vertebrae',
-            vita: 'vitae'
-        },
+        alumnus: 'alumni',
+        cactus: 'cacti',
+        focus: 'foci',
+        nucleus: 'nuclei',
+        radius: 'radii',
+        stimulus: 'stimuli',
+        ellipsis: 'ellipses',
+        paralysis: 'paralyses',
+        oasis: 'oases',
+        appendix: 'appendices',
+        index: 'indexes',
+        beau: 'beaux',
+        bureau: 'bureaux',
+        tableau: 'tableaux',
+        woman: 'women',
+        child: 'children',
+        man: 'men',
+        corpus: 'corpora',
+        criterion: 'criteria',
+        curriculum: 'curricula',
+        genus: 'genera',
+        memorandum: 'memoranda',
+        phenomenon: 'phenomena',
+        foot: 'feet',
+        goose: 'geese',
+        tooth: 'teeth',
+        antenna: 'antennae',
+        formula: 'formulae',
+        nebula: 'nebulae',
+        vertebra: 'vertebrae',
+        vita: 'vitae'
+    },
         singular;
-    
+
     for (singular in irregulars) {
         this.plural(singular, irregulars[singular]);
         this.singular(irregulars[singular], singular);
@@ -50319,9 +50017,9 @@ Ext.define('Ext.util.Inflector', {
  *     });
  */
 Ext.define('Ext.data.association.HasMany', {
-    extend:  Ext.data.association.Association ,
+    extend: Ext.data.association.Association,
     alternateClassName: 'Ext.data.HasManyAssociation',
-                                     
+
 
     alias: 'association.hasmany',
 
@@ -50484,12 +50182,12 @@ Ext.define('Ext.data.association.HasMany', {
     applyStore: function(storeConfig) {
         var me = this,
             associatedModel = me.getAssociatedModel(),
-            storeName       = me.getStoreName(),
-            foreignKey      = me.getForeignKey(),
-            primaryKey      = me.getPrimaryKey(),
-            filterProperty  = me.getFilterProperty(),
-            autoLoad        = me.getAutoLoad(),
-            autoSync        = me.getAutoSync();
+            storeName = me.getStoreName(),
+            foreignKey = me.getForeignKey(),
+            primaryKey = me.getPrimaryKey(),
+            filterProperty = me.getFilterProperty(),
+            autoLoad = me.getAutoLoad(),
+            autoSync = me.getAutoSync();
 
         return function() {
             var record = this,
@@ -50504,14 +50202,14 @@ Ext.define('Ext.data.association.HasMany', {
             if (record[storeName] === undefined) {
                 if (filterProperty) {
                     filter = {
-                        property  : filterProperty,
-                        value     : record.get(filterProperty),
+                        property: filterProperty,
+                        value: record.get(filterProperty),
                         exactMatch: true
                     };
                 } else {
                     filter = {
-                        property  : foreignKey,
-                        value     : record.get(primaryKey),
+                        property: foreignKey,
+                        value: record.get(primaryKey),
                         exactMatch: true
                     };
                 }
@@ -50519,10 +50217,10 @@ Ext.define('Ext.data.association.HasMany', {
                 modelDefaults[foreignKey] = record.get(primaryKey);
 
                 config = Ext.apply({}, storeConfig, {
-                    model        : associatedModel,
-                    filters      : [filter],
-                    remoteFilter : true,
-                    autoSync     : autoSync,
+                    model: associatedModel,
+                    filters: [filter],
+                    remoteFilter: true,
+                    autoSync: autoSync,
                     modelDefaults: modelDefaults
                 });
 
@@ -50726,7 +50424,7 @@ Ext.define('Ext.data.association.HasMany', {
  * with our own settings. Usually this will not be needed.
  */
 Ext.define('Ext.data.association.BelongsTo', {
-    extend:  Ext.data.association.Association ,
+    extend: Ext.data.association.Association,
     alternateClassName: 'Ext.data.BelongsToAssociation',
     alias: 'association.belongsto',
 
@@ -50883,7 +50581,7 @@ Ext.define('Ext.data.association.BelongsTo', {
             delete record[me.getInstanceName()];
 
             currentOwner = Ext.data.Model.cache[Ext.data.Model.generateCacheId(associatedModel.modelName, this.get(foreignKey))];
-            newOwner     = Ext.data.Model.cache[Ext.data.Model.generateCacheId(associatedModel.modelName, value)];
+            newOwner = Ext.data.Model.cache[Ext.data.Model.generateCacheId(associatedModel.modelName, value)];
 
             record.set(foreignKey, value);
 
@@ -50927,10 +50625,10 @@ Ext.define('Ext.data.association.BelongsTo', {
      * @return {Function} The getter function
      */
     createGetter: function() {
-        var me              = this,
+        var me = this,
             associatedModel = me.getAssociatedModel(),
-            foreignKey      = me.getForeignKey(),
-            instanceName    = me.getInstanceName();
+            foreignKey = me.getForeignKey(),
+            instanceName = me.getInstanceName();
 
         //'this' refers to the Model instance inside this function
         return function(options, scope) {
@@ -50990,7 +50688,7 @@ Ext.define('Ext.data.association.BelongsTo', {
      * @param {Ext.data.reader.Reader} reader The reader for the associated model
      * @param {Object} associationData The raw associated data
      */
-    read: function(record, reader, associationData){
+    read: function(record, reader, associationData) {
         record[this.getInstanceName()] = reader.read([associationData]).getRecords()[0];
     },
 
@@ -51131,7 +50829,7 @@ Ext.define('Ext.data.association.BelongsTo', {
  * with our own settings. Usually this will not be needed.
  */
 Ext.define('Ext.data.association.HasOne', {
-    extend:  Ext.data.association.Association ,
+    extend: Ext.data.association.Association,
     alternateClassName: 'Ext.data.HasOneAssociation',
 
     alias: 'association.hasone',
@@ -51268,9 +50966,9 @@ Ext.define('Ext.data.association.HasOne', {
      * @return {Function} The setter function
      */
     createSetter: function() {
-        var me              = this,
-            foreignKey      = me.getForeignKey(),
-            instanceName    = me.getInstanceName(),
+        var me = this,
+            foreignKey = me.getForeignKey(),
+            instanceName = me.getInstanceName(),
             associatedModel = me.getAssociatedModel();
 
         //'this' refers to the Model instance inside this function
@@ -51315,10 +51013,10 @@ Ext.define('Ext.data.association.HasOne', {
      * @return {Function} The getter function
      */
     createGetter: function() {
-        var me              = this,
+        var me = this,
             associatedModel = me.getAssociatedModel(),
-            foreignKey      = me.getForeignKey(),
-            instanceName    = me.getInstanceName();
+            foreignKey = me.getForeignKey(),
+            instanceName = me.getInstanceName();
 
         //'this' refers to the Model instance inside this function
         return function(options, scope) {
@@ -51338,7 +51036,7 @@ Ext.define('Ext.data.association.HasOne', {
 
                 // Overwrite the success handler so we can assign the current instance
                 success = options.success;
-                options.success = function(rec){
+                options.success = function(rec) {
                     model[instanceName] = rec;
                     if (success) {
                         success.apply(this, arguments);
@@ -51441,9 +51139,9 @@ Ext.define('Ext.data.Error', {
  *     errors.getByField('title'); // [{field: 'title', message: 'is too short'}]
  */
 Ext.define('Ext.data.Errors', {
-    extend:  Ext.util.Collection ,
+    extend: Ext.util.Collection,
 
-                               
+
 
     /**
      * Returns `true` if there are no errors in the collection.
@@ -51472,17 +51170,17 @@ Ext.define('Ext.data.Errors', {
 
         return errors;
     },
-    
+
     add: function() {
         var obj = arguments.length == 1 ? arguments[0] : arguments[1];
-        
+
         if (!(obj instanceof Ext.data.Error)) {
             obj = Ext.create('Ext.data.Error', {
                 field: obj.field || obj.name,
                 message: obj.error || obj.message
             });
         }
-        
+
         return this.callParent([obj]);
     }
 });
@@ -51594,8 +51292,8 @@ Ext.define('Ext.data.Validations', {
         }
 
         var length = value.length,
-            min    = config.min,
-            max    = config.max;
+            min = config.min,
+            max = config.max;
 
         if ((min && length < min) || (max && length > max)) {
             return false;
@@ -51642,7 +51340,7 @@ Ext.define('Ext.data.Validations', {
      * @return {Boolean} `true` if the value is present in the list.
      */
     inclusion: function(config, value) {
-        return config.list && Ext.Array.indexOf(config.list,value) != -1;
+        return config.list && Ext.Array.indexOf(config.list, value) != -1;
     },
 
     /**
@@ -51656,7 +51354,7 @@ Ext.define('Ext.data.Validations', {
      * @return {Boolean} `true` if the value is not present in the list.
      */
     exclusion: function(config, value) {
-        return config.list && Ext.Array.indexOf(config.list,value) == -1;
+        return config.list && Ext.Array.indexOf(config.list, value) == -1;
     }
 });
 
@@ -51880,7 +51578,7 @@ Ext.define('Ext.data.Model', {
     alternateClassName: 'Ext.data.Record',
 
     mixins: {
-        observable:  Ext.mixin.Observable 
+        observable: Ext.mixin.Observable
     },
 
     /**
@@ -51891,17 +51589,7 @@ Ext.define('Ext.data.Model', {
      */
     isModel: true,
 
-               
-                              
-                         
-                                     
-                                
-                              
-                                       
-                                         
-                                      
-                         
-      
+
 
     config: {
         /**
@@ -51923,7 +51611,7 @@ Ext.define('Ext.data.Model', {
          *
          * Sample usage:
          *
-         *     Ext.define('MyApp.model.User', {
+         *     Ext.define('Xpoit.model.User', {
          *         extend: 'Ext.data.Model',
          *
          *         config: {
@@ -52027,9 +51715,9 @@ Ext.define('Ext.data.Model', {
     ],
 
     statics: {
-        EDIT   : 'edit',
-        REJECT : 'reject',
-        COMMIT : 'commit',
+        EDIT: 'edit',
+        REJECT: 'reject',
+        COMMIT: 'commit',
 
         cache: {},
 
@@ -52060,7 +51748,7 @@ Ext.define('Ext.data.Model', {
         /**
          * Asynchronously loads a model instance by id. Sample usage:
          *
-         *     MyApp.User = Ext.define('User', {
+         *     Xpoit.User = Ext.define('User', {
          *         extend: 'Ext.data.Model',
          *         fields: [
          *             {name: 'id', type: 'int'},
@@ -52068,7 +51756,7 @@ Ext.define('Ext.data.Model', {
          *         ]
          *     });
          *
-         *     MyApp.User.load(10, {
+         *     Xpoit.User.load(10, {
          *         scope: this,
          *         failure: function(record, operation) {
          *             //do something if the load failed
@@ -52114,7 +51802,7 @@ Ext.define('Ext.data.Model', {
                 model: this
             });
 
-            operation  = Ext.create('Ext.data.Operation', config);
+            operation = Ext.create('Ext.data.Operation', config);
 
             if (!proxy) {
                 Ext.Logger.error('You are trying to load a model that doesn\'t have a Proxy specified');
@@ -52139,21 +51827,21 @@ Ext.define('Ext.data.Model', {
      * @readonly
      * Internal flag used to track whether or not the model instance is currently being edited.
      */
-    editing : false,
+    editing: false,
 
     /**
      * @property {Boolean} dirty
      * @readonly
      * `true` if this Record has been modified.
      */
-    dirty : false,
+    dirty: false,
 
     /**
      * @property {Boolean} phantom
      * `true` when the record does not yet exist in a server-side database (see {@link #setDirty}).
      * Any record which has a real database pk set as its id property is NOT a phantom -- it's real.
      */
-    phantom : false,
+    phantom: false,
 
     /**
      * Creates new Model instance.
@@ -52227,8 +51915,7 @@ Ext.define('Ext.data.Model', {
             if (this.associations.length) {
                 this.handleInlineAssociationData(data);
             }
-        }
-        else {
+        } else {
             // We also want to make sure that the internalId has the same value as the id in
             // the data object.
             this.internalId = id;
@@ -52271,9 +51958,9 @@ Ext.define('Ext.data.Model', {
 
                 data[fieldName] = value;
             } else if (Ext.isFunction(field._convert)) {
-				value = field._convert(value, me);
-				data[fieldName] = value;
-			}
+                value = field._convert(value, me);
+                data[fieldName] = value;
+            }
         }
 
         if (me.associations.length) {
@@ -52310,8 +51997,7 @@ Ext.define('Ext.data.Model', {
 
             if (isArray) {
                 value = rawData[i];
-            }
-            else {
+            } else {
                 value = rawData[name];
                 if (typeof value == 'undefined') {
                     value = field._defaultValue;
@@ -52466,7 +52152,7 @@ Ext.define('Ext.data.Model', {
             if (notEditing && modifiedCount) {
                 me.endEdit(false, modifiedFieldNames);
             }
-        } else if(modified) {
+        } else if (modified) {
             field = fieldMap[fieldName];
             convert = field && field.getConvert();
             if (convert) {
@@ -52513,7 +52199,7 @@ Ext.define('Ext.data.Model', {
      * @param {Object} b The second value.
      * @return {Boolean} `true` if the values are equal.
      */
-    isEqual: function(a, b){
+    isEqual: function(a, b) {
         if (Ext.isDate(a) && Ext.isDate(b)) {
             return a.getTime() === b.getTime();
         }
@@ -52527,12 +52213,12 @@ Ext.define('Ext.data.Model', {
     beginEdit: function() {
         var me = this;
         if (!me.editing) {
-            me.editing      = true;
+            me.editing = true;
 
             // We save the current states of dirty, data and modified so that when we
             // cancel the edit, we can put it back to this state
-            me.dirtySave    = me.dirty;
-            me.dataSave     = Ext.apply({}, me.data);
+            me.dirtySave = me.dirty;
+            me.dataSave = Ext.apply({}, me.data);
             me.modifiedSave = Ext.apply({}, me.modified);
         }
     },
@@ -52607,9 +52293,9 @@ Ext.define('Ext.data.Model', {
      * Gets a hash of only the fields that have been modified since this Model was created or committed.
      * @return {Object}
      */
-    getChanges : function() {
+    getChanges: function() {
         var modified = this.modified,
-            changes  = {},
+            changes = {},
             field;
 
         for (field in modified) {
@@ -52626,7 +52312,7 @@ Ext.define('Ext.data.Model', {
      * @param {String} fieldName {@link Ext.data.Field#name}
      * @return {Boolean}
      */
-    isModified : function(fieldName) {
+    isModified: function(fieldName) {
         return this.modified.hasOwnProperty(fieldName);
     },
 
@@ -52644,9 +52330,9 @@ Ext.define('Ext.data.Model', {
      * @return {Ext.data.Model} The Model instance
      */
     save: function(options, scope) {
-        var me     = this,
+        var me = this,
             action = me.phantom ? 'create' : 'update',
-            proxy  = me.getProxy(),
+            proxy = me.getProxy(),
             operation,
             callback;
 
@@ -52666,7 +52352,7 @@ Ext.define('Ext.data.Model', {
 
         Ext.applyIf(options, {
             records: [me],
-            action : action,
+            action: action,
             model: me.self
         });
 
@@ -52702,8 +52388,8 @@ Ext.define('Ext.data.Model', {
      * @return {Ext.data.Model} The Model instance.
      */
     erase: function(options, scope) {
-        var me     = this,
-            proxy  = this.getProxy(),
+        var me = this,
+            proxy = this.getProxy(),
             operation,
             callback;
 
@@ -52723,7 +52409,7 @@ Ext.define('Ext.data.Model', {
 
         Ext.applyIf(options, {
             records: [me],
-            action : 'destroy',
+            action: 'destroy',
             model: this.self
         });
 
@@ -52804,7 +52490,7 @@ Ext.define('Ext.data.Model', {
      * @param {String[]} modifiedFieldNames Array of field names changed during edit.
      * @param {Object} modified
      */
-    afterEdit : function(modifiedFieldNames, modified) {
+    afterEdit: function(modifiedFieldNames, modified) {
         this.notifyStores('afterEdit', modifiedFieldNames, modified);
     },
 
@@ -52813,7 +52499,7 @@ Ext.define('Ext.data.Model', {
      * If this Model instance has been {@link #join joined} to a {@link Ext.data.Store store}, the store's
      * `afterReject` method is called.
      */
-    afterReject : function() {
+    afterReject: function() {
         this.notifyStores("afterReject");
     },
 
@@ -52923,9 +52609,9 @@ Ext.define('Ext.data.Model', {
      */
     prepareAssociatedData: function(record, ids, associationType) {
         //we keep track of all of the internalIds of the models that we have loaded so far in here
-        var associations     = record.associations.items,
+        var associations = record.associations.items,
             associationCount = associations.length,
-            associationData  = {},
+            associationData = {},
             recursiveAssociationQueue = [],
             associatedStore, associationName, associatedRecords, associatedRecord,
             associatedRecordCount, association, id, i, j, type, allow, recursiveAssociationItem;
@@ -52966,11 +52652,11 @@ Ext.define('Ext.data.Model', {
 
                             associationData[associationName][j] = associatedRecord.getData();
                             recursiveAssociationQueue.push({
-                                associationName:associationName,
-                                j:j,
-                                associatedRecord:associatedRecord,
-                                ids:ids,
-                                associationType:associationType
+                                associationName: associationName,
+                                j: j,
+                                associatedRecord: associatedRecord,
+                                ids: ids,
+                                associationType: associationType
                             });
                         }
                     }
@@ -53024,7 +52710,7 @@ Ext.define('Ext.data.Model', {
      * Marking a record `{@link #dirty}` causes the phantom to be returned by {@link Ext.data.Store#getUpdatedRecords}
      * where it will have a create action composed for it during {@link Ext.data.Model#save model save} operations.
      */
-    setDirty : function() {
+    setDirty: function() {
         var me = this,
             name;
 
@@ -53043,9 +52729,9 @@ Ext.define('Ext.data.Model', {
      * @return {Ext.data.Errors} The errors object.
      */
     validate: function() {
-        var errors      = Ext.create('Ext.data.Errors'),
+        var errors = Ext.create('Ext.data.Errors'),
             validations = this.getValidations().items,
-            validators  = Ext.data.Validations,
+            validators = Ext.data.Validations,
             length, validation, field, valid, type, i;
 
         if (validations) {
@@ -53054,12 +52740,12 @@ Ext.define('Ext.data.Model', {
             for (i = 0; i < length; i++) {
                 validation = validations[i];
                 field = validation.field || validation.name;
-                type  = validation.type;
+                type = validation.type;
                 valid = validators[type](validation, this.get(field));
 
                 if (!valid) {
                     errors.add(Ext.create('Ext.data.Error', {
-                        field  : field,
+                        field: field,
                         message: validation.message || validators.getMessage(type)
                     }));
                 }
@@ -53073,18 +52759,18 @@ Ext.define('Ext.data.Model', {
      * Checks if the model is valid. See {@link #validate}.
      * @return {Boolean} `true` if the model is valid.
      */
-    isValid: function(){
+    isValid: function() {
         return this.validate().isValid();
     },
 
     /**
      * Returns a url-suitable string for this model instance. By default this just returns the name of the Model class
-     * followed by the instance ID - for example an instance of MyApp.model.User with ID 123 will return 'user/123'.
+     * followed by the instance ID - for example an instance of Xpoit.model.User with ID 123 will return 'user/123'.
      * @return {String} The url string for this model instance.
      */
     toUrl: function() {
         var pieces = this.$className.split('.'),
-            name   = pieces[pieces.length - 1].toLowerCase();
+            name = pieces[pieces.length - 1].toLowerCase();
 
         return name + '/' + this.getId();
     },
@@ -53103,7 +52789,7 @@ Ext.define('Ext.data.Model', {
         me.callParent(arguments);
     },
 
-    markDirty : function() {
+    markDirty: function() {
         if (Ext.isDefined(Ext.Logger)) {
             Ext.Logger.deprecate('Ext.data.Model: markDirty has been deprecated. Use setDirty instead.');
         }
@@ -53155,7 +52841,9 @@ Ext.define('Ext.data.Model', {
         for (i = 0, ln = associations.length; i < ln; i++) {
             association = associations[i];
             if (!Ext.isObject(association)) {
-                association = {model: association};
+                association = {
+                    model: association
+                };
             }
 
             Ext.applyIf(association, {
@@ -53335,15 +53023,14 @@ Ext.define('Ext.data.Model', {
                 dependencies.push('association.hasone');
             }
 
-            for (i = 0,ln = associations.length; i < ln; ++i) {
+            for (i = 0, ln = associations.length; i < ln; ++i) {
                 dependencies.push('association.' + associations[i].type.toLowerCase());
             }
 
             if (config.identifier) {
                 if (typeof config.identifier === 'string') {
                     dependencies.push('data.identifier.' + config.identifier);
-                }
-                else if (typeof config.identifier.type === 'string') {
+                } else if (typeof config.identifier.type === 'string') {
                     dependencies.push('data.identifier.' + config.identifier.type);
                 }
             }
@@ -53351,8 +53038,7 @@ Ext.define('Ext.data.Model', {
             if (config.proxy) {
                 if (typeof config.proxy === 'string') {
                     dependencies.push('proxy.' + config.proxy);
-                }
-                else if (typeof config.proxy.type === 'string') {
+                } else if (typeof config.proxy.type === 'string') {
                     dependencies.push('proxy.' + config.proxy.type);
                 }
             }
@@ -53371,21 +53057,17 @@ Ext.define('Ext.data.Model', {
                      * @property {Ext.util.Collection} associations
                      * The associations defined on this model.
                      */
-                    cls.prototype.associations = cls.associations = cls.prototype._associations = (superCls && superCls.associations)
-                        ? superCls.associations.clone()
-                        : new Ext.util.Collection(function(association) {
-                            return association.getName();
-                        });
+                    cls.prototype.associations = cls.associations = cls.prototype._associations = (superCls && superCls.associations) ? superCls.associations.clone() : new Ext.util.Collection(function(association) {
+                        return association.getName();
+                    });
 
                     /**
                      * @property {Ext.util.Collection} validations
                      * The validations defined on this model.
                      */
-                    cls.prototype.validations = cls.validations = cls.prototype._validations = (superCls && superCls.validations)
-                        ? superCls.validations.clone()
-                        : new Ext.util.Collection(function(validation) {
-                            return validation.field ? (validation.field + '-' + validation.type) : (validation.name + '-' + validation.type);
-                        });
+                    cls.prototype.validations = cls.validations = cls.prototype._validations = (superCls && superCls.validations) ? superCls.validations.clone() : new Ext.util.Collection(function(validation) {
+                        return validation.field ? (validation.field + '-' + validation.type) : (validation.name + '-' + validation.type);
+                    });
 
                     cls.prototype = Ext.Object.chain(cls.prototype);
                     cls.prototype.initConfig.call(cls.prototype, config);
@@ -53434,9 +53116,9 @@ Ext.define('Ext.data.Model', {
  * @param {Object} meta Metadata configuration options.
  */
 Ext.define('Ext.data.reader.Array', {
-    extend:  Ext.data.reader.Json ,
+    extend: Ext.data.reader.Json,
     alternateClassName: 'Ext.data.ArrayReader',
-    alias : 'reader.array',
+    alias: 'reader.array',
 
     // For Array Reader, methods in the base which use these properties must not see the defaults
     config: {
@@ -53451,9 +53133,9 @@ Ext.define('Ext.data.reader.Array', {
      * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
      */
     createFieldAccessExpression: function(field, fieldVarName, dataName) {
-        var me     = this,
+        var me = this,
             mapping = field.getMapping(),
-            index  = (mapping == null) ? me.getModel().getFields().indexOf(field) : mapping,
+            index = (mapping == null) ? me.getModel().getFields().indexOf(field) : mapping,
             result;
 
         if (typeof index === 'function') {
@@ -53499,18 +53181,19 @@ Ext.define('Ext.data.reader.Array', {
  *     });
  */
 Ext.define('Ext.data.StoreManager', {
-    extend:  Ext.util.Collection ,
+    extend: Ext.util.Collection,
     alternateClassName: ['Ext.StoreMgr', 'Ext.data.StoreMgr', 'Ext.StoreManager'],
     singleton: true,
-                                                    
+
 
     /**
      * Registers one or more Stores with the StoreManager. You do not normally need to register stores manually. Any
      * store initialized with a {@link Ext.data.Store#storeId} will be auto-registered.
      * @param {Ext.data.Store...} stores Any number of Store instances.
      */
-    register : function() {
-        for (var i = 0, s; (s = arguments[i]); i++) {
+    register: function() {
+        for (var i = 0, s;
+            (s = arguments[i]); i++) {
             this.add(s);
         }
     },
@@ -53519,8 +53202,9 @@ Ext.define('Ext.data.StoreManager', {
      * Unregisters one or more Stores with the StoreManager.
      * @param {String/Object...} stores Any number of Store instances or ID-s.
      */
-    unregister : function() {
-        for (var i = 0, s; (s = arguments[i]); i++) {
+    unregister: function() {
+        for (var i = 0, s;
+            (s = arguments[i]); i++) {
             this.remove(this.lookup(s));
         }
     },
@@ -53530,7 +53214,7 @@ Ext.define('Ext.data.StoreManager', {
      * @param {String/Object} store The `id` of the Store, or a Store instance, or a store configuration.
      * @return {Ext.data.Store}
      */
-    lookup : function(store) {
+    lookup: function(store) {
         // handle the case when we are given an array or an array of arrays.
         if (Ext.isArray(store)) {
             var fields = ['field1'],
@@ -53545,12 +53229,12 @@ Ext.define('Ext.data.StoreManager', {
                     data.push([store[i]]);
                 }
             } else {
-                for(i = 2, len = store[0].length; i <= len; ++i){
+                for (i = 2, len = store[0].length; i <= len; ++i) {
                     fields.push('field' + i);
                 }
             }
             return Ext.create('Ext.data.ArrayStore', {
-                data  : data,
+                data: data,
                 fields: fields,
                 // See https://sencha.jira.com/browse/TOUCH-1541
                 autoDestroy: true,
@@ -53573,8 +53257,8 @@ Ext.define('Ext.data.StoreManager', {
     },
 
     // getKey implementation for MixedCollection
-    getKey : function(o) {
-         return o.getStoreId();
+    getKey: function(o) {
+        return o.getStoreId();
     }
 }, function() {
     /**
@@ -53636,7 +53320,7 @@ Ext.define('Ext.util.Grouper', {
 
     /* Begin Definitions */
 
-    extend:  Ext.util.Sorter ,
+    extend: Ext.util.Sorter,
 
     isGrouper: true,
 
@@ -54055,16 +53739,9 @@ Ext.define('Ext.util.Grouper', {
 Ext.define('Ext.data.Store', {
     alias: 'store.store',
 
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
-               
-                              
-                             
-                                
-                         
-                                
-                          
-      
+
 
     /**
      * @event addrecords
@@ -54807,8 +54484,7 @@ Ext.define('Ext.data.Store', {
             grouper = {
                 property: grouper
             };
-        }
-        else if (typeof grouper == 'function') {
+        } else if (typeof grouper == 'function') {
             grouper = {
                 groupFn: grouper
             };
@@ -54993,7 +54669,7 @@ Ext.define('Ext.data.Store', {
      * Removes the given record from the Store, firing the `removerecords` event passing all the instances that are removed.
      * @param {Ext.data.Model/Ext.data.Model[]} records Model instance or array of instances to remove.
      */
-    remove: function (records) {
+    remove: function(records) {
         if (records.isModel) {
             records = [records];
         }
@@ -55028,8 +54704,7 @@ Ext.define('Ext.data.Store', {
 
                 if (destroyRemovedRecords && !syncRemovedRecords && !record.stores.length) {
                     record.destroy();
-                }
-                else if (!isPhantom && syncRemovedRecords) {
+                } else if (!isPhantom && syncRemovedRecords) {
                     // don't push phantom records onto removed
                     me.removed.push(record);
                 }
@@ -55069,7 +54744,7 @@ Ext.define('Ext.data.Store', {
         }
     },
 
-    doRemoveAll: function (silent) {
+    doRemoveAll: function(silent) {
         var me = this,
             destroyRemovedRecords = this.getDestroyRemovedRecords(),
             syncRemovedRecords = this.getSyncRemovedRecords(),
@@ -55083,8 +54758,7 @@ Ext.define('Ext.data.Store', {
 
             if (destroyRemovedRecords && !syncRemovedRecords && !record.stores.length) {
                 record.destroy();
-            }
-            else if (record.phantom !== true && syncRemovedRecords) {
+            } else if (record.phantom !== true && syncRemovedRecords) {
                 me.removed.push(record);
             }
         }
@@ -55153,7 +54827,7 @@ Ext.define('Ext.data.Store', {
      * If using paging, this may not be the total size of the dataset.
      * @return {Number} The number of all Records in the Store's cache.
      */
-    getAllCount: function () {
+    getAllCount: function() {
         return this.data.all.length || 0;
     },
 
@@ -55237,11 +54911,9 @@ Ext.define('Ext.data.Store', {
         newIndex = data.indexOf(record);
         if (currentIndex === -1 && newIndex !== -1) {
             me.fireEvent('addrecords', me, [record]);
-        }
-        else if (currentIndex !== -1 && newIndex === -1) {
+        } else if (currentIndex !== -1 && newIndex === -1) {
             me.fireEvent('removerecords', me, [record], [currentIndex]);
-        }
-        else if (newIndex !== -1) {
+        } else if (newIndex !== -1) {
             me.fireEvent('updaterecord', me, record, newIndex, currentIndex, modifiedFieldNames, modified);
         }
     },
@@ -55283,11 +54955,9 @@ Ext.define('Ext.data.Store', {
         newIndex = data.indexOf(record);
         if (currentIndex === -1 && newIndex !== -1) {
             me.fireEvent('addrecords', me, [record]);
-        }
-        else if (currentIndex !== -1 && newIndex === -1) {
+        } else if (currentIndex !== -1 && newIndex === -1) {
             me.fireEvent('removerecords', me, [record], [currentIndex]);
-        }
-        else if (newIndex !== -1) {
+        } else if (newIndex !== -1) {
             me.fireEvent('updaterecord', me, record, newIndex, currentIndex, modifiedFieldNames, modified);
         }
     },
@@ -55310,17 +54980,17 @@ Ext.define('Ext.data.Store', {
 
     applyRemoteFilter: function(value) {
         var proxy = this.getProxy();
-        return value || (proxy && proxy.isSQLProxy  === true);
+        return value || (proxy && proxy.isSQLProxy === true);
     },
 
     applyRemoteSort: function(value) {
         var proxy = this.getProxy();
-        return value || (proxy && proxy.isSQLProxy  === true);
+        return value || (proxy && proxy.isSQLProxy === true);
     },
 
     applyRemoteGroup: function(value) {
         var proxy = this.getProxy();
-        return value || (proxy && proxy.isSQLProxy  === true);
+        return value || (proxy && proxy.isSQLProxy === true);
     },
 
     updateRemoteFilter: function(remoteFilter) {
@@ -55454,18 +55124,18 @@ Ext.define('Ext.data.Store', {
 
         if (property) {
             if (Ext.isFunction(property)) {
-                filter = {filterFn: property};
-            }
-            else if (Ext.isArray(property) || property.isFilter) {
-                filter = property;
-            }
-            else {
                 filter = {
-                    property     : property,
-                    value        : value,
-                    anyMatch     : anyMatch,
+                    filterFn: property
+                };
+            } else if (Ext.isArray(property) || property.isFilter) {
+                filter = property;
+            } else {
+                filter = {
+                    property: property,
+                    value: value,
+                    anyMatch: anyMatch,
                     caseSensitive: caseSensitive,
-                    id           : property
+                    id: property
                 };
             }
         }
@@ -55543,7 +55213,7 @@ Ext.define('Ext.data.Store', {
      * Returns `true` if this store is currently filtered.
      * @return {Boolean}
      */
-    isFiltered : function () {
+    isFiltered: function() {
         return this.data.filtered;
     },
 
@@ -55551,7 +55221,7 @@ Ext.define('Ext.data.Store', {
      * Returns `true` if this store is currently sorted.
      * @return {Boolean}
      */
-    isSorted : function () {
+    isSorted: function() {
         return this.data.sorted;
     },
 
@@ -56194,7 +55864,7 @@ Ext.define('Ext.data.Store', {
         Ext.destroy(this.getPlugins());
 
         if (this.implicitModel && this.getModel()) {
-          delete Ext.data.ModelManager.types[this.getModel().getName()];
+            delete Ext.data.ModelManager.types[this.getModel().getName()];
         }
         Ext.destroy(this.data);
 
@@ -56243,9 +55913,9 @@ Ext.define('Ext.data.Store', {
  * **{@link Ext.data.reader.Array ArrayReader}**.
  */
 Ext.define('Ext.data.ArrayStore', {
-    extend:  Ext.data.Store ,
+    extend: Ext.data.Store,
     alias: 'store.array',
-                                    
+
 
     config: {
         proxy: {
@@ -56255,17 +55925,17 @@ Ext.define('Ext.data.ArrayStore', {
     },
 
     loadData: function(data, append) {
-//        if (this.expandData === true) {
-//            var r = [],
-//                i = 0,
-//                ln = data.length;
-//
-//            for (; i < ln; i++) {
-//                r[r.length] = [data[i]];
-//            }
-//
-//            data = r;
-//        }
+        //        if (this.expandData === true) {
+        //            var r = [],
+        //                i = 0,
+        //                ln = data.length;
+        //
+        //            for (; i < ln; i++) {
+        //                r[r.length] = [data[i]];
+        //            }
+        //
+        //            data = r;
+        //        }
 
         this.callParent([data, append]);
     }
@@ -56337,8 +56007,7 @@ Ext.define('Ext.event.Event', {
                     this[name] = info[name];
                 }
             }
-        }
-        else {
+        } else {
             this[name] = info[name];
         }
     },
@@ -56369,7 +56038,7 @@ Ext.define('Ext.event.Event', {
  * purposes it's members are listed inside {@link Ext.event.Event}.
  */
 Ext.define('Ext.event.Dom', {
-    extend:  Ext.event.Event ,
+    extend: Ext.event.Event,
 
     constructor: function(event) {
         var target = event.target,
@@ -56383,8 +56052,7 @@ Ext.define('Ext.event.Dom', {
             touches = touches[0];
             this.pageX = touches.pageX;
             this.pageY = touches.pageY;
-        }
-        else {
+        } else {
             this.pageX = event.pageX;
             this.pageY = event.pageY;
         }
@@ -56506,11 +56174,9 @@ Ext.define('Ext.event.Dom', {
  * Touch event.
  */
 Ext.define('Ext.event.Touch', {
-    extend:  Ext.event.Dom ,
+    extend: Ext.event.Dom,
 
-               
-                        
-      
+
 
     constructor: function(event, info, map, list) {
         var touches = [],
@@ -56543,7 +56209,7 @@ Ext.define('Ext.event.Touch', {
         var clonedTouches = [],
             i, ln, touch, identifier;
 
-        for (i = 0,ln = touches.length; i < ln; i++) {
+        for (i = 0, ln = touches.length; i < ln; i++) {
             touch = touches[i];
             identifier = touch.identifier;
             clonedTouches[i] = map[identifier];
@@ -56568,7 +56234,7 @@ Ext.define('Ext.event.publisher.Publisher', {
 
         handledEventsMap = this.handledEventsMap = {};
 
-        for (i = 0,ln = handledEvents.length; i < ln; i++) {
+        for (i = 0, ln = handledEvents.length; i < ln; i++) {
             event = handledEvents[i];
 
             handledEventsMap[event] = true;
@@ -56582,7 +56248,7 @@ Ext.define('Ext.event.publisher.Publisher', {
     handles: function(eventName) {
         var map = this.handledEventsMap;
 
-        return !!map[eventName] || !!map['*'] || eventName === '*';
+        return !!map[eventName] || !! map['*'] || eventName === '*';
     },
 
     getHandledEvents: function() {
@@ -56625,12 +56291,9 @@ Ext.define('Ext.event.publisher.Publisher', {
  * @private
  */
 Ext.define('Ext.event.publisher.ComponentDelegation', {
-    extend:  Ext.event.publisher.Publisher ,
+    extend: Ext.event.publisher.Publisher,
 
-               
-                        
-                            
-      
+
 
     targetType: 'component',
 
@@ -56697,8 +56360,7 @@ Ext.define('Ext.event.publisher.ComponentDelegation', {
             subMap.$length++;
             map.$length++;
             typeSubscribers.$length++;
-        }
-        else {
+        } else {
             if (selectorSubscribers.hasOwnProperty(target)) {
                 selectorSubscribers[target]++;
                 return true;
@@ -56748,8 +56410,7 @@ Ext.define('Ext.event.publisher.ComponentDelegation', {
             subMap.$length--;
             map.$length--;
             typeSubscribers.$length--;
-        }
-        else {
+        } else {
             if (!selectorSubscribers.hasOwnProperty(target) || (!all && --selectorSubscribers[target] > 0)) {
                 return true;
             }
@@ -56837,8 +56498,7 @@ Ext.define('Ext.event.publisher.ComponentDelegation', {
                     if (!parentId) {
                         if (ancestorIds) {
                             parentId = ancestorIds[0];
-                        }
-                        else {
+                        } else {
                             parentComponent = component.getParent();
                             if (parentComponent) {
                                 parentId = parentComponent.getId();
@@ -56874,7 +56534,7 @@ Ext.define('Ext.event.publisher.ComponentDelegation', {
  */
 Ext.define('Ext.event.publisher.ComponentPaint', {
 
-    extend:  Ext.event.publisher.Publisher ,
+    extend: Ext.event.publisher.Publisher,
 
     targetType: 'component',
 
@@ -57063,8 +56723,7 @@ Ext.define('Ext.event.publisher.ComponentPaint', {
 
             if ((eventName === eventNames.painted && !isPainted) || eventName === eventNames.erased && isPainted) {
                 needsDispatching = true;
-            }
-            else {
+            } else {
                 return this;
             }
         }
@@ -57072,11 +56731,10 @@ Ext.define('Ext.event.publisher.ComponentPaint', {
         if (component.isContainer) {
             items = component.getItems().items;
 
-            for (i = 0,ln = items.length; i < ln; i++) {
+            for (i = 0, ln = items.length; i < ln; i++) {
                 this.publish(subscribers, items[i], eventName, dispatchingQueue);
             }
-        }
-        else if (component.isDecorator) {
+        } else if (component.isDecorator) {
             this.publish(subscribers, component.getComponent(), eventName, dispatchingQueue);
         }
 
@@ -57094,21 +56752,18 @@ Ext.define('Ext.event.publisher.ComponentPaint', {
  * @private
  */
 Ext.define('Ext.event.publisher.Dom', {
-    extend:  Ext.event.publisher.Publisher ,
+    extend: Ext.event.publisher.Publisher,
 
-               
-                          
-                      
-                       
-      
+
 
     targetType: 'element',
 
     idOrClassSelectorRegex: /^([#|\.])([\w\-]+)$/,
 
     handledEvents: ['focus', 'blur', 'paste', 'input', 'change',
-                    'keyup', 'keydown', 'keypress', 'submit',
-                    'transitionend', 'animationstart', 'animationend'],
+        'keyup', 'keydown', 'keypress', 'submit',
+        'transitionend', 'animationstart', 'animationend'
+    ],
 
     classNameSplitRegex: /\s+/,
 
@@ -57132,7 +56787,7 @@ Ext.define('Ext.event.publisher.Dom', {
 
         this.onEvent = Ext.Function.bind(this.onEvent, this);
 
-        for (i = 0,ln = eventNames.length; i < ln; i++) {
+        for (i = 0, ln = eventNames.length; i < ln; i++) {
             eventName = eventNames[i];
             vendorEventName = this.getVendorEventName(eventName);
             eventNameMap[vendorEventName] = eventName;
@@ -57170,11 +56825,9 @@ Ext.define('Ext.event.publisher.Dom', {
         if (Ext.browser.is.WebKit) {
             if (eventName === 'transitionend') {
                 eventName = Ext.browser.getVendorProperyName('transitionEnd');
-            }
-            else if (eventName === 'animationstart') {
+            } else if (eventName === 'animationstart') {
                 eventName = Ext.browser.getVendorProperyName('animationStart');
-            }
-            else if (eventName === 'animationend') {
+            } else if (eventName === 'animationend') {
                 eventName = Ext.browser.getVendorProperyName('animationEnd');
             }
         }
@@ -57182,7 +56835,7 @@ Ext.define('Ext.event.publisher.Dom', {
         return eventName;
     },
 
-    bindListeners: function (doc, bind) {
+    bindListeners: function(doc, bind) {
         var handlesEvents = this.getHandledEvents(),
             handlesEventsLength = handlesEvents.length,
             i;
@@ -57192,7 +56845,7 @@ Ext.define('Ext.event.publisher.Dom', {
         }
     },
 
-    bindListener: function (doc, eventName, bind) {
+    bindListener: function(doc, eventName, bind) {
         if (bind) {
             this.attachListener(eventName, doc);
         } else {
@@ -57210,11 +56863,9 @@ Ext.define('Ext.event.publisher.Dom', {
 
         if (Ext.os.is.iOS && Ext.os.version.getMajor() < 5) {
             document.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
-        }
-        else if (defaultView && defaultView.addEventListener) {
+        } else if (defaultView && defaultView.addEventListener) {
             doc.defaultView.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
-        }
-        else {
+        } else {
             doc.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
         }
         return this;
@@ -57229,11 +56880,9 @@ Ext.define('Ext.event.publisher.Dom', {
 
         if (Ext.os.is.iOS && Ext.os.version.getMajor() < 5) {
             document.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
-        }
-        else if (defaultView && defaultView.addEventListener) {
+        } else if (defaultView && defaultView.addEventListener) {
             doc.defaultView.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
-        }
-        else {
+        } else {
             doc.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
         }
         return this;
@@ -57267,8 +56916,7 @@ Ext.define('Ext.event.publisher.Dom', {
 
                 idSubscribers[value] = 1;
                 idSubscribers.$length++;
-            }
-            else {
+            } else {
                 if (classNameSubscribers.hasOwnProperty(value)) {
                     classNameSubscribers[value]++;
                     return true;
@@ -57277,12 +56925,10 @@ Ext.define('Ext.event.publisher.Dom', {
                 classNameSubscribers[value] = 1;
                 classNameSubscribers.$length++;
             }
-        }
-        else {
+        } else {
             if (target === this.SELECTOR_ALL) {
                 subscribers.all++;
-            }
-            else {
+            } else {
                 if (selectorSubscribers.hasOwnProperty(target)) {
                     selectorSubscribers[target]++;
                     return true;
@@ -57323,8 +56969,7 @@ Ext.define('Ext.event.publisher.Dom', {
 
                 delete idSubscribers[value];
                 idSubscribers.$length--;
-            }
-            else {
+            } else {
                 if (!classNameSubscribers.hasOwnProperty(value) || (!all && --classNameSubscribers[value] > 0)) {
                     return true;
                 }
@@ -57332,17 +56977,14 @@ Ext.define('Ext.event.publisher.Dom', {
                 delete classNameSubscribers[value];
                 classNameSubscribers.$length--;
             }
-        }
-        else {
+        } else {
             if (target === this.SELECTOR_ALL) {
                 if (all) {
                     subscribers.all = 0;
-                }
-                else {
+                } else {
                     subscribers.all--;
                 }
-            }
-            else {
+            } else {
                 if (!selectorSubscribers.hasOwnProperty(target) || (!all && --selectorSubscribers[target] > 0)) {
                     return true;
                 }
@@ -57419,7 +57061,7 @@ Ext.define('Ext.event.publisher.Dom', {
             classNameSplitRegex = this.classNameSplitRegex,
             i, ln, j, subLn, target, id, className, classNames, selector;
 
-        for (i = 0,ln = targets.length; i < ln; i++) {
+        for (i = 0, ln = targets.length; i < ln; i++) {
             target = targets[i];
             event.setDelegatedTarget(target);
 
@@ -57446,7 +57088,7 @@ Ext.define('Ext.event.publisher.Dom', {
                 if (className) {
                     classNames = className.split(classNameSplitRegex);
 
-                    for (j = 0,subLn = classNames.length; j < subLn; j++) {
+                    for (j = 0, subLn = classNames.length; j < subLn; j++) {
                         className = classNames[j];
 
                         if (!isClassNameHandled[className]) {
@@ -57477,10 +57119,10 @@ Ext.define('Ext.event.publisher.Dom', {
         }
 
         if (hasSelectorSubscribers) {
-            for (j = 0,subLn = targets.length; j < subLn; j++) {
+            for (j = 0, subLn = targets.length; j < subLn; j++) {
                 target = targets[j];
 
-                for (i = 0,ln = selectorSubscribers.length; i < ln; i++) {
+                for (i = 0, ln = selectorSubscribers.length; i < ln; i++) {
                     selector = selectorSubscribers[i];
 
                     if (this.matchesSelector(target, selector)) {
@@ -57534,8 +57176,7 @@ Ext.define('Ext.event.publisher.Dom', {
 
         if (this.doesEventBubble(eventName)) {
             targets = this.getBubblingTargets(target);
-        }
-        else {
+        } else {
             targets = [target];
         }
 
@@ -57557,12 +57198,10 @@ Ext.define('Ext.event.publisher.Dom', {
 
             if (type === '#') {
                 return subscribers.id.hasOwnProperty(value);
-            }
-            else {
+            } else {
                 return subscribers.className.hasOwnProperty(value);
             }
-        }
-        else {
+        } else {
             return (subscribers.selector.hasOwnProperty(target) && Ext.Array.indexOf(subscribers.selector, target) !== -1);
         }
 
@@ -57652,7 +57291,7 @@ Ext.define('Ext.util.paintmonitor.Abstract', {
  */
 Ext.define('Ext.util.paintmonitor.CssAnimation', {
 
-    extend:  Ext.util.paintmonitor.Abstract ,
+    extend: Ext.util.paintmonitor.Abstract,
 
     eventName: Ext.browser.is.WebKit ? 'webkitAnimationEnd' : 'animationend',
 
@@ -57670,7 +57309,7 @@ Ext.define('Ext.util.paintmonitor.CssAnimation', {
  */
 Ext.define('Ext.util.paintmonitor.OverflowChange', {
 
-    extend:  Ext.util.paintmonitor.Abstract ,
+    extend: Ext.util.paintmonitor.Abstract,
 
     eventName: Ext.browser.is.Firefox ? 'overflow' : 'overflowchanged',
 
@@ -57685,16 +57324,13 @@ Ext.define('Ext.util.paintmonitor.OverflowChange', {
  *
  */
 Ext.define('Ext.util.PaintMonitor', {
-               
-                                             
-                                              
-      
+
+
 
     constructor: function(config) {
         if (Ext.browser.is.Firefox || (Ext.browser.is.WebKit && Ext.browser.engineVersion.gtEq('536') && !Ext.os.is.Blackberry)) {
             return new Ext.util.paintmonitor.OverflowChange(config);
-        }
-        else {
+        } else {
             return new Ext.util.paintmonitor.CssAnimation(config);
         }
     }
@@ -57705,12 +57341,9 @@ Ext.define('Ext.util.PaintMonitor', {
  */
 Ext.define('Ext.event.publisher.ElementPaint', {
 
-    extend:  Ext.event.publisher.Publisher ,
+    extend: Ext.event.publisher.Publisher,
 
-               
-                                
-                       
-      
+
 
     targetType: 'element',
 
@@ -57784,7 +57417,7 @@ Ext.define('Ext.event.publisher.ElementPaint', {
  *
  */
 Ext.define('Ext.mixin.Templatable', {
-    extend:  Ext.mixin.Mixin ,
+    extend: Ext.mixin.Mixin,
 
     mixinConfig: {
         id: 'templatable'
@@ -57826,7 +57459,7 @@ Ext.define('Ext.mixin.Templatable', {
         renderElement = this.elementTemplate.cloneNode(true);
         referenceNodes = renderElement.querySelectorAll(this.referenceSelector);
 
-        for (i = 0,ln = referenceNodes.length; i < ln; i++) {
+        for (i = 0, ln = referenceNodes.length; i < ln; i++) {
             referenceNode = referenceNodes[i];
             reference = referenceNode.getAttribute(referenceAttributeName);
             referenceNode.removeAttribute(referenceAttributeName);
@@ -57840,11 +57473,9 @@ Ext.define('Ext.mixin.Templatable', {
  */
 Ext.define('Ext.util.sizemonitor.Abstract', {
 
-    mixins: [ Ext.mixin.Templatable ],
+    mixins: [Ext.mixin.Templatable],
 
-               
-                       
-      
+
 
     config: {
         element: null,
@@ -57980,7 +57611,7 @@ Ext.define('Ext.util.sizemonitor.Abstract', {
  * @private
  */
 Ext.define('Ext.util.sizemonitor.Default', {
-    extend:  Ext.util.sizemonitor.Abstract ,
+    extend: Ext.util.sizemonitor.Abstract,
 
     updateElement: function(element) {},
 
@@ -57993,14 +57624,13 @@ Ext.define('Ext.util.sizemonitor.Default', {
 
         if (bind) {
             element.onresize = this.refresh;
-        }
-        else {
+        } else {
             delete element.onresize;
         }
     },
 
     getContentBounds: function() {
-       return this.getElement().dom.getBoundingClientRect();
+        return this.getElement().dom.getBoundingClientRect();
     },
 
     getContentWidth: function() {
@@ -58017,22 +57647,19 @@ Ext.define('Ext.util.sizemonitor.Default', {
  */
 Ext.define('Ext.util.sizemonitor.Scroll', {
 
-    extend:  Ext.util.sizemonitor.Abstract ,
+    extend: Ext.util.sizemonitor.Abstract,
 
     getElementConfig: function() {
         return {
             reference: 'detectorsContainer',
             classList: ['x-size-monitors', 'scroll'],
-            children: [
-                {
-                    reference: 'expandMonitor',
-                    className: 'expand'
-                },
-                {
-                    reference: 'shrinkMonitor',
-                    className: 'shrink'
-                }
-            ]
+            children: [{
+                reference: 'expandMonitor',
+                className: 'expand'
+            }, {
+                reference: 'shrinkMonitor',
+                className: 'shrink'
+            }]
         }
     },
 
@@ -58079,7 +57706,7 @@ Ext.define('Ext.util.sizemonitor.Scroll', {
  */
 Ext.define('Ext.util.sizemonitor.OverflowChange', {
 
-    extend:  Ext.util.sizemonitor.Abstract ,
+    extend: Ext.util.sizemonitor.Abstract,
 
     constructor: function(config) {
         this.onExpand = Ext.Function.bind(this.onExpand, this);
@@ -58092,22 +57719,19 @@ Ext.define('Ext.util.sizemonitor.OverflowChange', {
         return {
             reference: 'detectorsContainer',
             classList: ['x-size-monitors', 'overflowchanged'],
-            children: [
-                {
-                    reference: 'expandMonitor',
-                    className: 'expand',
-                    children: [{
-                        reference: 'expandHelper'
-                    }]
-                },
-                {
-                    reference: 'shrinkMonitor',
-                    className: 'shrink',
-                    children: [{
-                        reference: 'shrinkHelper'
-                    }]
-                }
-            ]
+            children: [{
+                reference: 'expandMonitor',
+                className: 'expand',
+                children: [{
+                    reference: 'expandHelper'
+                }]
+            }, {
+                reference: 'shrinkMonitor',
+                className: 'shrink',
+                children: [{
+                    reference: 'shrinkHelper'
+                }]
+            }]
         };
     },
 
@@ -58154,7 +57778,7 @@ Ext.define('Ext.util.sizemonitor.OverflowChange', {
 
         if (shrinkHelper && !shrinkHelper.isDestroyed) {
             style = shrinkHelper.style;
-            style.width = width  + 'px';
+            style.width = width + 'px';
             style.height = height + 'px';
         }
 
@@ -58166,30 +57790,23 @@ Ext.define('Ext.util.sizemonitor.OverflowChange', {
  *
  */
 Ext.define('Ext.util.SizeMonitor', {
-               
-                                       
-                                      
-                                             
-      
+
+
 
     constructor: function(config) {
         var namespace = Ext.util.sizemonitor;
 
         if (Ext.browser.is.Firefox) {
             return new namespace.OverflowChange(config);
-        }
-        else if (Ext.browser.is.WebKit) {
+        } else if (Ext.browser.is.WebKit) {
             if (!Ext.browser.is.Silk && Ext.browser.engineVersion.gtEq('535')) {
                 return new namespace.OverflowChange(config);
-            }
-            else {
+            } else {
                 return new namespace.Scroll(config);
             }
-        }
-        else if (Ext.browser.is.IE11) {
+        } else if (Ext.browser.is.IE11) {
             return new namespace.Scroll(config);
-        }
-        else {
+        } else {
             return new namespace.Default(config);
         }
     }
@@ -58200,11 +57817,9 @@ Ext.define('Ext.util.SizeMonitor', {
  */
 Ext.define('Ext.event.publisher.ElementSize', {
 
-    extend:  Ext.event.publisher.Publisher ,
+    extend: Ext.event.publisher.Publisher,
 
-               
-                              
-      
+
 
     targetType: 'element',
 
@@ -58286,13 +57901,9 @@ Ext.define('Ext.event.publisher.ElementSize', {
  */
 Ext.define('Ext.event.publisher.TouchGesture', {
 
-    extend:  Ext.event.publisher.Dom ,
+    extend: Ext.event.publisher.Dom,
 
-               
-                         
-                          
-                            
-      
+
 
     isNotPreventable: /^(select|a)$/i,
 
@@ -58329,17 +57940,13 @@ Ext.define('Ext.event.publisher.TouchGesture', {
 
         if (Ext.browser.is.Chrome && Ext.os.is.Android) {
             this.screenPositionRatio = Ext.browser.version.gt('18') ? 1 : 1 / window.devicePixelRatio;
-        }
-        else if (Ext.browser.is.AndroidStock4) {
+        } else if (Ext.browser.is.AndroidStock4) {
             this.screenPositionRatio = 1;
-        }
-        else if (Ext.os.is.BlackBerry) {
+        } else if (Ext.os.is.BlackBerry) {
             this.screenPositionRatio = 1 / window.devicePixelRatio;
-        }
-        else if (Ext.browser.engineName == 'WebKit' && Ext.os.is.Desktop) {
+        } else if (Ext.browser.engineName == 'WebKit' && Ext.os.is.Desktop) {
             this.screenPositionRatio = 1;
-        }
-        else {
+        } else {
             this.screenPositionRatio = window.innerWidth / window.screen.width;
         }
         this.initConfig(config);
@@ -58383,16 +57990,15 @@ Ext.define('Ext.event.publisher.TouchGesture', {
 
         if ('button' in e && e.button > 0) {
             return;
-        }
-        else {
+        } else {
             // Temporary fix for a recent Chrome bugs where events don't seem to bubble up to document
             // when the element is being animated with webkit-transition (2 mousedowns without any mouseup)
             if (type === 'mousedown' && lastEventType && lastEventType !== 'mouseup') {
                 var fixedEvent = document.createEvent("MouseEvent");
-                    fixedEvent.initMouseEvent('mouseup', e.bubbles, e.cancelable,
-                        document.defaultView, e.detail, e.screenX, e.screenY, e.clientX,
-                        e.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.metaKey,
-                        e.button, e.relatedTarget);
+                fixedEvent.initMouseEvent('mouseup', e.bubbles, e.cancelable,
+                    document.defaultView, e.detail, e.screenX, e.screenY, e.clientX,
+                    e.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.metaKey,
+                    e.button, e.relatedTarget);
 
                 this.onEvent(fixedEvent);
             }
@@ -58419,7 +58025,7 @@ Ext.define('Ext.event.publisher.TouchGesture', {
         recognizer.setOnRecognized(this.onRecognized);
         recognizer.setCallbackScope(this);
 
-        for (i = 0,ln = handledEvents.length; i < ln; i++) {
+        for (i = 0, ln = handledEvents.length; i < ln; i++) {
             eventName = handledEvents[i];
 
             map[eventName] = recognizer;
@@ -58528,8 +58134,8 @@ Ext.define('Ext.event.publisher.TouchGesture', {
             this.currentIdentifiers.push(identifier);
         }
 
-        x  = touch.pageX;
-        y  = touch.pageY;
+        x = touch.pageX;
+        y = touch.pageY;
 
         if (x === currentTouch.pageX && y === currentTouch.pageY) {
             return false;
@@ -58575,7 +58181,9 @@ Ext.define('Ext.event.publisher.TouchGesture', {
 
         for (i = 0; i < ln; i++) {
             touch = changedTouches[i];
-            this.publish('touchstart', touch.targets, e, {touch: touch});
+            this.publish('touchstart', touch.targets, e, {
+                touch: touch
+            });
         }
 
         if (!this.isStarted) {
@@ -58621,7 +58229,9 @@ Ext.define('Ext.event.publisher.TouchGesture', {
 
         for (i = 0; i < ln; i++) {
             touch = changedTouches[i];
-            this.publish('touchmove', touch.targets, e, {touch: touch});
+            this.publish('touchmove', touch.targets, e, {
+                touch: touch
+            });
         }
 
         if (ln > 0) {
@@ -58658,7 +58268,9 @@ Ext.define('Ext.event.publisher.TouchGesture', {
             identifier = changedTouches[i].identifier;
             touch = touchesMap[identifier];
             delete touchesMap[identifier];
-            this.publish('touchend', touch.targets, e, {touch: touch});
+            this.publish('touchend', touch.targets, e, {
+                touch: touch
+            });
         }
 
         this.invokeRecognizers('onTouchEnd', e);
@@ -58724,8 +58336,7 @@ Ext.define('Ext.event.publisher.TouchGesture', {
                 this.eventProcessors[type].call(this, e);
             }
         });
-    }
-    else if (!Ext.browser.is.Ripple && (Ext.os.is.ChromeOS || !Ext.feature.has.Touch)) {
+    } else if (!Ext.browser.is.Ripple && (Ext.os.is.ChromeOS || !Ext.feature.has.Touch)) {
         this.override({
             handledEvents: ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'mousedown', 'mousemove', 'mouseup']
         });
@@ -58758,7 +58369,7 @@ Ext.define('Ext.event.publisher.TouchGesture', {
  * @private
  */
 Ext.define('Ext.event.recognizer.Recognizer', {
-    mixins: [ Ext.mixin.Identifiable ],
+    mixins: [Ext.mixin.Identifiable],
 
     handledEvents: [],
 
@@ -58798,7 +58409,7 @@ Ext.define('Ext.event.recognizer.Recognizer', {
  */
 Ext.define('Ext.event.recognizer.Touch', {
 
-    extend:  Ext.event.recognizer.Recognizer ,
+    extend: Ext.event.recognizer.Recognizer,
 
     onTouchStart: Ext.emptyFn,
 
@@ -58811,11 +58422,11 @@ Ext.define('Ext.event.recognizer.Touch', {
  * @private
  */
 Ext.define('Ext.event.recognizer.SingleTouch', {
-    extend:  Ext.event.recognizer.Touch ,
+    extend: Ext.event.recognizer.Touch,
 
     inheritableStatics: {
         NOT_SINGLE_TOUCH: 0x01,
-        TOUCH_MOVED:  0x02
+        TOUCH_MOVED: 0x02
     },
 
     onTouchStart: function(e) {
@@ -58833,7 +58444,7 @@ Ext.define('Ext.event.recognizer.SingleTouch', {
  */
 Ext.define('Ext.event.recognizer.DoubleTap', {
 
-    extend:  Ext.event.recognizer.SingleTouch ,
+    extend: Ext.event.recognizer.SingleTouch,
 
     inheritableStatics: {
         DIFFERENT_TARGET: 0x03
@@ -58918,8 +58529,7 @@ Ext.define('Ext.event.recognizer.DoubleTap', {
 
         if (time - this.startTime > maxDuration) {
             this.fireSingleTap(e, touch);
-        }
-        else {
+        } else {
             this.singleTapTimer = setTimeout(function() {
                 me.fireSingleTap(e, touch);
             }, maxDuration);
@@ -58937,7 +58547,7 @@ Ext.define('Ext.event.recognizer.DoubleTap', {
  * @private
  */
 Ext.define('Ext.event.recognizer.Drag', {
-    extend:  Ext.event.recognizer.SingleTouch ,
+    extend: Ext.event.recognizer.SingleTouch,
 
     isStarted: false,
 
@@ -59118,8 +58728,7 @@ Ext.define('Ext.event.recognizer.Drag', {
 
         if (value > previousValue) {
             direction[axis] = 1;
-        }
-        else if (value < previousValue) {
+        } else if (value < previousValue) {
             direction[axis] = -1;
         }
 
@@ -59171,7 +58780,7 @@ Ext.define('Ext.event.recognizer.Drag', {
  * @private
  */
 Ext.define('Ext.event.recognizer.Swipe', {
-    extend:  Ext.event.recognizer.SingleTouch ,
+    extend: Ext.event.recognizer.SingleTouch,
 
     handledEvents: ['swipestart', 'swipe'],
 
@@ -59265,8 +58874,7 @@ Ext.define('Ext.event.recognizer.Swipe', {
             if (this.isHorizontal && absDeltaX < minDistance) {
                 direction = (deltaX < 0) ? 'left' : 'right';
                 distance = absDeltaX;
-            }
-            else if (this.isVertical && absDeltaY < minDistance) {
+            } else if (this.isVertical && absDeltaY < minDistance) {
                 direction = (deltaY < 0) ? 'up' : 'down';
                 distance = absDeltaY;
             }
@@ -59315,12 +58923,10 @@ Ext.define('Ext.event.recognizer.Swipe', {
         if (this.isHorizontal) {
             direction = (deltaX < 0) ? 'left' : 'right';
             distance = absDeltaX;
-        }
-        else if (this.isVertical) {
+        } else if (this.isVertical) {
             direction = (deltaY < 0) ? 'up' : 'down';
             distance = absDeltaY;
-        }
-        else {
+        } else {
             return this.fail(this.self.DISTANCE_NOT_ENOUGH);
         }
 
@@ -59341,7 +58947,7 @@ Ext.define('Ext.event.recognizer.Swipe', {
  * @private
  */
 Ext.define('Ext.event.recognizer.EdgeSwipe', {
-    extend:  Ext.event.recognizer.Swipe ,
+    extend: Ext.event.recognizer.Swipe,
 
     handledEvents: [
         'edgeswipe',
@@ -59413,8 +59019,7 @@ Ext.define('Ext.event.recognizer.EdgeSwipe', {
         if (this.isHorizontal) {
             direction = (deltaX < 0) ? 'left' : 'right';
             distance = deltaX;
-        }
-        else if (this.isVertical) {
+        } else if (this.isVertical) {
             direction = (deltaY < 0) ? 'up' : 'down';
             distance = deltaY;
         }
@@ -59438,14 +59043,11 @@ Ext.define('Ext.event.recognizer.EdgeSwipe', {
             // If this is the first move, check if we are close enough to the edge to begin
             if (this.direction == 'right' && this.startX > minDistance) {
                 return this.fail(this.self.NOT_NEAR_EDGE);
-            }
-            else if (this.direction == 'down' &&  this.startY > minDistance) {
+            } else if (this.direction == 'down' && this.startY > minDistance) {
                 return this.fail(this.self.NOT_NEAR_EDGE);
-            }
-            else if (this.direction == 'left' &&  (elementWidth - this.startX) > minDistance) {
+            } else if (this.direction == 'left' && (elementWidth - this.startX) > minDistance) {
                 return this.fail(this.self.NOT_NEAR_EDGE);
-            }
-            else if (this.direction == 'up' && (elementHeight - this.startY) > minDistance) {
+            } else if (this.direction == 'up' && (elementHeight - this.startY) > minDistance) {
                 return this.fail(this.self.NOT_NEAR_EDGE);
             }
 
@@ -59490,7 +59092,7 @@ Ext.define('Ext.event.recognizer.EdgeSwipe', {
  * @private
  */
 Ext.define('Ext.event.recognizer.LongPress', {
-    extend:  Ext.event.recognizer.SingleTouch ,
+    extend: Ext.event.recognizer.SingleTouch,
 
     inheritableStatics: {
         DURATION_NOT_ENOUGH: 0x20
@@ -59579,7 +59181,7 @@ Ext.define('Ext.event.recognizer.LongPress', {
  * @private
  */
 Ext.define('Ext.event.recognizer.MultiTouch', {
-    extend:  Ext.event.recognizer.Touch ,
+    extend: Ext.event.recognizer.Touch,
 
     requiredTouchesCount: 2,
 
@@ -59594,8 +59196,7 @@ Ext.define('Ext.event.recognizer.MultiTouch', {
 
         if (touchesCount === requiredTouchesCount) {
             this.start(e);
-        }
-        else if (touchesCount > requiredTouchesCount) {
+        } else if (touchesCount > requiredTouchesCount) {
             this.end(e);
         }
     },
@@ -59630,7 +59231,7 @@ Ext.define('Ext.event.recognizer.MultiTouch', {
  * @private
  */
 Ext.define('Ext.event.recognizer.Pinch', {
-    extend:  Ext.event.recognizer.MultiTouch ,
+    extend: Ext.event.recognizer.MultiTouch,
 
     requiredTouchesCount: 2,
 
@@ -59703,8 +59304,7 @@ Ext.define('Ext.event.recognizer.Pinch', {
                 distance: distance,
                 scale: 1
             });
-        }
-        else {
+        } else {
             this.fire('pinch', e, touches, {
                 touches: touches,
                 distance: distance,
@@ -59730,7 +59330,7 @@ Ext.define('Ext.event.recognizer.Pinch', {
  * @private
  */
 Ext.define('Ext.event.recognizer.Rotate', {
-    extend:  Ext.event.recognizer.MultiTouch ,
+    extend: Ext.event.recognizer.MultiTouch,
 
     requiredTouchesCount: 2,
 
@@ -59808,8 +59408,7 @@ Ext.define('Ext.event.recognizer.Rotate', {
 
             if (Math.abs(nextAngle - lastAngle) < diff) {
                 angle = nextAngle;
-            }
-            else if (Math.abs(previousAngle - lastAngle) < diff) {
+            } else if (Math.abs(previousAngle - lastAngle) < diff) {
                 angle = previousAngle;
             }
         }
@@ -59826,8 +59425,7 @@ Ext.define('Ext.event.recognizer.Rotate', {
                 angle: angle,
                 rotation: 0
             });
-        }
-        else {
+        } else {
             this.fire('rotate', e, touches, {
                 touches: touches,
                 angle: angle,
@@ -59850,7 +59448,7 @@ Ext.define('Ext.event.recognizer.Rotate', {
  * @private
  */
 Ext.define('Ext.event.recognizer.Tap', {
-    extend:  Ext.event.recognizer.SingleTouch ,
+    extend: Ext.event.recognizer.SingleTouch,
 
     handledEvents: ['tap', 'tapcancel'],
 
@@ -59896,84 +59494,82 @@ Ext.define('Ext.event.recognizer.Tap', {
  * @private
  */
 Ext.define('Ext.fx.runner.Css', {
-    extend:  Ext.Evented ,
+    extend: Ext.Evented,
 
-               
-                          
-      
+
 
     prefixedProperties: {
-        'transform'                 : true,
-        'transform-origin'          : true,
-        'perspective'               : true,
-        'transform-style'           : true,
-        'transition'                : true,
-        'transition-property'       : true,
-        'transition-duration'       : true,
+        'transform': true,
+        'transform-origin': true,
+        'perspective': true,
+        'transform-style': true,
+        'transition': true,
+        'transition-property': true,
+        'transition-duration': true,
         'transition-timing-function': true,
-        'transition-delay'          : true,
-        'animation'                 : true,
-        'animation-name'            : true,
-        'animation-duration'        : true,
-        'animation-iteration-count' : true,
-        'animation-direction'       : true,
-        'animation-timing-function' : true,
-        'animation-delay'           : true
+        'transition-delay': true,
+        'animation': true,
+        'animation-name': true,
+        'animation-duration': true,
+        'animation-iteration-count': true,
+        'animation-direction': true,
+        'animation-timing-function': true,
+        'animation-delay': true
     },
 
     lengthProperties: {
-        'top'                : true,
-        'right'              : true,
-        'bottom'             : true,
-        'left'               : true,
-        'width'              : true,
-        'height'             : true,
-        'max-height'         : true,
-        'max-width'          : true,
-        'min-height'         : true,
-        'min-width'          : true,
-        'margin-bottom'      : true,
-        'margin-left'        : true,
-        'margin-right'       : true,
-        'margin-top'         : true,
-        'padding-bottom'     : true,
-        'padding-left'       : true,
-        'padding-right'      : true,
-        'padding-top'        : true,
+        'top': true,
+        'right': true,
+        'bottom': true,
+        'left': true,
+        'width': true,
+        'height': true,
+        'max-height': true,
+        'max-width': true,
+        'min-height': true,
+        'min-width': true,
+        'margin-bottom': true,
+        'margin-left': true,
+        'margin-right': true,
+        'margin-top': true,
+        'padding-bottom': true,
+        'padding-left': true,
+        'padding-right': true,
+        'padding-top': true,
         'border-bottom-width': true,
-        'border-left-width'  : true,
-        'border-right-width' : true,
-        'border-spacing'     : true,
-        'border-top-width'   : true,
-        'border-width'       : true,
-        'outline-width'      : true,
-        'letter-spacing'     : true,
-        'line-height'        : true,
-        'text-indent'        : true,
-        'word-spacing'       : true,
-        'font-size'          : true,
-        'translate'          : true,
-        'translateX'         : true,
-        'translateY'         : true,
-        'translateZ'         : true,
-        'translate3d'        : true
+        'border-left-width': true,
+        'border-right-width': true,
+        'border-spacing': true,
+        'border-top-width': true,
+        'border-width': true,
+        'outline-width': true,
+        'letter-spacing': true,
+        'line-height': true,
+        'text-indent': true,
+        'word-spacing': true,
+        'font-size': true,
+        'translate': true,
+        'translateX': true,
+        'translateY': true,
+        'translateZ': true,
+        'translate3d': true
     },
 
     durationProperties: {
-        'transition-duration'   : true,
-        'transition-delay'      : true,
-        'animation-duration'    : true,
-        'animation-delay'       : true
+        'transition-duration': true,
+        'transition-delay': true,
+        'animation-duration': true,
+        'animation-delay': true
     },
 
     angleProperties: {
-        rotate     : true,
-        rotateX    : true,
-        rotateY    : true,
-        rotateZ    : true,
-        skew       : true,
-        skewX      : true,
-        skewY      : true
+        rotate: true,
+        rotateX: true,
+        rotateY: true,
+        rotateZ: true,
+        skew: true,
+        skewX: true,
+        skewY: true
     },
 
     lengthUnitRegex: /([a-z%]*)$/,
@@ -59991,8 +59587,7 @@ Ext.define('Ext.fx.runner.Css', {
 
         if (supports3dTransform) {
             this.transformMethods = ['translateX', 'translateY', 'translateZ', 'rotate', 'rotateX', 'rotateY', 'rotateZ', 'skewX', 'skewY', 'scaleX', 'scaleY', 'scaleZ'];
-        }
-        else {
+        } else {
             this.transformMethods = ['translateX', 'translateY', 'rotate', 'skewX', 'skewY', 'scaleX', 'scaleY'];
         }
 
@@ -60054,8 +59649,7 @@ Ext.define('Ext.fx.runner.Css', {
 
                     if (value === null) {
                         ruleStyle.removeProperty(name);
-                    }
-                    else {
+                    } else {
                         ruleStyle.setProperty(name, value, 'important');
                     }
                 }
@@ -60086,8 +59680,7 @@ Ext.define('Ext.fx.runner.Css', {
 
                         if (value === null) {
                             elementStyle.removeProperty(name);
-                        }
-                        else {
+                        } else {
                             elementStyle.setProperty(name, value, 'important');
                         }
                     }
@@ -60105,8 +59698,7 @@ Ext.define('Ext.fx.runner.Css', {
         if (!formattedName) {
             if ((Ext.os.is.Tizen || !Ext.feature.has.CssTransformNoPrefix) && this.prefixedProperties[name]) {
                 formattedName = this.vendorPrefix + name;
-            }
-            else {
+            } else {
                 formattedName = name;
             }
 
@@ -60136,15 +59728,13 @@ Ext.define('Ext.fx.runner.Css', {
                         Ext.Logger.error("Length unit: '" + unit + "' in value: '" + value + "' of property: '" + name + "' is not " +
                             "valid for animation. Only 'px' is allowed");
                     }
-                }
-                else {
+                } else {
                     return value + lengthUnit;
                 }
             }
 
             return value;
-        }
-        else if (type == 'number') {
+        } else if (type == 'number') {
             if (value == 0) {
                 return '0';
             }
@@ -60160,23 +59750,21 @@ Ext.define('Ext.fx.runner.Css', {
             if (this.durationProperties[name]) {
                 return value + this.DEFAULT_UNIT_DURATION;
             }
-        }
-        else if (name === 'transform') {
+        } else if (name === 'transform') {
             transformMethods = this.transformMethods;
             transformValues = [];
 
-            for (i = 0,ln = transformMethods.length; i < ln; i++) {
+            for (i = 0, ln = transformMethods.length; i < ln; i++) {
                 method = transformMethods[i];
 
                 transformValues.push(method + '(' + this.formatValue(value[method], method) + ')');
             }
 
             return transformValues.join(' ');
-        }
-        else if (Ext.isArray(value)) {
+        } else if (Ext.isArray(value)) {
             values = [];
 
-            for (i = 0,ln = value.length; i < ln; i++) {
+            for (i = 0, ln = value.length; i < ln; i++) {
                 values.push(this.formatValue(value[i], name));
             }
 
@@ -60192,8 +59780,8 @@ Ext.define('Ext.fx.runner.Css', {
  * @private
  */
 Ext.define('Ext.fx.runner.CssTransition', {
-    extend:  Ext.fx.runner.Css ,
-                                     
+    extend: Ext.fx.runner.Css,
+
 
     listenersAttached: false,
 
@@ -60242,7 +59830,7 @@ Ext.define('Ext.fx.runner.CssTransition', {
         if (isReplaced || (!isInterrupted && !data.preserveEndState)) {
             toPropertyNames = data.toPropertyNames;
 
-            for (i = 0,ln = toPropertyNames.length; i < ln; i++) {
+            for (i = 0, ln = toPropertyNames.length; i < ln; i++) {
                 name = toPropertyNames[i];
 
                 if (runningNameMap && !runningNameMap.hasOwnProperty(name)) {
@@ -60329,14 +59917,13 @@ Ext.define('Ext.fx.runner.CssTransition', {
             }
 
             sessions.length = 0;
-        }
-        else {
+        } else {
             for (i = 0; i < ln; i++) {
                 session = sessions[i];
                 map = session.map;
                 list = session.list;
 
-                for (j = 0,subLn = propertyNames.length; j < subLn; j++) {
+                for (j = 0, subLn = propertyNames.length; j < subLn; j++) {
                     name = propertyNames[j];
 
                     if (map[name]) {
@@ -60449,7 +60036,7 @@ Ext.define('Ext.fx.runner.CssTransition', {
 
         animations = Ext.Array.from(animations);
 
-        for (i = 0,ln = animations.length; i < ln; i++) {
+        for (i = 0, ln = animations.length; i < ln; i++) {
             animation = animations[i];
             animation = Ext.factory(animation, Ext.fx.Animation);
             element = animation.getElement();
@@ -60499,8 +60086,7 @@ Ext.define('Ext.fx.runner.CssTransition', {
                             fromPropertyNames.push(formattedName);
                             toPropertyNames.push(formattedName);
                         }
-                    }
-                    else {
+                    } else {
                         computedValue = computedStyle.getPropertyValue(formattedName);
 
                         if (toFormattedValue !== computedValue) {
@@ -60537,8 +60123,7 @@ Ext.define('Ext.fx.runner.CssTransition', {
                 if (!runningNameMap.hasOwnProperty(name)) {
                     runningNameMap[name] = 1;
                     runningNameList.push(name);
-                }
-                else {
+                } else {
                     runningNameMap[name]++;
                 }
             }
@@ -60586,12 +60171,12 @@ Ext.define('Ext.fx.runner.CssTransition', {
             }
         };
 
-        if(Ext.browser.is.IE) {
+        if (Ext.browser.is.IE) {
             window.requestAnimationFrame(function() {
                 window.addEventListener('message', doApplyTo, false);
                 window.postMessage(message, '*');
             });
-        }else{
+        } else {
             window.addEventListener('message', doApplyTo, false);
             window.postMessage(message, '*');
         }
@@ -60606,7 +60191,7 @@ Ext.define('Ext.fx.runner.CssTransition', {
                 runningData = runningAnimationsData[id];
                 sessions = runningData.sessions;
 
-                for (i = 0,ln = sessions.length; i < ln; i++) {
+                for (i = 0, ln = sessions.length; i < ln; i++) {
                     session = sessions[i];
                     if (session.animation === animation) {
                         this.refreshRunningAnimationsData(session.element, session.list.slice(), false);
@@ -60622,10 +60207,8 @@ Ext.define('Ext.fx.runner.CssTransition', {
  * @private
  */
 Ext.define('Ext.fx.Runner', {
-               
-                                     
-                                      
-      
+
+
 
     constructor: function() {
         return new Ext.fx.runner.CssTransition();
@@ -60653,152 +60236,150 @@ Ext.define('Ext.log.Base', {
  * @singleton
  */
 (function() {
-var Logger = Ext.define('Ext.log.Logger', {
+    var Logger = Ext.define('Ext.log.Logger', {
 
-    extend:  Ext.log.Base ,
+        extend: Ext.log.Base,
 
-    statics: {
-        defaultPriority: 'info',
+        statics: {
+            defaultPriority: 'info',
 
-        priorities: {
-            /**
-             * @method verbose
-             * Convenience method for {@link #log} with priority 'verbose'.
-             */
-            verbose:    0,
-            /**
-             * @method info
-             * Convenience method for {@link #log} with priority 'info'.
-             */
-            info:       1,
-            /**
-             * @method deprecate
-             * Convenience method for {@link #log} with priority 'deprecate'.
-             */
-            deprecate:  2,
-            /**
-             * @method warn
-             * Convenience method for {@link #log} with priority 'warn'.
-             */
-            warn:       3,
-            /**
-             * @method error
-             * Convenience method for {@link #log} with priority 'error'.
-             */
-            error:      4
-        }
-    },
-
-    config: {
-        enabled: true,
-        minPriority: 'deprecate',
-        writers: {}
-    },
-
-    /**
-     * Logs a message to help with debugging.
-     * @param {String} message  Message to log.
-     * @param {Number} priority Priority of the log message.
-     */
-    log: function(message, priority, callerId) {
-        if (!this.getEnabled()) {
-            return this;
-        }
-
-        var statics = Logger,
-            priorities = statics.priorities,
-            priorityValue = priorities[priority],
-            caller = this.log.caller,
-            callerDisplayName = '',
-            writers = this.getWriters(),
-            event, i, originalCaller;
-
-        if (!priority) {
-            priority = 'info';
-        }
-
-        if (priorities[this.getMinPriority()] > priorityValue) {
-            return this;
-        }
-
-        if (!callerId) {
-            callerId = 1;
-        }
-
-        if (Ext.isArray(message)) {
-            message = message.join(" ");
-        }
-        else {
-            message = String(message);
-        }
-
-        if (typeof callerId == 'number') {
-            i = callerId;
-
-            do {
-                i--;
-
-                caller = caller.caller;
-
-                if (!caller) {
-                    break;
-                }
-
-                if (!originalCaller) {
-                    originalCaller = caller.caller;
-                }
-
-                if (i <= 0 && caller.displayName) {
-                    break;
-                }
+            priorities: {
+                /**
+                 * @method verbose
+                 * Convenience method for {@link #log} with priority 'verbose'.
+                 */
+                verbose: 0,
+                /**
+                 * @method info
+                 * Convenience method for {@link #log} with priority 'info'.
+                 */
+                info: 1,
+                /**
+                 * @method deprecate
+                 * Convenience method for {@link #log} with priority 'deprecate'.
+                 */
+                deprecate: 2,
+                /**
+                 * @method warn
+                 * Convenience method for {@link #log} with priority 'warn'.
+                 */
+                warn: 3,
+                /**
+                 * @method error
+                 * Convenience method for {@link #log} with priority 'error'.
+                 */
+                error: 4
             }
-            while (caller !== originalCaller);
+        },
 
-            callerDisplayName = Ext.getDisplayName(caller);
-        }
-        else {
-            caller = caller.caller;
-            callerDisplayName = Ext.getDisplayName(callerId) + '#' + caller.$name;
-        }
+        config: {
+            enabled: true,
+            minPriority: 'deprecate',
+            writers: {}
+        },
 
-        event = {
-            time: Ext.Date.now(),
-            priority: priorityValue,
-            priorityName: priority,
-            message: message,
-            caller: caller,
-            callerDisplayName: callerDisplayName
-        };
-
-        for (i in writers) {
-            if (writers.hasOwnProperty(i)) {
-                writers[i].write(Ext.merge({}, event));
+        /**
+         * Logs a message to help with debugging.
+         * @param {String} message  Message to log.
+         * @param {Number} priority Priority of the log message.
+         */
+        log: function(message, priority, callerId) {
+            if (!this.getEnabled()) {
+                return this;
             }
-        }
 
-        return this;
-    }
+            var statics = Logger,
+                priorities = statics.priorities,
+                priorityValue = priorities[priority],
+                caller = this.log.caller,
+                callerDisplayName = '',
+                writers = this.getWriters(),
+                event, i, originalCaller;
 
-}, function() {
-    Ext.Object.each(this.priorities, function(priority) {
-        this.override(priority, function(message, callerId) {
+            if (!priority) {
+                priority = 'info';
+            }
+
+            if (priorities[this.getMinPriority()] > priorityValue) {
+                return this;
+            }
+
             if (!callerId) {
                 callerId = 1;
             }
 
-            if (typeof callerId == 'number') {
-                callerId += 1;
+            if (Ext.isArray(message)) {
+                message = message.join(" ");
+            } else {
+                message = String(message);
             }
 
-            this.log(message, priority, callerId);
-        });
-    }, this);
-});
+            if (typeof callerId == 'number') {
+                i = callerId;
+
+                do {
+                    i--;
+
+                    caller = caller.caller;
+
+                    if (!caller) {
+                        break;
+                    }
+
+                    if (!originalCaller) {
+                        originalCaller = caller.caller;
+                    }
+
+                    if (i <= 0 && caller.displayName) {
+                        break;
+                    }
+                }
+                while (caller !== originalCaller);
+
+                callerDisplayName = Ext.getDisplayName(caller);
+            } else {
+                caller = caller.caller;
+                callerDisplayName = Ext.getDisplayName(callerId) + '#' + caller.$name;
+            }
+
+            event = {
+                time: Ext.Date.now(),
+                priority: priorityValue,
+                priorityName: priority,
+                message: message,
+                caller: caller,
+                callerDisplayName: callerDisplayName
+            };
+
+            for (i in writers) {
+                if (writers.hasOwnProperty(i)) {
+                    writers[i].write(Ext.merge({}, event));
+                }
+            }
+
+            return this;
+        }
+
+    }, function() {
+        Ext.Object.each(this.priorities, function(priority) {
+            this.override(priority, function(message, callerId) {
+                if (!callerId) {
+                    callerId = 1;
+                }
+
+                if (typeof callerId == 'number') {
+                    callerId += 1;
+                }
+
+                this.log(message, priority, callerId);
+            });
+        }, this);
+    });
 
 })();
 
 Ext.define('Ext.log.formatter.Formatter', {
-    extend:  Ext.log.Base ,
+    extend: Ext.log.Base,
 
     config: {
         messageFormat: "{message}"
@@ -60824,7 +60405,7 @@ Ext.define('Ext.log.formatter.Formatter', {
 });
 
 Ext.define('Ext.log.formatter.Default', {
-    extend:  Ext.log.formatter.Formatter ,
+    extend: Ext.log.formatter.Formatter,
 
     config: {
         messageFormat: "[{priorityName}][{callerDisplayName}] {message}"
@@ -60832,17 +60413,17 @@ Ext.define('Ext.log.formatter.Default', {
 
     format: function(event) {
         var event = Ext.merge({}, event, {
-                priorityName: event.priorityName.toUpperCase()
-            });
+            priorityName: event.priorityName.toUpperCase()
+        });
 
         return this.callParent([event]);
     }
 });
 
 Ext.define('Ext.log.writer.Writer', {
-    extend:  Ext.log.Base ,
+    extend: Ext.log.Base,
 
-                                              
+
 
     config: {
         formatter: null,
@@ -60874,7 +60455,7 @@ Ext.define('Ext.log.writer.Writer', {
             formatter = this.getFormatter(),
             i, ln, filter;
 
-        for (i = 0,ln = filters.length; i < ln; i++) {
+        for (i = 0, ln = filters.length; i < ln; i++) {
             filter = filters[i];
 
             if (!filters[i].accept(event)) {
@@ -60897,7 +60478,7 @@ Ext.define('Ext.log.writer.Writer', {
 
 Ext.define('Ext.log.writer.Console', {
 
-    extend:  Ext.log.writer.Writer ,
+    extend: Ext.log.writer.Writer,
 
     config: {
         throwOnErrors: true,
@@ -60939,7 +60520,7 @@ Ext.define('Ext.log.writer.Console', {
  * @private
  */
 Ext.define('Ext.tab.Tab', {
-    extend:  Ext.Button ,
+    extend: Ext.Button,
     xtype: 'tab',
     alternateClassName: 'Ext.Tab',
 
@@ -60984,7 +60565,7 @@ Ext.define('Ext.tab.Tab', {
         title: '&nbsp;'
     },
 
-    updateIconCls : function(newCls, oldCls) {
+    updateIconCls: function(newCls, oldCls) {
         this.callParent([newCls, oldCls]);
 
         if (oldCls) {
@@ -61043,11 +60624,11 @@ Ext.define('Ext.tab.Tab', {
  * @private
  */
 Ext.define('Ext.tab.Bar', {
-    extend:  Ext.Toolbar ,
+    extend: Ext.Toolbar,
     alternateClassName: 'Ext.TabBar',
-    xtype : 'tabbar',
+    xtype: 'tabbar',
 
-                              
+
 
     config: {
         /**
@@ -61100,7 +60681,7 @@ Ext.define('Ext.tab.Bar', {
             tap: 'onTabTap',
 
             delegate: '> tab',
-            scope   : me
+            scope: me
         });
     },
 
@@ -61147,7 +60728,7 @@ Ext.define('Ext.tab.Bar', {
             }
         }
 
-		this.callParent(arguments);
+        this.callParent(arguments);
     },
 
     /**
@@ -61172,9 +60753,8 @@ Ext.define('Ext.tab.Bar', {
     parseActiveTab: function(tab) {
         //we need to call getItems to initialize the items, otherwise they will not exist yet.
         if (typeof tab == 'number') {
-			return this.getItems().items[tab];
-        }
-        else if (typeof tab == 'string') {
+            return this.getItems().items[tab];
+        } else if (typeof tab == 'string') {
             tab = Ext.getCmp(tab);
         }
         return tab;
@@ -61243,11 +60823,11 @@ Ext.define('Ext.tab.Bar', {
  *
  */
 Ext.define('Ext.tab.Panel', {
-    extend:  Ext.Container ,
-    xtype : 'tabpanel',
+    extend: Ext.Container,
+    xtype: 'tabpanel',
     alternateClassName: 'Ext.TabPanel',
 
-                              
+
 
     config: {
         /**
@@ -61310,13 +60890,13 @@ Ext.define('Ext.tab.Panel', {
             order: 'before',
             activetabchange: 'doTabChange',
             delegate: '> tabbar',
-            scope   : this
+            scope: this
         });
 
         this.on({
             disabledchange: 'onItemDisabledChange',
             delegate: '> component',
-            scope   : this
+            scope: this
         });
     },
 
@@ -61518,15 +61098,14 @@ Ext.define('Ext.tab.Panel', {
 
         this.callParent(arguments);
     }
-}, function() {
-});
+}, function() {});
 
 /**
  * @private
  * Base class for iOS and Android viewports.
  */
 Ext.define('Ext.viewport.Default', {
-    extend:  Ext.Container ,
+    extend: Ext.Container,
 
     xtype: 'viewport',
 
@@ -61534,11 +61113,7 @@ Ext.define('Ext.viewport.Default', {
 
     LANDSCAPE: 'landscape',
 
-               
-                       
-                          
-                               
-      
+
 
     /**
      * @event ready
@@ -61682,11 +61257,11 @@ Ext.define('Ext.viewport.Default', {
         this.doBlurInput = bind(this.doBlurInput, this);
 
         this.maximizeOnEvents = [
-          'ready',
-          'orientationchange'
+            'ready',
+            'orientationchange'
         ];
 
-      // set default devicePixelRatio if it is not explicitly defined
+        // set default devicePixelRatio if it is not explicitly defined
         window.devicePixelRatio = window.devicePixelRatio || 1;
 
         this.callSuper([config]);
@@ -61697,15 +61272,14 @@ Ext.define('Ext.viewport.Default', {
         this.windowOuterHeight = this.getWindowOuterHeight();
 
         if (!this.stretchHeights) {
-        this.stretchHeights = {};
+            this.stretchHeights = {};
         }
 
         // Android is handled separately
         if (!Ext.os.is.Android || Ext.browser.is.ChromeMobile) {
             if (this.supportsOrientation()) {
                 this.addWindowListener('orientationchange', bind(this.onOrientationChange, this));
-            }
-            else {
+            } else {
                 this.addWindowListener('resize', bind(this.onResize, this));
             }
         }
@@ -61715,7 +61289,9 @@ Ext.define('Ext.viewport.Default', {
 
         Ext.onDocumentReady(this.onDomReady, this);
 
-        this.on('ready', this.onReady, this, {single: true});
+        this.on('ready', this.onReady, this, {
+            single: true
+        });
 
         this.getEventDispatcher().addListener('component', '*', 'fullscreen', 'onItemFullscreenChange', this);
 
@@ -61798,8 +61374,7 @@ Ext.define('Ext.viewport.Default', {
 
         if (autoBlurInput) {
             this.addWindowListener(touchstart, this.doBlurInput, false);
-        }
-        else {
+        } else {
             this.removeWindowListener(touchstart, this.doBlurInput, false);
         }
 
@@ -61811,10 +61386,11 @@ Ext.define('Ext.viewport.Default', {
             autoMaximize = false;
         }
         if (autoMaximize) {
-            this.on('ready', 'doAutoMaximizeOnReady', this, { single: true });
+            this.on('ready', 'doAutoMaximizeOnReady', this, {
+                single: true
+            });
             this.on('orientationchange', 'doAutoMaximizeOnOrientationChange', this);
-        }
-        else {
+        } else {
             this.un('ready', 'doAutoMaximizeOnReady', this);
             this.un('orientationchange', 'doAutoMaximizeOnOrientationChange', this);
         }
@@ -61825,8 +61401,7 @@ Ext.define('Ext.viewport.Default', {
     applyPreventPanning: function(preventPanning) {
         if (preventPanning) {
             this.addWindowListener('touchmove', this.doPreventPanning, false);
-        }
-        else {
+        } else {
             this.removeWindowListener('touchmove', this.doPreventPanning, false);
         }
 
@@ -61838,8 +61413,7 @@ Ext.define('Ext.viewport.Default', {
 
         if (preventZooming) {
             this.addWindowListener(touchstart, this.doPreventZooming, false);
-        }
-        else {
+        } else {
             this.removeWindowListener(touchstart, this.doPreventZooming, false);
         }
 
@@ -61861,7 +61435,9 @@ Ext.define('Ext.viewport.Default', {
             controller.resume();
 
             this.fireEvent('ready', this);
-        }, this, { single: true });
+        }, this, {
+            single: true
+        });
 
         this.maximize();
     },
@@ -61883,7 +61459,9 @@ Ext.define('Ext.viewport.Default', {
             firingArguments[3] = this.windowHeight;
 
             controller.resume();
-        }, this, { single: true });
+        }, this, {
+            single: true
+        });
 
         this.maximize();
     },
@@ -61996,14 +61574,12 @@ Ext.define('Ext.viewport.Default', {
                 if (onSatisfied) {
                     onSatisfied.call(scope);
                 }
-            }
-            else {
+            } else {
                 if (elapse >= timeoutDuration) {
                     if (onTimeout) {
                         onTimeout.call(scope);
                     }
-                }
-                else {
+                } else {
                     setTimeout(repeat, delay);
                 }
             }
@@ -62084,8 +61660,7 @@ Ext.define('Ext.viewport.Default', {
             }
 
             return landscape;
-        }
-        else {
+        } else {
             if (this.getWindowHeight() >= this.getWindowWidth()) {
                 return portrait;
             }
@@ -62178,8 +61753,7 @@ Ext.define('Ext.viewport.Default', {
 
                 if (blackberry.app && blackberry.app.event && blackberry.app.event.onSwipeDown) {
                     blackberry.app.event.onSwipeDown(toggleMenu); // PlayBook
-                }
-                else if (blackberry.event && blackberry.event.addEventListener) {
+                } else if (blackberry.event && blackberry.event.addEventListener) {
                     blackberry.event.addEventListener("swipedown", toggleMenu); // BB10
                 }
             }
@@ -62197,20 +61771,17 @@ Ext.define('Ext.viewport.Default', {
             menu.setRight(null);
             menu.setTop(0);
             menu.setBottom(0);
-        }
-        else if (config.side == 'right') {
+        } else if (config.side == 'right') {
             menu.setLeft(null);
             menu.setRight(0);
             menu.setTop(0);
             menu.setBottom(0);
-        }
-        else if (config.side == 'top') {
+        } else if (config.side == 'top') {
             menu.setLeft(0);
             menu.setRight(0);
             menu.setTop(0);
             menu.setBottom(null);
-        }
-        else if (config.side == 'bottom') {
+        } else if (config.side == 'bottom') {
             menu.setLeft(0);
             menu.setRight(0);
             menu.setTop(null);
@@ -62228,7 +61799,7 @@ Ext.define('Ext.viewport.Default', {
         var menus = this.getMenus() || {},
             menu = menus[side];
 
-        if(menu) this.hideMenu(side);
+        if (menu) this.hideMenu(side);
         delete menus[side];
         this.setMenus(menus);
     },
@@ -62240,8 +61811,7 @@ Ext.define('Ext.viewport.Default', {
     fixMenuSize: function(menu, side) {
         if (side == 'top' || side == 'bottom') {
             menu.setWidth('100%');
-        }
-        else if (side == 'left' || side == 'right') {
+        } else if (side == 'left' || side == 'right') {
             menu.setHeight('100%');
         }
     },
@@ -62284,8 +61854,7 @@ Ext.define('Ext.viewport.Default', {
 
         if (menu.$reveal) {
             Ext.getBody().insertFirst(menu.element);
-        }
-        else {
+        } else {
             Ext.Viewport.add(menu);
         }
 
@@ -62297,16 +61866,13 @@ Ext.define('Ext.viewport.Default', {
         if (side == 'left') {
             before.translateX = -size;
             viewportAfter.translateX = size;
-        }
-        else if (side == 'right') {
+        } else if (side == 'right') {
             before.translateX = size;
             viewportAfter.translateX = -size;
-        }
-        else if (side == 'top') {
+        } else if (side == 'top') {
             before.translateY = -size;
             viewportAfter.translateY = size;
-        }
-        else if (side == 'bottom') {
+        } else if (side == 'bottom') {
             before.translateY = size;
             viewportAfter.translateY = -size;
         }
@@ -62315,8 +61881,7 @@ Ext.define('Ext.viewport.Default', {
             if (Ext.browser.getPreferredTranslationMethod() != 'scrollposition') {
                 menu.translate(0, 0);
             }
-        }
-        else {
+        } else {
             menu.translate(before.translateX, before.translateY);
         }
 
@@ -62332,8 +61897,7 @@ Ext.define('Ext.viewport.Default', {
                 duration: 200
             });
 
-        }
-        else {
+        } else {
             this.translate(viewportBefore.translateX, viewportBefore.translateY);
 
 
@@ -62383,14 +61947,11 @@ Ext.define('Ext.viewport.Default', {
 
         if (side == 'left') {
             after.translateX = -size;
-        }
-        else if (side == 'right') {
+        } else if (side == 'right') {
             after.translateX = size;
-        }
-        else if (side == 'top') {
+        } else if (side == 'top') {
             after.translateY = -size;
-        }
-        else if (side == 'bottom') {
+        } else if (side == 'bottom') {
             after.translateY = size;
         }
 
@@ -62407,13 +61968,11 @@ Ext.define('Ext.viewport.Default', {
                     preserveEndState: true,
                     duration: 200
                 });
-            }
-            else {
+            } else {
                 menu.translate(after.translateX, after.translateY);
                 menu.hide()
             }
-        }
-        else {
+        } else {
             if (animate) {
                 this.getTranslatable().on('animationend', function() {
                     menu.isAnimating = false;
@@ -62426,8 +61985,7 @@ Ext.define('Ext.viewport.Default', {
                     preserveEndState: true,
                     duration: 200
                 });
-            }
-            else {
+            } else {
                 this.translate(viewportAfter.translateX, viewportAfter.translateY);
                 menu.hide();
             }
@@ -62450,7 +62008,7 @@ Ext.define('Ext.viewport.Default', {
      * @param {String} side         Side(s) not to hide
      * @param {String} animation    Animation to hide with
      */
-    hideOtherMenus: function(side, animation){
+    hideOtherMenus: function(side, animation) {
         var menus = this.getMenus();
 
         for (var menu in menus) {
@@ -62465,7 +62023,8 @@ Ext.define('Ext.viewport.Default', {
      * @param {String} side The side which the menu is placed.
      */
     toggleMenu: function(side) {
-        var menus = this.getMenus(), menu;
+        var menus = this.getMenus(),
+            menu;
         if (menus[side]) {
             menu = menus[side];
             if (menu.isHidden()) {
@@ -62482,14 +62041,11 @@ Ext.define('Ext.viewport.Default', {
     sideForDirection: function(direction) {
         if (direction == 'left') {
             return 'right';
-        }
-        else if (direction == 'right') {
+        } else if (direction == 'right') {
             return 'left';
-        }
-        else if (direction == 'up') {
+        } else if (direction == 'up') {
             return 'bottom';
-        }
-        else if (direction == 'down') {
+        } else if (direction == 'down') {
             return 'top';
         }
     },
@@ -62499,9 +62055,8 @@ Ext.define('Ext.viewport.Default', {
      */
     sideForSwipeDirection: function(direction) {
         if (direction == "up") {
-            return  "top";
-        }
-        else if (direction == "down") {
+            return "top";
+        } else if (direction == "down") {
             return "bottom";
         }
         return direction;
@@ -62549,8 +62104,7 @@ Ext.define('Ext.viewport.Default', {
         // show the menu first so we can calculate the size
         if (menu.$reveal) {
             Ext.getBody().insertFirst(menu.element);
-        }
-        else {
+        } else {
             Ext.Viewport.add(menu);
         }
         menu.show();
@@ -62570,14 +62124,11 @@ Ext.define('Ext.viewport.Default', {
 
         if (side == 'left') {
             after.translateX = -size;
-        }
-        else if (side == 'right') {
+        } else if (side == 'right') {
             after.translateX = size;
-        }
-        else if (side == 'top') {
+        } else if (side == 'top') {
             after.translateY = -size;
-        }
-        else if (side == 'bottom') {
+        } else if (side == 'bottom') {
             after.translateY = size;
         }
 
@@ -62592,8 +62143,7 @@ Ext.define('Ext.viewport.Default', {
             if (Ext.browser.getPreferredTranslationMethod() != 'scrollposition') {
                 menu.translate(0, 0);
             }
-        }
-        else {
+        } else {
             menu.translate(after.translateX, after.translateY);
         }
 
@@ -62635,24 +62185,20 @@ Ext.define('Ext.viewport.Default', {
         if (side == 'left') {
             after.translateX = movement;
             viewportAfter.translateX = viewportMovement;
-        }
-        else if (side == 'right') {
+        } else if (side == 'right') {
             after.translateX = -movement;
             viewportAfter.translateX = -viewportMovement;
-        }
-        else if (side == 'top') {
+        } else if (side == 'top') {
             after.translateY = movement;
             viewportAfter.translateY = viewportMovement;
-        }
-        else if (side == 'bottom') {
+        } else if (side == 'bottom') {
             after.translateY = -movement;
             viewportAfter.translateY = -viewportMovement;
         }
 
         if (menu.$cover) {
             menu.translate(after.translateX, after.translateY);
-        }
-        else {
+        } else {
             this.translate(viewportAfter.translateX, viewportAfter.translateY);
         }
     },
@@ -62677,18 +62223,15 @@ Ext.define('Ext.viewport.Default', {
             if (velocity.x > 0) {
                 shouldRevert = true;
             }
-        }
-        else if (side == 'left') {
+        } else if (side == 'left') {
             if (velocity.x < 0) {
                 shouldRevert = true;
             }
-        }
-        else if (side == 'top') {
+        } else if (side == 'top') {
             if (velocity.y < 0) {
                 shouldRevert = true;
             }
-        }
-        else if (side == 'bottom') {
+        } else if (side == 'bottom') {
             if (velocity.y > 0) {
                 shouldRevert = true;
             }
@@ -62711,16 +62254,13 @@ Ext.define('Ext.viewport.Default', {
         if (side == 'left') {
             after.translateX = -movement;
             viewportAfter.translateX = -viewportMovement;
-        }
-        else if (side == 'right') {
+        } else if (side == 'right') {
             after.translateX = movement;
             viewportAfter.translateX = viewportMovement;
-        }
-        else if (side == 'top') {
+        } else if (side == 'top') {
             after.translateY = -movement;
             viewportAfter.translateY = -viewportMovement;
-        }
-        else if (side == 'bottom') {
+        } else if (side == 'bottom') {
             after.translateY = movement;
             viewportAfter.translateY = viewportMovement;
         }
@@ -62740,8 +62280,7 @@ Ext.define('Ext.viewport.Default', {
                 duration: 200
             });
 
-        }
-        else {
+        } else {
             this.getTranslatable().on('animationend', function() {
                 if (shouldRevert) {
                     menu.hide();
@@ -62765,7 +62304,7 @@ Ext.define('Ext.viewport.Default', {
  * Android version of viewport.
  */
 Ext.define('Ext.viewport.Android', {
-    extend:  Ext.viewport.Default ,
+    extend: Ext.viewport.Default,
 
     config: {
         translatable: {
@@ -62774,7 +62313,9 @@ Ext.define('Ext.viewport.Android', {
     },
 
     constructor: function() {
-        this.on('orientationchange', 'hideKeyboardIfNeeded', this, { prepend: true });
+        this.on('orientationchange', 'hideKeyboardIfNeeded', this, {
+            prepend: true
+        });
 
         this.callSuper(arguments);
 
@@ -62783,12 +62324,12 @@ Ext.define('Ext.viewport.Android', {
         });
     },
 
-    getWindowWidth: function () {
+    getWindowWidth: function() {
         return this.element.getWidth();
 
     },
 
-    getWindowHeight: function () {
+    getWindowHeight: function() {
         return this.element.getHeight();
     },
 
@@ -62838,8 +62379,7 @@ Ext.define('Ext.viewport.Android', {
 
             if (Ext.os.version.lt('4')) {
                 focusedElement.style.display = 'none';
-            }
-            else {
+            } else {
                 focusedElement.blur();
             }
 
@@ -62911,12 +62451,12 @@ Ext.define('Ext.viewport.Android', {
         return this.getWindowHeight() === height;
     },
 
-    supportsOrientation: function () {
+    supportsOrientation: function() {
         return false;
     },
 
-    onResize: function () {
-        this.waitUntil(function () {
+    onResize: function() {
+        this.waitUntil(function() {
             var oldWidth = this.windowWidth,
                 oldHeight = this.windowHeight,
                 width = this.getWindowWidth(),
@@ -62925,15 +62465,15 @@ Ext.define('Ext.viewport.Android', {
                 newOrientation = this.determineOrientation();
 
             return ((oldWidth !== width && oldHeight !== height) && currentOrientation !== newOrientation);
-        }, function () {
+        }, function() {
             var currentOrientation = this.getOrientation(),
                 newOrientation = this.determineOrientation();
 
             this.fireOrientationChangeEvent(newOrientation, currentOrientation);
-         }, Ext.emptyFn, 250);
+        }, Ext.emptyFn, 250);
     },
 
-    doPreventZooming: function (e) {
+    doPreventZooming: function(e) {
         // Don't prevent right mouse event
         if ('button' in e && e.button !== 0) {
             return;
@@ -63023,25 +62563,19 @@ Ext.define('Ext.viewport.Android', {
                     width = this.getWindowWidth(),
                     height = this.getWindowHeight();
 
-                if (this.getAutoMaximize() && !this.isMaximizing && !this.orientationChanging
-                    && window.scrollY === 0
-                    && oldWidth === width
-                    && height < oldHeight
-                    && ((height >= oldHeight - this.addressBarHeight) || !this.focusedElement)) {
-                        this.scrollToTop();
+                if (this.getAutoMaximize() && !this.isMaximizing && !this.orientationChanging && window.scrollY === 0 && oldWidth === width && height < oldHeight && ((height >= oldHeight - this.addressBarHeight) || !this.focusedElement)) {
+                    this.scrollToTop();
                 }
             }
         });
-    }
-    else if (version.gtEq('3.1')) {
+    } else if (version.gtEq('3.1')) {
         this.override({
             isHeightMaximized: function(height) {
                 this.scrollToTop();
                 return this.getWindowHeight() === height - 1;
             }
         });
-    }
-    else if (version.match('3')) {
+    } else if (version.match('3')) {
         this.override({
             isHeightMaximized: function() {
                 this.scrollToTop();
@@ -63062,7 +62596,7 @@ Ext.define('Ext.viewport.Android', {
  * iOS version of viewport.
  */
 Ext.define('Ext.viewport.Ios', {
-    extend:  Ext.viewport.Default ,
+    extend: Ext.viewport.Default,
 
     isFullscreen: function() {
         return this.isHomeScreen();
@@ -63099,8 +62633,7 @@ Ext.define('Ext.viewport.Ios', {
 
             this.setHeight(height);
             this.fireMaximizeEvent();
-        }
-        else {
+        } else {
             if (!height) {
                 height = this.getScreenHeight();
             }
@@ -63207,9 +62740,7 @@ Ext.define('Ext.viewport.Ios', {
                         orientation = this.determineOrientation(),
                         screenHeight = window.screen.height,
                         screenWidth = window.screen.width,
-                        menuHeight = orientation === this.PORTRAIT
-                            ? screenHeight - window.innerHeight
-                            : screenWidth - window.innerHeight;
+                        menuHeight = orientation === this.PORTRAIT ? screenHeight - window.innerHeight : screenWidth - window.innerHeight;
 
                     stretchHeights[this.PORTRAIT] = screenHeight - menuHeight;
                     stretchHeights[this.LANDSCAPE] = screenWidth - menuHeight;
@@ -63280,13 +62811,13 @@ Ext.define('Ext.viewport.WindowsPhone', {
 
     alternateClassName: 'Ext.viewport.WP',
 
-    extend:  Ext.viewport.Default ,
+    extend: Ext.viewport.Default,
 
     // so one pixel line is displayed on the right side of the screen. Setting width more than 100% fix the issue
-//    config: {
-//        width: '100.2%',
-//        height: '100.2%'
-//    },
+    //    config: {
+    //        width: '100.2%',
+    //        height: '100.2%'
+    //    },
 
     config: {
         translatable: {
@@ -63294,7 +62825,7 @@ Ext.define('Ext.viewport.WindowsPhone', {
         }
     },
 
-    initialize: function () {
+    initialize: function() {
         // There is -ms-user-select CSS property for IE10, but it seems it works only in desktop browser. So we need to prevent selection event.
         var preventSelection = function(e) {
             var srcElement = e.srcElement.nodeName.toUpperCase(),
@@ -63340,11 +62871,8 @@ Ext.define('Ext.viewport.WindowsPhone', {
  * @private
  */
 Ext.define('Ext.viewport.Viewport', {
-               
-                           
-                               
-                                   
-      
+
+
 
     constructor: function(config) {
         var osName = Ext.os.name,
@@ -63417,54 +62945,47 @@ Ext.define('Ext.viewport.Viewport', {
  * you should **not** use {@link Ext#onReady}.
  */
 
-Ext.define('myApp.view.Main', {
-    extend:  Ext.tab.Panel ,
+Ext.define('Xpoit.view.Main', {
+    extend: Ext.tab.Panel,
     xtype: 'main',
-               
-                       
-                   
-      
+
+
+
     config: {
         tabBarPosition: 'bottom',
 
-        items: [
-            {
-                title: 'Welcome',
-                iconCls: 'home',
+        items: [{
+            title: 'Welcome',
+            iconCls: 'home',
 
-                styleHtmlContent: true,
-                scrollable: true,
+            styleHtmlContent: true,
+            scrollable: true,
 
-                items: {
-                    docked: 'top',
-                    xtype: 'titlebar',
-                    title: 'Welcome to Sencha Touch 2'
-                },
-
-                html: [
-                    "You've just generated a new Sencha Touch 2 project. What you're looking at right now is the ",
-                    "contents of <a target='_blank' href=\"app/view/Main.js\">app/view/Main.js</a> - edit that file ",
-                    "and refresh to change what's rendered here."
-                ].join("")
+            items: {
+                docked: 'top',
+                xtype: 'titlebar',
+                title: 'Welcome to Sencha Touch 2'
             },
-            {
-                title: 'Get Started',
-                iconCls: 'action',
 
-                items: [
-                    {
-                        docked: 'top',
-                        xtype: 'titlebar',
-                        title: 'Getting Started'
-                    },
-                    {
-                        xtype: 'video',
-                        url: 'http://av.vimeo.com/64284/137/87347327.mp4?token=1330978144_f9b698fea38cd408d52a2393240c896c',
-                        posterUrl: 'http://b.vimeocdn.com/ts/261/062/261062119_640.jpg'
-                    }
-                ]
-            }
-        ]
+            html: [
+                "You've just generated a new Sencha Touch 2 project. What you're looking at right now is the ",
+                "contents of <a target='_blank' href=\"app/view/Main.js\">app/view/Main.js</a> - edit that file ",
+                "and refresh to change what's rendered here."
+            ].join("")
+        }, {
+            title: 'Get Started',
+            iconCls: 'action',
+
+            items: [{
+                docked: 'top',
+                xtype: 'titlebar',
+                title: 'Getting Started'
+            }, {
+                xtype: 'video',
+                url: 'http://av.vimeo.com/64284/137/87347327.mp4?token=1330978144_f9b698fea38cd408d52a2393240c896c',
+                posterUrl: 'http://b.vimeocdn.com/ts/261/062/261062119_640.jpg'
+            }]
+        }]
     }
 });
 
@@ -63481,11 +63002,9 @@ Ext.define('myApp.view.Main', {
 */
 
 Ext.application({
-    name: 'myApp',
+    name: 'Xpoit',
 
-               
-                        
-      
+
 
     views: [
         'Main'
@@ -63514,7 +63033,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('myApp.view.Main'));
+        Ext.Viewport.add(Ext.create('Xpoit.view.Main'));
     },
 
     onUpdated: function() {
@@ -63531,5 +63050,4 @@ Ext.application({
 });
 
 // @tag full-page
-// @require /Users/Cookie_Monster/Desktop/Test/client/development/app.js
-
+// @require /Users/bmackey/college/Application/fh2-sencha-touch-temp/client/development/app.js

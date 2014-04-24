@@ -16,7 +16,7 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSet": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
-  "myApp": "app"
+  "Xpoit": "app"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -649,7 +649,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
-  "myApp.view.Main": []
+  "Xpoit.controller.Main": [],
+  "Xpoit.model.Student": [],
+  "Xpoit.store.Students": [],
+  "Xpoit.view.Main": [],
+  "Xpoit.view.Student": [],
+  "Xpoit.view.StudentList": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1379,7 +1384,14 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
-  "myApp.view.Main": [
-    "widget.main"
+  "Xpoit.controller.Main": [],
+  "Xpoit.model.Student": [],
+  "Xpoit.store.Students": [],
+  "Xpoit.view.Main": [],
+  "Xpoit.view.Student": [
+    "widget.studentPanel"
+  ],
+  "Xpoit.view.StudentList": [
+    "widget.studentListPanel"
   ]
 });

@@ -16,6 +16,6 @@ cd default
 
 echo 'Copying new build into client/default'
 
-cp -R ../development/build/testing/myApp/* .
+cp -R ../development/build/testing/Xpoit/* .
 
 echo 'Boom!! your new build code is now in client/default, Cye...!' 

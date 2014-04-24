@@ -287,15 +287,15 @@ Ext.define('Ext.XTemplate', {
      * @return {Array} The given out array.
      */
     applyOut: function(values, out, parent) {
-        var me     = this,
+        var me = this,
             xindex = values.xindex,
             xcount = values.xcount,
             compiler;
 
         if (!me.fn) {
             compiler = new Ext.XTemplateCompiler({
-                useFormat   : me.disableFormats !== true,
-                definitions : me.definitions
+                useFormat: me.disableFormats !== true,
+                definitions: me.definitions
             });
 
             me.fn = compiler.compile(me.html);
@@ -331,7 +331,7 @@ Ext.define('Ext.XTemplate', {
          * these templates are seldom actual instances but are rather configurations. For
          * example:
          *
-         *      Ext.define('MyApp.Class', {
+         *      Ext.define('Xpoit.Class', {
          *          someTpl: [
          *              'tpl text here'
          *          ]
@@ -348,7 +348,7 @@ Ext.define('Ext.XTemplate', {
          * @return {Ext.XTemplate} The `XTemplate` instance or null if not found.
          * @protected
          */
-        getTpl: function (instance, name) {
+        getTpl: function(instance, name) {
             var tpl = instance[name], // go for it! 99% of the time we will get it!
                 proto;
 

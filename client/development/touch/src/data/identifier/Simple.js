@@ -5,7 +5,7 @@
  *
  * An example of a configured simple generator would be:
  *
- *     Ext.define('MyApp.data.MyModel', {
+ *     Ext.define('Xpoit.data.MyModel', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             identifier: {
@@ -19,7 +19,7 @@
  */
 Ext.define('Ext.data.identifier.Simple', {
     alias: 'data.identifier.simple',
-    
+
     statics: {
         AUTO_ID: 1
     },

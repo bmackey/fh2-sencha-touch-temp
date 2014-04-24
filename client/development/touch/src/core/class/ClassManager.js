@@ -315,7 +315,7 @@
                 names = [className],
                 i, ln, j, subLn, listener, name;
 
-            for (i = 0,ln = listeners.length; i < ln; i++) {
+            for (i = 0, ln = listeners.length; i < ln; i++) {
                 listener = listeners[i];
                 listener.fn.call(listener.scope, className);
             }
@@ -324,12 +324,12 @@
                 names.push.apply(names, alternateNames);
             }
 
-            for (i = 0,ln = names.length; i < ln; i++) {
+            for (i = 0, ln = names.length; i < ln; i++) {
                 name = names[i];
                 listeners = nameListeners[name];
 
                 if (listeners) {
-                    for (j = 0,subLn = listeners.length; j < subLn; j++) {
+                    for (j = 0, subLn = listeners.length; j < subLn; j++) {
                         listener = listeners[j];
                         listener.fn.call(listener.scope, name);
                     }
@@ -360,8 +360,7 @@
                 }
 
                 nameListeners[className].push(listener);
-            }
-            else {
+            } else {
                 listeners.push(listener);
             }
         },
@@ -587,7 +586,7 @@
          * @param {Object} aliases The set of mappings of the form
          * className : [values...]
          */
-        addNameAliasMappings: function(aliases){
+        addNameAliasMappings: function(aliases) {
             var aliasToNameMap = this.maps.aliasToName,
                 nameToAliasesMap = this.maps.nameToAliases,
                 className, aliasList, alias, i;
@@ -622,7 +621,7 @@
                 aliasList = nameToAlternates[className] ||
                     (nameToAlternates[className] = []);
 
-                for (i  = 0; i < alternates[className].length; i++) {
+                for (i = 0; i < alternates[className].length; i++) {
                     alternate = alternates[className];
                     if (!alternateToName[alternate]) {
                         alternateToName[alternate] = className;
@@ -723,7 +722,7 @@
 
                 delete data.postprocessors;
 
-                for (i = 0,ln = postprocessorStack.length; i < ln; i++) {
+                for (i = 0, ln = postprocessorStack.length; i < ln; i++) {
                     postprocessor = postprocessorStack[i];
 
                     if (typeof postprocessor == 'string') {
@@ -732,9 +731,8 @@
 
                         if (postprocessorProperties === true) {
                             postprocessors.push(postprocessor.fn);
-                        }
-                        else if (postprocessorProperties) {
-                            for (j = 0,subLn = postprocessorProperties.length; j < subLn; j++) {
+                        } else if (postprocessorProperties) {
+                            for (j = 0, subLn = postprocessorProperties.length; j < subLn; j++) {
                                 postprocessorProperty = postprocessorProperties[j];
 
                                 if (data.hasOwnProperty(postprocessorProperty)) {
@@ -743,8 +741,7 @@
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         postprocessors.push(postprocessor);
                     }
                 }
@@ -787,8 +784,7 @@
                     var overridenClass = this.get(overriddenClassName);
                     if (overridenClass.singleton) {
                         overridenClass.self.override(data);
-                    }
-                    else {
+                    } else {
                         overridenClass.override(data);
                     }
 
@@ -833,7 +829,7 @@
 
                 //<debug warn>
                 Ext.Logger.warn("[Ext.Loader] Synchronously loading '" + className + "'; consider adding " +
-                     "Ext.require('" + alias + "') above Ext.onReady");
+                    "Ext.require('" + alias + "') above Ext.onReady");
                 //</debug>
 
                 Ext.syncRequire(className);
@@ -880,8 +876,7 @@
                 //</debug>
 
                 cls = this.get(name);
-            }
-            else {
+            } else {
                 cls = name;
             }
 
@@ -1042,8 +1037,7 @@
                     defaultPostprocessors.unshift(name);
 
                     return this;
-                }
-                else if (offset === 'last') {
+                } else if (offset === 'last') {
                     defaultPostprocessors.push(name);
 
                     return this;
@@ -1098,8 +1092,7 @@
 
                         if (name.search(regex) !== -1) {
                             names.push(name);
-                        }
-                        else {
+                        } else {
                             for (i = 0, ln = aliases.length; i < ln; i++) {
                                 alias = aliases[i];
 
@@ -1138,7 +1131,7 @@
      * @member Ext.Class
      * List of short aliases for class names.  Most useful for defining xtypes for widgets:
      *
-     *     Ext.define('MyApp.CoolPanel', {
+     *     Ext.define('Xpoit.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         alias: ['widget.coolpanel'],
      *
@@ -1165,7 +1158,7 @@
      * @member Ext.Component
      * List of xtypes for {@link Ext.Component}. XTypes must not contain periods.
      *
-     *     Ext.define('MyApp.CoolPanel', {
+     *     Ext.define('Xpoit.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         xtype: 'coolpanel',
      *
@@ -1189,7 +1182,7 @@
         var aliases = data.alias,
             i, ln;
 
-        for (i = 0,ln = aliases.length; i < ln; i++) {
+        for (i = 0, ln = aliases.length; i < ln; i++) {
             alias = aliases[i];
 
             this.setAlias(cls, alias);
@@ -1429,7 +1422,7 @@
          * @member Ext
          * @method define
          */
-        define: function (className, data, createdFn) {
+        define: function(className, data, createdFn) {
             if ('override' in data) {
                 return Manager.createOverride.apply(Manager, arguments);
             }
@@ -1544,7 +1537,7 @@
             xtypesMap = Ext.merge({}, prototype.xtypesMap || {}),
             i, ln, alias, xtype;
 
-        for (i = 0,ln = aliases.length; i < ln; i++) {
+        for (i = 0, ln = aliases.length; i < ln; i++) {
             alias = aliases[i];
 
             //<debug error>
@@ -1562,7 +1555,7 @@
         cls.xtype = data.xtype = xtypes[0];
         data.xtypes = xtypes;
 
-        for (i = 0,ln = xtypes.length; i < ln; i++) {
+        for (i = 0, ln = xtypes.length; i < ln; i++) {
             xtype = xtypes[i];
 
             if (!xtypesMap[xtype]) {
@@ -1585,7 +1578,7 @@
                     xtypes = mixin.xtypes;
 
                     if (xtypes) {
-                        for (i = 0,ln = xtypes.length; i < ln; i++) {
+                        for (i = 0, ln = xtypes.length; i < ln; i++) {
                             xtype = xtypes[i];
 
                             if (!xtypesMap[xtype]) {
@@ -1598,7 +1591,7 @@
             }
         });
 
-        for (i = 0,ln = xtypes.length; i < ln; i++) {
+        for (i = 0, ln = xtypes.length; i < ln; i++) {
             xtype = xtypes[i];
 
             //<debug error>

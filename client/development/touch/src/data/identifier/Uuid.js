@@ -5,14 +5,14 @@
  * This means that a single instance is shared unless the id property is overridden. Thus,
  * two {@link Ext.data.Model} instances configured like the following share one generator:
  *
- *     Ext.define('MyApp.data.MyModelX', {
+ *     Ext.define('Xpoit.data.MyModelX', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             identifier: 'uuid'
  *         }
  *     });
  *
- *     Ext.define('MyApp.data.MyModelY', {
+ *     Ext.define('Xpoit.data.MyModelY', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             identifier: 'uuid'
@@ -117,7 +117,7 @@ Ext.define('Ext.data.identifier.Uuid', {
         this.init();
     },
 
-    generate: function () {
+    generate: function() {
         var me = this,
             parts = me.parts,
             version = me.getVersion(),
@@ -152,7 +152,7 @@ Ext.define('Ext.data.identifier.Uuid', {
         parts[1] = me.toHex(time.hi & 0xFFFF, 4);
         parts[2] = me.toHex(((time.hi >>> 16) & 0xFFF) | (version << 12), 4);
         parts[3] = me.toHex(0x80 | ((me.clockSeq >>> 8) & 0x3F), 2) +
-                   me.toHex(me.clockSeq & 0xFF, 2);
+            me.toHex(me.clockSeq & 0xFF, 2);
         parts[4] = me.toHex(salt.hi, 4) + me.toHex(salt.lo, 8);
 
         if (version == 4) {
@@ -172,7 +172,7 @@ Ext.define('Ext.data.identifier.Uuid', {
     /**
      * @private
      */
-    init: function () {
+    init: function() {
         var me = this,
             salt = me.getSalt(),
             time = me.getTimestamp();
@@ -182,7 +182,7 @@ Ext.define('Ext.data.identifier.Uuid', {
             //   o  If the state was unavailable (e.g., non-existent or corrupted),
             //      or the saved node ID is different than the current node ID,
             //      generate a random clock sequence value.
-            me.clockSeq = me.rand(0, me.twoPow14-1);
+            me.clockSeq = me.rand(0, me.twoPow14 - 1);
 
             if (!salt) {
                 salt = {};
@@ -195,10 +195,10 @@ Ext.define('Ext.data.identifier.Uuid', {
             }
 
             // See RFC 4122 (Secion 4.4)
-            salt.lo = me.rand(0, me.twoPow32-1);
-            salt.hi = me.rand(0, me.twoPow16-1);
-            time.lo = me.rand(0, me.twoPow32-1);
-            time.hi = me.rand(0, me.twoPow28-1);
+            salt.lo = me.rand(0, me.twoPow32 - 1);
+            salt.hi = me.rand(0, me.twoPow16 - 1);
+            time.lo = me.rand(0, me.twoPow32 - 1);
+            time.hi = me.rand(0, me.twoPow28 - 1);
         } else {
             // this is run only once per-instance
             me.setSalt(me.split(me.getSalt()));

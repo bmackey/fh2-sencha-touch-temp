@@ -22,8 +22,8 @@
  * {@link Ext.app.Application#controllers} config. The Application automatically instantiates each Controller and keeps
  * references to each, so it is unusual to need to instantiate Controllers directly. By convention each Controller is
  * named after the thing (usually the Model) that it deals with primarily, usually in the plural - for example if your
- * app is called 'MyApp' and you have a Controller that manages Products, convention is to create a
- * MyApp.controller.Products class in the file app/controller/Products.js.
+ * app is called 'Xpoit' and you have a Controller that manages Products, convention is to create a
+ * Xpoit.controller.Products class in the file app/controller/Products.js.
  *
  * ## Refs and Control
  *
@@ -37,7 +37,7 @@
  * page. We can define as many refs as we like for each Controller, for example here we define a ref called 'nav' that
  * finds a Component on the page with the ID 'mainNav'. We then use that ref in the addLogoutButton beneath it:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -81,7 +81,7 @@
  * Refs can also be passed a couple of additional options, beyond name and selector. These are autoCreate and xtype,
  * which are almost always used together:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -112,7 +112,7 @@
  * to events fired by Components and have your Controller react in some way. Control accepts both ComponentQuery
  * selectors and refs as its keys, and listener objects as values - for example:
  *
- *     Ext.define('MyApp.controller.Main', {
+ *     Ext.define('Xpoit.controller.Main', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -156,7 +156,7 @@
  * For example, let's say we have a Controller responsible for logging in and viewing user profiles, and want to make
  * those screens accessible via urls. We could achieve that like this:
  *
- *     Ext.define('MyApp.controller.Users', {
+ *     Ext.define('Xpoit.controller.Users', {
  *         extend: 'Ext.app.Controller',
  *
  *         config: {
@@ -180,7 +180,7 @@
  *
  *         //Loads the User then adds a 'userprofile' view to the main TabPanel
  *         showUserById: function(id) {
- *             MyApp.model.User.load(id, {
+ *             Xpoit.model.User.load(id, {
  *                 scope: this,
  *                 success: function(user) {
  *                     this.getMain().add({
@@ -194,8 +194,8 @@
  *
  * The routes we specified above simply map the contents of the browser address bar to a Controller function to call
  * when that route is matched. The routes can be simple text like the login route, which matches against
- * http://myapp.com/#login, or contain wildcards like the 'user/:id' route, which matches urls like
- * http://myapp.com/#user/123. Whenever the address changes the Controller automatically calls the function specified.
+ * http://Xpoit.com/#login, or contain wildcards like the 'user/:id' route, which matches urls like
+ * http://Xpoit.com/#user/123. Whenever the address changes the Controller automatically calls the function specified.
  *
  * Note that in the showUserById function we had to first load the User instance. Whenever you use a route, the
  * function that is called by that route is completely responsible for loading its data and restoring state. This is
@@ -252,8 +252,8 @@ Ext.define('Ext.app.Controller', {
          *         'users/:id': 'showUserById'
          *     }
          *
-         * The first route will match against http://myapp.com/#login and call the Controller's showLogin function. The
-         * second route contains a wildcard (':id') and will match all urls like http://myapp.com/#users/123, calling
+         * The first route will match against http://Xpoit.com/#login and call the Controller's showLogin function. The
+         * second route contains a wildcard (':id') and will match all urls like http://Xpoit.com/#users/123, calling
          * the showUserById function with the matched ID as the first argument.
          *
          * @accessor
@@ -288,7 +288,7 @@ Ext.define('Ext.app.Controller', {
          * when dispatched to from a route. These are usually used to run pre-processing functions like authentication
          * before a certain function is executed. They are only called when dispatching from a route. Example usage:
          *
-         *     Ext.define('MyApp.controller.Products', {
+         *     Ext.define('Xpoit.controller.Products', {
          *         config: {
          *             before: {
          *                 editProduct: 'authenticate'
@@ -306,7 +306,7 @@ Ext.define('Ext.app.Controller', {
          *
          *         //this is run before editProduct
          *         authenticate: function(action) {
-         *             MyApp.authenticate({
+         *             Xpoit.authenticate({
          *                 success: function() {
          *                     action.resume();
          *                 },
@@ -431,7 +431,7 @@ Ext.define('Ext.app.Controller', {
 
         for (name in before) {
             filters = Ext.Array.from(before[name]);
-            length  = filters.length;
+            length = filters.length;
 
             for (i = 0; i < length; i++) {
                 filters[i] = this[filters[i]];
@@ -472,7 +472,7 @@ Ext.define('Ext.app.Controller', {
      * Adds any routes specified in this Controller to the global Application router
      */
     applyRoutes: function(routes) {
-        var app    = this instanceof Ext.app.Application ? this : this.getApplication(),
+        var app = this instanceof Ext.app.Application ? this : this.getApplication(),
             router = app.getRouter(),
             route, url, config;
 
@@ -498,7 +498,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify store names (e.g. 'MyStore' vs
-     * 'MyApp.store.MyStore'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.store.MyStore'). This just makes sure everything ends up fully qualified
      */
     applyStores: function(stores) {
         return this.getFullyQualified(stores, 'store');
@@ -507,7 +507,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify model names (e.g. 'MyModel' vs
-     * 'MyApp.model.MyModel'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.model.MyModel'). This just makes sure everything ends up fully qualified
      */
     applyModels: function(models) {
         return this.getFullyQualified(models, 'model');
@@ -516,7 +516,7 @@ Ext.define('Ext.app.Controller', {
     /**
      * @private
      * As a convenience developers can locally qualify view names (e.g. 'MyView' vs
-     * 'MyApp.view.MyView'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.view.MyView'). This just makes sure everything ends up fully qualified
      */
     applyViews: function(views) {
         return this.getFullyQualified(views, 'view');
@@ -531,14 +531,14 @@ Ext.define('Ext.app.Controller', {
      * @return {String} The fully-qualified name of the class
      */
     getFullyQualified: function(items, namespace) {
-        var length  = items.length,
+        var length = items.length,
             appName = this.getApplication().getName(),
             name, i;
 
         for (i = 0; i < length; i++) {
             name = items[i];
 
-            //we check name === appName to allow MyApp.profile.MyApp to exist
+            //we check name === appName to allow Xpoit.profile.Xpoit to exist
             if (Ext.isString(name) && (Ext.Loader.getPrefix(name) === "" || name === appName)) {
                 items[i] = appName + '.' + namespace + '.' + name;
             }
@@ -629,7 +629,8 @@ Ext.define('Ext.app.Controller', {
     }
 
     // <deprecated product=touch since=2.0>
-    ,onClassExtended: function(cls, members) {
+    ,
+    onClassExtended: function(cls, members) {
         var prototype = this.prototype,
             defaultConfig = prototype.config,
             config = members.config || {},
@@ -699,12 +700,12 @@ Ext.define('Ext.app.Controller', {
      * @param {String} modelName
      * @return {Object}
      * @deprecated 2.0.0 Considered bad practice - please just use the Model name instead
-     * (e.g. `MyApp.model.User` vs `this.getModel('User')`).
+     * (e.g. `Xpoit.model.User` vs `this.getModel('User')`).
      */
     getModel: function(modelName) {
         //<debug warn>
         Ext.Logger.deprecate("getModel() is deprecated and considered bad practice - please just use the Model " +
-            "name instead (e.g. MyApp.model.User vs this.getModel('User'))");
+            "name instead (e.g. Xpoit.model.User vs this.getModel('User'))");
         //</debug>
 
         var appName = this.getApplication().getName(),

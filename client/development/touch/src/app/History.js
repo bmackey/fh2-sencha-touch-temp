@@ -14,7 +14,7 @@ Ext.define('Ext.app.History', {
     /**
      * @event change
      * Fires when a change in browser url is detected
-     * @param {String} url The new url, after the hash (e.g. http://myapp.com/#someUrl returns 'someUrl')
+     * @param {String} url The new url, after the hash (e.g. http://Xpoit.com/#someUrl returns 'someUrl')
      */
 
     config: {
@@ -37,8 +37,7 @@ Ext.define('Ext.app.History', {
     constructor: function(config) {
         if (Ext.feature.has.History) {
             window.addEventListener('hashchange', Ext.bind(this.detectStateChange, this));
-        }
-        else {
+        } else {
             setInterval(Ext.bind(this.detectStateChange, this), 100);
         }
 
@@ -85,8 +84,7 @@ Ext.define('Ext.app.History', {
             actions.pop();
 
             previousAction.getController().getApplication().redirectTo(previousAction.getUrl());
-        }
-        else {
+        } else {
             actions[actions.length - 1].getController().getApplication().redirectTo('');
         }
     },

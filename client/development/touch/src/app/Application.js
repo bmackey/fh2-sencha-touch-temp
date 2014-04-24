@@ -14,7 +14,7 @@
  * Sample usage:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         models: ['User', 'Group'],
  *         stores: ['Users'],
@@ -22,7 +22,7 @@
  *         views: ['Main', 'ShowUser'],
  *
  *         launch: function() {
- *             Ext.create('MyApp.view.Main');
+ *             Ext.create('Xpoit.view.Main');
  *         }
  *     });
  *
@@ -40,7 +40,7 @@
  * specify the last part of each class name and Application will figure out the rest for you:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         controllers: ['Users'],
  *         models: ['User', 'Group'],
@@ -66,7 +66,7 @@
  * To specify dependencies in subfolders just use a period (".") to specify the folder:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         controllers: ['Users', 'nested.MyController'],
  *         views: ['products.Show', 'products.Edit', 'user.Login']
@@ -150,7 +150,7 @@
  * specified in the Ext.application setup block:
  *
  *     Ext.application({
- *         name: 'MyApp',
+ *         name: 'Xpoit',
  *
  *         {@link #icon}: 'resources/img/icon.png',
  *         {@link #isIconPrecomposed}: false,
@@ -167,7 +167,7 @@
  *
  * When the user adds your app to the home screen, your resources/img/icon.png file will be used as the application
  * {@link #icon}. We also used the {@link #isIconPrecomposed} configuration to turn off the gloss effect that is automatically added
- * to icons in iOS. Finally we used the {@link #startupImage} configuration to provide the images that will be displayed 
+ * to icons in iOS. Finally we used the {@link #startupImage} configuration to provide the images that will be displayed
  * while your application is starting up. See also {@link #statusBarStyle}.
  *
  * ## Find out more
@@ -225,7 +225,7 @@ Ext.define('Ext.app.Application', {
          *         }
          *     });
          */
-        
+
         /**
          * @cfg {Object} startupImage
          * Specifies a set of URLs to the application startup images for different device form factors. This image is
@@ -261,7 +261,7 @@ Ext.define('Ext.app.Application', {
          * Please note that there's no automatic fallback mechanism for the startup images. In other words, if you don't specify
          * a valid image for a certain device, nothing will be displayed while the application is being launched on that device.
          */
-        
+
         /**
          * @cfg {Boolean} isIconPrecomposed
          * `true` to not having a glossy effect added to the icon by the OS, which will preserve its exact look. This currently
@@ -273,7 +273,7 @@ Ext.define('Ext.app.Application', {
          * home screen on iOS devices. Alternative is to set to 'black-translucent', which turns
          * the status bar semi-transparent and overlaps the app content. This is usually not a good option for web apps
          */
-        
+
         /**
          * @cfg {String} tabletIcon Path to the _.png_ image file to use when your app is added to the home screen on an
          * iOS **tablet** device (iPad).
@@ -343,7 +343,7 @@ Ext.define('Ext.app.Application', {
 
         /**
          * @cfg {Ext.app.History} history The global {@link Ext.app.History History} instance attached to this
-         * Application. For more information, see 
+         * Application. For more information, see
          * [Routing, Deep Linking, and the Back Button](http://docs.sencha.com/touch/#!/guide/history_support).
          * @accessor
          * @readonly
@@ -353,8 +353,8 @@ Ext.define('Ext.app.Application', {
         /**
          * @cfg {String} name The name of the Application. This should be a single word without spaces or periods
          * because it is used as the Application's global namespace. All classes in your application should be
-         * namespaced under the Application's name - for example if your application name is 'MyApp', your classes
-         * should be named 'MyApp.model.User', 'MyApp.controller.Users', 'MyApp.view.Main' etc
+         * namespaced under the Application's name - for example if your application name is 'Xpoit', your classes
+         * should be named 'Xpoit.model.User', 'Xpoit.controller.Users', 'Xpoit.view.Main' etc
          * @accessor
          */
         name: null,
@@ -364,7 +364,7 @@ Ext.define('Ext.app.Application', {
          * This path will be registered via {@link Ext.Loader#setPath} for the namespace specified in the {@link #name name} config.
          * @accessor
          */
-        appFolder : 'app',
+        appFolder: 'app',
 
         /**
          * @cfg {Ext.app.Router} router The global {@link Ext.app.Router Router} instance attached to this Application.
@@ -430,7 +430,7 @@ Ext.define('Ext.app.Application', {
          * has the property 'transition: color 4s, background 6s, background-color 1s' the delay will be 6s (the largest time used in that class.
          *
          * @accessor
-        */
+         */
         themeVariationTransitionCls: null,
 
         /**
@@ -439,7 +439,7 @@ Ext.define('Ext.app.Application', {
          * must return a string.
          *
          *  //This will result in 'x-theme-variation-dark' being added as a class to the html tag of your application
-         *  MyApp.app.setThemeVariation("dark");
+         *  Xpoit.app.setThemeVariation("dark");
          *
          * @accessor
          */
@@ -468,13 +468,15 @@ Ext.define('Ext.app.Application', {
         if (config.autoCreateViewport) {
             Ext.Logger.deprecate(
                 '[Ext.app.Application] autoCreateViewport has been deprecated in Sencha Touch 2. Please implement a ' +
-                'launch function on your Application instead and use Ext.create("MyApp.view.Main") to create your initial UI.'
+                'launch function on your Application instead and use Ext.create("Xpoit.view.Main") to create your initial UI.'
             );
         }
         // </deprecated>
 
         //<debug>
-        Ext.Loader.setConfig({ enabled: true });
+        Ext.Loader.setConfig({
+            enabled: true
+        });
         //</debug>
 
         Ext.require(this.getRequires(), function() {
@@ -500,8 +502,8 @@ Ext.define('Ext.app.Application', {
         action = Ext.factory(action, Ext.app.Action);
 
         if (action) {
-            var profile    = this.getCurrentProfile(),
-                profileNS  = profile ? profile.getNamespace() : undefined,
+            var profile = this.getCurrentProfile(),
+                profileNS = profile ? profile.getNamespace() : undefined,
                 controller = this.getController(action.getController(), profileNS);
 
             if (controller) {
@@ -584,8 +586,8 @@ Ext.define('Ext.app.Application', {
      */
     getController: function(name, profileName) {
         var instances = this.getControllerInstances(),
-            appName   = this.getName(),
-            format    = Ext.String.format,
+            appName = this.getName(),
+            format = Ext.String.format,
             topLevelName;
 
         if (name instanceof Ext.app.Controller) {
@@ -596,7 +598,7 @@ Ext.define('Ext.app.Application', {
             return instances[name];
         } else {
             topLevelName = format("{0}.controller.{1}", appName, name);
-            profileName  = format("{0}.controller.{1}.{2}", appName, profileName, name);
+            profileName = format("{0}.controller.{1}.{2}", appName, profileName, name);
 
             return instances[profileName] || instances[topLevelName];
         }
@@ -608,10 +610,10 @@ Ext.define('Ext.app.Application', {
      * gathers any additional dependencies from that profile, then loads all of those dependencies.
      */
     onProfilesLoaded: function() {
-        var profiles  = this.getProfiles(),
-            length    = profiles.length,
+        var profiles = this.getProfiles(),
+            length = profiles.length,
             instances = [],
-            requires  = this.gatherDependencies(),
+            requires = this.gatherDependencies(),
             current, i, profileDeps;
 
         for (i = 0; i < length; i++) {
@@ -709,9 +711,9 @@ Ext.define('Ext.app.Application', {
             if (controllers[name] && !(controllers[name] instanceof Ext.app.Controller)) {
                 Ext.Logger.warn("The controller '" + name + "' doesn't have a launch method. Are you sure it extends from Ext.app.Controller?");
             } else {
-            //</debug>
+                //</debug>
                 controllers[name].launch(this);
-            //<debug warn>
+                //<debug warn>
             }
             //</debug>
         }
@@ -739,12 +741,12 @@ Ext.define('Ext.app.Application', {
      * @private
      * Should be called after dependencies are loaded, instantiates all of the Stores specified in the {@link #stores}
      * config. For each item in the stores array we make sure the Store is instantiated. When strings are specified,
-     * the corresponding _app/store/StoreName.js_ was loaded so we now instantiate a `MyApp.store.StoreName`, giving it the
+     * the corresponding _app/store/StoreName.js_ was loaded so we now instantiate a `Xpoit.store.StoreName`, giving it the
      * id `StoreName`.
      */
     instantiateStores: function() {
-        var stores  = this.getStores(),
-            length  = stores.length,
+        var stores = this.getStores(),
+            length = stores.length,
             store, storeClass, storeName, splits, i;
 
         for (i = 0; i < length; i++) {
@@ -798,7 +800,7 @@ Ext.define('Ext.app.Application', {
     /**
      * @private
      * As a convenience developers can locally qualify controller names (e.g. 'MyController' vs
-     * 'MyApp.controller.MyController'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.controller.MyController'). This just makes sure everything ends up fully qualified
      */
     applyControllers: function(controllers) {
         return this.getFullyQualified(controllers, 'controller');
@@ -807,7 +809,7 @@ Ext.define('Ext.app.Application', {
     /**
      * @private
      * As a convenience developers can locally qualify profile names (e.g. 'MyProfile' vs
-     * 'MyApp.profile.MyProfile'). This just makes sure everything ends up fully qualified
+     * 'Xpoit.profile.MyProfile'). This just makes sure everything ends up fully qualified
      */
     applyProfiles: function(profiles) {
         return this.getFullyQualified(profiles, 'profile');
@@ -878,32 +880,33 @@ Ext.define('Ext.app.Application', {
             newVariation = newVariation.call(this);
         }
 
-        if(!Ext.isString(newVariation)) {
+        if (!Ext.isString(newVariation)) {
             Ext.Error.raise("Theme variation must be a String.'");
         }
 
-        if(transitionCls) {
-            var css = "", duration = 0,
+        if (transitionCls) {
+            var css = "",
+                duration = 0,
                 rules = document.styleSheets[0].cssRules,
                 i, rule, times, time;
 
             html.addCls(transitionCls);
-            for(i in rules) {
+            for (i in rules) {
                 rule = rules[i];
-                if(rule.selectorText && rule.selectorText.indexOf("." + transitionCls) >=1) {
+                if (rule.selectorText && rule.selectorText.indexOf("." + transitionCls) >= 1) {
                     css += rule.cssText;
                 }
             }
 
             times = css.match(/[0-9]+s/g);
-            for(i in times) {
+            for (i in times) {
                 time = parseInt(times[i]);
-                if(time > duration) {
+                if (time > duration) {
                     duration = time;
                 }
             }
 
-            if(this.$themeVariationChangeTimeout) {
+            if (this.$themeVariationChangeTimeout) {
                 clearTimeout(this.$themeVariationChangeTimeout);
                 this.$themeVariationChangeTimeout = null;
             }
@@ -924,7 +927,7 @@ Ext.define('Ext.app.Application', {
         );
 
         var appName = config.name,
-            format  = Ext.String.format;
+            format = Ext.String.format;
 
         Ext.ns(
             appName,

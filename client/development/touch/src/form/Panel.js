@@ -43,14 +43,14 @@
  * It's also easy to load {@link Ext.data.Model Model} instances into a form - let's say we have a User model and want
  * to load a particular instance into our form:
  *
- *     Ext.define('MyApp.model.User', {
+ *     Ext.define('Xpoit.model.User', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             fields: ['name', 'email', 'password']
  *         }
  *     });
  *
- *     var ed = Ext.create('MyApp.model.User', {
+ *     var ed = Ext.create('Xpoit.model.User', {
  *         name: 'Ed',
  *         email: 'ed@sencha.com',
  *         password: 'secret'
@@ -135,8 +135,8 @@
  */
 Ext.define('Ext.form.Panel', {
     alternateClassName: 'Ext.form.FormPanel',
-    extend  : 'Ext.Panel',
-    xtype   : 'formpanel',
+    extend: 'Ext.Panel',
+    xtype: 'formpanel',
     requires: ['Ext.XTemplate', 'Ext.field.Checkbox', 'Ext.Ajax'],
 
     /**
@@ -251,7 +251,7 @@ Ext.define('Ext.form.Panel', {
          * If set to true, {@link #reset}() resets to the last loaded or {@link #setValues}() data instead of
          * when the form was first created.
          */
-        trackResetOnLoad:false,
+        trackResetOnLoad: false,
 
         /**
          * @cfg {Object} api
@@ -344,13 +344,13 @@ Ext.define('Ext.form.Panel', {
 
         me.element.on({
             submit: 'onSubmit',
-            scope : me
+            scope: me
         });
     },
 
     applyEnctype: function(newValue) {
-        var  form = this.element.dom || null;
-        if(form) {
+        var form = this.element.dom || null;
+        if (form) {
             if (newValue) {
                 form.setAttribute("enctype", newValue);
             } else {
@@ -520,21 +520,21 @@ Ext.define('Ext.form.Panel', {
             formValues = me.getValues(me.getStandardSubmit() || !options.submitDisabled),
             form = me.element.dom || {};
 
-        if(this.getEnableSubmissionForm()) {
+        if (this.getEnableSubmissionForm()) {
             form = this.createSubmissionForm(form, formValues);
         }
 
         options = Ext.apply({
-            url : me.getUrl() || form.action,
+            url: me.getUrl() || form.action,
             submit: false,
             form: form,
-            method : me.getMethod() || form.method || 'post',
-            autoAbort : false,
-            params : null,
-            waitMsg : null,
-            headers : null,
-            success : null,
-            failure : null
+            method: me.getMethod() || form.method || 'post',
+            autoAbort: false,
+            params: null,
+            waitMsg: null,
+            headers: null,
+            success: null,
+            failure: null
         }, options || {});
 
         return me.fireAction('beforesubmit', [me, formValues, options, e], 'doBeforeSubmit');
@@ -544,7 +544,7 @@ Ext.define('Ext.form.Panel', {
         var fields = this.getFields(),
             name, input, field, fileinputElement, inputComponent;
 
-        if(form.nodeType === 1) {
+        if (form.nodeType === 1) {
             form = form.cloneNode(false);
 
             for (name in values) {
@@ -559,15 +559,18 @@ Ext.define('Ext.form.Panel', {
         for (name in fields) {
             if (fields.hasOwnProperty(name)) {
                 field = fields[name];
-                if(field.isFile) {
-                    if(!form.$fileswap) form.$fileswap = [];
+                if (field.isFile) {
+                    if (!form.$fileswap) form.$fileswap = [];
 
                     inputComponent = field.getComponent().input;
                     fileinputElement = inputComponent.dom;
                     input = fileinputElement.cloneNode(true);
                     fileinputElement.parentNode.insertBefore(input, fileinputElement.nextSibling);
                     form.appendChild(fileinputElement);
-                    form.$fileswap.push({original: fileinputElement, placeholder: input});
+                    form.$fileswap.push({
+                        original: fileinputElement,
+                        placeholder: input
+                    });
                 }
             }
         }
@@ -579,20 +582,20 @@ Ext.define('Ext.form.Panel', {
         var form = options.form || {},
             multipartDetected = false;
 
-        if(this.getMultipartDetection() === true) {
+        if (this.getMultipartDetection() === true) {
             this.getFieldsAsArray().forEach(function(field) {
-                if(field.isFile === true) {
+                if (field.isFile === true) {
                     multipartDetected = true;
                     return false;
                 }
             });
 
-            if(multipartDetected) {
+            if (multipartDetected) {
                 form.setAttribute("enctype", "multipart/form-data");
             }
         }
 
-        if(options.enctype) {
+        if (options.enctype) {
             form.setAttribute("enctype", options.enctype);
         }
 
@@ -640,8 +643,8 @@ Ext.define('Ext.form.Panel', {
             if (options.waitMsg) {
                 if (typeof waitMsg === 'string') {
                     waitMsg = {
-                        xtype   : 'loadmask',
-                        message : waitMsg
+                        xtype: 'loadmask',
+                        message: waitMsg
                     };
                 }
 
@@ -675,8 +678,7 @@ Ext.define('Ext.form.Panel', {
                     }, this);
                 }
             } else {
-                var request = Ext.merge({},
-                    {
+                var request = Ext.merge({}, {
                         url: url,
                         timeout: this.getTimeout() * 1000,
                         form: form,
@@ -688,9 +690,8 @@ Ext.define('Ext.form.Panel', {
                 delete request.failure;
 
                 request.params = Ext.merge(me.getBaseParams() || {}, options.params);
-                request.header = Ext.apply(
-                    {
-                        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+                request.header = Ext.apply({
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     },
                     options.headers || {}
                 );
@@ -699,7 +700,7 @@ Ext.define('Ext.form.Panel', {
                         responseXML = response.responseXML,
                         statusResult = Ext.Ajax.parseStatus(response.status, response);
 
-                    if(form.$fileswap) {
+                    if (form.$fileswap) {
                         var original, placeholder;
                         Ext.each(form.$fileswap, function(item) {
                             original = item.original;
@@ -714,33 +715,35 @@ Ext.define('Ext.form.Panel', {
 
                     me.setMasked(false);
 
-                    if(response.success === false) success = false;
+                    if (response.success === false) success = false;
                     if (success) {
                         if (statusResult && responseText && responseText.length == 0) {
                             success = true;
                         } else {
-                            if(!Ext.isEmpty(response.responseBytes)) {
+                            if (!Ext.isEmpty(response.responseBytes)) {
                                 success = statusResult.success;
-                            }else {
-                                if(Ext.isString(responseText) && response.request.options.responseType === "text") {
+                            } else {
+                                if (Ext.isString(responseText) && response.request.options.responseType === "text") {
                                     response.success = true;
-                                } else if(Ext.isString(responseText)) {
+                                } else if (Ext.isString(responseText)) {
                                     try {
                                         response = Ext.decode(responseText);
-                                    }catch (e){
+                                    } catch (e) {
                                         response.success = false;
                                         response.error = e;
                                         response.message = e.message;
                                     }
-                                } else if(Ext.isSimpleObject(responseText)) {
+                                } else if (Ext.isSimpleObject(responseText)) {
                                     response = responseText;
-                                    Ext.applyIf(response, {success:true});
+                                    Ext.applyIf(response, {
+                                        success: true
+                                    });
                                 }
 
-                                if(!Ext.isEmpty(responseXML)){
+                                if (!Ext.isEmpty(responseXML)) {
                                     response.success = true;
                                 }
-                                success = !!response.success;
+                                success = !! response.success;
                             }
                         }
                         if (success) {
@@ -748,13 +751,12 @@ Ext.define('Ext.form.Panel', {
                         } else {
                             failureFn(response, responseText);
                         }
-                    }
-                    else {
+                    } else {
                         failureFn(response, responseText);
                     }
                 };
 
-                if(Ext.feature.has.XHR2 && request.xhr2) {
+                if (Ext.feature.has.XHR2 && request.xhr2) {
                     delete request.form;
                     var formData = new FormData(form);
                     if (request.params) {
@@ -845,7 +847,7 @@ Ext.define('Ext.form.Panel', {
      *
      * @return {Ext.data.Connection} The request object.
      */
-    load : function(options) {
+    load: function(options) {
         options = options || {};
 
         var me = this,
@@ -873,8 +875,8 @@ Ext.define('Ext.form.Panel', {
         if (options.waitMsg) {
             if (typeof waitMsg === 'string') {
                 waitMsg = {
-                    xtype   : 'loadmask',
-                    message : waitMsg
+                    xtype: 'loadmask',
+                    message: waitMsg
                 };
             }
 
@@ -915,9 +917,8 @@ Ext.define('Ext.form.Panel', {
                 timeout: (options.timeout || this.getTimeout()) * 1000,
                 method: options.method || 'GET',
                 autoAbort: options.autoAbort,
-                headers: Ext.apply(
-                    {
-                        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+                headers: Ext.apply({
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     },
                     options.headers || {}
                 ),
@@ -933,15 +934,14 @@ Ext.define('Ext.form.Panel', {
                             success = true;
                         } else {
                             response = Ext.decode(responseText);
-                            success = !!response.success;
+                            success = !! response.success;
                         }
                         if (success) {
                             successFn(response, responseText);
                         } else {
                             failureFn(response, responseText);
                         }
-                    }
-                    else {
+                    } else {
                         failureFn(response, responseText);
                     }
                 }
@@ -950,7 +950,7 @@ Ext.define('Ext.form.Panel', {
     },
 
     //@private
-    getParams : function(params) {
+    getParams: function(params) {
         return Ext.apply({}, params, this.getBaseParams());
     },
 
@@ -1005,10 +1005,10 @@ Ext.define('Ext.form.Panel', {
                                 break;
                             } else if (f.isCheckbox) {
                                 if (Ext.isArray(value)) {
-                                   f.setChecked((value.indexOf(f._value) != -1));
-                               } else {
-                                   f.setChecked((value == f._value));
-                               }
+                                    f.setChecked((value.indexOf(f._value) != -1));
+                                } else {
+                                    f.setChecked((value == f._value));
+                                }
                             } else {
                                 // If it is a bunch of fields with the same name, check if the value is also an array, so we can map it
                                 // to each field
@@ -1028,7 +1028,7 @@ Ext.define('Ext.form.Panel', {
                     }
 
                     if (me.getTrackResetOnLoad()) {
-                       field.resetOriginalValue();
+                        field.resetOriginalValue();
                     }
                 }
             }

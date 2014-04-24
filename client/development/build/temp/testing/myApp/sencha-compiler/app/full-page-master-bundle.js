@@ -1,2 +1,2 @@
 // @tag full-page
-// @require /Users/Cookie_Monster/Desktop/Test/client/development/app.js
+// @require /Users/bmackey/college/Application/fh2-sencha-touch-temp/client/development/app.js

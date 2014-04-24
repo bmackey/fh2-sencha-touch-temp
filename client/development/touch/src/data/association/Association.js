@@ -6,24 +6,24 @@
  * writing an ecommerce system where Users can make Orders - there's a relationship between these Models that we can
  * express like this:
  *
- *     Ext.define('MyApp.model.User', {
+ *     Ext.define('Xpoit.model.User', {
  *         extend: 'Ext.data.Model',
  *
  *         config: {
  *             fields: ['id', 'name', 'email'],
  *             hasMany: {
- *                 model: 'MyApp.model.Order',
+ *                 model: 'Xpoit.model.Order',
  *                 name: 'orders'
  *             }
  *         }
  *     });
  *
- *     Ext.define('MyApp.model.Order', {
+ *     Ext.define('Xpoit.model.Order', {
  *         extend: 'Ext.data.Model',
  *
  *         config: {
  *             fields: ['id', 'user_id', 'status', 'price'],
- *             belongsTo: 'MyApp.model.User'
+ *             belongsTo: 'Xpoit.model.User'
  *         }
  *     });
  *
@@ -74,7 +74,7 @@
  *     }
  *
  *     // Client code
- *     Ext.define('MyApp.model.Group', {
+ *     Ext.define('Xpoit.model.Group', {
  *         extend: 'Ext.data.Model',
  *         config: {
  *             fields: ['id', 'parent_id', 'name'],
@@ -88,14 +88,14 @@
  *             },
  *             associations: [{
  *                 type: 'hasMany',
- *                 model: 'MyApp.model.Group',
+ *                 model: 'Xpoit.model.Group',
  *                 primaryKey: 'id',
  *                 foreignKey: 'parent_id',
  *                 autoLoad: true,
  *                 associationKey: 'nested.child_groups' // read child data from nested.child_groups
  *             }, {
  *                 type: 'belongsTo',
- *                 model: 'MyApp.model.Group',
+ *                 model: 'Xpoit.model.Group',
  *                 primaryKey: 'id',
  *                 foreignKey: 'parent_id',
  *                 associationKey: 'parent_group' // read parent data from parent_group
@@ -105,7 +105,7 @@
  *
  *
  *     Ext.onReady(function(){
- *         MyApp.model.Group.load(10, {
+ *         Xpoit.model.Group.load(10, {
  *             success: function(group){
  *                 console.log(group.getGroup().get('name'));
  *
@@ -225,7 +225,7 @@ Ext.define('Ext.data.association.Association', {
         if (!ownerName) {
             ownerName = this.getOwnerModel().modelName;
         }
-        ownerName = ownerName.slice(ownerName.lastIndexOf('.')+1);
+        ownerName = ownerName.slice(ownerName.lastIndexOf('.') + 1);
         return ownerName;
     },
 
@@ -247,7 +247,7 @@ Ext.define('Ext.data.association.Association', {
         if (!associatedName) {
             associatedName = this.getAssociatedModel().modelName;
         }
-        associatedName = associatedName.slice(associatedName.lastIndexOf('.')+1);
+        associatedName = associatedName.slice(associatedName.lastIndexOf('.') + 1);
         return associatedName;
     },
 
@@ -281,7 +281,8 @@ Ext.define('Ext.data.association.Association', {
 
     // Convert old properties in data into a config object
     // <deprecated product=touch since=2.0>
-    ,onClassExtended: function(cls, data, hooks) {
+    ,
+    onClassExtended: function(cls, data, hooks) {
         var Component = this,
             defaultConfig = Component.prototype.config,
             config = data.config || {},
