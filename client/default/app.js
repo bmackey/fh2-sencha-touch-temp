@@ -36925,6 +36925,247 @@ Ext.define('Ext.Decorator', {
 });
 
 /**
+ * This is a simple way to add an image of any size to your application and have it participate in the layout system
+ * like any other component. This component typically takes between 1 and 3 configurations - a {@link #src}, and
+ * optionally a {@link #height} and a {@link #width}:
+ *
+ *     @example miniphone
+ *     var img = Ext.create('Ext.Img', {
+ *         src: 'http://www.sencha.com/assets/images/sencha-avatar-64x64.png',
+ *         height: 64,
+ *         width: 64
+ *     });
+ *     Ext.Viewport.add(img);
+ *
+ * It's also easy to add an image into a panel or other container using its xtype:
+ *
+ *     @example miniphone
+ *     Ext.create('Ext.Panel', {
+ *         fullscreen: true,
+ *         layout: 'hbox',
+ *         items: [
+ *             {
+ *                 xtype: 'image',
+ *                 src: 'http://www.sencha.com/assets/images/sencha-avatar-64x64.png',
+ *                 flex: 1
+ *             },
+ *             {
+ *                 xtype: 'panel',
+ *                 flex: 2,
+ *                 html: 'Sencha Inc.<br/>1700 Seaport Boulevard Suite 120, Redwood City, CA'
+ *             }
+ *         ]
+ *     });
+ *
+ * Here we created a panel which contains an image (a profile picture in this case) and a text area to allow the user
+ * to enter profile information about themselves. In this case we used an {@link Ext.layout.HBox hbox layout} and
+ * flexed the image to take up one third of the width and the text area to take two thirds of the width. See the
+ * {@link Ext.layout.HBox hbox docs} for more information on flexing items.
+ */
+Ext.define('Ext.Img', {
+    extend:  Ext.Component ,
+    xtype: ['image', 'img'],
+
+    /**
+     * @event tap
+     * Fires whenever the component is tapped
+     * @param {Ext.Img} this The Image instance
+     * @param {Ext.EventObject} e The event object
+     */
+
+    /**
+     * @event load
+     * Fires when the image is loaded
+     * @param {Ext.Img} this The Image instance
+     * @param {Ext.EventObject} e The event object
+     */
+
+    /**
+     * @event error
+     * Fires if an error occured when trying to load the image
+     * @param {Ext.Img} this The Image instance
+     * @param {Ext.EventObject} e The event object
+     */
+
+    config: {
+        /**
+         * @cfg {String} src The source of this image
+         * @accessor
+         */
+        src: null,
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls : Ext.baseCSSPrefix + 'img',
+
+        /**
+         * @cfg {String} imageCls The CSS class to be used when {@link #mode} is not set to 'background'
+         * @accessor
+         */
+        imageCls : Ext.baseCSSPrefix + 'img-image',
+
+        /**
+         * @cfg {String} backgroundCls The CSS class to be used when {@link #mode} is set to 'background'
+         * @accessor
+         */
+        backgroundCls : Ext.baseCSSPrefix + 'img-background',
+
+        /**
+         * @cfg {String} mode If set to 'background', uses a background-image CSS property instead of an
+         * `<img>` tag to display the image.
+         */
+        mode: 'background'
+    },
+
+    beforeInitialize: function() {
+        var me = this;
+        me.onLoad = Ext.Function.bind(me.onLoad, me);
+        me.onError = Ext.Function.bind(me.onError, me);
+    },
+
+    initialize: function() {
+        var me = this;
+        me.callParent();
+
+        me.relayEvents(me.renderElement, '*');
+
+        me.element.on({
+            tap: 'onTap',
+            scope: me
+        });
+    },
+
+    hide: function() {
+        this.callParent(arguments);
+        this.hiddenSrc = this.hiddenSrc || this.getSrc();
+        this.setSrc(null);
+    },
+
+    show: function() {
+        this.callParent(arguments);
+        if (this.hiddenSrc) {
+            this.setSrc(this.hiddenSrc);
+            delete this.hiddenSrc;
+        }
+    },
+
+    updateMode: function(mode) {
+        var me            = this,
+            imageCls      = me.getImageCls(),
+            backgroundCls = me.getBackgroundCls();
+
+        if (mode === 'background') {
+            if (me.imageElement) {
+                me.imageElement.destroy();
+                delete me.imageElement;
+                me.updateSrc(me.getSrc());
+            }
+
+            me.replaceCls(imageCls, backgroundCls);
+        } else {
+            me.imageElement = me.element.createChild({ tag: 'img' });
+
+            me.replaceCls(backgroundCls, imageCls);
+        }
+    },
+
+    updateImageCls : function (newCls, oldCls) {
+        this.replaceCls(oldCls, newCls);
+    },
+
+    updateBackgroundCls : function (newCls, oldCls) {
+        this.replaceCls(oldCls, newCls);
+    },
+
+    onTap: function(e) {
+        this.fireEvent('tap', this, e);
+    },
+
+    onAfterRender: function() {
+        this.updateSrc(this.getSrc());
+    },
+
+    /**
+     * @private
+     */
+    updateSrc: function(newSrc) {
+        var me = this,
+            dom;
+
+        if (me.getMode() === 'background') {
+            dom = this.imageObject || new Image();
+        }
+        else {
+            dom = me.imageElement.dom;
+        }
+
+        this.imageObject = dom;
+
+        dom.setAttribute('src', Ext.isString(newSrc) ? newSrc : '');
+        dom.addEventListener('load', me.onLoad, false);
+        dom.addEventListener('error', me.onError, false);
+    },
+
+    detachListeners: function() {
+        var dom = this.imageObject;
+
+        if (dom) {
+            dom.removeEventListener('load', this.onLoad, false);
+            dom.removeEventListener('error', this.onError, false);
+        }
+    },
+
+    onLoad : function(e) {
+        this.detachListeners();
+
+        if (this.getMode() === 'background') {
+            this.element.dom.style.backgroundImage = 'url("' + this.imageObject.src + '")';
+        }
+
+        this.fireEvent('load', this, e);
+    },
+
+    onError : function(e) {
+        this.detachListeners();
+
+        // Attempt to set the src even though the error event fired.
+        if (this.getMode() === 'background') {
+            this.element.dom.style.backgroundImage = 'url("' + this.imageObject.src + '")';
+        }
+
+        this.fireEvent('error', this, e);
+    },
+
+    doSetWidth: function(width) {
+        var sizingElement = (this.getMode() === 'background') ? this.element : this.imageElement;
+
+        sizingElement.setWidth(width);
+
+        this.callParent(arguments);
+    },
+
+    doSetHeight: function(height) {
+        var sizingElement = (this.getMode() === 'background') ? this.element : this.imageElement;
+
+        sizingElement.setHeight(height);
+
+        this.callParent(arguments);
+    },
+
+    destroy: function() {
+        this.detachListeners();
+
+        Ext.destroy(this.imageObject, this.imageElement);
+        delete this.imageObject;
+        delete this.imageElement;
+
+        this.callParent();
+    }
+});
+
+/**
  * A simple class used to mask any {@link Ext.Container}.
  *
  * This should rarely be used directly, instead look at the {@link Ext.Container#masked} configuration.
@@ -68316,9 +68557,452 @@ Ext.define('Xpoit.model.Student', {
 		}, {
 			name: 'email',
 			type: 'string'
+		}],
+	}
+})
+
+Ext.define('Xpoit.model.Project', {
+	extend:  Ext.data.Model ,
+
+	config: {
+		fields: [{
+			name: 'project',
+			type: 'string'
+		}, {
+			name: 'title',
+			type: 'string'
+		}, {
+			name: 'commercial',
+			type: 'string'
+		}, {
+			name: 'desc',
+			type: 'string'
+		}, {
+			name: 'disciplines',
+			type: 'string'
 		}]
 	}
 })
+
+Ext.define('Xpoit.view.Home', {
+               
+                  
+                          
+      
+    extend:  Ext.Panel ,
+    xtype: 'homePanel',
+    id: 'homePanel',
+    cls: 'homePanel',
+    fullscreen: true,
+
+    config: {
+        scrollable: null,
+        cls: 'home',
+
+        layout: {
+            type: 'vbox'
+        },
+
+        items: [{
+                xtype: 'panel',
+                height: 130,
+                style: 'background-color:#FFF; -webkit-box-shadow: rgba(0,0,0,0.4) 2px 4px 1px 2px; overflow: visible; text-align: center',
+                html: '<img class="homeLogo" src="resources/images/homeLogo.png" /><br/>'
+            },
+
+            {
+                xtype: 'image',
+                height: 10,
+                style: 'text-align:center',
+                html: '<img class="triangle" src="resources/images/triangle.png" />'
+            },
+
+            {
+                xtype: 'panel',
+                height: 60,
+            },
+
+            //search
+            {
+                height: 45,
+                id: 'searchBtn',
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+
+                items: [{
+                        flex: 1,
+                    }, {
+                        flex: 1.5,
+                        html: '<img class="icons" src="resources/images/icons/search.png" />'
+                    }, {
+                        cls: 'homeIcons',
+                        height: 10,
+                        width: 200,
+                        html: 'Search<br /><hr />',
+
+                        // listeners: {
+                        //     element: 'element',
+                        //     tap: function() {
+                        //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
+                        //     }
+                        // }
+                    }, {
+                        flex: 1
+                    }
+
+                ]
+            },
+
+            // Student Link
+            {
+                height: 45,
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+                items: [{
+                        flex: 1,
+                    }, {
+                        flex: 1.5,
+                        html: '<img class="icons" src="resources/images/icons/student.png" />'
+                    }, {
+                        id: 'studentBtn',
+                        cls: 'homeIcons',
+                        height: 10,
+                        width: 200,
+                        html: '<a>Student List</a><br /><hr />',
+
+                        listeners: {
+                            element: 'element',
+                            tap: function() {
+                                Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
+                            }
+                        }
+                    }, {
+                        flex: 1
+                    }
+
+                ]
+            },
+            //Project Link
+            {
+                height: 45,
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+                items: [{
+                    flex: 1,
+                }, {
+                    flex: 1.5,
+                    html: '<img class="icons" src="resources/images/icons/project.png" />'
+                }, {
+                    id: 'projectBtn',
+                    cls: 'homeIcons',
+                    height: 10,
+                    width: 200,
+                    html: '<a>Project List</a><br /><hr />',
+
+                    // listeners: {
+                    //     element: 'element',
+                    //     tap: function() {
+                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
+                    //     }
+                    // }
+                }, {
+                    flex: 1
+                }]
+            },
+
+            //Maps Link
+            {
+                height: 45,
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+                items: [{
+                    flex: 1,
+                }, {
+                    flex: 1.5,
+                    html: '<img class="icons" src="resources/images/icons/map.png" />'
+                }, {
+                    id: 'mapBtn',
+                    cls: 'homeIcons',
+                    height: 10,
+                    width: 200,
+                    html: '<a>Location Maps</a><br /><hr />',
+
+                    // listeners: {
+                    //     element: 'element',
+                    //     tap: function() {
+                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Maps'));
+                    //     }
+                    // }
+                }, {
+                    flex: 1
+                }]
+            },
+
+            //Visit It Link
+            {
+                height: 45,
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+                items: [{
+                    flex: 1,
+                }, {
+                    flex: 1.5,
+                    html: '<img class="icons" src="resources/images/icons/visit.png" />'
+                }, {
+                    id: 'visitBtn',
+                    cls: 'homeIcons',
+                    height: 10,
+                    width: 200,
+                    html: '<a>VisitIt!</a><br /><hr />',
+
+                    // listeners: {
+                    //     element: 'element',
+                    //     tap: function() {
+                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Visit'));
+                    //     }
+                    // }
+                }, {
+                    flex: 1
+                }]
+            },
+
+
+            //NoteIt Link
+            {
+                height: 45,
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+                items: [{
+                    flex: 1,
+                }, {
+                    flex: 1.5,
+                    html: '<img class="icons" src="resources/images/icons/note.png" />'
+                }, {
+                    id: 'noteBtn',
+                    cls: 'homeIcons',
+                    height: 10,
+                    width: 200,
+                    html: '<a>NoteIt! Microblog</a><br /><hr />',
+
+                    listeners: {
+                        element: 'element',
+                        tap: function() {
+
+                            Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
+                                if (btn == 'yes') {
+                                    window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
+                                }
+                            });
+                        }
+                    }
+                }, {
+                    flex: 1
+                }]
+            },
+
+
+            //Info Link
+            {
+                height: 45,
+
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                },
+                items: [{
+                    flex: 1,
+                }, {
+                    flex: 1.5,
+                    html: '<img class="icons" src="resources/images/icons/info.png" />'
+                }, {
+                    id: 'infoBtn',
+                    cls: 'homeIcons',
+                    height: 10,
+                    width: 200,
+                    html: '<a>Information</a>',
+
+                    // listeners: {
+                    //     element: 'element',
+                    //     tap: function() {
+                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
+                    //     }
+                    // }
+                }, {
+                    flex: 1
+                }]
+            },
+
+        ]
+    }
+});
+
+Ext.define('Xpoit.controller.Main', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		ref: {
+			main: 'mainPanel',
+			project: 'projectPanel',
+			studentPanel: 'studentPanel',
+			//home: '#home'
+		},
+		control: {
+			'#studentList': {
+				disclose: 'showProfile'
+			},
+			'#projectList': {
+				disclose: 'showProject'
+			},
+			// home: {
+			// 	initialize: 'onInit'
+			// }
+		},
+	},
+
+	showProfile: function(list, record) {
+		console.log('tapped expand student info');
+		Ext.ComponentManager.get('mainPanel').push({
+			xtype: 'studentPanel',
+			data: record.data
+		});
+	},
+
+	showProject: function(list, record) {
+		console.log('tapped expand project');
+		Ext.ComponentManager.get('projectMainPanel').push({
+			xtype: 'projectPanel',
+			data: record.data
+		});
+	},
+
+	init: function() {
+		console.log('inside init');
+		$fh.act({
+				"act": "findAll"
+			}, function(res) {
+				console.log('Getting stuff!', res);
+				var records = [];
+				for (var i = 0; i < res.length; i++) {
+					var item = res[i];
+					records.push({
+						project: item.project,
+						fname: item.fname,
+						lname: item.lname,
+						email: item.email,
+						course: item.course,
+						title: item.title,
+						commercial: item.commercial,
+						desc: item.desc,
+						disciplines: item.disciplines
+					});
+
+					//printing out from stored array
+					console.log(records[i]);
+
+					//push to stores
+					var studentStore = Ext.getStore('Students');
+					studentStore.add(records[i]);
+
+					var projectStore = Ext.getStore('Projects');
+					projectStore.add(records[i]);
+
+					localStorage["records"] = JSON.stringify(records);
+					var storedData = JSON.parse(localStorage["records"]);
+
+					var retrievedObject = localStorage.getItem('records');
+
+					console.log('records', JSON.parse(retrievedObject));
+
+					// Put the object into storage
+					// localStorage.setItem('records[i]', JSON.stringify(records[i]));
+
+					// Retrieve the object from storage
+					// var retrievedObject = localStorage.getItem('records[i]');
+
+					// console.log('records', JSON.parse(retrievedObject));
+
+				}
+			},
+			function(msg, err) {
+				console.log('Could not get stuff', msg);
+			})
+	},
+
+	// onInit: function() {
+	// 	Ext.Viewport.remove(Ext.Viewport.getActiveItem(), true);
+	// }
+});
+
+Ext.define('Xpoit.controller.General', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		ref: {
+			homePanelView: '#homePanel'
+		},
+		control: {
+			'homePanelView': {
+				initialize: 'onInit'
+			}
+		},
+	},
+
+	onInit: function(panel) {
+		console.log('reached the general Panels log');
+		// Ext.getCmp('studentListPanel').destroy();
+		// Ext.getCmp('mainPanel').destroy();
+
+		var panel1 = Ext.getCmp("studentListPanel");
+		if (panel1) {
+			panel1.destroy();
+		};
+
+		var panel2 = Ext.getCmp("mainPanel");
+		if (panel2) {
+			panel2.destroy();
+		};
+	}
+
+});
+
+Ext.define('Xpoit.controller.List', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		ref: {
+			studentListPanel: '#studentList'
+		},
+		control: {
+			studentListPanel: {
+				initialize: 'onInit'
+			}
+		},
+	},
+
+	onInit: function(panel) {
+		console.log('reached the quitPanels log');
+		Ext.getCmp('homePanel').destroy();
+	}
+
+});
 
 Ext.define('Xpoit.view.Student', {
 	extend:  Ext.Panel ,
@@ -68340,10 +69024,10 @@ Ext.define('Xpoit.view.StudentList', {
   xtype: 'studentListPanel',
   id: 'studentList',
   cls: 'studentList',
-  style: 'background-color:#6d6e71;',
   config: {
     grouped: true,
-    indexBar: false,
+    indexBar: true,
+    title: 'studentList',
     itemTpl: '{fname} {lname}',
     store: 'Students',
 
@@ -68383,82 +69067,239 @@ Ext.define('Xpoit.view.Main', {
     }
 });
 
-Ext.define('Xpoit.controller.Main', {
-	extend:  Ext.app.Controller ,
+Ext.define('Xpoit.view.Project', {
+	extend:  Ext.Panel ,
+	xtype: 'projectPanel',
 
 	config: {
-		ref: {
-			main: 'mainPanel',
-			//project: 'projectPanel',
-			studentPanel: 'studentPanel',
-			//home: '#home'
-		},
-		control: {
-			'#studentList': {
-				disclose: 'showProfile'
-			},
-			// '#projectList': {
-			// 	disclose: 'showProject'
-			// },
-			// home: {
-			// 	initialize: 'onInit'
-			// }
-		},
-	},
+		styleHtmlContent: true,
+		scrollable: 'vertical',
+		title: 'Project Profile',
+		tpl: [
+			'<h1>Project No: {project}</h1>',
+			'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}'
+		],
+	}
 
-	showProfile: function(list, record) {
-		console.log('tapped expand student info');
-		Ext.ComponentManager.get('mainPanel').push({
-			xtype: 'studentPanel',
-			data: record.data
-		});
-	},
-	// showProject: function(list, record) {
-	// 	console.log('tapped expand project');
-	// 	Ext.ComponentManager.get('projectMainPanel').push({
-	// 		xtype: 'projectPanel',
-	// 		data: record.data
-	// 	});
-	// },
-	init: function() {
-		console.log('inside init');
-		$fh.act({
-			"act": "findAll"
-		}, function(res) {
-			console.log('Getting stuff!', res);
-			var records = [];
-			for (var i = 0; i < res.length; i++) {
-				var item = res[i];
-				records.push({
-					project: item.project,
-					fname: item.fname,
-					lname: item.lname,
-					email: item.email,
-					course: item.course,
-					title: item.title,
-					commercial: item.commercial,
-					desc: item.desc,
-					disciplines: item.disciplines
-				});
+});
 
-				console.log(records[i]);
+Ext.define('Xpoit.view.ProjectList', {
+  extend:  Ext.List ,
+  xtype: 'projectListPanel',
+  id: 'projectList',
+  cls: 'projectList',
+  config: {
+    grouped: true,
+    itemTpl: '{project} {commercial} {title}',
+    store: 'Projects',
+    onItemDisclosure: true,
+
+    items: [{
+      xtype: 'toolbar',
+      docked: 'top',
+      title: 'Project List',
+
+      items: [{
+        cls: 'backBtn',
+        html: '<img src="resources/images/back.png"/>',
+        hidden: Xpoit.hideBack || false,
+
+        element: 'element',
+        handler: function() {
+          Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
+        }
+      }]
+    }]
+  },
+});
+
+Ext.define('Xpoit.view.ProjectMain', {
+    extend:  Ext.navigation.View ,
+    xytpe: 'projectMainPanel',
+    id: 'projectMainPanel',
+               
+                             
+                                
+      
+    config: {
+        items: [{
+            xtype: 'projectListPanel'
+        }]
+    },
+});
+
+Ext.define('Xpoit.view.Search', {
+    extend:  Ext.Container ,
+                                 
+    config: {
+        layout: 'vbox',
+        id: 'searchPanel',
+        iconCls: 'search',
+        items: [{
+                xtype: 'toolbar',
+                docked: 'top',
+                align: 'center',
+                pack: 'center',
+                style: 'text-align:center',
+                title: 'Search',
+                layout: {
+                    type: 'hbox',
+
+                },
+                items: [{
+                    cls: 'backBtn',
+                    html: '<img src="resources/images/back.png"/>',
+                    hidden: Xpoit.hideBack || false,
+
+                    element: 'element',
+                    handler: function() {
+                        // Ext.getCmp('searchPanel').destroy();
+                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
+                    }
+                }, {
+                    xtype: 'spacer'
+                }, {
+                    html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+                }, ]
+            }, {
+                xtype: 'container',
+                layout: {
+                    type: 'vbox',
+                },
+                items: [{
+                    floating: true,
+                    html: 'Search Stuffs Goes Here'
+                }, ]
+
+            }, {
+                xtype: 'toolbar',
+                docked: 'bottom',
+                cls: 'btm-nav',
+                id: 'btm-nav',
+                pack: 'center',
+                layout: {
+                    type: 'vbox'
+                },
+                items: [{
+                    xtype: 'button',
+                    align: 'center',
+                    html: '<img class="circle" src="resources/images/circle.png" />',
+                    style: 'width:250px; margin-top: -32px;',
 
 
-				var studentStore = Ext.getStore('Students');
-				studentStore.add(records[i]);
+                    // SLIDE MENU BUTTON
 
-				// var projectStore = Ext.getStore('Projects');
-				// projectStore.add(records[i]);
+                    handler: function() {
+                        // Show or hide sliding menu:
+                        var settingsPanel = Ext.getCmp('sliding_menu');
+                        var bottomPanel = Ext.getCmp('btm-nav');
 
-			}
-		}, function(msg, err) {
-			console.log('Could not get stuff', msg);
-		})
-	},
+                        if (settingsPanel.isHidden()) {
+                            settingsPanel.show({
+                                type: 'slideIn',
+                                direction: 'up',
+                                duration: 2000
+                            });
+                            setTimeout(function() {
+                                bottomPanel.hide()
+                            }, 300);
+                        } else {
+                            settingsPanel.hide({
+                                type: 'slideOut',
+                                direction: 'down',
+                                duration: 2000
+                            });
+                            setTimeout(function() {
+                                bottomPanel.show()
+                            }, 1650);
 
-	// onInit: function() {
-	// 	Ext.Viewport.remove(Ext.Viewport.getActiveItem(), true);
-	// }
+                        }
+                    }
+                }],
+            }, {
+                xtype: 'container',
+                id: 'sliding_menu',
+                cls: 'sliding_menu',
+                flex: 3,
+                layout: 'fit',
+                items: [{
+                    xtype: 'toolbar',
+                    docked: 'top',
+                    cls: 'btm-nav',
+                    pack: 'center',
+                    layout: {
+                        type: 'vbox'
+                    },
+                    items: [{
+                        xtype: 'button',
+                        align: 'center',
+                        html: '<img class="circle" src="resources/images/circle.png" />',
+                        style: 'width:250px; margin-top: -32px;',
+                        // SLIDE MENU BUTTON
+
+                        handler: function() {
+                            // Show or hide sliding menu:
+                            var settingsPanel = Ext.getCmp('sliding_menu');
+                            var bottomPanel = Ext.getCmp('btm-nav');
+
+                            if (settingsPanel.isHidden()) {
+                                settingsPanel.show({
+                                    type: 'slideIn',
+                                    direction: 'up',
+                                    duration: 2000
+                                });
+                                setTimeout(function() {
+                                    bottomPanel.hide()
+                                }, 1000);
+                            } else {
+                                settingsPanel.hide({
+                                    type: 'slideOut',
+                                    direction: 'down',
+                                    duration: 2000
+                                });
+                                setTimeout(function() {
+                                    bottomPanel.show()
+                                }, 1570);
+
+                            }
+                        }
+                    }]
+                }, {
+                    xtype: 'list',
+                    id: 'slideUpMenu',
+                    itemTpl: '<img src="{imgURL}" class="slideIcon" width="20" height="20">{category_name}',
+                    style: 'background-color:#599195;',
+                    cls: 'myList',
+                    data: [{
+                        imgURL: 'resources/images/icons/search.png',
+                        category_name: 'Search',
+
+                    }, {
+                        imgURL: 'resources/images/icons/student.png',
+                        category_name: 'Student List'
+                    }, {
+                        imgURL: 'resources/images/icons/project.png',
+                        category_name: 'Project List'
+                    }, {
+                        imgURL: 'resources/images/icons/map.png',
+                        category_name: 'Location Maps',
+                        page: 'Maps'
+                    }, {
+                        imgURL: 'resources/images/icons/visit.png',
+                        category_name: 'VisitIt'
+                    }, {
+                        imgURL: 'resources/images/icons/note.png',
+                        category_name: 'NoteIt Microblog'
+                    }, {
+                        imgURL: 'resources/images/icons/info.png',
+                        category_name: 'Information'
+                    }, ]
+                }],
+                hidden: true
+            },
+
+        ]
+    }
 });
 
 Ext.define('Xpoit.store.Students', {
@@ -68468,6 +69309,17 @@ Ext.define('Xpoit.store.Students', {
 		model: 'Xpoit.model.Student',
 		grouper: function(record) {
 			return record.get('lname')[0];
+		},
+	}
+});
+
+Ext.define('Xpoit.store.Projects', {
+	extend:  Ext.data.Store ,
+
+	config: {
+		model: 'Xpoit.model.Project',
+		grouper: function(record) {
+			return record.get('title')[0];
 		},
 	}
 });
@@ -68492,21 +69344,30 @@ Ext.application({
       
 
     controllers: [
-        'Main'
+        'Main',
+        'General',
+        'List'
     ],
 
     models: [
-        'Student'
+        'Student',
+        'Project',
     ],
 
     stores: [
-        'Students'
+        'Students',
+        'Projects',
     ],
 
     views: [
         'Main',
         'Student',
-        'StudentList'
+        'StudentList',
+        'ProjectMain',
+        'ProjectList',
+        'Project',
+        'Home',
+        'Search'
     ],
 
     icon: {
@@ -68532,7 +69393,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('Xpoit.view.Main'));
+        Ext.Viewport.add(Ext.create('Xpoit.view.Home'));
     },
 
     onUpdated: function() {

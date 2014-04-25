@@ -649,10 +649,19 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
+  "Xpoit.controller.General": [],
+  "Xpoit.controller.List": [],
   "Xpoit.controller.Main": [],
+  "Xpoit.model.Project": [],
   "Xpoit.model.Student": [],
+  "Xpoit.store.Projects": [],
   "Xpoit.store.Students": [],
+  "Xpoit.view.Home": [],
   "Xpoit.view.Main": [],
+  "Xpoit.view.Project": [],
+  "Xpoit.view.ProjectList": [],
+  "Xpoit.view.ProjectMain": [],
+  "Xpoit.view.Search": [],
   "Xpoit.view.Student": [],
   "Xpoit.view.StudentList": []
 });
@@ -1384,10 +1393,25 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
+  "Xpoit.controller.General": [],
+  "Xpoit.controller.List": [],
   "Xpoit.controller.Main": [],
+  "Xpoit.model.Project": [],
   "Xpoit.model.Student": [],
+  "Xpoit.store.Projects": [],
   "Xpoit.store.Students": [],
+  "Xpoit.view.Home": [
+    "widget.homePanel"
+  ],
   "Xpoit.view.Main": [],
+  "Xpoit.view.Project": [
+    "widget.projectPanel"
+  ],
+  "Xpoit.view.ProjectList": [
+    "widget.projectListPanel"
+  ],
+  "Xpoit.view.ProjectMain": [],
+  "Xpoit.view.Search": [],
   "Xpoit.view.Student": [
     "widget.studentPanel"
   ],

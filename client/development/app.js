@@ -18,21 +18,30 @@ Ext.application({
     ],
 
     controllers: [
-        'Main'
+        'Main',
+        'General',
+        'List'
     ],
 
     models: [
-        'Student'
+        'Student',
+        'Project',
     ],
 
     stores: [
-        'Students'
+        'Students',
+        'Projects',
     ],
 
     views: [
         'Main',
         'Student',
-        'StudentList'
+        'StudentList',
+        'ProjectMain',
+        'ProjectList',
+        'Project',
+        'Home',
+        'Search'
     ],
 
     icon: {
@@ -58,7 +67,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('Xpoit.view.Main'));
+        Ext.Viewport.add(Ext.create('Xpoit.view.Home'));
     },
 
     onUpdated: function() {
