@@ -68683,11 +68683,10 @@ Ext.define('Xpoit.view.Home', {
                                 listeners: {
                                     element: 'element',
                                     tap: function() {
-                                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
+                            Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
                                     }
                                 }
-                            }, {
-                                flex: 1
+}, {                    flex: 1
                             }
 
                         ]
@@ -68712,12 +68711,12 @@ Ext.define('Xpoit.view.Home', {
                             width: 200,
                             html: '<a>Project List</a><br /><hr />',
 
-                            // listeners: {
-                            //     element: 'element',
-                            //     tap: function() {
-                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Project'));
-                            //     }
-                            // }
+                            listeners: {
+                                element: 'element',
+                                tap: function() {
+                                    Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
+                                }
+                            }
                         }, {
                             flex: 1
                         }]
@@ -68870,6 +68869,7 @@ Ext.define('Xpoit.controller.Main', {
 			main: 'mainPanel',
 			project: 'projectPanel',
 			studentPanel: 'studentPanel',
+			//studentScreen: 'list[id=studentList]'
 			//home: '#home'
 		},
 		control: {
@@ -68903,6 +68903,7 @@ Ext.define('Xpoit.controller.Main', {
 
 	init: function() {
 		console.log('inside init');
+
 		$fh.act({
 				"act": "findAll"
 			}, function(res) {
@@ -68968,15 +68969,23 @@ Ext.define('Xpoit.controller.General', {
 		},
 		control: {
 			'#projectBack': {
-				tap: 'onInit'
+				initalize: 'onInit'
 			}
 		},
 	},
 
 	onInit: function(panel) {
 		console.log('reached the quitPanels log');
-		// Ext.getCmp('studentList').destroy();
-		// Ext.getCmp('mainPanel').destroy();
+
+		if (Ext.getCmp('studentList')) {
+			console.log('destroying studentList')
+			Ext.getCmp('studentList').destroy();
+		};
+
+		if (Ext.getCmp('mainPanel')) {
+			console.log('destroying mainPanel')
+			Ext.getCmp('mainPanel').destroy();
+		};
 
 	}
 
@@ -68987,18 +68996,60 @@ Ext.define('Xpoit.controller.List', {
 
 	config: {
 		ref: {
-			studentListPanel: '#studentList'
+			studentListPanel: '#studentList',
+			projectListPanel: '#projectList',
+			home: '#home',
+			mainPanelView: '#mainPanel'
 		},
 		control: {
 			studentListPanel: {
 				initialize: 'onInit'
-			}
+			},
+			projectListPanel: {
+				initialize: 'clearingProject'
+			},
+			home: {
+				initialize: 'clearOthers'
+			},
 		},
 	},
 
 	onInit: function(panel) {
-		console.log('reached the quitPanels log');
-		Ext.getCmp('home').destroy();
+		if (Ext.getCmp('home')) {
+			console.log('destroying home')
+			Ext.getCmp('home').destroy();
+		};
+	},
+
+	clearingProject: function(panel) {
+		if (Ext.getCmp('home')) {
+			console.log('destroying home')
+			Ext.getCmp('home').destroy();
+		};
+	},
+
+	clearOthers: function(panel) {
+
+		if (Ext.getCmp('studentList')) {
+			console.log('destroying studentList')
+			Ext.getCmp('studentList').destroy();
+		};
+
+		if (Ext.getCmp('mainPanel')) {
+			console.log('destroying mainPanel')
+			Ext.getCmp('mainPanel').destroy();
+		};
+
+		if (Ext.getCmp('projectList')) {
+			console.log('destroying projectList')
+			Ext.getCmp('projectList').destroy();
+		};
+
+		if (Ext.getCmp('projectMainPanel')) {
+			console.log('destroying projectMainPanel')
+			Ext.getCmp('projectMainPanel').destroy();
+		};
+
 	}
 
 });
@@ -69091,6 +69142,7 @@ Ext.define('Xpoit.view.ProjectList', {
     grouped: true,
     itemTpl: '{project} {commercial} {title}',
     store: 'Projects',
+
     onItemDisclosure: true,
 
     items: [{
