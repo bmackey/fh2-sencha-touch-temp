@@ -1401,7 +1401,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Xpoit.store.Projects": [],
   "Xpoit.store.Students": [],
   "Xpoit.view.Home": [
-    "widget.homePanel"
+    "widget.home"
   ],
   "Xpoit.view.Main": [],
   "Xpoit.view.Project": [

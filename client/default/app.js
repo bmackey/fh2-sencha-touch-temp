@@ -68590,10 +68590,8 @@ Ext.define('Xpoit.view.Home', {
                           
       
     extend:  Ext.Panel ,
-    xtype: 'homePanel',
-    id: 'homePanel',
-    cls: 'homePanel',
-    fullscreen: true,
+    xtype: 'home',
+    id: 'home',
 
     config: {
         scrollable: null,
@@ -68625,7 +68623,6 @@ Ext.define('Xpoit.view.Home', {
             //search
             {
                 height: 45,
-                id: 'searchBtn',
 
                 layout: {
                     type: 'hbox',
@@ -68638,6 +68635,7 @@ Ext.define('Xpoit.view.Home', {
                         flex: 1.5,
                         html: '<img class="icons" src="resources/images/icons/search.png" />'
                     }, {
+                        id: 'searchBtn',
                         cls: 'homeIcons',
                         height: 10,
                         width: 200,
@@ -68711,7 +68709,7 @@ Ext.define('Xpoit.view.Home', {
                     // listeners: {
                     //     element: 'element',
                     //     tap: function() {
-                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
+                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Project'));
                     //     }
                     // }
                 }, {
@@ -68956,29 +68954,20 @@ Ext.define('Xpoit.controller.General', {
 
 	config: {
 		ref: {
-			homePanelView: '#homePanel'
+			//homeView: '#home'
 		},
 		control: {
-			'homePanelView': {
-				initialize: 'onInit'
+			'#projectBack': {
+				tap: 'onInit'
 			}
 		},
 	},
 
 	onInit: function(panel) {
-		console.log('reached the general Panels log');
-		// Ext.getCmp('studentListPanel').destroy();
+		console.log('reached the quitPanels log');
+		// Ext.getCmp('studentList').destroy();
 		// Ext.getCmp('mainPanel').destroy();
 
-		var panel1 = Ext.getCmp("studentListPanel");
-		if (panel1) {
-			panel1.destroy();
-		};
-
-		var panel2 = Ext.getCmp("mainPanel");
-		if (panel2) {
-			panel2.destroy();
-		};
 	}
 
 });
@@ -68999,7 +68988,7 @@ Ext.define('Xpoit.controller.List', {
 
 	onInit: function(panel) {
 		console.log('reached the quitPanels log');
-		Ext.getCmp('homePanel').destroy();
+		Ext.getCmp('home').destroy();
 	}
 
 });
@@ -69100,6 +69089,7 @@ Ext.define('Xpoit.view.ProjectList', {
       title: 'Project List',
 
       items: [{
+        id: 'projectBack',
         cls: 'backBtn',
         html: '<img src="resources/images/back.png"/>',
         hidden: Xpoit.hideBack || false,
@@ -69366,8 +69356,8 @@ Ext.application({
         'ProjectMain',
         'ProjectList',
         'Project',
-        'Home',
-        'Search'
+        'Search',
+        'Home'
     ],
 
     icon: {
