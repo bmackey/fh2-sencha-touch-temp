@@ -16,8 +16,8 @@
 
 #homeMenu {
   position: absolute;
-top:35%;
-left: 30%
+  top:35%;
+  left: 30%;
 }
 
 .homeLogo {
@@ -166,6 +166,7 @@ body {
 }
 .x-toolbar-dark.x-docked-top {
   border:none;
+  height: 8% !important;
 }
 
 
@@ -187,6 +188,16 @@ body {
     color: white;
 }
 
+
+/*--------------main panel -----------*/
+
+#mainPanel {
+  background-color: #6d6e71;
+}
+
+.x-layout-card-item {
+  background: #6d6e71; 
+}
 
 /*--------------list styling -----------*/
 .x-list {
@@ -252,4 +263,57 @@ background-color: #6d6e71;
 
 .x-list .x-item-selected .x-list-disclosure:before {
 color: #599397;
+}
+
+/*--------------profiles -----------*/
+
+.studentInfo {
+  border: white solid 2px;
+  padding: 10px 10px 0 10px;
+  color: #fff;
+}
+
+.studentInfo h2 {
+  color: #FFF;
+  font-variant: small-caps;
+  font-size: 1.6em;
+}
+
+.profileImage {
+  width: 35%;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 25px;
+  border-radius: 100px;
+  border: solid 2px #fff;
+}
+
+.rightContent {
+  margin-bottom: 20px;
+}
+
+.contact {
+  background-color: #fff;
+  color: #599195;
+  text-align: center;
+  padding: 8px;
+  font-size: 1.4em;
+}
+
+.contactInfo {
+  text-align: center;
+}
+
+.contactIcons {
+  height: 50px;
+  padding: 0 15px 0 15px;
+  margin-top: 10px;
+}
+
+.emailAdd {
+  text-align: center;
+}
+
+.favAdd {
+  text-align: right;
 }

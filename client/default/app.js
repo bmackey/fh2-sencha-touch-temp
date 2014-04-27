@@ -68813,11 +68813,11 @@ Ext.define('Xpoit.view.Home', {
                                     Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
                                         if (btn == 'yes') {
                                             //open google in a new window
-                                            var url = 'http: //www.google.com';
+                                            var url = 'https://pure-badlands-7549.herokuapp.com/home';
                                             $fh.webview({
                                                 'act': 'open',
                                                 'url': url,
-                                                'title': 'Google'
+                                                'title': 'NoteIt!'
                                             }, function(res) {
                                                 if (res === "opened") {
                                                     //webview window is now open
@@ -68927,10 +68927,10 @@ Ext.define('Xpoit.controller.Main', {
 			data: record.data
 		});
 
-		if (Ext.getCmp('studentList')) {
-			console.log('destroying studentList')
-			Ext.getCmp('studentList').destroy();
-		};
+		// if (Ext.getCmp('studentList')) {
+		// 	console.log('destroying studentList')
+		// 	Ext.getCmp('studentList').destroy();
+		// };
 	},
 
 	showProject: function(list) {
@@ -69016,7 +69016,7 @@ Ext.define('Xpoit.controller.General', {
 		},
 		control: {
 			'#projectBack': {
-				initalize: 'onInit'
+				tap: 'onInit'
 			}
 		},
 	},
@@ -69108,15 +69108,28 @@ Ext.define('Xpoit.view.Student', {
 	config: {
 		title: 'Student Profile',
 		styleHtmlContent: true,
-		scrollable: 'vertical',
 		tpl: [
-			'{fname} {lname} {email} {course}'
+			'<div class="studentInfo"><img class="profileImage" src="resources/images/profile.png" /><div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div><div class="contact">CONTACT</div><div class="contactInfo"><img class="contactIcons" id="mail" src="resources/images/icons/mail.png" /><img class="contactIcons" id="facebook" src="resources/images/icons/facebook.png" /><img id="twitter" class="contactIcons" src="resources/images/icons/twitter.png" /></div><div class="emailAdd">{email}</div><div class="favAdd" id="visitAdd"><img style="width:50px;" src="resources/images/icons/addFav.png" /></div></div>'
 		],
 
 		items: [{
 			xtype: 'toolbar',
 			docked: 'top',
 			title: 'Student Profile',
+
+			items: [{
+				id: 'studentListBack',
+				cls: 'backBtn',
+				html: '<img src="resources/images/back.png"/>',
+				hidden: Xpoit.hideBack || false,
+			}, {
+				xtype: 'spacer'
+			}, {
+				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+			}]
+		}, {
+			xtype: 'toolbar',
+			docked: 'bottom',
 
 			items: [{
 				id: 'studentListBack',
@@ -69212,6 +69225,7 @@ Ext.define('Xpoit.view.ProjectList', {
   cls: 'projectList',
   config: {
     grouped: true,
+    indexBar: true,
     itemTpl: '{project} {commercial} {title}',
     store: 'Projects',
 
