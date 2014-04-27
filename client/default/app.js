@@ -68683,10 +68683,11 @@ Ext.define('Xpoit.view.Home', {
                                 listeners: {
                                     element: 'element',
                                     tap: function() {
-                            Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
+                                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
                                     }
                                 }
-}, {                    flex: 1
+                            }, {
+                                flex: 1
                             }
 
                         ]
@@ -68811,7 +68812,31 @@ Ext.define('Xpoit.view.Home', {
 
                                     Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
                                         if (btn == 'yes') {
-                                            window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
+                                            //open google in a new window
+                                            var url = 'http: //www.google.com';
+                                            $fh.webview({
+                                                'act': 'open',
+                                                'url': url,
+                                                'title': 'Google'
+                                            }, function(res) {
+                                                if (res === "opened") {
+                                                    //webview window is now open
+                                                }
+                                                if (res === "closed") {
+                                                    //webview window is now closed
+                                                }
+                                            }, function(msg, err) {
+                                                alert(msg)
+                                            });
+
+                                            //close it
+                                            $fh.webview({
+                                                'act': 'close'
+                                            })
+
+
+
+                                            // window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
                                         }
                                     });
                                 }
@@ -68879,10 +68904,20 @@ Ext.define('Xpoit.controller.Main', {
 			'#projectList': {
 				disclose: 'showProject'
 			},
+			'#studentListBack': {
+				//tap: 'showStudentList'
+			},
 			// home: {
 			// 	initialize: 'onInit'
 			// }
 		},
+	},
+
+	showStudentList: function(list, record) {
+		console.log('back to list');
+		Ext.ComponentManager.get('mainPanel').push({
+			xtype: 'studentListPanel'
+		});
 	},
 
 	showProfile: function(list, record) {
@@ -68890,6 +68925,18 @@ Ext.define('Xpoit.controller.Main', {
 		Ext.ComponentManager.get('mainPanel').push({
 			xtype: 'studentPanel',
 			data: record.data
+		});
+
+		if (Ext.getCmp('studentList')) {
+			console.log('destroying studentList')
+			Ext.getCmp('studentList').destroy();
+		};
+	},
+
+	showProject: function(list) {
+		console.log('tapped expand project');
+		Ext.ComponentManager.get('mainPanel').push({
+			xtype: 'studentListPanel'
 		});
 	},
 
@@ -69059,12 +69106,29 @@ Ext.define('Xpoit.view.Student', {
 	xtype: 'studentPanel',
 
 	config: {
-		title: 'Details',
+		title: 'Student Profile',
 		styleHtmlContent: true,
 		scrollable: 'vertical',
 		tpl: [
 			'{fname} {lname} {email} {course}'
-		]
+		],
+
+		items: [{
+			xtype: 'toolbar',
+			docked: 'top',
+			title: 'Student Profile',
+
+			items: [{
+				id: 'studentListBack',
+				cls: 'backBtn',
+				html: '<img src="resources/images/back.png"/>',
+				hidden: Xpoit.hideBack || false,
+			}, {
+				xtype: 'spacer'
+			}, {
+				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+			}]
+		}]
 	}
 
 });
@@ -69077,7 +69141,7 @@ Ext.define('Xpoit.view.StudentList', {
   config: {
     grouped: true,
     indexBar: true,
-    title: 'studentList',
+    title: 'need to remove',
     itemTpl: '{fname} {lname}',
     store: 'Students',
 
@@ -69095,8 +69159,13 @@ Ext.define('Xpoit.view.StudentList', {
 
         element: 'element',
         handler: function() {
+          console.log('tapped home button');
           Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
         }
+      }, {
+        xtype: 'spacer'
+      }, {
+        html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
       }]
     }]
   }
@@ -69111,6 +69180,9 @@ Ext.define('Xpoit.view.Main', {
                                 
       
     config: {
+        navigationBar: {
+            hidden: true
+        },
         items: [{
             xtype: 'studentListPanel'
         }]

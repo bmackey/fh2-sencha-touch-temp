@@ -7,6 +7,9 @@ Ext.define('Xpoit.view.Main', {
         'Xpoit.view.StudentList'
     ],
     config: {
+        navigationBar: {
+            hidden: true
+        },
         items: [{
             xtype: 'studentListPanel'
         }]
