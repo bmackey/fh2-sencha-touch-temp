@@ -68968,6 +68968,9 @@ Ext.define('Xpoit.controller.Main', {
 				"act": "findAll"
 			}, function(res) {
 				console.log('Getting stuff!', res);
+
+				Ext.Msg.alert("Content Updated", "All records up to date with database", function(btn) {});
+
 				var records = [];
 				for (var i = 0; i < res.length; i++) {
 					var item = res[i];
@@ -69008,10 +69011,13 @@ Ext.define('Xpoit.controller.Main', {
 
 					// console.log('records', JSON.parse(retrievedObject));
 
+
+
 				}
 			},
 			function(msg, err) {
 				console.log('Could not get stuff', msg);
+				Ext.Msg.alert("Connection Failed", "Could not connect to database. Check data connection.", function(btn) {});
 			})
 	},
 
