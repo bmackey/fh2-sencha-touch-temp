@@ -166,8 +166,7 @@ body {
 
 
 .sliding_menu {
-  max-height: 450px !important;
-  top: 70px;
+  top: 20px;
 }
 
 /*-----------message box ----------*/
@@ -316,4 +315,15 @@ color: #599397;
 .btmNav {
   background-color: #599195;
   text-align: center;
+}
+
+
+/*--------------information page -----------*/
+.infoContainer{
+  padding: 17.5px;
+}
+
+.infoText {
+  border: 2px solid #fff;
+  padding: 10px;
 }
