@@ -41,7 +41,8 @@ Ext.application({
         'ProjectList',
         'Project',
         'Search',
-        'Home'
+        'Home',
+        'Info'
     ],
 
     icon: {

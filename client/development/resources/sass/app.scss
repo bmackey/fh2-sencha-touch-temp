@@ -86,11 +86,6 @@ body {
   -webkit-box-shadow: none;
 }
 
-.x-button img {
-  width: 30%;
-  height: 30%;
-}
-
 .x-toolbar-title {
   position: absolute;
   top: 0;
@@ -144,7 +139,7 @@ body {
 }
 
 .backBtn {
-  left: -25px !important;
+  //left: -25px !important;
 }
 
 .slideIcon {
@@ -172,7 +167,7 @@ body {
 
 .sliding_menu {
   max-height: 450px !important;
-  top: 150px;
+  top: 70px;
 }
 
 /*-----------message box ----------*/
@@ -316,4 +311,9 @@ color: #599397;
 
 .favAdd {
   text-align: right;
+}
+
+.btmNav {
+  background-color: #599195;
+  text-align: center;
 }
