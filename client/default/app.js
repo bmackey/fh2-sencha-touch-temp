@@ -68648,13 +68648,13 @@ Ext.define('Xpoit.view.Home', {
                                 width: 200,
                                 html: 'Search<br /><hr />',
 
-                                listeners: {
-                                    element: 'element',
-                                    tap: function() {
-                                        console.log('Tap on element')
-                                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
-                                    }
-                                }
+                                // listeners: {
+                                //     element: 'element',
+                                //     tap: function() {
+                                //         console.log('Tap on element')
+                                //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
+                                //     }
+                                // }
                             }, {
                                 flex: 1
                             }
@@ -68703,17 +68703,18 @@ Ext.define('Xpoit.view.Home', {
                             html: '<img class="icons" src="resources/images/icons/project.png" />'
                         }, {
                             id: 'projectBtn',
+                            xtype: 'button',
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
                             html: '<a>Project List</a><br /><hr />',
 
-                            listeners: {
-                                element: 'element',
-                                tap: function() {
-                                    Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
-                                }
-                            }
+                            // listeners: {
+                            //     element: 'element',
+                            //     tap: function() {
+                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
+                            //     }
+                            // }
                         }, {
                             flex: 1
                         }]
@@ -68734,6 +68735,7 @@ Ext.define('Xpoit.view.Home', {
                             html: '<img class="icons" src="resources/images/icons/map.png" />'
                         }, {
                             id: 'mapBtn',
+                            xtype: 'button',
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
@@ -68765,6 +68767,7 @@ Ext.define('Xpoit.view.Home', {
                             html: '<img class="icons" src="resources/images/icons/visit.png" />'
                         }, {
                             id: 'visitBtn',
+                            xtype: 'button',
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
@@ -68797,46 +68800,47 @@ Ext.define('Xpoit.view.Home', {
                             html: '<img class="icons" src="resources/images/icons/note.png" />'
                         }, {
                             id: 'noteBtn',
+                            xtype: 'button',
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
                             html: '<a>NoteIt! Microblog</a><br /><hr />',
 
-                            listeners: {
-                                element: 'element',
-                                tap: function() {
+                    // listeners: {
+                    //     element: 'element',
+                    //     tap: function() {
 
-                                    Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
-                                        if (btn == 'yes') {
-                                            //open google in a new window
-                                            var url = 'https://pure-badlands-7549.herokuapp.com/home';
-                                            $fh.webview({
-                                                'act': 'open',
-                                                'url': url,
-                                                'title': 'NoteIt!'
-                                            }, function(res) {
-                                                if (res === "opened") {
-                                                    //webview window is now open
-                                                }
-                                                if (res === "closed") {
-                                                    //webview window is now closed
-                                                }
-                                            }, function(msg, err) {
-                                                alert(msg)
-                                            });
+                    //         Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
+                    //             if (btn == 'yes') {
+                    //                 //open google in a new window
+                    //                 var url = 'https://pure-badlands-7549.herokuapp.com/home';
+                    //                 $fh.webview({
+                    //                     'act': 'open',
+                    //                     'url': url,
+                    //                     'title': 'NoteIt!'
+                    //                 }, function(res) {
+                    //                     if (res === "opened") {
+                    //                         //webview window is now open
+                    //                     }
+                    //                     if (res === "closed") {
+                    //                         //webview window is now closed
+                    //                     }
+                    //                 }, function(msg, err) {
+                    //                     alert(msg)
+                    //                 });
 
-                                            //close it
-                                            $fh.webview({
-                                                'act': 'close'
-                                            })
+                    //                 //close it
+                    //                 $fh.webview({
+                    //                     'act': 'close'
+                    //                 })
 
 
 
-                                            // window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
-                                        }
-                                    });
-                                }
-                            }
+                    //                 // window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
+                    //             }
+                    //         });
+                    //     }
+                    // }
                         }, {
                             flex: 1
                         }]
@@ -68858,17 +68862,18 @@ Ext.define('Xpoit.view.Home', {
                             html: '<img class="icons" src="resources/images/icons/info.png" />'
                         }, {
                             id: 'infoBtn',
+                            xtype: 'button',
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
                             html: '<a>Information</a>',
 
-                            listeners: {
-                                element: 'element',
-                                tap: function() {
-                                    Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
-                                }
-                            }
+                            // listeners: {
+                            //     element: 'element',
+                            //     tap: function() {
+                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
+                            //     }
+                            // }
                         }, {
                             flex: 1
                         }]
@@ -68890,10 +68895,6 @@ Ext.define('Xpoit.controller.Main', {
 			main: 'mainPanel',
 			project: 'projectPanel',
 			studentPanel: 'studentPanel',
-			//studentScreen: 'list[id=studentList]'
-			//home: '#home'
-			studentHome: 'button[id=studentListHomeBtn]',
-			goToStudent: '#studentBtn',
 		},
 		control: {
 			'#studentList': {
@@ -68901,43 +68902,8 @@ Ext.define('Xpoit.controller.Main', {
 			},
 			'#projectList': {
 				disclose: 'showProject'
-			},
-			'#studentListBack': {
-				tap: 'showStudentList'
-			},
-			'#studentBtn': {
-				tap: 'studentListView',
-				onClick: 'studentListView',
-				click: 'studentListView'
-			},
-			// home: {
-			// 	initialize: 'onInit'
-			// },
-			studentHome: {
-				ontap: 'goHomeStudent'
-			},
-			goToStudent: {
-				tap: 'studentListView',
 			}
 		},
-	},
-
-	studentListView: function() {
-		Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
-	},
-
-	goHomeStudent: function() {
-		console.log('go home from studentList');
-		Ext.getCmp('mainPanel').destroy();
-		Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
-	},
-
-	showStudentList: function(list, record) {
-		console.log('back to list');
-
-		Ext.ComponentManager.get('mainPanel').push({
-			xtype: 'studentListPanel'
-		});
 	},
 
 	showProfile: function(list, record) {
@@ -69039,134 +69005,116 @@ Ext.define('Xpoit.controller.Main', {
 	// }
 });
 
-Ext.define('Xpoit.controller.General', {
+Ext.define('Xpoit.controller.Navigation', {
 	extend:  Ext.app.Controller ,
 
 	config: {
-		ref: {
-			//homeView: '#home'
+		refs: {
+			homePanel: 'home',
+			infoPanel: 'info',
+			searchPage: '#searchBtn',
+			studentListPage: '#studentBtn',
+			projectListPage: '#projectBtn',
+			mapPage: '#mapBtn',
+			visitPage: '#visitBtn',
+			notePopUp: '#noteBtn',
+			infoPage: '#infoBtn'
+
 		},
 		control: {
-			'#projectBack': {
-				tap: 'onInit'
+			notePopUp: {
+				tap: 'openPopUp'
+			},
+			infoPage: {
+				tap: 'openInfo'
 			}
 		},
 	},
 
-	onInit: function(panel) {
-		console.log('reached the quitPanels log');
+	openPopUp: function() {
 
-		if (Ext.getCmp('studentList')) {
-			console.log('destroying studentList')
-			Ext.getCmp('studentList').destroy();
-		};
+		console.log('accessing noteIt!');
 
-		if (Ext.getCmp('mainPanel')) {
-			console.log('destroying mainPanel')
-			Ext.getCmp('mainPanel').destroy();
-		};
+		Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
+			if (btn == 'yes') {
+				//open google in a new window
+				var url = 'https://pure-badlands-7549.herokuapp.com/home';
+				$fh.webview({
+					'act': 'open',
+					'url': url,
+					'title': 'NoteIt!'
+				}, function(res) {
+					if (res === "opened") {
+						//webview window is now open
+					}
+					if (res === "closed") {
+						//webview window is now closed
+					}
+				}, function(msg, err) {
+					alert(msg)
+				});
 
+				//close it
+				$fh.webview({
+					'act': 'close'
+				})
+			}
+		});
+	},
+
+	openInfo: function() {
+
+		console.log('hitting info');
+
+		if (Ext.getCmp('infoPanel')) {
+			Ext.getCmp('infoPanel').show();
+		} else {
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
+			console.log('creating infoPanel');
+		}
+
+		var self = this;
+
+		//Reset HomePage
+		var homePanel = this.getHomePanel();
+		homePanel.hide();
 	}
 
 });
 
-Ext.define('Xpoit.controller.List', {
+Ext.define('Xpoit.controller.BackBtns', {
 	extend:  Ext.app.Controller ,
 
 	config: {
-		ref: {
-			studentListPanel: '#studentList',
-			projectListPanel: '#projectList',
-			home: '#home',
-			info: 'info',
-			mainPanelView: '#mainPanel',
-			projectChange: '#projectBtn'
+		refs: {
+			homePanel: 'home',
+			infoPanel: 'info',
+			infoBack: '#infoBackBtn'
 		},
 		control: {
-			studentListPanel: {
-				initialize: 'onInit'
-			},
-			projectListPanel: {
-				initialize: 'clearingProject'
-			},
-			home: {
-				initialize: 'clearOthers'
-			},
-			projectChange: {
-				tap: 'associatedProject'
-			},
-			info: {
-				initialize: 'infoPage'
+			infoBack: {
+				tap: 'showHome'
 			}
 		},
 	},
 
-	onInit: function(panel) {
-		if (Ext.getCmp('home')) {
-			console.log('destroying home')
-			Ext.getCmp('home').destroy();
-		};
-	},
+	showHome: function() {
+		console.log('going home');
+		//Ext.Viewport.add('homePanel');
+		Ext.Viewport.setActiveItem(Ext.getCmp('homePanel'));
+		// var homePanel = this.getHomePanel();
+		// homePanel.show();
 
-	clearingProject: function(panel) {
-		if (Ext.getCmp('home')) {
-			console.log('destroying home')
-			Ext.getCmp('home').destroy();
-		};
-	},
+		var homePanel = Ext.getCmp('homePanel');
+		Ext.Viewport.add([homePanel]);
 
-	clearOthers: function(panel) {
 
-		if (Ext.getCmp('studentList')) {
-			console.log('destroying studentList')
-			Ext.getCmp('studentList').destroy();
-		};
 
-		if (Ext.getCmp('mainPanel')) {
-			console.log('destroying mainPanel')
-			Ext.getCmp('mainPanel').destroy();
-		};
+		var self = this;
 
-		if (Ext.getCmp('projectList')) {
-			console.log('destroying projectList')
-			Ext.getCmp('projectList').destroy();
-		};
-
-		if (Ext.getCmp('projectMainPanel')) {
-			console.log('destroying projectMainPanel')
-			Ext.getCmp('projectMainPanel').destroy();
-		};
-
-		if (Ext.getCmp('slideUpMenu')) {
-			console.log('destroying slideUpMenu')
-			Ext.getCmp('slideUpMenu').destroy();
-		};
-
-		if (Ext.getCmp('sliding_menu')) {
-			console.log('destroying sliding_menu')
-			Ext.getCmp('sliding_menu').destroy();
-		};
-
-		if (Ext.getCmp('btm-nav')) {
-			console.log('destroying btm-nav')
-			Ext.getCmp('btm-nav').destroy();
-		};
-
-	},
-
-	associatedProject: function(list, record) {
-		console.log('attempt project change');
-
-		Ext.ComponentManager.get('projectPanel').push({
-			xtype: 'projectPanel'
-		});
-	},
-
-	infoPage: function() {
-		if (Ext.getCmp('home')) {
-			console.log('destroying home')
-			Ext.getCmp('home').destroy();
-		};
+		//Reset HomePage
+		var infoPanel = this.getInfoPanel();
+		infoPanel.hide();
 	}
 
 });
@@ -69555,7 +69503,6 @@ Ext.define('Xpoit.view.Info', {
         iconCls: 'info',
         style: 'background-color:#6d6e71;',
         layout: 'vbox',
-        scroll: 'vertical',
         items: [{
                 xtype: 'toolbar',
                 docked: 'top',
@@ -69569,6 +69516,7 @@ Ext.define('Xpoit.view.Info', {
                 },
                 items: [{
                     cls: 'backBtn',
+                    id: 'infoBackBtn',
                     html: '<img src="resources/images/back.png"/>',
                     hidden: Xpoit.hideBack || false,
 
@@ -69583,7 +69531,7 @@ Ext.define('Xpoit.view.Info', {
                 }, ]
             }, {
                 xtype: 'container',
-                scroll: 'vertical',
+                scrollable: 'vertical',
                 layout: {
                     type: 'vbox',
                 },
@@ -69766,8 +69714,8 @@ Ext.application({
 
     controllers: [
         'Main',
-        'General',
-        'List'
+        'Navigation',
+        'BackBtns'
     ],
 
     models: [

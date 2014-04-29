@@ -19,8 +19,8 @@ Ext.application({
 
     controllers: [
         'Main',
-        'General',
-        'List'
+        'Navigation',
+        'BackBtns'
     ],
 
     models: [
