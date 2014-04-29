@@ -68643,16 +68643,18 @@ Ext.define('Xpoit.view.Home', {
                             }, {
                                 id: 'searchBtn',
                                 cls: 'homeIcons',
+                                xtype: 'button',
                                 height: 10,
                                 width: 200,
                                 html: 'Search<br /><hr />',
 
-                                // listeners: {
-                                //     element: 'element',
-                                //     tap: function() {
-                                //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
-                                //     }
-                                // }
+                                listeners: {
+                                    element: 'element',
+                                    tap: function() {
+                                        console.log('Tap on element')
+                                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
+                                    }
+                                }
                             }, {
                                 flex: 1
                             }
@@ -68675,17 +68677,11 @@ Ext.define('Xpoit.view.Home', {
                                 html: '<img class="icons" src="resources/images/icons/student.png" />'
                             }, {
                                 id: 'studentBtn',
+                                xtype: 'button',
                                 cls: 'homeIcons',
                                 height: 10,
                                 width: 200,
                                 html: '<a>Student List</a><br /><hr />',
-
-                                listeners: {
-                                    element: 'element',
-                                    tap: function() {
-                                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
-                                    }
-                                }
                             }, {
                                 flex: 1
                             }
@@ -68867,12 +68863,12 @@ Ext.define('Xpoit.view.Home', {
                             width: 200,
                             html: '<a>Information</a>',
 
-                    listeners: {
-                        element: 'element',
-                        tap: function() {
-                            Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
-                        }
-                    }
+                            listeners: {
+                                element: 'element',
+                                tap: function() {
+                                    Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
+                                }
+                            }
                         }, {
                             flex: 1
                         }]
@@ -68896,7 +68892,8 @@ Ext.define('Xpoit.controller.Main', {
 			studentPanel: 'studentPanel',
 			//studentScreen: 'list[id=studentList]'
 			//home: '#home'
-			studentHome: 'button[id=studentListHomeBtn]'
+			studentHome: 'button[id=studentListHomeBtn]',
+			goToStudent: '#studentBtn',
 		},
 		control: {
 			'#studentList': {
@@ -68908,13 +68905,25 @@ Ext.define('Xpoit.controller.Main', {
 			'#studentListBack': {
 				tap: 'showStudentList'
 			},
+			'#studentBtn': {
+				tap: 'studentListView',
+				onClick: 'studentListView',
+				click: 'studentListView'
+			},
 			// home: {
 			// 	initialize: 'onInit'
 			// },
 			studentHome: {
 				ontap: 'goHomeStudent'
 			},
+			goToStudent: {
+				tap: 'studentListView',
+			}
 		},
+	},
+
+	studentListView: function() {
+		Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
 	},
 
 	goHomeStudent: function() {
@@ -68932,6 +68941,7 @@ Ext.define('Xpoit.controller.Main', {
 	},
 
 	showProfile: function(list, record) {
+
 		console.log('tapped expand student info');
 		Ext.ComponentManager.get('mainPanel').push({
 			xtype: 'studentPanel',
@@ -69540,10 +69550,6 @@ Ext.define('Xpoit.view.Info', {
     ],
     extend:  Ext.Panel ,
     xtype: 'info',
-    scrollable: {
-        direction: 'vertical',
-        directionLock: true
-    },
 
     config: {
         iconCls: 'info',
