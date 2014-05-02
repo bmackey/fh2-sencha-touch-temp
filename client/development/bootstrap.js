@@ -652,9 +652,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xpoit.controller.BackBtns": [],
   "Xpoit.controller.Main": [],
   "Xpoit.controller.Navigation": [],
+  "Xpoit.controller.Search": [],
   "Xpoit.model.Project": [],
+  "Xpoit.model.Record": [],
   "Xpoit.model.Student": [],
   "Xpoit.store.Projects": [],
+  "Xpoit.store.Records": [],
   "Xpoit.store.Students": [],
   "Xpoit.view.Home": [],
   "Xpoit.view.Info": [],
@@ -663,6 +666,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xpoit.view.ProjectList": [],
   "Xpoit.view.ProjectMain": [],
   "Xpoit.view.Search": [],
+  "Xpoit.view.SearchList": [],
+  "Xpoit.view.SearchView": [],
   "Xpoit.view.Student": [],
   "Xpoit.view.StudentList": []
 });
@@ -1397,9 +1402,12 @@ Ext.ClassManager.addNameAliasMappings({
   "Xpoit.controller.BackBtns": [],
   "Xpoit.controller.Main": [],
   "Xpoit.controller.Navigation": [],
+  "Xpoit.controller.Search": [],
   "Xpoit.model.Project": [],
+  "Xpoit.model.Record": [],
   "Xpoit.model.Student": [],
   "Xpoit.store.Projects": [],
+  "Xpoit.store.Records": [],
   "Xpoit.store.Students": [],
   "Xpoit.view.Home": [
     "widget.home"
@@ -1414,8 +1422,18 @@ Ext.ClassManager.addNameAliasMappings({
   "Xpoit.view.ProjectList": [
     "widget.projectListPanel"
   ],
-  "Xpoit.view.ProjectMain": [],
-  "Xpoit.view.Search": [],
+  "Xpoit.view.ProjectMain": [
+    "widget.projectMainPanel"
+  ],
+  "Xpoit.view.Search": [
+    "widget.searchPanel"
+  ],
+  "Xpoit.view.SearchList": [
+    "widget.seachListPanel"
+  ],
+  "Xpoit.view.SearchView": [
+    "widget.searchView"
+  ],
   "Xpoit.view.Student": [
     "widget.studentPanel"
   ],

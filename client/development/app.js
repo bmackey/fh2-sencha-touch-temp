@@ -20,17 +20,20 @@ Ext.application({
     controllers: [
         'Main',
         'Navigation',
-        'BackBtns'
+        'BackBtns',
+        'Search'
     ],
 
     models: [
         'Student',
         'Project',
+        'Record',
     ],
 
     stores: [
         'Students',
         'Projects',
+        'Records',
     ],
 
     views: [
@@ -41,6 +44,8 @@ Ext.application({
         'ProjectList',
         'Project',
         'Search',
+        'SearchList',
+        'SearchView',
         'Home',
         'Info'
     ],

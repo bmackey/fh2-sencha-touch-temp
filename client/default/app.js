@@ -64448,6 +64448,75 @@ Ext.define('Ext.event.recognizer.Tap', {
 });
 
 /**
+ * @aside guide forms
+ *
+ * The Search field creates an HTML5 search input and is usually created inside a form. Because it creates an HTML
+ * search input type, the visual styling of this input is slightly different to normal text input controls (the corners
+ * are rounded), though the virtual keyboard displayed by the operating system is the standard keyboard control.
+ *
+ * As with all other form fields in Sencha Touch, the search field gains a "clear" button that appears whenever there
+ * is text entered into the form, and which removes that text when tapped.
+ *
+ *     @example
+ *     Ext.create('Ext.form.Panel', {
+ *         fullscreen: true,
+ *         items: [
+ *             {
+ *                 xtype: 'fieldset',
+ *                 title: 'Search',
+ *                 items: [
+ *                     {
+ *                         xtype: 'searchfield',
+ *                         label: 'Query',
+ *                         name: 'query'
+ *                     }
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *
+ * Or on its own, outside of a form:
+ *
+ *     Ext.create('Ext.field.Search', {
+ *         label: 'Search:',
+ *         value: 'query'
+ *     });
+ *
+ * Because search field inherits from {@link Ext.field.Text textfield} it gains all of the functionality that text
+ * fields provide, including getting and setting the value at runtime, validations and various events that are fired
+ * as the user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional
+ * functionality available.
+ */
+Ext.define('Ext.field.Search', {
+    extend:  Ext.field.Text ,
+    xtype: 'searchfield',
+    alternateClassName: 'Ext.form.Search',
+
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        component: {
+	        type: 'search'
+	    },
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+	    ui: 'search'
+    },
+
+    platformConfig: [{
+        platform: 'blackberry',
+        component: {
+            type: 'text'
+        }
+    }]
+});
+
+/**
  * @private
  */
 Ext.define('Ext.fx.runner.Css', {
@@ -68584,6 +68653,41 @@ Ext.define('Xpoit.model.Project', {
 	}
 })
 
+Ext.define('Xpoit.model.Record', {
+	extend:  Ext.data.Model ,
+
+	config: {
+		fields: [{
+			name: 'project',
+			type: 'string'
+		}, {
+			name: 'fname',
+			type: 'string'
+		}, {
+			name: 'lname',
+			type: 'string'
+		}, {
+			name: 'email',
+			type: 'string'
+		}, {
+			name: 'course',
+			type: 'string'
+		}, {
+			name: 'title',
+			type: 'string'
+		}, {
+			name: 'commercial',
+			type: 'string'
+		}, {
+			name: 'desc',
+			type: 'string'
+		}, {
+			name: 'disciplines',
+			type: 'string'
+		}]
+	}
+});
+
 Ext.define('Xpoit.view.Home', {
                
                   
@@ -68595,7 +68699,6 @@ Ext.define('Xpoit.view.Home', {
 
     config: {
         scrollable: null,
-        cls: 'home',
 
         layout: {
             type: 'vbox'
@@ -68712,7 +68815,7 @@ Ext.define('Xpoit.view.Home', {
                             // listeners: {
                             //     element: 'element',
                             //     tap: function() {
-                    //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
+                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
                             //     }
                             // }
                         }, {
@@ -68806,41 +68909,41 @@ Ext.define('Xpoit.view.Home', {
                             width: 200,
                             html: '<a>NoteIt! Microblog</a><br /><hr />',
 
-                    // listeners: {
-                    //     element: 'element',
-                    //     tap: function() {
+                            // listeners: {
+                            //     element: 'element',
+                            //     tap: function() {
 
-                    //         Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
-                    //             if (btn == 'yes') {
-                    //                 //open google in a new window
-                    //                 var url = 'https://pure-badlands-7549.herokuapp.com/home';
-                    //                 $fh.webview({
-                    //                     'act': 'open',
-                    //                     'url': url,
-                    //                     'title': 'NoteIt!'
-                    //                 }, function(res) {
-                    //                     if (res === "opened") {
-                    //                         //webview window is now open
-                    //                     }
-                    //                     if (res === "closed") {
-                    //                         //webview window is now closed
-                    //                     }
-                    //                 }, function(msg, err) {
-                    //                     alert(msg)
-                    //                 });
+                            //         Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
+                            //             if (btn == 'yes') {
+                            //                 //open google in a new window
+                            //                 var url = 'https://pure-badlands-7549.herokuapp.com/home';
+                            //                 $fh.webview({
+                            //                     'act': 'open',
+                            //                     'url': url,
+                            //                     'title': 'NoteIt!'
+                            //                 }, function(res) {
+                            //                     if (res === "opened") {
+                            //                         //webview window is now open
+                            //                     }
+                            //                     if (res === "closed") {
+                            //                         //webview window is now closed
+                            //                     }
+                            //                 }, function(msg, err) {
+                            //                     alert(msg)
+                            //                 });
 
-                    //                 //close it
-                    //                 $fh.webview({
-                    //                     'act': 'close'
-                    //                 })
+                            //                 //close it
+                            //                 $fh.webview({
+                            //                     'act': 'close'
+                            //                 })
 
 
 
-                    //                 // window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
-                    //             }
-                    //         });
-                    //     }
-                    // }
+                            //                 // window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
+                            //             }
+                            //         });
+                            //     }
+                            // }
                         }, {
                             flex: 1
                         }]
@@ -68891,7 +68994,7 @@ Ext.define('Xpoit.controller.Main', {
 	extend:  Ext.app.Controller ,
 
 	config: {
-		ref: {
+		refs: {
 			main: 'mainPanel',
 			project: 'projectPanel',
 			studentPanel: 'studentPanel',
@@ -68901,43 +69004,13 @@ Ext.define('Xpoit.controller.Main', {
 				disclose: 'showProfile'
 			},
 			'#projectList': {
-				disclose: 'showProject'
-			}
+				disclose: 'showProject',
+				itemtap: 'showProject2'
+			},
+			'#seachListPanel': {
+				disclose: 'showSearch',
+			},
 		},
-	},
-
-	showProfile: function(list, record) {
-
-		console.log('tapped expand student info');
-		Ext.ComponentManager.get('mainPanel').push({
-			xtype: 'studentPanel',
-			data: record.data
-		});
-
-		//commented out to allow access the the student profile....if this is left in it apprears grey
-		//Ext.getCmp('studentList').destroy();
-
-
-		//Ext.getCmp('studentList').destroy();
-		// if (Ext.getCmp('studentList')) {
-		// 	console.log('destroying studentList')
-		// 	Ext.getCmp('studentList').destroy();
-		// };
-	},
-
-	showProject: function(list) {
-		console.log('tapped expand project');
-		Ext.ComponentManager.get('mainPanel').push({
-			xtype: 'studentListPanel'
-		});
-	},
-
-	showProject: function(list, record) {
-		console.log('tapped expand project');
-		Ext.ComponentManager.get('projectMainPanel').push({
-			xtype: 'projectPanel',
-			data: record.data
-		});
 	},
 
 	init: function() {
@@ -68969,40 +69042,90 @@ Ext.define('Xpoit.controller.Main', {
 					console.log(records[i]);
 
 					//push to stores
+					var recordStore = Ext.getStore('Records');
+					recordStore.add(records[i]);
+
 					var studentStore = Ext.getStore('Students');
 					studentStore.add(records[i]);
 
 					var projectStore = Ext.getStore('Projects');
 					projectStore.add(records[i]);
 
+					//clear local storage
+					localStorage.clear();
+
+					//re-populate local storage with new records
+
 					localStorage["records"] = JSON.stringify(records);
 					var storedData = JSON.parse(localStorage["records"]);
 
 					var retrievedObject = localStorage.getItem('records');
 
-					console.log('records', JSON.parse(retrievedObject));
-
-					// Put the object into storage
-					// localStorage.setItem('records[i]', JSON.stringify(records[i]));
-
-					// Retrieve the object from storage
-					// var retrievedObject = localStorage.getItem('records[i]');
-
-					// console.log('records', JSON.parse(retrievedObject));
+					console.log('records in localStorage', JSON.parse(retrievedObject));
 
 
 
 				}
 			},
+
+			//if no internet connection - show the following error message and access records from local storage
 			function(msg, err) {
 				console.log('Could not get stuff', msg);
 				Ext.Msg.alert("Connection Failed", "Could not connect to database. Check data connection.", function(btn) {});
+
+				//populate from local storage
+				localStorage["records"] = JSON.stringify(records);
+				var storedData = JSON.parse(localStorage["records"]);
+
+				var retrievedObject = localStorage.getItem('records');
 			})
 	},
 
-	// onInit: function() {
-	// 	Ext.Viewport.remove(Ext.Viewport.getActiveItem(), true);
-	// }
+	showProfile: function(list, record) {
+
+		console.log('tapped expand student info');
+		Ext.ComponentManager.get('mainPanel').push({
+			xtype: 'studentPanel',
+			data: record.data
+		});
+	},
+
+	showProject: function(list, record) {
+		console.log('tapped expand project');
+
+		Ext.ComponentManager.get('projectMainPanel').push({
+			xtype: 'projectPanel',
+			data: record.data
+		});
+
+		return false;
+	},
+
+	showProject2: function(list, index, target, record) {
+		console.log('onItemTap: index = ' + index);
+
+		var rec = list.getStore().getAt(index);
+		console.log(rec.data);
+
+		Ext.ComponentManager.get('projectMainPanel').push({
+			xtype: 'projectPanel',
+			data: rec.data
+		});
+
+	},
+
+	showSearch: function(list, record) {
+		console.log('tapped expand search');
+
+		Ext.ComponentManager.get('searchPanel').push({
+			xtype: 'searchView',
+			data: record.data
+		});
+
+		return false;
+	},
+
+
 });
 
 Ext.define('Xpoit.controller.Navigation', {
@@ -69012,6 +69135,9 @@ Ext.define('Xpoit.controller.Navigation', {
 		refs: {
 			homePanel: 'home',
 			infoPanel: 'info',
+			projectMain: '#projectMainPanel',
+			projectPanel: 'projectPanel',
+			searchPanel: 'searchPanel',
 			searchPage: '#searchBtn',
 			studentListPage: '#studentBtn',
 			projectListPage: '#projectBtn',
@@ -69022,6 +69148,12 @@ Ext.define('Xpoit.controller.Navigation', {
 
 		},
 		control: {
+			searchPage: {
+				tap: 'openSearch'
+			},
+			projectListPage: {
+				tap: 'openProject'
+			},
 			notePopUp: {
 				tap: 'openPopUp'
 			},
@@ -69029,6 +69161,49 @@ Ext.define('Xpoit.controller.Navigation', {
 				tap: 'openInfo'
 			}
 		},
+	},
+
+	openSearch: function() {
+		console.log('hitting search');
+
+		var searchPanel = this.getSearchPanel();
+
+		if (searchPanel) {
+
+			console.log('reached search Panel checl!!!!!!');
+
+
+			Ext.Viewport.setActiveItem('searchPanel');
+
+		} else {
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
+			console.log('creating searchPanel');
+		}
+	},
+
+	openProject: function() {
+
+		console.log('hitting project');
+
+		var projectMain = this.getProjectMain();
+
+		if (projectMain) {
+
+			console.log('inside here!!!!!!');
+
+
+			Ext.Viewport.setActiveItem('projectMainPanel');
+
+		} else {
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
+			console.log('creating project main Panel');
+		}
+
+		// var projectPanel = this.getProjectPanel();
+		// if (projectPanel) {
+		// 	Ext.getCmp('projectPanel').destroy();
+		// 	console.log('destroying projectPanel');
+		// }
 	},
 
 	openPopUp: function() {
@@ -69066,18 +69241,14 @@ Ext.define('Xpoit.controller.Navigation', {
 
 		console.log('hitting info');
 
-		if (Ext.getCmp('infoPanel')) {
-			Ext.getCmp('infoPanel').show();
+		var infoPanel = this.getInfoPanel();
+
+		if (infoPanel) {
+			Ext.Viewport.setActiveItem('info');
 		} else {
 			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
 			console.log('creating infoPanel');
 		}
-
-		var self = this;
-
-		//Reset HomePage
-		var homePanel = this.getHomePanel();
-		homePanel.hide();
 	}
 
 });
@@ -69089,32 +69260,142 @@ Ext.define('Xpoit.controller.BackBtns', {
 		refs: {
 			homePanel: 'home',
 			infoPanel: 'info',
-			infoBack: '#infoBackBtn'
+			searchView: 'seachListPanel',
+			projectView: '#projectPanel',
+			infoBack: '#infoBackBtn',
+			projectBack: 'button[id=projectBackBtn]',
+			pListBack: 'button[id=projectListBack]',
+			searchBack: 'button[id=searchBackBtn]',
+			searchViewBack: 'button[id=searchViewBack]',
+
 		},
 		control: {
 			infoBack: {
-				tap: 'showHome'
+				tap: 'showHomeInfo'
+			},
+			projectBack: {
+				tap: 'showHomeProject'
+			},
+			pListBack: {
+				tap: 'backToPList'
+			},
+			projectView: {
+				initalize: 'onProjectView'
+			},
+			searchBack: {
+				tap: 'showHomeSearch'
+			},
+			searchViewBack: {
+				tap: 'returnSearchList'
 			}
 		},
 	},
 
-	showHome: function() {
-		console.log('going home');
-		//Ext.Viewport.add('homePanel');
-		Ext.Viewport.setActiveItem(Ext.getCmp('homePanel'));
-		// var homePanel = this.getHomePanel();
-		// homePanel.show();
+	showHomeInfo: function() {
+		console.log('going home from info');
+		Ext.Viewport.setActiveItem('home');
+	},
 
-		var homePanel = Ext.getCmp('homePanel');
-		Ext.Viewport.add([homePanel]);
+	showHomeProject: function() {
+		console.log('going home from project');
+		Ext.Viewport.setActiveItem('home');
 
+		//Ext.getCmp('projectMainPanel').destroy();
 
+	},
 
-		var self = this;
+	backToPList: function() {
+		Ext.Viewport.setActiveItem('projectListPanel');
+		console.log('leaving project screen');
 
-		//Reset HomePage
-		var infoPanel = this.getInfoPanel();
-		infoPanel.hide();
+		var projectView = this.getProjectView();
+		if (projectView) {
+			Ext.getCmp('projectPanel').destroy();
+			console.log('destroy projectView');
+		}
+
+	},
+
+	showHomeSearch: function() {
+		console.log('going home from search');
+		Ext.Viewport.setActiveItem('home');
+	},
+
+	returnSearchList: function() {
+		Ext.Viewport.setActiveItem('seachListPanel');
+		console.log('leaving searc screen');
+
+		// var searchView = this.getSearchView();
+		// if (searchView) {
+		// 	Ext.getCmp('searchView').destroy();
+		// 	console.log('destroy searchView');
+		// }
+	}
+});
+
+Ext.define('Xpoit.controller.Search', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		refs: {
+			projectSearchBtn: '#projectSearch',
+			searchSearchBtn: '#searchSearch',
+		},
+		control: {
+			projectSearchBtn: {
+				keyup: 'onSearchKeyUp',
+				clearicontap: 'onSearchClearIconTap'
+			},
+
+			searchSearchBtn: {
+				keyup: 'searchKeyUp',
+				clearicontap: 'onSearchClearIconTap'
+			}
+		},
+	},
+
+	onSearchKeyUp: function(field) {
+
+		console.log('searching....');
+
+		var value = field.getValue(),
+			query = new RegExp(value, 'i');
+
+		var store = Ext.data.StoreManager.lookup('Projects');
+
+		console.log(store);
+
+		store.filter('title', query);
+
+	},
+
+	onSearchClearIconTap: function() {
+		//call the clearFilter method on the store instance
+		console.log('clear store filter');
+		var store = Ext.data.StoreManager.lookup('Projects');
+		store.clearFilter();
+	},
+
+	searchKeyUp: function(field) {
+
+		console.log('searching the list....');
+
+		var value = field.getValue(),
+			query = new RegExp(value, 'i');
+
+		var store = Ext.data.StoreManager.lookup('Records');
+
+		console.log(store);
+
+		store.filter('fname', query);
+
+	},
+
+	onSearchClearIconTap: function() {
+		//call the clearFilter method on the store instance
+		console.log('clear store filter');
+		var store = Ext.data.StoreManager.lookup('Records');
+		store.clearFilter();
 	}
 
 });
@@ -69222,6 +69503,7 @@ Ext.define('Xpoit.view.Main', {
 Ext.define('Xpoit.view.Project', {
 	extend:  Ext.Panel ,
 	xtype: 'projectPanel',
+	id: 'projectPanel',
 
 	config: {
 		styleHtmlContent: true,
@@ -69252,7 +69534,7 @@ Ext.define('Xpoit.view.Project', {
 			cls: 'btmNav',
 
 			items: [{
-				id: 'studentBtn',
+				id: 'studentBtn2',
 				html: '<img src="resources/images/icons/studentM.png"/>',
 			}, {
 				id: 'locationBtn',
@@ -69266,11 +69548,14 @@ Ext.define('Xpoit.view.Project', {
 Ext.define('Xpoit.view.ProjectList', {
   extend:  Ext.List ,
   xtype: 'projectListPanel',
-  id: 'projectList',
   cls: 'projectList',
+  id: 'projectList',
   config: {
     grouped: true,
     indexBar: true,
+    //itemTpl: '<div class="x-button related-btn" btnType="related" style="border: none; background: url("a.png") no-repeat;"></div>' +
+    //  '<div class="list-items">{project} {commercial} {title}</div>',
+
     itemTpl: '{project} {commercial} {title}',
     store: 'Projects',
 
@@ -69282,19 +69567,29 @@ Ext.define('Xpoit.view.ProjectList', {
       title: 'Project List',
 
       items: [{
+        xtype: 'button',
+        id: 'projectBackBtn',
         cls: 'backBtn',
         html: '<img src="resources/images/back.png"/>',
         hidden: Xpoit.hideBack || false,
-
-        element: 'element',
-        handler: function() {
-          console.log('tapped home button');
-          Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
-        }
       }, {
         xtype: 'spacer'
       }, {
         html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+      }]
+    }, {
+      xtype: 'toolbar',
+      docked: 'top',
+
+      items: [{
+        xtype: 'spacer'
+      }, {
+        xtype: 'searchfield',
+        id: 'projectSearch',
+        placeHolder: 'Search...',
+
+      }, {
+        xtype: 'spacer'
       }]
     }]
   }
@@ -69304,9 +69599,11 @@ Ext.define('Xpoit.view.ProjectMain', {
     extend:  Ext.navigation.View ,
     xytpe: 'projectMainPanel',
     id: 'projectMainPanel',
+    alias: 'widget.projectMainPanel',
                
                              
-                                
+                                 
+                          
       
     config: {
         navigationBar: {
@@ -69318,178 +69615,119 @@ Ext.define('Xpoit.view.ProjectMain', {
     },
 });
 
+Ext.define('Xpoit.view.SearchList', {
+  extend:  Ext.List ,
+  xtype: 'seachListPanel',
+  id: 'seachListPanel',
+  cls: 'seachListPanel',
+  config: {
+    grouped: true,
+    indexBar: true,
+    itemTpl: '{fname} {lname}' +
+      '{commercial} {title}' +
+      '{disciplines}',
+    store: 'Records',
+
+    onItemDisclosure: true,
+
+    items: [{
+      xtype: 'toolbar',
+      docked: 'top',
+      title: 'Search All',
+
+      items: [{
+        cls: 'backBtn',
+        id: 'searchBackBtn',
+        html: '<img src="resources/images/back.png"/>',
+        hidden: Xpoit.hideBack || false,
+
+      }, {
+        xtype: 'spacer'
+      }, {
+        html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+      }]
+    }, {
+      xtype: 'toolbar',
+      docked: 'top',
+
+      items: [{
+        xtype: 'spacer'
+      }, {
+        xtype: 'searchfield',
+        id: 'searchSearch',
+        placeHolder: 'Search...',
+
+      }, {
+        xtype: 'spacer'
+      }]
+    }]
+  }
+});
+
+Ext.define('Xpoit.view.SearchView', {
+	extend:  Ext.Panel ,
+	xtype: 'searchView',
+	id: 'searchView',
+
+	config: {
+		styleHtmlContent: true,
+		scrollable: 'vertical',
+		title: 'Information',
+		tpl: ['{project} {title}' +
+			'{commercial}' +
+			'{desc}'
+		],
+		items: [{
+			xtype: 'toolbar',
+			docked: 'top',
+			title: 'Exhibit Info',
+
+			items: [{
+				id: 'searchViewBack',
+				xtype: 'button',
+				cls: 'backBtn',
+				html: '<img src="resources/images/back.png"/>',
+				hidden: Xpoit.hideBack || false,
+			}, {
+				xtype: 'spacer'
+			}, {
+				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+			}]
+		}, {
+			xtype: 'toolbar',
+			docked: 'bottom',
+			cls: 'btmNav',
+
+			items: [{
+				id: 'studentBtn2',
+				html: '<img src="resources/images/icons/studentM.png"/>',
+			}, {
+				id: 'locationBtn',
+				html: '<img src="resources/images/icons/location.png"/>',
+			}]
+		}]
+	}
+
+});
+
 Ext.define('Xpoit.view.Search', {
-    extend:  Ext.Container ,
-                                 
+    extend:  Ext.navigation.View ,
+    xytpe: 'searchPanel',
+    id: 'searchPanel',
+    alias: 'widget.searchPanel',
+               
+                                
+                                
+                          
+      
     config: {
-        layout: 'vbox',
-        id: 'searchPanel',
-        iconCls: 'search',
+        navigationBar: {
+            hidden: true
+        },
         items: [{
-                xtype: 'toolbar',
-                docked: 'top',
-                align: 'center',
-                pack: 'center',
-                style: 'text-align:center',
-                title: 'Search',
-                layout: {
-                    type: 'hbox',
-
-                },
-                items: [{
-                    cls: 'backBtn',
-                    html: '<img src="resources/images/back.png"/>',
-                    hidden: Xpoit.hideBack || false,
-
-                    element: 'element',
-                    handler: function() {
-                        // Ext.getCmp('searchPanel').destroy();
-                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
-                    }
-                }, {
-                    xtype: 'spacer'
-                }, {
-                    html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-                }, ]
-            }, {
-                xtype: 'container',
-                layout: {
-                    type: 'vbox',
-                },
-                items: [{
-                    floating: true,
-                    html: 'Search Stuffs Goes Here'
-                }, ]
-
-            }, {
-                xtype: 'toolbar',
-                docked: 'bottom',
-                cls: 'btm-nav',
-                id: 'btm-nav',
-                pack: 'center',
-                layout: {
-                    type: 'vbox'
-                },
-                items: [{
-                    xtype: 'button',
-                    align: 'center',
-                    html: '<img class="circle" src="resources/images/circle.png" />',
-                    style: 'width:250px; margin-top: -32px;',
-
-
-                    // SLIDE MENU BUTTON
-
-                    handler: function() {
-                        // Show or hide sliding menu:
-                        var settingsPanel = Ext.getCmp('sliding_menu');
-                        var bottomPanel = Ext.getCmp('btm-nav');
-
-                        if (settingsPanel.isHidden()) {
-                            settingsPanel.show({
-                                type: 'slideIn',
-                                direction: 'up',
-                                duration: 2000
-                            });
-                            setTimeout(function() {
-                                bottomPanel.hide()
-                            }, 300);
-                        } else {
-                            settingsPanel.hide({
-                                type: 'slideOut',
-                                direction: 'down',
-                                duration: 2000
-                            });
-                            setTimeout(function() {
-                                bottomPanel.show()
-                            }, 1650);
-
-                        }
-                    }
-                }],
-            }, {
-                xtype: 'container',
-                id: 'sliding_menu',
-                cls: 'sliding_menu',
-                flex: 3,
-                layout: 'fit',
-                items: [{
-                    xtype: 'toolbar',
-                    docked: 'top',
-                    cls: 'btm-nav',
-                    pack: 'center',
-                    layout: {
-                        type: 'vbox'
-                    },
-                    items: [{
-                        xtype: 'button',
-                        align: 'center',
-                        html: '<img class="circle" src="resources/images/circle.png" />',
-                        style: 'width:250px; margin-top: -32px;',
-                        // SLIDE MENU BUTTON
-
-                        handler: function() {
-                            // Show or hide sliding menu:
-                            var settingsPanel = Ext.getCmp('sliding_menu');
-                            var bottomPanel = Ext.getCmp('btm-nav');
-
-                            if (settingsPanel.isHidden()) {
-                                settingsPanel.show({
-                                    type: 'slideIn',
-                                    direction: 'up',
-                                    duration: 2000
-                                });
-                                setTimeout(function() {
-                                    bottomPanel.hide()
-                                }, 1000);
-                            } else {
-                                settingsPanel.hide({
-                                    type: 'slideOut',
-                                    direction: 'down',
-                                    duration: 2000
-                                });
-                                setTimeout(function() {
-                                    bottomPanel.show()
-                                }, 1570);
-
-                            }
-                        }
-                    }]
-                }, {
-                    xtype: 'list',
-                    id: 'slideUpMenu',
-                    itemTpl: '<img src="{imgURL}" class="slideIcon" width="20" height="20">{category_name}',
-                    style: 'background-color:#599195;',
-                    cls: 'myList',
-                    data: [{
-                        imgURL: 'resources/images/icons/search.png',
-                        category_name: 'Search',
-
-                    }, {
-                        imgURL: 'resources/images/icons/student.png',
-                        category_name: 'Student List'
-                    }, {
-                        imgURL: 'resources/images/icons/project.png',
-                        category_name: 'Project List'
-                    }, {
-                        imgURL: 'resources/images/icons/map.png',
-                        category_name: 'Location Maps',
-                        page: 'Maps'
-                    }, {
-                        imgURL: 'resources/images/icons/visit.png',
-                        category_name: 'VisitIt'
-                    }, {
-                        imgURL: 'resources/images/icons/note.png',
-                        category_name: 'NoteIt Microblog'
-                    }, {
-                        imgURL: 'resources/images/icons/info.png',
-                        category_name: 'Information'
-                    }, ]
-                }],
-                hidden: true
-            },
-
-        ]
-    }
+            xtype: 'seachListPanel'
+        }]
+    },
 });
 
 Ext.define('Xpoit.view.Info', {
@@ -69498,6 +69736,7 @@ Ext.define('Xpoit.view.Info', {
     ],
     extend:  Ext.Panel ,
     xtype: 'info',
+    id: 'info',
 
     config: {
         iconCls: 'info',
@@ -69693,6 +69932,17 @@ Ext.define('Xpoit.store.Projects', {
 	}
 });
 
+Ext.define('Xpoit.store.Records', {
+	extend:  Ext.data.Store ,
+
+	config: {
+		model: 'Xpoit.model.Record',
+		grouper: function(record) {
+			return record.get('title')[0];
+		},
+	}
+});
+
 /*
     This file is generated and updated by Sencha Cmd. You can edit this file as
     needed for your application, but these edits will have to be merged by
@@ -69715,17 +69965,20 @@ Ext.application({
     controllers: [
         'Main',
         'Navigation',
-        'BackBtns'
+        'BackBtns',
+        'Search'
     ],
 
     models: [
         'Student',
         'Project',
+        'Record',
     ],
 
     stores: [
         'Students',
         'Projects',
+        'Records',
     ],
 
     views: [
@@ -69736,6 +69989,8 @@ Ext.application({
         'ProjectList',
         'Project',
         'Search',
+        'SearchList',
+        'SearchView',
         'Home',
         'Info'
     ],
