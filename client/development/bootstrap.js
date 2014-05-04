@@ -1429,7 +1429,7 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.searchPanel"
   ],
   "Xpoit.view.SearchList": [
-    "widget.seachListPanel"
+    "widget.searchListPanel"
   ],
   "Xpoit.view.SearchView": [
     "widget.searchView"

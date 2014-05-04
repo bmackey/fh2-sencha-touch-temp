@@ -68998,16 +68998,17 @@ Ext.define('Xpoit.controller.Main', {
 			main: 'mainPanel',
 			project: 'projectPanel',
 			studentPanel: 'studentPanel',
+			search: 'searchPanel',
 		},
 		control: {
 			'#studentList': {
 				disclose: 'showProfile'
 			},
 			'#projectList': {
-				disclose: 'showProject',
+				//disclose: 'showProject',
 				itemtap: 'showProject2'
 			},
-			'#seachListPanel': {
+			'#searchListPanel': {
 				disclose: 'showSearch',
 			},
 		},
@@ -69136,7 +69137,6 @@ Ext.define('Xpoit.controller.Navigation', {
 			homePanel: 'home',
 			infoPanel: 'info',
 			projectMain: '#projectMainPanel',
-			projectPanel: 'projectPanel',
 			searchPanel: 'searchPanel',
 			searchPage: '#searchBtn',
 			studentListPage: '#studentBtn',
@@ -69174,6 +69174,7 @@ Ext.define('Xpoit.controller.Navigation', {
 
 
 			Ext.Viewport.setActiveItem('searchPanel');
+			searchPanel.reset();
 
 		} else {
 			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
@@ -69260,7 +69261,8 @@ Ext.define('Xpoit.controller.BackBtns', {
 		refs: {
 			homePanel: 'home',
 			infoPanel: 'info',
-			searchView: 'seachListPanel',
+			searchPanel: 'searchPanel',
+			searchListPanel: 'searchListPanel',
 			projectView: '#projectPanel',
 			infoBack: '#infoBackBtn',
 			projectBack: 'button[id=projectBackBtn]',
@@ -69305,32 +69307,27 @@ Ext.define('Xpoit.controller.BackBtns', {
 	},
 
 	backToPList: function() {
-		Ext.Viewport.setActiveItem('projectListPanel');
-		console.log('leaving project screen');
 
-		var projectView = this.getProjectView();
-		if (projectView) {
-			Ext.getCmp('projectPanel').destroy();
-			console.log('destroy projectView');
-		}
+		Ext.getCmp('projectMainPanel').pop(1);
 
 	},
 
 	showHomeSearch: function() {
 		console.log('going home from search');
 		Ext.Viewport.setActiveItem('home');
+
+		var searchPanel = this.getSearchPanel();
+		if (searchPanel) {
+			Ext.getCmp('searchPanel').destroy();
+			console.log('destroy searchPanel');
+		}
+
 	},
 
 	returnSearchList: function() {
-		Ext.Viewport.setActiveItem('seachListPanel');
-		console.log('leaving searc screen');
 
-		// var searchView = this.getSearchView();
-		// if (searchView) {
-		// 	Ext.getCmp('searchView').destroy();
-		// 	console.log('destroy searchView');
-		// }
-	}
+		Ext.getCmp('searchPanel').pop(1);
+	},
 });
 
 Ext.define('Xpoit.controller.Search', {
@@ -69617,11 +69614,12 @@ Ext.define('Xpoit.view.ProjectMain', {
 
 Ext.define('Xpoit.view.SearchList', {
   extend:  Ext.List ,
-  xtype: 'seachListPanel',
-  id: 'seachListPanel',
-  cls: 'seachListPanel',
+  xtype: 'searchListPanel',
+  id: 'searchListPanel',
+  cls: 'searchListPanel',
   config: {
     grouped: true,
+    loadingText: 'Loading...',
     indexBar: true,
     itemTpl: '{fname} {lname}' +
       '{commercial} {title}' +
