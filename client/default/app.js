@@ -69002,7 +69002,7 @@ Ext.define('Xpoit.controller.Main', {
 		},
 		control: {
 			'#studentList': {
-				disclose: 'showProfile'
+				itemtap: 'showProfile'
 			},
 			'#projectList': {
 				//disclose: 'showProject',
@@ -69052,21 +69052,24 @@ Ext.define('Xpoit.controller.Main', {
 					var projectStore = Ext.getStore('Projects');
 					projectStore.add(records[i]);
 
-					//clear local storage
-					localStorage.clear();
-
-					//re-populate local storage with new records
-
-					localStorage["records"] = JSON.stringify(records);
-					var storedData = JSON.parse(localStorage["records"]);
-
-					var retrievedObject = localStorage.getItem('records');
-
-					console.log('records in localStorage', JSON.parse(retrievedObject));
-
-
-
 				}
+
+				//clear local storage
+				//localStorage.clear();
+
+				//remove content in records array only
+
+				localStorage.removeItem('records');
+
+				//re-populate local storage
+
+				localStorage["records"] = JSON.stringify(records);
+				var storedData = JSON.parse(localStorage["records"]);
+
+				var retrievedObject = localStorage.getItem('records');
+
+				console.log('records in localStorage from main.js controller', JSON.parse(retrievedObject));
+
 			},
 
 			//if no internet connection - show the following error message and access records from local storage
@@ -69074,20 +69077,43 @@ Ext.define('Xpoit.controller.Main', {
 				console.log('Could not get stuff', msg);
 				Ext.Msg.alert("Connection Failed", "Could not connect to database. Check data connection.", function(btn) {});
 
-				//populate from local storage
-				localStorage["records"] = JSON.stringify(records);
-				var storedData = JSON.parse(localStorage["records"]);
+				//clear local storage
+				//localStorage.clear();
+
+				//remove content in records array only
+
+				//localStorage.removeItem('records');
+
+				//re-populate stores with data from local storage 
+
+				// localStorage["records"] = JSON.stringify(records);
+				// var storedData = JSON.parse(localStorage["records"]);
 
 				var retrievedObject = localStorage.getItem('records');
+
+				console.log('records in localStorage from main.js controller', JSON.parse(retrievedObject));
+
+				var recordStore = Ext.getStore('Records');
+				recordStore.add(JSON.parse(retrievedObject));
+
+				var studentStore = Ext.getStore('Students');
+				studentStore.add(JSON.parse(retrievedObject));
+
+				var projectStore = Ext.getStore('Projects');
+				projectStore.add(JSON.parse(retrievedObject));
 			})
 	},
 
-	showProfile: function(list, record) {
+	showProfile: function(list, index, target, record) {
 
-		console.log('tapped expand student info');
+		console.log('onItemTap: index = ' + index);
+
+		var rec = list.getStore().getAt(index);
+		console.log(rec.data);
+
 		Ext.ComponentManager.get('mainPanel').push({
 			xtype: 'studentPanel',
-			data: record.data
+			data: rec.data
 		});
 	},
 
@@ -69142,6 +69168,7 @@ Ext.define('Xpoit.controller.Navigation', {
 			searchPanel: 'searchPanel',
 			searchPage: '#searchBtn',
 			studentListPage: '#studentBtn',
+			main: '#mainPanel',
 			projectListPage: '#projectBtn',
 			mapPage: '#mapBtn',
 			visitPage: '#visitBtn',
@@ -69155,6 +69182,9 @@ Ext.define('Xpoit.controller.Navigation', {
 			},
 			projectListPage: {
 				tap: 'openProject'
+			},
+			studentListPage: {
+				tap: 'openStudent'
 			},
 			notePopUp: {
 				tap: 'openPopUp'
@@ -69201,12 +69231,23 @@ Ext.define('Xpoit.controller.Navigation', {
 			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
 			console.log('creating project main Panel');
 		}
+	},
 
-		// var projectPanel = this.getProjectPanel();
-		// if (projectPanel) {
-		// 	Ext.getCmp('projectPanel').destroy();
-		// 	console.log('destroying projectPanel');
-		// }
+	openStudent: function() {
+
+		console.log('hitting studentBtn');
+
+		var main = this.getMain();
+
+		if (main) {
+			console.log('student already created');
+
+			Ext.Viewport.setActiveItem('mainPanel');
+
+		} else {
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
+			console.log('creating student main Panel');
+		}
 	},
 
 	openPopUp: function() {
@@ -69269,6 +69310,8 @@ Ext.define('Xpoit.controller.BackBtns', {
 			infoBack: '#infoBackBtn',
 			projectBack: 'button[id=projectBackBtn]',
 			pListBack: 'button[id=projectListBack]',
+			studentBack: 'button[id=studentListBack]',
+			studentBackHome: 'button[id=studentListHomeBtn]',
 			searchBack: 'button[id=searchBackBtn]',
 			searchViewBack: 'button[id=searchViewBack]',
 
@@ -69291,7 +69334,13 @@ Ext.define('Xpoit.controller.BackBtns', {
 			},
 			searchViewBack: {
 				tap: 'returnSearchList'
-			}
+			},
+			studentBack: {
+				tap: 'returnStudentList'
+			},
+			studentBackHome: {
+				tap: 'showHomeStudent'
+			},
 		},
 	},
 
@@ -69306,10 +69355,9 @@ Ext.define('Xpoit.controller.BackBtns', {
 
 	},
 
-	backToPList: function() {
-		//return to the previous screen
-		Ext.getCmp('projectMainPanel').pop(1);
-
+	showHomeStudent: function() {
+		console.log('going home from student');
+		Ext.Viewport.setActiveItem('home');
 	},
 
 	showHomeSearch: function() {
@@ -69318,10 +69366,22 @@ Ext.define('Xpoit.controller.BackBtns', {
 
 	},
 
+	backToPList: function() {
+		//return to the previous screen
+		Ext.getCmp('projectMainPanel').pop(1);
+
+	},
+
 	returnSearchList: function() {
 		//return to the previous screen
 		Ext.getCmp('searchPanel').pop(1);
 	},
+
+	returnStudentList: function() {
+		//return to the previous screen
+		Ext.getCmp('mainPanel').pop(1);
+	},
+
 });
 
 Ext.define('Xpoit.controller.Search', {
@@ -69331,8 +69391,13 @@ Ext.define('Xpoit.controller.Search', {
 		refs: {
 			projectSearchBtn: '#projectSearch',
 			searchSearchBtn: '#searchSearch',
+			searchPanel: '#searchPanel',
 		},
 		control: {
+			searchPanel: {
+				initialize: 'onInit'
+			},
+
 			projectSearchBtn: {
 				keyup: 'onSearchKeyUp',
 				clearicontap: 'onProjectSearchClearIconTap'
@@ -69343,6 +69408,13 @@ Ext.define('Xpoit.controller.Search', {
 				clearicontap: 'onSearchClearIconTap'
 			}
 		},
+	},
+
+	onInit: function() {
+
+		var retrievedObject = localStorage.getItem('records');
+
+		console.log('records in localStorage from search.js controller', JSON.parse(retrievedObject));
 	},
 
 	onSearchKeyUp: function(field) {
@@ -69424,7 +69496,7 @@ Ext.define('Xpoit.view.Student', {
 			cls: 'btmNav',
 
 			items: [{
-				id: 'projectBtn',
+				id: 'projectBtn2',
 				html: '<img src="resources/images/icons/projectM.png"/>',
 			}, {
 				id: 'locationBtn',
@@ -69458,13 +69530,6 @@ Ext.define('Xpoit.view.StudentList', {
         id: 'studentListHomeBtn',
         html: '<img src="resources/images/back.png"/>',
         hidden: Xpoit.hideBack || false,
-
-        element: 'element',
-        handler: function() {
-          console.log('tapped home button');
-          Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
-          //Ext.getCmp('studentList').destroy();
-        }
       }, {
         xtype: 'spacer'
       }, {
@@ -69478,6 +69543,7 @@ Ext.define('Xpoit.view.Main', {
     extend:  Ext.navigation.View ,
     xytpe: 'mainPanel',
     id: 'mainPanel',
+    alias: 'widget.mainPanel',
                
                              
                                 
