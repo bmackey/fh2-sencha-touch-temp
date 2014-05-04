@@ -21,7 +21,8 @@ Ext.application({
         'Main',
         'Navigation',
         'BackBtns',
-        'Search'
+        'Search',
+        'Share'
     ],
 
     models: [

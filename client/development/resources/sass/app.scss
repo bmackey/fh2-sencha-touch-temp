@@ -33,7 +33,6 @@
   width: 30px;
   float: right;
   margin-right: 20px;
-  margin-top: -5px;
 }
 
 .homeIcons {
@@ -41,10 +40,25 @@
   float: right;
 }
 
-.triangle {
-  height:5% !important;
+.homeIcons .x-button-label {
+  text-align: left;
 }
 
+.homeIcons .x-button {
+  border: 2px solid #fff;
+  border-radius: 0;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+
+.triangle {
+  height: 80px !important;
+}
+
+.homeMenuItems {
+  
+}
 
 hr { 
   display: block; 
@@ -147,6 +161,8 @@ body {
 }
 
 /*-----------list - slide up menu style ----------*/
+
+
 .x-list .x-list-item {
   color: #fff;
 /*  margin-left: 25%;*/
@@ -168,6 +184,11 @@ body {
 .sliding_menu {
   top: 20px;
 }
+
+.x-button-label {
+  font-weight: normal;
+}
+
 
 /*-----------message box ----------*/
 .x-msgbox .x-button {

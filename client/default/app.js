@@ -68749,15 +68749,15 @@ Ext.define('Xpoit.view.Home', {
                                 xtype: 'button',
                                 height: 10,
                                 width: 200,
-                                html: 'Search<br /><hr />',
+                                text: 'Search',
+                                style: {
+                                    'background': '#6d6e71',
+                                    'border-radius': 0,
+                                    'border-top': 'none',
+                                    'border-right': 'none',
+                                    'border-left': 'none',
 
-                                // listeners: {
-                                //     element: 'element',
-                                //     tap: function() {
-                                //         console.log('Tap on element')
-                                //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Search'));
-                                //     }
-                                // }
+                                }
                             }, {
                                 flex: 1
                             }
@@ -68784,7 +68784,15 @@ Ext.define('Xpoit.view.Home', {
                                 cls: 'homeIcons',
                                 height: 10,
                                 width: 200,
-                                html: '<a>Student List</a><br /><hr />',
+                                text: 'Student List',
+                                style: {
+                                    'background': '#6d6e71',
+                                    'border-radius': 0,
+                                    'border-top': 'none',
+                                    'border-right': 'none',
+                                    'border-left': 'none',
+
+                                }
                             }, {
                                 flex: 1
                             }
@@ -68810,14 +68818,15 @@ Ext.define('Xpoit.view.Home', {
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
-                            html: '<a>Project List</a><br /><hr />',
+                            text: 'Project List',
+                            style: {
+                                'background': '#6d6e71',
+                                'border-radius': 0,
+                                'border-top': 'none',
+                                'border-right': 'none',
+                                'border-left': 'none',
 
-                            // listeners: {
-                            //     element: 'element',
-                            //     tap: function() {
-                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.ProjectMain'));
-                            //     }
-                            // }
+                            }
                         }, {
                             flex: 1
                         }]
@@ -68842,14 +68851,15 @@ Ext.define('Xpoit.view.Home', {
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
-                            html: '<a>Location Maps</a><br /><hr />',
+                            text: 'Location Maps',
+                            style: {
+                                'background': '#6d6e71',
+                                'border-radius': 0,
+                                'border-top': 'none',
+                                'border-right': 'none',
+                                'border-left': 'none',
 
-                            // listeners: {
-                            //     element: 'element',
-                            //     tap: function() {
-                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Maps'));
-                            //     }
-                            // }
+                            }
                         }, {
                             flex: 1
                         }]
@@ -68874,14 +68884,15 @@ Ext.define('Xpoit.view.Home', {
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
-                            html: '<a>VisitIt!</a><br /><hr />',
+                            text: 'VisitIt!',
+                            style: {
+                                'background': '#6d6e71',
+                                'border-radius': 0,
+                                'border-top': 'none',
+                                'border-right': 'none',
+                                'border-left': 'none',
 
-                            // listeners: {
-                            //     element: 'element',
-                            //     tap: function() {
-                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Visit'));
-                            //     }
-                            // }
+                            }
                         }, {
                             flex: 1
                         }]
@@ -68907,43 +68918,16 @@ Ext.define('Xpoit.view.Home', {
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
-                            html: '<a>NoteIt! Microblog</a><br /><hr />',
+                            text: 'NoteIt! Microblog',
 
-                            // listeners: {
-                            //     element: 'element',
-                            //     tap: function() {
+                            style: {
+                                'background': '#6d6e71',
+                                'border-radius': 0,
+                                'border-top': 'none',
+                                'border-right': 'none',
+                                'border-left': 'none',
 
-                            //         Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
-                            //             if (btn == 'yes') {
-                            //                 //open google in a new window
-                            //                 var url = 'https://pure-badlands-7549.herokuapp.com/home';
-                            //                 $fh.webview({
-                            //                     'act': 'open',
-                            //                     'url': url,
-                            //                     'title': 'NoteIt!'
-                            //                 }, function(res) {
-                            //                     if (res === "opened") {
-                            //                         //webview window is now open
-                            //                     }
-                            //                     if (res === "closed") {
-                            //                         //webview window is now closed
-                            //                     }
-                            //                 }, function(msg, err) {
-                            //                     alert(msg)
-                            //                 });
-
-                            //                 //close it
-                            //                 $fh.webview({
-                            //                     'act': 'close'
-                            //                 })
-
-
-
-                            //                 // window.open('https://pure-badlands-7549.herokuapp.com/home'); // which page wants to redirect
-                            //             }
-                            //         });
-                            //     }
-                            // }
+                            }
                         }, {
                             flex: 1
                         }]
@@ -68969,14 +68953,16 @@ Ext.define('Xpoit.view.Home', {
                             cls: 'homeIcons',
                             height: 10,
                             width: 200,
-                            html: '<a>Information</a>',
+                            html: 'Information',
 
-                            // listeners: {
-                            //     element: 'element',
-                            //     tap: function() {
-                            //         Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
-                            //     }
-                            // }
+                            style: {
+                                'background': '#6d6e71',
+                                'border-radius': 0,
+                                'border-top': 'none',
+                                'border-right': 'none',
+                                'border-left': 'none',
+
+                            }
                         }, {
                             flex: 1
                         }]
@@ -69075,7 +69061,7 @@ Ext.define('Xpoit.controller.Main', {
 			//if no internet connection - show the following error message and access records from local storage
 			function(msg, err) {
 				console.log('Could not get stuff', msg);
-				Ext.Msg.alert("Connection Failed", "Could not connect to database. Check data connection.", function(btn) {});
+				Ext.Msg.alert("Connection Failed", "Content may not be up to date. Please check your data connection to update records.", function(btn) {});
 
 				//clear local storage
 				//localStorage.clear();
@@ -69258,6 +69244,8 @@ Ext.define('Xpoit.controller.Navigation', {
 			if (btn == 'yes') {
 				//open google in a new window
 				var url = 'https://pure-badlands-7549.herokuapp.com/home';
+
+				window.open('https://pure-badlands-7549.herokuapp.com/home', '_blank');
 				$fh.webview({
 					'act': 'open',
 					'url': url,
@@ -69380,6 +69368,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 	returnStudentList: function() {
 		//return to the previous screen
 		Ext.getCmp('mainPanel').pop(1);
+
 	},
 
 });
@@ -69426,9 +69415,50 @@ Ext.define('Xpoit.controller.Search', {
 
 		var store = Ext.data.StoreManager.lookup('Projects');
 
+		var field1 = 'title',
+			field2 = 'commercial';
+
 		console.log(store);
 
-		store.filter('title', query);
+		//check if a value is set first, as if it isnt we dont have to do anything  
+		if (value) {
+			//the user could have entered spaces, so we must split them so we can loop through them all  
+			var searches = value.split(' '),
+				regexps = [],
+				i;
+
+			//loop them all  
+			for (i = 0; i < searches.length; i++) {
+				//if it is nothing, continue  
+				if (!searches[i]) continue;
+
+				//if found, create a new regular expression which is case insenstive  
+				regexps.push(new RegExp(searches[i], 'i'));
+			}
+
+			//now filter the store by passing a method  
+			//the passed method will be called for each record in the store  
+			store.filter(function(record) {
+				var matched = [];
+
+				//loop through each of the regular expressions  
+				for (i = 0; i < regexps.length; i++) {
+
+					var search = regexps[i],
+						didMatch = record.get(field1).match(search) || record.get(field2).match(search);
+					//if it matched the first or code, push it into the matches array   
+					matched.push(didMatch);
+
+				} //if nothing was found, return false (dont so in the store)                 
+				if (regexps.length > 1 && matched.indexOf(false) != -1) {
+					return false;
+				} else {
+					//else true true (show in the store)  
+					return matched[0];
+					alert(matched);
+				}
+			});
+		}
 
 	},
 
@@ -69449,9 +69479,54 @@ Ext.define('Xpoit.controller.Search', {
 
 		var store = Ext.data.StoreManager.lookup('Records');
 
+		var field1 = 'fname',
+			field2 = 'lname',
+			field3 = 'course',
+			field4 = 'title',
+			field5 = 'disciplines';
 		console.log(store);
 
-		store.filter('fname', query);
+		//store.filter('fname', query);
+
+		//check if a value is set first, as if it isnt we dont have to do anything  
+		if (value) {
+			//the user could have entered spaces, so we must split them so we can loop through them all  
+			var searches = value.split(' '),
+				regexps = [],
+				i;
+
+			//loop them all  
+			for (i = 0; i < searches.length; i++) {
+				//if it is nothing, continue  
+				if (!searches[i]) continue;
+
+				//if found, create a new regular expression which is case insenstive  
+				regexps.push(new RegExp(searches[i], 'i'));
+			}
+
+			//now filter the store by passing a method  
+			//the passed method will be called for each record in the store  
+			store.filter(function(record) {
+				var matched = [];
+
+				//loop through each of the regular expressions  
+				for (i = 0; i < regexps.length; i++) {
+
+					var search = regexps[i],
+						didMatch = record.get(field1).match(search) || record.get(field2).match(search) || record.get(field3).match(search) || record.get(field4).match(search) || record.get(field5).match(search);
+					//if it matched the first or code, push it into the matches array   
+					matched.push(didMatch);
+
+				} //if nothing was found, return false (dont so in the store)                 
+				if (regexps.length > 1 && matched.indexOf(false) != -1) {
+					return false;
+				} else {
+					//else true true (show in the store)  
+					return matched[0];
+					alert(matched);
+				}
+			});
+		}
 
 	},
 
@@ -69464,6 +69539,40 @@ Ext.define('Xpoit.controller.Search', {
 
 });
 
+Ext.define('Xpoit.controller.Share', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		refs: {
+			fbBtn: '#facebook',
+			fbBtn: 'button[id=facebook]',
+			studentPanel: 'studentPanel',
+		},
+		control: {
+			'fbBtn': {
+				onClick: 'shareFb'
+			},
+			// 'studentPanel': {
+			// 	initialize: 'onInit'
+			// }
+		},
+	},
+
+	// onInit: function() {
+	// 	alert('initialize');
+	// 	Ext.getCmp('#facebook')({
+	// 		scope: this,
+	// 		tap: 'shareFb'
+	// 	});
+
+	// },
+
+	shareFb: function() {
+		console.log('tapped fb');
+	}
+
+});
+
 Ext.define('Xpoit.view.Student', {
 	extend:  Ext.Panel ,
 	xtype: 'studentPanel',
@@ -69472,7 +69581,16 @@ Ext.define('Xpoit.view.Student', {
 		title: 'Student Profile',
 		styleHtmlContent: true,
 		tpl: [
-			'<div class="studentInfo"><img class="profileImage" src="resources/images/profile.png" /><div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div><div class="contact">CONTACT</div><div class="contactInfo"><img class="contactIcons" id="mail" src="resources/images/icons/mail.png" /><img class="contactIcons" id="facebook" src="resources/images/icons/facebook.png" /><img id="twitter" class="contactIcons" src="resources/images/icons/twitter.png" /></div><div class="emailAdd">{email}</div><div class="favAdd" id="visitAdd"><img style="width:50px;" src="resources/images/icons/addFav.png" /></div></div>'
+			'<div class="studentInfo">' +
+			'<img class="profileImage" src="resources/images/profile.png" />' +
+			'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
+			'<div class="contact">CONTACT</div>' +
+			'<div class="contactInfo">' +
+			'<img class="contactIcons" id="mail" src="resources/images/icons/mail.png" />' +
+			'<button id="facebook" onClick="shareFb(event)"><img class="contactIcons" src="resources/images/icons/facebook.png" /></button>' +
+			'<img id="twitter" class="contactIcons" src="resources/images/icons/twitter.png" />' +
+			'</div><div class="emailAdd">{email}</div><div class="favAdd" id="visitAdd">' +
+			'<img style="width:50px;" src="resources/images/icons/addFav.png" /></div></div>'
 		],
 
 		items: [{
@@ -69503,6 +69621,22 @@ Ext.define('Xpoit.view.Student', {
 				html: '<img src="resources/images/icons/location.png"/>',
 			}]
 		}]
+	},
+
+	shareFb: function(e) {
+		//attach listeners
+		this.on('itemtap', function(view, index, target, record, e) {
+			if (e.getTarget('#facebook')) {
+				//clicked on the  button
+
+				alert('sjkslsf');
+				this.fireEvent('myButtonTap', this, index, target, record);
+			} else {
+				//clicked on the content element
+				this.fireEvent('myItemTap', this, index, target, record);
+			}
+		}, this);
+		this.callParent(arguments);
 	}
 
 });
@@ -69614,7 +69748,9 @@ Ext.define('Xpoit.view.ProjectList', {
     //itemTpl: '<div class="x-button related-btn" btnType="related" style="border: none; background: url("a.png") no-repeat;"></div>' +
     //  '<div class="list-items">{project} {commercial} {title}</div>',
 
-    itemTpl: '{project} {commercial} {title}',
+    itemTpl: '<p><b>Title: </b>{commercial}' +
+      '<p>{title}</p>' +
+      '<p>{fname} {lname}</p>',
     store: 'Projects',
 
     onItemDisclosure: true,
@@ -69681,9 +69817,10 @@ Ext.define('Xpoit.view.SearchList', {
   config: {
     grouped: true,
     indexBar: true,
-    itemTpl: '{fname} {lname}' +
-      '{commercial} {title}' +
-      '{disciplines}',
+    itemTpl: '{course}' +
+      '<p><b>Name:</b> {fname} {lname}</p>' +
+      '<p><b>Title: </b>{commercial} </p>' +
+      '<p><b>Disciplines: </b>{disciplines}</p>',
     store: 'Records',
 
     onItemDisclosure: true,
@@ -69996,7 +70133,7 @@ Ext.define('Xpoit.store.Records', {
 	config: {
 		model: 'Xpoit.model.Record',
 		grouper: function(record) {
-			return record.get('title')[0];
+			return record.get('course')[0];
 		},
 	}
 });
@@ -70024,7 +70161,8 @@ Ext.application({
         'Main',
         'Navigation',
         'BackBtns',
-        'Search'
+        'Search',
+        'Share'
     ],
 
     models: [
