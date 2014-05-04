@@ -69304,12 +69304,10 @@ Ext.define('Xpoit.controller.BackBtns', {
 		console.log('going home from project');
 		Ext.Viewport.setActiveItem('home');
 
-		//Ext.getCmp('projectMainPanel').destroy();
-
 	},
 
 	backToPList: function() {
-
+		//return to the previous screen
 		Ext.getCmp('projectMainPanel').pop(1);
 
 	},
@@ -69318,16 +69316,10 @@ Ext.define('Xpoit.controller.BackBtns', {
 		console.log('going home from search');
 		Ext.Viewport.setActiveItem('home');
 
-		// var searchPanel = this.getSearchPanel();
-		// if (searchPanel) {
-		// 	Ext.getCmp('searchPanel').destroy();
-		// 	console.log('destroy searchPanel');
-		// }
-
 	},
 
 	returnSearchList: function() {
-
+		//return to the previous screen
 		Ext.getCmp('searchPanel').pop(1);
 	},
 });
@@ -69343,7 +69335,7 @@ Ext.define('Xpoit.controller.Search', {
 		control: {
 			projectSearchBtn: {
 				keyup: 'onSearchKeyUp',
-				clearicontap: 'onSearchClearIconTap'
+				clearicontap: 'onProjectSearchClearIconTap'
 			},
 
 			searchSearchBtn: {
@@ -69368,12 +69360,13 @@ Ext.define('Xpoit.controller.Search', {
 
 	},
 
-	onSearchClearIconTap: function() {
+	onProjectSearchClearIconTap: function() {
 		//call the clearFilter method on the store instance
 		console.log('clear store filter');
 		var store = Ext.data.StoreManager.lookup('Projects');
 		store.clearFilter();
 	},
+
 
 	searchKeyUp: function(field) {
 
