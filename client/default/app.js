@@ -69009,7 +69009,7 @@ Ext.define('Xpoit.controller.Main', {
 				itemtap: 'showProject2'
 			},
 			'#searchListPanel': {
-				disclose: 'showSearch',
+				itemtap: 'showSearch',
 			},
 		},
 	},
@@ -69115,15 +69115,17 @@ Ext.define('Xpoit.controller.Main', {
 
 	},
 
-	showSearch: function(list, record) {
-		console.log('tapped expand search');
+	showSearch: function(list, index, target, record) {
+		console.log('onItemTap: index = ' + index);
+
+		var rec = list.getStore().getAt(index);
+		console.log(rec.data);
 
 		Ext.ComponentManager.get('searchPanel').push({
 			xtype: 'searchView',
 			data: record.data
 		});
 
-		return false;
 	},
 
 
@@ -69316,11 +69318,11 @@ Ext.define('Xpoit.controller.BackBtns', {
 		console.log('going home from search');
 		Ext.Viewport.setActiveItem('home');
 
-		var searchPanel = this.getSearchPanel();
-		if (searchPanel) {
-			Ext.getCmp('searchPanel').destroy();
-			console.log('destroy searchPanel');
-		}
+		// var searchPanel = this.getSearchPanel();
+		// if (searchPanel) {
+		// 	Ext.getCmp('searchPanel').destroy();
+		// 	console.log('destroy searchPanel');
+		// }
 
 	},
 
@@ -69619,7 +69621,6 @@ Ext.define('Xpoit.view.SearchList', {
   cls: 'searchListPanel',
   config: {
     grouped: true,
-    loadingText: 'Loading...',
     indexBar: true,
     itemTpl: '{fname} {lname}' +
       '{commercial} {title}' +
@@ -69723,7 +69724,7 @@ Ext.define('Xpoit.view.Search', {
             hidden: true
         },
         items: [{
-            xtype: 'seachListPanel'
+            xtype: 'searchListPanel'
         }]
     },
 });
