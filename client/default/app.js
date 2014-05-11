@@ -70308,7 +70308,7 @@ Ext.define('Xpoit.controller.Contact', {
 		var facebook = Ext.getStore('Students').first().data.facebook;
 		console.log('tapped facebook ' + facebook);
 		FB.init({
-			appId: 'egpJJoa16KYaE1UCTeWcjktv'
+			appId: '286666784843451'
 		});
 
 		FB.ui({
