@@ -23,7 +23,7 @@ Ext.application({
         'BackBtns',
         'Search',
         'Share',
-        'General'
+        'Contact'
     ],
 
     models: [

@@ -650,6 +650,7 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.viewport.WP"
   ],
   "Xpoit.controller.BackBtns": [],
+  "Xpoit.controller.Contact": [],
   "Xpoit.controller.General": [],
   "Xpoit.controller.Main": [],
   "Xpoit.controller.Navigation": [],
@@ -1403,6 +1404,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
   "Xpoit.controller.BackBtns": [],
+  "Xpoit.controller.Contact": [],
   "Xpoit.controller.General": [],
   "Xpoit.controller.Main": [],
   "Xpoit.controller.Navigation": [],

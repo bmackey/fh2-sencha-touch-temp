@@ -69729,7 +69729,7 @@ Ext.define('Xpoit.controller.Main', {
 		var studentStore = Ext.getStore('Students');
 		studentStore.add(rec.data);
 
-		console.log('student store item:' + studentStore);
+		//console.log('student store item:', JSON.parse(studentStore));
 
 		Ext.ComponentManager.get('mainPanel').push({
 			xtype: 'studentPanel',
@@ -70248,26 +70248,73 @@ Ext.define('Xpoit.controller.Share', {
 
 });
 
-Ext.define('Xpoit.controller.General', {
+Ext.define('Xpoit.controller.Contact', {
 	extend:  Ext.app.Controller ,
 
 	config: {
-		ref: {
-			student: 'studentPanel',
-			studentContactBtn: 'button[id=mail]',
+		refs: {
+			mailStudentBtn: 'button[id=emailStudent]',
+			fbStudentBtn: 'button[id=facebookContact]',
+			twitterStudentBtn: 'button[id=twitBtn]',
+			addToVisit: 'button[id=addFavItem]'
 		},
 		control: {
-			studentContactBtn: {
-				mailPerson: 'email'
+			mailStudentBtn: {
+				tap: 'studentMail'
 			},
+			fbStudentBtn: {
+				tap: 'studentFb'
+			},
+			twitterStudentBtn: {
+				tap: 'studentTwit'
+			},
+			addToVisit: {
+				tap: 'visitItList'
+			}
 		},
 	},
 
-	email: function(event, el) {
-		alert('tapped email');
-		console.log('tapped email');
-	}
+	studentMail: function() {
+		var email = Ext.getStore('Students').first().data.email;
+		console.log('tapped mail ');
+		console.log(email);
+		var subject = 'Student Fair Inquiry';
 
+		var url = 'mailto:' + email + 'user@ example.com ? subject = ' + subject + ' & body = message % 20goes % 20here;'
+
+		window.location.href = 'mailto:' + email + 'user@example.com?subject=' + subject + '&body=message%20goes%20here;'
+
+		$fh.webview({
+			'act': 'open',
+			'url': url,
+			'title': 'Email Student'
+		}, function(res) {
+			if (res === "opened") {
+				//webview window is now open
+			}
+			if (res === "closed") {
+				//webview window is now closed
+			}
+		}, function(msg, err) {
+			alert(msg)
+		});
+
+		//close it
+		$fh.webview({
+			'act': 'close'
+		})
+	},
+	studentFb: function() {
+		var facebook = Ext.getStore('Students ').first().data.facebook;
+		console.log('tapped facebook ' + facebook);
+	},
+	studentTwit: function() {
+		var twitter = Ext.getStore('Students ').first().data.twitter;
+		console.log('tapped twitter ' + twitter);
+	},
+	visitItList: function() {
+		console.log('tapped addFavItem ');
+	}
 });
 
 Ext.define('Xpoit.view.Student', {
@@ -70313,14 +70360,15 @@ Ext.define('Xpoit.view.Student', {
 					text: 'Email',
 					width: '30%',
 					id: 'emailStudent',
-					itemTpl: '{email}',
 				}, {
 					xtype: 'button',
+					id: 'facebookContact',
 					text: 'Facebook',
 					width: '30%',
 				}, {
 					xtype: 'button',
 					text: 'Twitter',
+					id: 'twitBtn',
 					width: '30%',
 				}, ],
 			}, {
@@ -70330,6 +70378,7 @@ Ext.define('Xpoit.view.Student', {
 				},
 				items: [{
 					xtype: 'button',
+					id: 'addFavItem',
 					text: 'Favourite',
 					pack: 'right'
 				}]
@@ -70976,7 +71025,7 @@ Ext.application({
         'BackBtns',
         'Search',
         'Share',
-        'General'
+        'Contact'
     ],
 
     models: [
