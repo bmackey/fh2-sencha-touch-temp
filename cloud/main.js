@@ -36,9 +36,13 @@ exports.findAll = function(params, cb) {
             fname: item.fname,
             lname: item.lname,
             email: item.email,
+            facebook: item.facebook,
+            twitter: item.twitter,
+            imageTxt: item.imageTxt,
             course: item.course,
             title: item.title,
             commercial: item.commercial,
+            location: item.location,
             desc: item.description,
             disciplines: item.disciplines
           });

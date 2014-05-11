@@ -650,6 +650,7 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.viewport.WP"
   ],
   "Xpoit.controller.BackBtns": [],
+  "Xpoit.controller.General": [],
   "Xpoit.controller.Main": [],
   "Xpoit.controller.Navigation": [],
   "Xpoit.controller.Search": [],
@@ -664,7 +665,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xpoit.view.Info": [],
   "Xpoit.view.Main": [],
   "Xpoit.view.MapView": [],
-  "Xpoit.view.Maps": [],
   "Xpoit.view.Project": [],
   "Xpoit.view.ProjectList": [],
   "Xpoit.view.ProjectMain": [],
@@ -1403,6 +1403,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
   "Xpoit.controller.BackBtns": [],
+  "Xpoit.controller.General": [],
   "Xpoit.controller.Main": [],
   "Xpoit.controller.Navigation": [],
   "Xpoit.controller.Search": [],
@@ -1424,9 +1425,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Xpoit.view.MapView": [
     "widget.mapView"
-  ],
-  "Xpoit.view.Maps": [
-    "widget.maps"
   ],
   "Xpoit.view.Project": [
     "widget.projectPanel"

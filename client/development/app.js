@@ -22,7 +22,8 @@ Ext.application({
         'Navigation',
         'BackBtns',
         'Search',
-        'Share'
+        'Share',
+        'General'
     ],
 
     models: [
@@ -49,7 +50,6 @@ Ext.application({
         'SearchView',
         'Home',
         'Info',
-        'Maps',
         'MapView',
     ],
 

@@ -69201,22 +69201,47 @@ Ext.define('Ext.viewport.Viewport', {
 Ext.define('Xpoit.model.Student', {
 	extend:  Ext.data.Model ,
 
+
 	config: {
 		fields: [{
+			name: 'project',
+			type: 'string'
+		}, {
 			name: 'fname',
 			type: 'string'
 		}, {
 			name: 'lname',
 			type: 'string'
 		}, {
+			name: 'email',
+			type: 'string'
+		}, {
+			name: 'facebook',
+			type: 'string'
+		}, {
+			name: 'twitter',
+			type: 'string'
+		}, {
+			name: 'imageTxt',
+			type: 'string'
+		}, {
 			name: 'course',
 			type: 'string'
 		}, {
-			name: 'email',
+			name: 'title',
 			type: 'string'
-		}],
+		}, {
+			name: 'commercial',
+			type: 'string'
+		}, {
+			name: 'desc',
+			type: 'string'
+		}, {
+			name: 'disciplines',
+			type: 'string'
+		}]
 	}
-})
+});
 
 Ext.define('Xpoit.model.Project', {
 	extend:  Ext.data.Model ,
@@ -69256,6 +69281,15 @@ Ext.define('Xpoit.model.Record', {
 			type: 'string'
 		}, {
 			name: 'email',
+			type: 'string'
+		}, {
+			name: 'facebook',
+			type: 'string'
+		}, {
+			name: 'twitter',
+			type: 'string'
+		}, {
+			name: 'imageTxt',
 			type: 'string'
 		}, {
 			name: 'course',
@@ -69609,10 +69643,14 @@ Ext.define('Xpoit.controller.Main', {
 						fname: item.fname,
 						lname: item.lname,
 						email: item.email,
+						facebook: item.facebook,
+						twitter: item.twitter,
+						imageTxt: item.imageTxt,
 						course: item.course,
 						title: item.title,
 						commercial: item.commercial,
-						desc: item.desc,
+						location: item.location,
+						desc: item.description,
 						disciplines: item.disciplines
 					});
 
@@ -69623,8 +69661,8 @@ Ext.define('Xpoit.controller.Main', {
 					var recordStore = Ext.getStore('Records');
 					recordStore.add(records[i]);
 
-					var studentStore = Ext.getStore('Students');
-					studentStore.add(records[i]);
+					// var studentStore = Ext.getStore('Students');
+					// studentStore.add(records[i]);
 
 					var projectStore = Ext.getStore('Projects');
 					projectStore.add(records[i]);
@@ -69673,8 +69711,8 @@ Ext.define('Xpoit.controller.Main', {
 				var recordStore = Ext.getStore('Records');
 				recordStore.add(JSON.parse(retrievedObject));
 
-				var studentStore = Ext.getStore('Students');
-				studentStore.add(JSON.parse(retrievedObject));
+				// var studentStore = Ext.getStore('Students');
+				// studentStore.add(JSON.parse(retrievedObject));
 
 				var projectStore = Ext.getStore('Projects');
 				projectStore.add(JSON.parse(retrievedObject));
@@ -69687,6 +69725,11 @@ Ext.define('Xpoit.controller.Main', {
 
 		var rec = list.getStore().getAt(index);
 		console.log(rec.data);
+
+		var studentStore = Ext.getStore('Students');
+		studentStore.add(rec.data);
+
+		console.log('student store item:' + studentStore);
 
 		Ext.ComponentManager.get('mainPanel').push({
 			xtype: 'studentPanel',
@@ -69713,7 +69756,7 @@ Ext.define('Xpoit.controller.Main', {
 
 		Ext.ComponentManager.get('projectMainPanel').push({
 			xtype: 'projectPanel',
-			data: rec.data
+			data: rec.data,
 		});
 
 	},
@@ -69991,6 +70034,8 @@ Ext.define('Xpoit.controller.BackBtns', {
 
 	returnStudentList: function() {
 		//return to the previous screen
+		var studentStore = Ext.getStore('Students');
+		studentStore.removeAll();
 		Ext.getCmp('mainPanel').pop(1);
 
 	},
@@ -70203,74 +70248,151 @@ Ext.define('Xpoit.controller.Share', {
 
 });
 
-Ext.define('Xpoit.view.Student', {
-	extend:  Ext.Panel ,
-	xtype: 'studentPanel',
+Ext.define('Xpoit.controller.General', {
+	extend:  Ext.app.Controller ,
 
 	config: {
-		title: 'Student Profile',
-		styleHtmlContent: true,
-		tpl: [
-			'<div class="studentInfo">' +
-			'<img class="profileImage" src="resources/images/profile.png" />' +
-			'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
-			'<div class="contact">CONTACT</div>' +
-			'<div class="contactInfo">' +
-			'<img class="contactIcons" id="mail" src="resources/images/icons/mail.png" />' +
-			'<button id="facebook" onClick="shareFb(event)"><img class="contactIcons" src="resources/images/icons/facebook.png" /></button>' +
-			'<img id="twitter" class="contactIcons" src="resources/images/icons/twitter.png" />' +
-			'</div><div class="emailAdd">{email}</div><div class="favAdd" id="visitAdd">' +
-			'<img style="width:50px;" src="resources/images/icons/addFav.png" /></div></div>'
-		],
-
-		items: [{
-			xtype: 'toolbar',
-			docked: 'top',
-			title: 'Student Profile',
-
-			items: [{
-				id: 'studentListBack',
-				cls: 'backBtn',
-				html: '<img src="resources/images/back.png"/>',
-				hidden: Xpoit.hideBack || false,
-			}, {
-				xtype: 'spacer'
-			}, {
-				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-			}]
-		}, {
-			xtype: 'button',
-			cls: 'facebookBtn'
-		}, {
-			xtype: 'toolbar',
-			docked: 'bottom',
-			cls: 'btmNav',
-
-			items: [{
-				id: 'projectBtn2',
-				html: '<img src="resources/images/icons/projectM.png"/>',
-			}, {
-				id: 'locationBtn',
-				html: '<img src="resources/images/icons/location.png"/>',
-			}]
-		}]
+		ref: {
+			student: 'studentPanel',
+			studentContactBtn: 'button[id=mail]',
+		},
+		control: {
+			studentContactBtn: {
+				mailPerson: 'email'
+			},
+		},
 	},
 
-	shareFb: function(e) {
-		//attach listeners
-		this.on('itemtap', function(view, index, target, record, e) {
-			if (e.getTarget('#facebook')) {
-				//clicked on the  button
-
-				alert('sjkslsf');
-				this.fireEvent('myButtonTap', this, index, target, record);
-			} else {
-				//clicked on the content element
-				this.fireEvent('myItemTap', this, index, target, record);
-			}
-		}, this);
-		this.callParent(arguments);
+	email: function(event, el) {
+		alert('tapped email');
+		console.log('tapped email');
 	}
+
+});
+
+Ext.define('Xpoit.view.Student', {
+	extend:  Ext.tab.Panel ,
+	xtype: 'studentPanel',
+	           
+		               
+
+	  
+	config: {
+		tabBarPosition: 'bottom',
+		styleHtmlContent: true,
+
+		items: [{
+			title: 'Student',
+			iconCls: 'user',
+			styleHtmlContent: true,
+			scrollable: true,
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Student Profile',
+
+				items: [{
+					id: 'studentListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, {
+				cls: 'contactInformation',
+				layout: {
+					type: 'hbox',
+					pack: 'center',
+				},
+				items: [{
+					xtype: 'button',
+					text: 'Email',
+					width: '30%',
+					id: 'emailStudent',
+					itemTpl: '{email}',
+				}, {
+					xtype: 'button',
+					text: 'Facebook',
+					width: '30%',
+				}, {
+					xtype: 'button',
+					text: 'Twitter',
+					width: '30%',
+				}, ],
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					text: 'Favourite',
+					pack: 'right'
+				}]
+			}],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: '<div class="studentInfo">' +
+				'<img class="profileImage" src="resources/images/profile.png" />' +
+				'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
+				'<div class="contact" style="text-align:left">CONTACT</div>' +
+				'<div class="contactInfo">',
+			//'<button id="mail" type="button" onclick="alert(123)" value="{email}">Mail</button><button id="facebook" value="{facebook} type="button">Facebook</button><button value="{twitter}" id="twitter" type="button">Twitter</button></div>' +
+			//'</div><img style="width:50px;" src="resources/images/icons/addFav.png" /></div>',
+		}, {
+			title: 'Project',
+			iconCls: 'bookmarks',
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Project Outline',
+				items: [{
+					id: 'studentListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: '{project}{title}{commercial}',
+		}, {
+			title: 'Location',
+			iconCls: 'maps',
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Map Location',
+				items: [{
+					id: 'studentListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+			html: 'Map to come......'
+			//itemTpl: '{}',
+		}]
+	},
 
 });
 
@@ -70283,7 +70405,7 @@ Ext.define('Xpoit.view.StudentList', {
     grouped: true,
     indexBar: true,
     itemTpl: '{fname} {lname}',
-    store: 'Students',
+    store: 'Records',
 
     onItemDisclosure: true,
 
@@ -70738,55 +70860,6 @@ Ext.define('Xpoit.view.Info', {
     }
 });
 
-Ext.define('Xpoit.view.Maps', {
-    requires: [
-
-    ],
-    extend:  Ext.Panel ,
-    xtype: 'maps',
-    id: 'maps',
-
-    config: {
-        iconCls: 'info',
-        styleHtmlContent: true,
-        scrollable: 'vertical',
-        style: 'background-color:#6d6e71;',
-        layout: 'vbox',
-        items: [{
-            xtype: 'toolbar',
-            docked: 'top',
-            align: 'center',
-            pack: 'center',
-            style: 'text-align:center',
-            title: 'Location Maps',
-            layout: {
-                type: 'hbox',
-
-            },
-            items: [{
-                cls: 'backBtn',
-                id: 'mapBackBtn',
-                html: '<img src="resources/images/back.png"/>',
-                hidden: Xpoit.hideBack || false,
-
-            }, {
-                xtype: 'spacer'
-            }, {
-                html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-            }, ]
-        }, {
-            id: 'floorPlan',
-
-            html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.pdf&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
-
-
-
-            //html: '<iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.pdf&embedded=true" style="width:100%; float:left;" frameborder="0"></iframe>',
-            centered: true
-        }]
-    },
-});
-
 Ext.define('Xpoit.view.MapView', {
     extend:  Ext.tab.Panel ,
     xtype: 'mapView',
@@ -70902,7 +70975,8 @@ Ext.application({
         'Navigation',
         'BackBtns',
         'Search',
-        'Share'
+        'Share',
+        'General'
     ],
 
     models: [
@@ -70929,7 +71003,6 @@ Ext.application({
         'SearchView',
         'Home',
         'Info',
-        'Maps',
         'MapView',
     ],
 

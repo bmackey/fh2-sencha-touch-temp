@@ -286,6 +286,7 @@ color: #599397;
   border: white solid 2px;
   padding: 10px 10px 0 10px;
   color: #fff;
+  padding-bottom: 60%;
 }
 
 .studentInfo h2 {
@@ -433,4 +434,17 @@ color: #ffffff;
   line-height: 12px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+.contactInformation {
+  height: 50px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+}
+
+.addToFav {
+  height: 50px;
+  position: absolute;
+  bottom: 15%;
 }
