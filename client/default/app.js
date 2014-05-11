@@ -70313,8 +70313,8 @@ Ext.define('Xpoit.controller.Contact', {
 
 		FB.ui({
 			method: 'feed',
-			link: 'https://developers.facebook.com/docs/dialogs/',
-			caption: 'An example caption',
+			//link: 'http://www.xpoitapp.com/',
+			//caption: 'An example caption',
 		}, function(response) {});
 	},
 	studentTwit: function() {
