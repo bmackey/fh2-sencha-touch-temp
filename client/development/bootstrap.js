@@ -663,6 +663,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xpoit.view.Home": [],
   "Xpoit.view.Info": [],
   "Xpoit.view.Main": [],
+  "Xpoit.view.MapView": [],
   "Xpoit.view.Maps": [],
   "Xpoit.view.Project": [],
   "Xpoit.view.ProjectList": [],
@@ -1420,6 +1421,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Xpoit.view.Main": [
     "widget.mainPanel"
+  ],
+  "Xpoit.view.MapView": [
+    "widget.mapView"
   ],
   "Xpoit.view.Maps": [
     "widget.maps"

@@ -49,7 +49,8 @@ Ext.application({
         'SearchView',
         'Home',
         'Info',
-        'Maps'
+        'Maps',
+        'MapView',
     ],
 
     icon: {

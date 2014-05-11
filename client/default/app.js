@@ -66715,6 +66715,594 @@ Ext.define('Ext.navigation.View', {
 });
 
 /**
+ * Used in the {@link Ext.tab.Bar} component. This shouldn't be used directly, instead use
+ * {@link Ext.tab.Bar} or {@link Ext.tab.Panel}.
+ * @private
+ */
+Ext.define('Ext.tab.Tab', {
+    extend:  Ext.Button ,
+    xtype: 'tab',
+    alternateClassName: 'Ext.Tab',
+
+    // @private
+    isTab: true,
+
+    config: {
+        /**
+         * @cfg baseCls
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'tab',
+
+        /**
+         * @cfg {String} pressedCls
+         * The CSS class to be applied to a Tab when it is pressed.
+         * Providing your own CSS for this class enables you to customize the pressed state.
+         * @accessor
+         */
+        pressedCls: Ext.baseCSSPrefix + 'tab-pressed',
+
+        /**
+         * @cfg {String} activeCls
+         * The CSS class to be applied to a Tab when it is active.
+         * Providing your own CSS for this class enables you to customize the active state.
+         * @accessor
+         */
+        activeCls: Ext.baseCSSPrefix + 'tab-active',
+
+        /**
+         * @cfg {Boolean} active
+         * Set this to `true` to have the tab be active by default.
+         * @accessor
+         */
+        active: false,
+
+        /**
+         * @cfg {String} title
+         * The title of the card that this tab is bound to.
+         * @accessor
+         */
+        title: '&nbsp;'
+    },
+
+    updateIconCls : function(newCls, oldCls) {
+        this.callParent([newCls, oldCls]);
+
+        if (oldCls) {
+            this.removeCls('x-tab-icon');
+        }
+
+        if (newCls) {
+            this.addCls('x-tab-icon');
+        }
+    },
+
+    /**
+     * @event activate
+     * Fires when a tab is activated
+     * @param {Ext.tab.Tab} this
+     */
+
+    /**
+     * @event deactivate
+     * Fires when a tab is deactivated
+     * @param {Ext.tab.Tab} this
+     */
+
+    updateTitle: function(title) {
+        this.setText(title);
+    },
+
+    updateActive: function(active, oldActive) {
+        var activeCls = this.getActiveCls();
+        if (active && !oldActive) {
+            this.element.addCls(activeCls);
+            this.fireEvent('activate', this);
+        } else if (oldActive) {
+            this.element.removeCls(activeCls);
+            this.fireEvent('deactivate', this);
+        }
+    }
+}, function() {
+    this.override({
+        activate: function() {
+            this.setActive(true);
+        },
+
+        deactivate: function() {
+            this.setActive(false);
+        }
+    });
+});
+
+/**
+ * Ext.tab.Bar is used internally by {@link Ext.tab.Panel} to create the bar of tabs that appears at the top of the tab
+ * panel. It's unusual to use it directly, instead see the {@link Ext.tab.Panel tab panel docs} for usage instructions.
+ *
+ * Used in the {@link Ext.tab.Panel} component to display {@link Ext.tab.Tab} components.
+ *
+ * @private
+ */
+Ext.define('Ext.tab.Bar', {
+    extend:  Ext.Toolbar ,
+    alternateClassName: 'Ext.TabBar',
+    xtype : 'tabbar',
+
+                              
+
+    config: {
+        /**
+         * @cfg baseCls
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'tabbar',
+
+        // @private
+        defaultType: 'tab',
+
+        // @private
+        layout: {
+            type: 'hbox',
+            align: 'middle'
+        }
+    },
+
+    eventedConfig: {
+        /**
+         * @cfg {Number/String/Ext.Component} activeTab
+         * The initially activated tab. Can be specified as numeric index,
+         * component ID or as the component instance itself.
+         * @accessor
+         * @evented
+         */
+        activeTab: null
+    },
+
+    /**
+     * @event tabchange
+     * Fired when active tab changes.
+     * @param {Ext.tab.Bar} this
+     * @param {Ext.tab.Tab} newTab The new Tab
+     * @param {Ext.tab.Tab} oldTab The old Tab
+     */
+
+    platformConfig: [{
+        theme: ['Blackberry', 'CupertinoClassic', 'MountainView'],
+        defaults: {
+            flex: 1
+        }
+    }],
+
+    initialize: function() {
+        var me = this;
+        me.callParent();
+
+        me.on({
+            tap: 'onTabTap',
+
+            delegate: '> tab',
+            scope   : me
+        });
+    },
+
+    // @private
+    onTabTap: function(tab) {
+        this.setActiveTab(tab);
+    },
+
+    /**
+     * @private
+     */
+    applyActiveTab: function(newActiveTab, oldActiveTab) {
+        if (!newActiveTab && newActiveTab !== 0) {
+            return;
+        }
+
+        var newTabInstance = this.parseActiveTab(newActiveTab);
+
+        if (!newTabInstance) {
+            if (oldActiveTab) {
+                Ext.Logger.warn('Trying to set a non-existent activeTab');
+            }
+            return;
+        }
+        return newTabInstance;
+    },
+
+    /**
+     * @private
+     * Default pack to center when docked to the bottom, otherwise default pack to left
+     */
+    doSetDocked: function(newDocked) {
+        var layout = this.getLayout(),
+            initialConfig = this.getInitialConfig(),
+            pack;
+
+        if (!initialConfig.layout || !initialConfig.layout.pack) {
+            pack = (newDocked == 'bottom') ? 'center' : 'left';
+            //layout isn't guaranteed to be instantiated so must test
+            if (layout.isLayout) {
+                layout.setPack(pack);
+            } else {
+                layout.pack = (layout && layout.pack) ? layout.pack : pack;
+            }
+        }
+
+		this.callParent(arguments);
+    },
+
+    /**
+     * @private
+     * Sets the active tab
+     */
+    doSetActiveTab: function(newTab, oldTab) {
+        if (newTab) {
+            newTab.setActive(true);
+        }
+
+        //Check if the parent is present, if not it is destroyed
+        if (oldTab && oldTab.parent) {
+            oldTab.setActive(false);
+        }
+    },
+
+    /**
+     * @private
+     * Parses the active tab, which can be a number or string
+     */
+    parseActiveTab: function(tab) {
+        //we need to call getItems to initialize the items, otherwise they will not exist yet.
+        if (typeof tab == 'number') {
+			return this.getItems().items[tab];
+        }
+        else if (typeof tab == 'string') {
+            tab = Ext.getCmp(tab);
+        }
+        return tab;
+    }
+});
+
+/**
+ * @aside guide tabs
+ * @aside video tabs-toolbars
+ * @aside example tabs
+ * @aside example tabs-bottom
+ *
+ * Tab Panels are a great way to allow the user to switch between several pages that are all full screen. Each
+ * Component in the Tab Panel gets its own Tab, which shows the Component when tapped on. Tabs can be positioned at
+ * the top or the bottom of the Tab Panel, and can optionally accept title and icon configurations.
+ *
+ * Here's how we can set up a simple Tab Panel with tabs at the bottom. Use the controls at the top left of the example
+ * to toggle between code mode and live preview mode (you can also edit the code and see your changes in the live
+ * preview):
+ *
+ *     @example miniphone preview
+ *     Ext.create('Ext.TabPanel', {
+ *         fullscreen: true,
+ *         tabBarPosition: 'bottom',
+ *
+ *         defaults: {
+ *             styleHtmlContent: true
+ *         },
+ *
+ *         items: [
+ *             {
+ *                 title: 'Home',
+ *                 iconCls: 'home',
+ *                 html: 'Home Screen'
+ *             },
+ *             {
+ *                 title: 'Contact',
+ *                 iconCls: 'user',
+ *                 html: 'Contact Screen'
+ *             }
+ *         ]
+ *     });
+ * One tab was created for each of the {@link Ext.Panel panels} defined in the items array. Each tab automatically uses
+ * the title and icon defined on the item configuration, and switches to that item when tapped on. We can also position
+ * the tab bar at the top, which makes our Tab Panel look like this:
+ *
+ *     @example miniphone preview
+ *     Ext.create('Ext.TabPanel', {
+ *         fullscreen: true,
+ *
+ *         defaults: {
+ *             styleHtmlContent: true
+ *         },
+ *
+ *         items: [
+ *             {
+ *                 title: 'Home',
+ *                 html: 'Home Screen'
+ *             },
+ *             {
+ *                 title: 'Contact',
+ *                 html: 'Contact Screen'
+ *             }
+ *         ]
+ *     });
+ *
+ */
+Ext.define('Ext.tab.Panel', {
+    extend:  Ext.Container ,
+    xtype : 'tabpanel',
+    alternateClassName: 'Ext.TabPanel',
+
+                              
+
+    config: {
+        /**
+         * @cfg {String} ui
+         * Sets the UI of this component.
+         * Available values are: `light` and `dark`.
+         * @accessor
+         */
+        ui: 'dark',
+
+        /**
+         * @cfg {Object} tabBar
+         * An Ext.tab.Bar configuration.
+         * @accessor
+         */
+        tabBar: true,
+
+        /**
+         * @cfg {String} tabBarPosition
+         * The docked position for the {@link #tabBar} instance.
+         * Possible values are 'top' and 'bottom'.
+         * @accessor
+         */
+        tabBarPosition: 'top',
+
+        /**
+         * @cfg layout
+         * @inheritdoc
+         */
+        layout: {
+            type: 'card',
+            animation: {
+                type: 'slide',
+                direction: 'left'
+            }
+        },
+
+        /**
+         * @cfg cls
+         * @inheritdoc
+         */
+        cls: Ext.baseCSSPrefix + 'tabpanel'
+
+        /**
+         * @cfg {Boolean/String/Object} scrollable
+         * @accessor
+         * @hide
+         */
+
+        /**
+         * @cfg {Boolean/String/Object} scroll
+         * @hide
+         */
+    },
+
+    initialize: function() {
+        this.callParent();
+
+        this.on({
+            order: 'before',
+            activetabchange: 'doTabChange',
+            delegate: '> tabbar',
+            scope   : this
+        });
+
+        this.on({
+            disabledchange: 'onItemDisabledChange',
+            delegate: '> component',
+            scope   : this
+        });
+    },
+
+    platformConfig: [{
+        theme: ['Blackberry'],
+        tabBarPosition: 'bottom'
+    }],
+
+    /**
+     * Tab panels should not be scrollable. Instead, you should add scrollable to any item that
+     * you want to scroll.
+     * @private
+     */
+    applyScrollable: function() {
+        return false;
+    },
+
+    /**
+     * Updates the Ui for this component and the {@link #tabBar}.
+     */
+    updateUi: function(newUi, oldUi) {
+        this.callParent(arguments);
+
+        if (this.initialized) {
+            this.getTabBar().setUi(newUi);
+        }
+    },
+
+    /**
+     * @private
+     */
+    doSetActiveItem: function(newActiveItem, oldActiveItem) {
+        if (newActiveItem) {
+            var items = this.getInnerItems(),
+                oldIndex = items.indexOf(oldActiveItem),
+                newIndex = items.indexOf(newActiveItem),
+                reverse = oldIndex > newIndex,
+                animation = this.getLayout().getAnimation(),
+                tabBar = this.getTabBar(),
+                oldTab = tabBar.parseActiveTab(oldIndex),
+                newTab = tabBar.parseActiveTab(newIndex);
+
+            if (animation && animation.setReverse) {
+                animation.setReverse(reverse);
+            }
+
+            this.callParent(arguments);
+
+            if (newIndex != -1) {
+                this.forcedChange = true;
+                tabBar.setActiveTab(newIndex);
+                this.forcedChange = false;
+
+                if (oldTab) {
+                    oldTab.setActive(false);
+                }
+
+                if (newTab) {
+                    newTab.setActive(true);
+                }
+            }
+        }
+    },
+
+    /**
+     * Updates this container with the new active item.
+     * @param {Object} tabBar
+     * @param {Object} newTab
+     * @return {Boolean}
+     */
+    doTabChange: function(tabBar, newTab) {
+        var oldActiveItem = this.getActiveItem(),
+            newActiveItem;
+
+        this.setActiveItem(tabBar.indexOf(newTab));
+        newActiveItem = this.getActiveItem();
+        return this.forcedChange || oldActiveItem !== newActiveItem;
+    },
+
+    /**
+     * Creates a new {@link Ext.tab.Bar} instance using {@link Ext#factory}.
+     * @param {Object} config
+     * @return {Object}
+     * @private
+     */
+    applyTabBar: function(config) {
+        if (config === true) {
+            config = {};
+        }
+
+        if (config) {
+            Ext.applyIf(config, {
+                ui: this.getUi(),
+                docked: this.getTabBarPosition()
+            });
+        }
+
+        return Ext.factory(config, Ext.tab.Bar, this.getTabBar());
+    },
+
+    /**
+     * Adds the new {@link Ext.tab.Bar} instance into this container.
+     * @private
+     */
+    updateTabBar: function(newTabBar) {
+        if (newTabBar) {
+            this.add(newTabBar);
+            this.setTabBarPosition(newTabBar.getDocked());
+        }
+    },
+
+    /**
+     * Updates the docked position of the {@link #tabBar}.
+     * @private
+     */
+    updateTabBarPosition: function(position) {
+        var tabBar = this.getTabBar();
+        if (tabBar) {
+            tabBar.setDocked(position);
+        }
+    },
+
+    onItemAdd: function(card) {
+        var me = this;
+
+        if (!card.isInnerItem()) {
+            return me.callParent(arguments);
+        }
+
+        var tabBar = me.getTabBar(),
+            initialConfig = card.getInitialConfig(),
+            tabConfig = initialConfig.tab || {},
+            tabTitle = (card.getTitle) ? card.getTitle() : initialConfig.title,
+            tabIconCls = (card.getIconCls) ? card.getIconCls() : initialConfig.iconCls,
+            tabHidden = (card.getHidden) ? card.getHidden() : initialConfig.hidden,
+            tabDisabled = (card.getDisabled) ? card.getDisabled() : initialConfig.disabled,
+            tabBadgeText = (card.getBadgeText) ? card.getBadgeText() : initialConfig.badgeText,
+            innerItems = me.getInnerItems(),
+            index = innerItems.indexOf(card),
+            tabs = tabBar.getItems(),
+            activeTab = tabBar.getActiveTab(),
+            currentTabInstance = (tabs.length >= innerItems.length) && tabs.getAt(index),
+            tabInstance;
+
+        if (tabTitle && !tabConfig.title) {
+            tabConfig.title = tabTitle;
+        }
+
+        if (tabIconCls && !tabConfig.iconCls) {
+            tabConfig.iconCls = tabIconCls;
+        }
+
+        if (tabHidden && !tabConfig.hidden) {
+            tabConfig.hidden = tabHidden;
+        }
+
+        if (tabDisabled && !tabConfig.disabled) {
+            tabConfig.disabled = tabDisabled;
+        }
+
+        if (tabBadgeText && !tabConfig.badgeText) {
+            tabConfig.badgeText = tabBadgeText;
+        }
+
+        if (!currentTabInstance && !tabConfig.title && !tabConfig.iconCls) {
+            if (!tabConfig.title && !tabConfig.iconCls) {
+                Ext.Logger.error('Adding a card to a tab container without specifying any tab configuration');
+            }
+        }
+
+        tabInstance = Ext.factory(tabConfig, Ext.tab.Tab, currentTabInstance);
+
+        if (!currentTabInstance) {
+            tabBar.insert(index, tabInstance);
+        }
+
+        card.tab = tabInstance;
+
+        me.callParent(arguments);
+
+        if (!activeTab && activeTab !== 0) {
+            tabBar.setActiveTab(tabBar.getActiveItem());
+        }
+    },
+
+    /**
+     * If an item gets enabled/disabled and it has an tab, we should also enable/disable that tab
+     * @private
+     */
+    onItemDisabledChange: function(item, newDisabled) {
+        if (item && item.tab) {
+            item.tab.setDisabled(newDisabled);
+        }
+    },
+
+    // @private
+    onItemRemove: function(item, index) {
+        this.getTabBar().remove(item.tab, this.getAutoDestroy());
+
+        this.callParent(arguments);
+    }
+}, function() {
+});
+
+/**
  * @private
  * Base class for iOS and Android viewports.
  */
@@ -69164,7 +69752,7 @@ Ext.define('Xpoit.controller.Navigation', {
 		refs: {
 			homePanel: 'home',
 			infoPanel: 'info',
-			mapPanel: 'maps',
+			mapPanel: 'mapView',
 			projectMain: '#projectMainPanel',
 			searchPanel: 'searchPanel',
 			searchPage: '#searchBtn',
@@ -69310,8 +69898,8 @@ Ext.define('Xpoit.controller.Navigation', {
 		if (mapPanel) {
 			Ext.Viewport.setActiveItem('maps');
 		} else {
-			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Maps'));
-			console.log('creating infoPanel');
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.MapView'));
+			console.log('creating map Panel');
 		}
 	}
 
@@ -69410,6 +69998,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 	showHomeMap: function() {
 		console.log('going home from maps');
 		Ext.Viewport.setActiveItem('home');
+
 	},
 
 });
@@ -70198,6 +70787,64 @@ Ext.define('Xpoit.view.Maps', {
     },
 });
 
+Ext.define('Xpoit.view.MapView', {
+    extend:  Ext.tab.Panel ,
+    xtype: 'mapView',
+    requires: [
+
+    ],
+    config: {
+        tabBarPosition: 'bottom',
+
+        items: [{
+            title: 'Ground',
+            iconCls: 'maps',
+
+            styleHtmlContent: true,
+            scrollable: true,
+
+            items: {
+                docked: 'top',
+                xtype: 'toolbar',
+                title: 'Ground Floor Map',
+                items: [{
+                    cls: 'backBtn',
+                    id: 'mapBackBtn',
+                    html: '<img src="resources/images/back.png"/>',
+                    hidden: Xpoit.hideBack || false,
+                }, {
+                    xtype: 'spacer'
+                }, {
+                    html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+                }, ]
+            },
+
+            html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.pdf&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
+        }, {
+            title: 'First',
+            iconCls: 'more',
+
+            items: [{
+                docked: 'top',
+                xtype: 'toolbar',
+                title: 'First Floor Map',
+                items: [{
+                    cls: 'backBtn',
+                    id: 'mapBackBtn',
+                    html: '<img src="resources/images/back.png"/>',
+                    hidden: Xpoit.hideBack || false,
+                }, {
+                    xtype: 'spacer'
+                }, {
+                    html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+                }, ]
+            }, {
+                html: '<div id="frameContainer2"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20First%20Floor.pdf&embedded=true" name="frame3" id="frame3" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
+            }, ],
+        }]
+    }
+});
+
 Ext.define('Xpoit.store.Students', {
 	extend:  Ext.data.Store ,
 
@@ -70282,7 +70929,8 @@ Ext.application({
         'SearchView',
         'Home',
         'Info',
-        'Maps'
+        'Maps',
+        'MapView',
     ],
 
     icon: {
