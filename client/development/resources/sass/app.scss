@@ -348,3 +348,30 @@ color: #599397;
   border: 2px solid #fff;
   padding: 10px;
 }
+
+
+/*-------------social media btns -----------*/
+
+.facebookBtn {
+  background: url(../images/icons/facebook.png);
+  border: none;
+  height: 100px;
+  /* padding: 10px; */
+  background-repeat: no-repeat;
+  background-size: 20%
+}
+
+
+/*--------------iFrame ------------------*/
+#frameContainer {
+
+    position: fixed;
+    top:5%;
+    left: 0px;
+    width: 100%;
+    bottom: 25px;
+    min-width: 200px;
+
+}
+
+iframe#frame2 { width: 100%; height:100% }

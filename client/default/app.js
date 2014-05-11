@@ -68997,6 +68997,9 @@ Ext.define('Xpoit.controller.Main', {
 			'#searchListPanel': {
 				itemtap: 'showSearch',
 			},
+			'#maps': {
+				initalize: 'mapScreen'
+			},
 		},
 	},
 
@@ -69140,6 +69143,17 @@ Ext.define('Xpoit.controller.Main', {
 
 	},
 
+	mapSreen: function() {
+		$(function() {
+			var widthRatio = $('#frameContainer').width() / $(window).width();
+			$(window).resize(function() {
+				$('#frameContainer').css({
+					width: $(window).width() * widthRatio
+				});
+			});
+		});
+	},
+
 
 });
 
@@ -69150,6 +69164,7 @@ Ext.define('Xpoit.controller.Navigation', {
 		refs: {
 			homePanel: 'home',
 			infoPanel: 'info',
+			mapPanel: 'maps',
 			projectMain: '#projectMainPanel',
 			searchPanel: 'searchPanel',
 			searchPage: '#searchBtn',
@@ -69159,7 +69174,7 @@ Ext.define('Xpoit.controller.Navigation', {
 			mapPage: '#mapBtn',
 			visitPage: '#visitBtn',
 			notePopUp: '#noteBtn',
-			infoPage: '#infoBtn'
+			infoPage: '#infoBtn',
 
 		},
 		control: {
@@ -69177,6 +69192,9 @@ Ext.define('Xpoit.controller.Navigation', {
 			},
 			infoPage: {
 				tap: 'openInfo'
+			},
+			mapPage: {
+				tap: 'openMap'
 			}
 		},
 	},
@@ -69281,6 +69299,20 @@ Ext.define('Xpoit.controller.Navigation', {
 			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Info'));
 			console.log('creating infoPanel');
 		}
+	},
+
+	openMap: function() {
+
+		console.log('hitting maps');
+
+		var mapPanel = this.getMapPanel();
+
+		if (mapPanel) {
+			Ext.Viewport.setActiveItem('maps');
+		} else {
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Maps'));
+			console.log('creating infoPanel');
+		}
 	}
 
 });
@@ -69302,6 +69334,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 			studentBackHome: 'button[id=studentListHomeBtn]',
 			searchBack: 'button[id=searchBackBtn]',
 			searchViewBack: 'button[id=searchViewBack]',
+			mapBack: '#mapBackBtn',
 
 		},
 		control: {
@@ -69328,6 +69361,9 @@ Ext.define('Xpoit.controller.BackBtns', {
 			},
 			studentBackHome: {
 				tap: 'showHomeStudent'
+			},
+			mapBack: {
+				tap: 'showHomeMap'
 			},
 		},
 	},
@@ -69369,6 +69405,11 @@ Ext.define('Xpoit.controller.BackBtns', {
 		//return to the previous screen
 		Ext.getCmp('mainPanel').pop(1);
 
+	},
+
+	showHomeMap: function() {
+		console.log('going home from maps');
+		Ext.Viewport.setActiveItem('home');
 	},
 
 });
@@ -69608,6 +69649,9 @@ Ext.define('Xpoit.view.Student', {
 			}, {
 				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 			}]
+		}, {
+			xtype: 'button',
+			cls: 'facebookBtn'
 		}, {
 			xtype: 'toolbar',
 			docked: 'bottom',
@@ -70105,6 +70149,55 @@ Ext.define('Xpoit.view.Info', {
     }
 });
 
+Ext.define('Xpoit.view.Maps', {
+    requires: [
+
+    ],
+    extend:  Ext.Panel ,
+    xtype: 'maps',
+    id: 'maps',
+
+    config: {
+        iconCls: 'info',
+        styleHtmlContent: true,
+        scrollable: 'vertical',
+        style: 'background-color:#6d6e71;',
+        layout: 'vbox',
+        items: [{
+            xtype: 'toolbar',
+            docked: 'top',
+            align: 'center',
+            pack: 'center',
+            style: 'text-align:center',
+            title: 'Location Maps',
+            layout: {
+                type: 'hbox',
+
+            },
+            items: [{
+                cls: 'backBtn',
+                id: 'mapBackBtn',
+                html: '<img src="resources/images/back.png"/>',
+                hidden: Xpoit.hideBack || false,
+
+            }, {
+                xtype: 'spacer'
+            }, {
+                html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+            }, ]
+        }, {
+            id: 'floorPlan',
+
+            html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.pdf&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
+
+
+
+            //html: '<iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.pdf&embedded=true" style="width:100%; float:left;" frameborder="0"></iframe>',
+            centered: true
+        }]
+    },
+});
+
 Ext.define('Xpoit.store.Students', {
 	extend:  Ext.data.Store ,
 
@@ -70188,7 +70281,8 @@ Ext.application({
         'SearchList',
         'SearchView',
         'Home',
-        'Info'
+        'Info',
+        'Maps'
     ],
 
     icon: {

@@ -48,7 +48,8 @@ Ext.application({
         'SearchList',
         'SearchView',
         'Home',
-        'Info'
+        'Info',
+        'Maps'
     ],
 
     icon: {
