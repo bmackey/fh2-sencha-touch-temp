@@ -70305,11 +70305,20 @@ Ext.define('Xpoit.controller.Contact', {
 		})
 	},
 	studentFb: function() {
-		var facebook = Ext.getStore('Students ').first().data.facebook;
+		var facebook = Ext.getStore('Students').first().data.facebook;
 		console.log('tapped facebook ' + facebook);
+		FB.init({
+			appId: 'egpJJoa16KYaE1UCTeWcjktv'
+		});
+
+		FB.ui({
+			method: 'feed',
+			link: 'https://developers.facebook.com/docs/dialogs/',
+			caption: 'An example caption',
+		}, function(response) {});
 	},
 	studentTwit: function() {
-		var twitter = Ext.getStore('Students ').first().data.twitter;
+		var twitter = Ext.getStore('Students').first().data.twitter;
 		console.log('tapped twitter ' + twitter);
 	},
 	visitItList: function() {
