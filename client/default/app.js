@@ -69696,6 +69696,8 @@ Ext.define('Xpoit.controller.Main', {
 
 	init: function() {
 		console.log('inside init');
+		var localStore = Ext.getStore('LocalFavs');
+		localStore.load();
 
 		$fh.act({
 				"act": "findAll"
@@ -70522,6 +70524,9 @@ Ext.define('Xpoit.controller.Visit', {
 	},
 
 	visitItList: function() {
+
+		localStorage.removeItem('favs');
+
 		console.log('tapped addFavItem ');
 		project = Ext.getStore('Students').first().data;
 		console.log(project);
@@ -70538,12 +70543,12 @@ Ext.define('Xpoit.controller.Visit', {
 
 		console.log(data);
 
-		// localStorage["favs"] = JSON.stringify(project);
-		// var storedData = JSON.parse(localStorage["favs"]);
+		localStorage["favs"] = JSON.stringify(data);
+		var storedData = JSON.parse(localStorage["favs"]);
 
-		//var retrievedObject = localStorage.getItem('favs');
+		var retrievedObject = localStorage.getItem('favs');
 
-		// console.log('records in localStorage FAVOURITES:', JSON.parse(retrievedObject));
+		console.log('records in localStorage FAVOURITES:', JSON.parse(retrievedObject));
 
 		// var local = Ext.getStore('LocalFavs');
 		// local.add(JSON.parse(retrievedObject));
@@ -70556,19 +70561,50 @@ Ext.define('Xpoit.controller.Visit', {
 		console.log('tapped favourite remove item');
 
 
+		//move to previous screen and alert removal of record
+		Ext.getCmp('visitItMainPanel').pop(1);
+		Ext.Msg.alert("Record Removed from VisitIt!", "Item has been removed from favourites.", function(btn) {});
+
 		var project = Ext.getStore('Students').first().data.project;
 		console.log(project);
 
-		var localStore = [];
-		localStore = Ext.getStore('LocalFavs');
+		//get items currently in Local Favs store
+		var localStore = Ext.getStore('LocalFavs');
+		var data = [];
+		localStore.each(function(rec) {
+			data.push(rec.data);
+		});
+		//show data in local favs store
+		console.log(data);
 
 		var removalRecord = localStore.findRecord('project', project);
+		console.log('record to be removed', removalRecord);
+
+		var studentStore = Ext.getStore('Students');
+		studentStore.removeAll();
 
 		localStore.remove(removalRecord);
-
 		// sync store
 		localStore.sync();
-		Ext.Msg.alert("Record Removed from VisitIt!", "Item has been removed from favourites.", function(btn) {});
+
+		//remove local storage items
+		localStorage.removeItem('favs');
+
+
+		var data2 = [];
+		localStore.each(function(rec) {
+			data2.push(rec.data);
+		});
+
+		console.log('resulting array in storage', data2);
+
+		localStorage["favs"] = JSON.stringify(data2);
+		var storedData = JSON.parse(localStorage["favs"]);
+
+		var retrievedObject = localStorage.getItem('favs');
+
+		console.log('records in localStorage FAVOURITES after removal:', JSON.parse(retrievedObject));
+		visitListPanel.refresh();
 
 
 	}
