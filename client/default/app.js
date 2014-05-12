@@ -69697,18 +69697,33 @@ Ext.define('Xpoit.controller.Main', {
 	init: function() {
 		console.log('inside init');
 
-		//populate the store for visitIt from local storage
+		var favStore = Ext.getStore('LocalFavs');
 
-		var retrievedfavs = localStorage.getItem('favs');
+		favStore.load();
 
-		console.log('records in favs storage from main.js controller', JSON.parse(retrievedfavs));
 
-		var localStore = Ext.getStore('LocalFavs');
-		localStore.removeAll();
-		localStore.add(JSON.parse(retrievedfavs));
+		if (localStorage.favs) {
+			//populate the store for visitIt from local storage
 
-		localStore.load();
+			var retrievedfavs = localStorage.getItem('favs');
 
+			console.log('records in favs storage from main.js controller', JSON.parse(retrievedfavs));
+
+			favStore.add(JSON.parse(retrievedfavs));
+		}
+		// favStore.on('load', function(store, records) {
+		// 	if (records.length == 0) {
+		// 		console.log('local storage empty');
+		// 	} else {
+		// 		//populate the store for visitIt from local storage
+
+		// 		var retrievedfavs = localStorage.getItem('favs');
+
+		// 		console.log('records in favs storage from main.js controller', JSON.parse(retrievedfavs));
+
+		// 		favStore.add(JSON.parse(retrievedfavs));
+		// 	}
+		// });
 
 		$fh.act({
 				"act": "findAll"
