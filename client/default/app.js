@@ -69696,8 +69696,19 @@ Ext.define('Xpoit.controller.Main', {
 
 	init: function() {
 		console.log('inside init');
+
+		//populate the store for visitIt from local storage
+
+		var retrievedfavs = localStorage.getItem('favs');
+
+		console.log('records in favs storage from main.js controller', JSON.parse(retrievedfavs));
+
 		var localStore = Ext.getStore('LocalFavs');
+		localStore.removeAll();
+		localStore.add(JSON.parse(retrievedfavs));
+
 		localStore.load();
+
 
 		$fh.act({
 				"act": "findAll"
