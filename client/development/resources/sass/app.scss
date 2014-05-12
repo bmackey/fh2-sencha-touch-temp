@@ -339,6 +339,43 @@ color: #599397;
   text-align: center;
 }
 
+.emailStudent{
+  background-image: url(../images/icons/mail.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+}
+
+.facebookContact{
+  background-image: url(../images/icons/facebook.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+}
+
+.twitBtn{
+  background-image: url(../images/icons/twitter.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+}
+
+.addFavItem{
+  background-image: url(../images/icons/addFav.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+}
+
+.removeFavItem{
+  background-image: url(../images/icons/removeFav.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: 50%;
+}
+
+
+
 
 /*--------------information page -----------*/
 .infoContainer{
@@ -447,4 +484,5 @@ color: #ffffff;
   height: 50px;
   position: absolute;
   bottom: 15%;
+  left: 65%;
 }

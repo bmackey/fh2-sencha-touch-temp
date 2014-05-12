@@ -656,9 +656,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xpoit.controller.Navigation": [],
   "Xpoit.controller.Search": [],
   "Xpoit.controller.Share": [],
+  "Xpoit.controller.Visit": [],
+  "Xpoit.model.LocalFav": [],
   "Xpoit.model.Project": [],
   "Xpoit.model.Record": [],
   "Xpoit.model.Student": [],
+  "Xpoit.store.LocalFavs": [],
   "Xpoit.store.Projects": [],
   "Xpoit.store.Records": [],
   "Xpoit.store.Students": [],
@@ -673,7 +676,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xpoit.view.SearchList": [],
   "Xpoit.view.SearchView": [],
   "Xpoit.view.Student": [],
-  "Xpoit.view.StudentList": []
+  "Xpoit.view.StudentList": [],
+  "Xpoit.view.VisitIt": [],
+  "Xpoit.view.VisitItList": [],
+  "Xpoit.view.VisitItMain": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1410,9 +1416,12 @@ Ext.ClassManager.addNameAliasMappings({
   "Xpoit.controller.Navigation": [],
   "Xpoit.controller.Search": [],
   "Xpoit.controller.Share": [],
+  "Xpoit.controller.Visit": [],
+  "Xpoit.model.LocalFav": [],
   "Xpoit.model.Project": [],
   "Xpoit.model.Record": [],
   "Xpoit.model.Student": [],
+  "Xpoit.store.LocalFavs": [],
   "Xpoit.store.Projects": [],
   "Xpoit.store.Records": [],
   "Xpoit.store.Students": [],
@@ -1451,5 +1460,15 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Xpoit.view.StudentList": [
     "widget.studentListPanel"
+  ],
+  "Xpoit.view.VisitIt": [
+    "widget.visitItPanel",
+    "widget.visitPanel"
+  ],
+  "Xpoit.view.VisitItList": [
+    "widget.visitListPanel"
+  ],
+  "Xpoit.view.VisitItMain": [
+    "widget.visitItMainPanel"
   ]
 });

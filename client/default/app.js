@@ -69251,6 +69251,27 @@ Ext.define('Xpoit.model.Project', {
 			name: 'project',
 			type: 'string'
 		}, {
+			name: 'fname',
+			type: 'string'
+		}, {
+			name: 'lname',
+			type: 'string'
+		}, {
+			name: 'email',
+			type: 'string'
+		}, {
+			name: 'facebook',
+			type: 'string'
+		}, {
+			name: 'twitter',
+			type: 'string'
+		}, {
+			name: 'imageTxt',
+			type: 'string'
+		}, {
+			name: 'course',
+			type: 'string'
+		}, {
 			name: 'title',
 			type: 'string'
 		}, {
@@ -69264,9 +69285,53 @@ Ext.define('Xpoit.model.Project', {
 			type: 'string'
 		}]
 	}
-})
+});
 
 Ext.define('Xpoit.model.Record', {
+	extend:  Ext.data.Model ,
+
+	config: {
+		fields: [{
+			name: 'project',
+			type: 'string'
+		}, {
+			name: 'fname',
+			type: 'string'
+		}, {
+			name: 'lname',
+			type: 'string'
+		}, {
+			name: 'email',
+			type: 'string'
+		}, {
+			name: 'facebook',
+			type: 'string'
+		}, {
+			name: 'twitter',
+			type: 'string'
+		}, {
+			name: 'imageTxt',
+			type: 'string'
+		}, {
+			name: 'course',
+			type: 'string'
+		}, {
+			name: 'title',
+			type: 'string'
+		}, {
+			name: 'commercial',
+			type: 'string'
+		}, {
+			name: 'desc',
+			type: 'string'
+		}, {
+			name: 'disciplines',
+			type: 'string'
+		}]
+	}
+});
+
+Ext.define('Xpoit.model.LocalFav', {
 	extend:  Ext.data.Model ,
 
 	config: {
@@ -69607,6 +69672,7 @@ Ext.define('Xpoit.controller.Main', {
 			project: 'projectPanel',
 			studentPanel: 'studentPanel',
 			search: 'searchPanel',
+			visit: 'visitItMainPanel'
 		},
 		control: {
 			'#studentList': {
@@ -69618,6 +69684,9 @@ Ext.define('Xpoit.controller.Main', {
 			},
 			'#searchListPanel': {
 				itemtap: 'showSearch',
+			},
+			'#visitListPanel': {
+				itemtap: 'showFav'
 			},
 			'#maps': {
 				initalize: 'mapScreen'
@@ -69661,16 +69730,13 @@ Ext.define('Xpoit.controller.Main', {
 					var recordStore = Ext.getStore('Records');
 					recordStore.add(records[i]);
 
-					// var studentStore = Ext.getStore('Students');
-					// studentStore.add(records[i]);
 
 					var projectStore = Ext.getStore('Projects');
 					projectStore.add(records[i]);
 
 				}
 
-				//clear local storage
-				//localStorage.clear();
+
 
 				//remove content in records array only
 
@@ -69692,17 +69758,7 @@ Ext.define('Xpoit.controller.Main', {
 				console.log('Could not get stuff', msg);
 				Ext.Msg.alert("Connection Failed", "Content may not be up to date. Please check your data connection to update records.", function(btn) {});
 
-				//clear local storage
-				//localStorage.clear();
 
-				//remove content in records array only
-
-				//localStorage.removeItem('records');
-
-				//re-populate stores with data from local storage 
-
-				// localStorage["records"] = JSON.stringify(records);
-				// var storedData = JSON.parse(localStorage["records"]);
 
 				var retrievedObject = localStorage.getItem('records');
 
@@ -69711,8 +69767,7 @@ Ext.define('Xpoit.controller.Main', {
 				var recordStore = Ext.getStore('Records');
 				recordStore.add(JSON.parse(retrievedObject));
 
-				// var studentStore = Ext.getStore('Students');
-				// studentStore.add(JSON.parse(retrievedObject));
+
 
 				var projectStore = Ext.getStore('Projects');
 				projectStore.add(JSON.parse(retrievedObject));
@@ -69754,6 +69809,9 @@ Ext.define('Xpoit.controller.Main', {
 		var rec = list.getStore().getAt(index);
 		console.log(rec.data);
 
+		var studentStore = Ext.getStore('Students');
+		studentStore.add(rec.data);
+
 		Ext.ComponentManager.get('projectMainPanel').push({
 			xtype: 'projectPanel',
 			data: rec.data,
@@ -69769,6 +69827,22 @@ Ext.define('Xpoit.controller.Main', {
 
 		Ext.ComponentManager.get('searchPanel').push({
 			xtype: 'searchView',
+			data: record.data
+		});
+
+	},
+
+	showFav: function(list, index, target, record) {
+		console.log('onItemTap: index = ' + index);
+
+		var rec = list.getStore().getAt(index);
+		console.log(rec.data);
+
+		var studentStore = Ext.getStore('Students');
+		studentStore.add(rec.data);
+
+		Ext.ComponentManager.get('visitItMainPanel').push({
+			xtype: 'visitItPanel',
 			data: record.data
 		});
 
@@ -69806,6 +69880,7 @@ Ext.define('Xpoit.controller.Navigation', {
 			visitPage: '#visitBtn',
 			notePopUp: '#noteBtn',
 			infoPage: '#infoBtn',
+			visitMain: '#visitItMainPanel',
 
 		},
 		control: {
@@ -69826,6 +69901,9 @@ Ext.define('Xpoit.controller.Navigation', {
 			},
 			mapPage: {
 				tap: 'openMap'
+			},
+			visitPage: {
+				tap: 'openVisit'
 			}
 		},
 	},
@@ -69882,6 +69960,23 @@ Ext.define('Xpoit.controller.Navigation', {
 		} else {
 			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Main'));
 			console.log('creating student main Panel');
+		}
+	},
+
+	openVisit: function() {
+
+		console.log('hitting visit it button');
+
+		var visitMain = this.getVisitMain();
+
+		if (visitMain) {
+			console.log('visit already created');
+
+			Ext.Viewport.setActiveItem('visitItMainPanel');
+
+		} else {
+			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.VisitItMain'));
+			console.log('creating visit main Panel');
 		}
 	},
 
@@ -69944,8 +70039,7 @@ Ext.define('Xpoit.controller.Navigation', {
 			Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.MapView'));
 			console.log('creating map Panel');
 		}
-	}
-
+	},
 });
 
 Ext.define('Xpoit.controller.BackBtns', {
@@ -69957,6 +70051,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 			infoPanel: 'info',
 			searchPanel: 'searchPanel',
 			searchListPanel: 'searchListPanel',
+			visitListPanel: 'visitListPanel',
 			projectView: '#projectPanel',
 			infoBack: '#infoBackBtn',
 			projectBack: 'button[id=projectBackBtn]',
@@ -69966,6 +70061,8 @@ Ext.define('Xpoit.controller.BackBtns', {
 			searchBack: 'button[id=searchBackBtn]',
 			searchViewBack: 'button[id=searchViewBack]',
 			mapBack: '#mapBackBtn',
+			visitBack: 'button[id=visitItBackBtn]',
+			visitListBtn: 'button[id=visitItListBack]',
 
 		},
 		control: {
@@ -69996,6 +70093,12 @@ Ext.define('Xpoit.controller.BackBtns', {
 			mapBack: {
 				tap: 'showHomeMap'
 			},
+			visitBack: {
+				tap: 'showHomeVisit'
+			},
+			visitListBtn: {
+				tap: 'returnVisitList'
+			}
 		},
 	},
 
@@ -70023,12 +70126,16 @@ Ext.define('Xpoit.controller.BackBtns', {
 
 	backToPList: function() {
 		//return to the previous screen
+		var studentStore = Ext.getStore('Students');
+		studentStore.removeAll();
 		Ext.getCmp('projectMainPanel').pop(1);
 
 	},
 
 	returnSearchList: function() {
 		//return to the previous screen
+		var studentStore = Ext.getStore('Students');
+		studentStore.removeAll();
 		Ext.getCmp('searchPanel').pop(1);
 	},
 
@@ -70045,6 +70152,17 @@ Ext.define('Xpoit.controller.BackBtns', {
 		Ext.Viewport.setActiveItem('home');
 
 	},
+
+	showHomeVisit: function() {
+		console.log('going home from visitIt!');
+		Ext.Viewport.setActiveItem('home');
+	},
+
+	returnVisitList: function() {
+		var studentStore = Ext.getStore('Students');
+		studentStore.removeAll();
+		Ext.getCmp('visitItMainPanel').pop(1);
+	}
 
 });
 
@@ -70256,7 +70374,6 @@ Ext.define('Xpoit.controller.Contact', {
 			mailStudentBtn: 'button[id=emailStudent]',
 			fbStudentBtn: 'button[id=facebookContact]',
 			twitterStudentBtn: 'button[id=twitBtn]',
-			addToVisit: 'button[id=addFavItem]'
 		},
 		control: {
 			mailStudentBtn: {
@@ -70268,9 +70385,6 @@ Ext.define('Xpoit.controller.Contact', {
 			twitterStudentBtn: {
 				tap: 'studentTwit'
 			},
-			addToVisit: {
-				tap: 'visitItList'
-			}
 		},
 	},
 
@@ -70280,9 +70394,9 @@ Ext.define('Xpoit.controller.Contact', {
 		console.log(email);
 		var subject = 'Student Fair Inquiry';
 
-		var url = 'mailto:' + email + 'user@ example.com ? subject = ' + subject + ' & body = message % 20goes % 20here;'
+		window.location.href = "mailto:" + email + "?subject=" + subject + "&body=message%20goes%20here";
 
-		window.location.href = 'mailto:' + email + 'user@example.com?subject=' + subject + '&body=message%20goes%20here;'
+		var url = "mailto:" + email + "?subject=" + subject + "&body=message%20goes%20here";
 
 		$fh.webview({
 			'act': 'open',
@@ -70307,23 +70421,159 @@ Ext.define('Xpoit.controller.Contact', {
 	studentFb: function() {
 		var facebook = Ext.getStore('Students').first().data.facebook;
 		console.log('tapped facebook ' + facebook);
-		FB.init({
-			appId: '286666784843451'
-		});
 
-		FB.ui({
-			method: 'feed',
-			//link: 'http://www.xpoitapp.com/',
-			//caption: 'An example caption',
-		}, function(response) {});
+		///////////////attempting to use facebook javascript sdk//////////
+
+
+		// FB.init({
+		// 	appId: '286666784843451'
+		// });
+
+		// FB.ui({
+		// 	method: 'feed',
+		// 	//link: 'http://www.xpoitapp.com/',
+		// 	//caption: 'An example caption',
+		// }, function(response) {});
+
+		if (facebook == null) {
+
+			Ext.Msg.alert("No Facebook Account Found", "Please try to contact the student via e-mail or twitter.", function(btn) {});
+
+		} else {
+			window.open(facebook, '_blank');
+
+			var url = facebook;
+
+			$fh.webview({
+				'act': 'open',
+				'url': url,
+				'title': 'Facebook Profile'
+			}, function(res) {
+				if (res === "opened") {
+					//webview window is now open
+				}
+				if (res === "closed") {
+					//webview window is now closed
+				}
+			}, function(msg, err) {
+				alert(msg)
+			});
+		}
+
+		//close it
+		$fh.webview({
+			'act': 'close'
+		})
+
 	},
 	studentTwit: function() {
 		var twitter = Ext.getStore('Students').first().data.twitter;
 		console.log('tapped twitter ' + twitter);
+
+		if (twitter == null) {
+
+			Ext.Msg.alert("No Twitter Account Found", "Please try to contact the student via e-mail or facebook.", function(btn) {});
+
+		} else {
+			window.open(twitter, '_blank');
+
+			var url = twitter;
+
+			$fh.webview({
+				'act': 'open',
+				'url': url,
+				'title': 'Twitter Profile'
+			}, function(res) {
+				if (res === "opened") {
+					//webview window is now open
+				}
+				if (res === "closed") {
+					//webview window is now closed
+				}
+			}, function(msg, err) {
+				alert(msg)
+			});
+
+			//close it
+			$fh.webview({
+				'act': 'close'
+			})
+		}
 	},
+});
+
+Ext.define('Xpoit.controller.Visit', {
+	extend:  Ext.app.Controller ,
+
+	config: {
+		refs: {
+			addToVisit: 'button[id=addFavItem]',
+			removeFromVisit: 'button[id=removeFavItem]',
+
+		},
+		control: {
+			addToVisit: {
+				tap: 'visitItList'
+			},
+			removeFromVisit: {
+				tap: 'visitItRemove'
+			}
+		},
+	},
+
 	visitItList: function() {
 		console.log('tapped addFavItem ');
+		project = Ext.getStore('Students').first().data;
+		console.log(project);
+
+
+		var localStore = Ext.getStore('LocalFavs');
+
+		localStore.add(project);
+
+		var data = [];
+		localStore.each(function(rec) {
+			data.push(rec.data);
+		});
+
+		console.log(data);
+
+		// localStorage["favs"] = JSON.stringify(project);
+		// var storedData = JSON.parse(localStorage["favs"]);
+
+		//var retrievedObject = localStorage.getItem('favs');
+
+		// console.log('records in localStorage FAVOURITES:', JSON.parse(retrievedObject));
+
+		// var local = Ext.getStore('LocalFavs');
+		// local.add(JSON.parse(retrievedObject));
+
+		Ext.Msg.alert("Item Added to VisitIt!", "Record stored and can be accessed as required.", function(btn) {});
+
+	},
+
+	visitItRemove: function() {
+		console.log('tapped favourite remove item');
+
+
+		var project = Ext.getStore('Students').first().data.project;
+		console.log(project);
+
+		var localStore = [];
+		localStore = Ext.getStore('LocalFavs');
+
+		var removalRecord = localStore.findRecord('project', project);
+
+		localStore.remove(removalRecord);
+
+		// sync store
+		localStore.sync();
+		Ext.Msg.alert("Record Removed from VisitIt!", "Item has been removed from favourites.", function(btn) {});
+
+
 	}
+
+
 });
 
 Ext.define('Xpoit.view.Student', {
@@ -70366,19 +70616,43 @@ Ext.define('Xpoit.view.Student', {
 				},
 				items: [{
 					xtype: 'button',
-					text: 'Email',
+					//text: 'Email',
 					width: '30%',
 					id: 'emailStudent',
+					cls: 'emailStudent',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
 				}, {
 					xtype: 'button',
 					id: 'facebookContact',
-					text: 'Facebook',
+					cls: 'facebookContact',
+					//text: 'Facebook',
 					width: '30%',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
 				}, {
 					xtype: 'button',
-					text: 'Twitter',
+					//text: 'Twitter',
 					id: 'twitBtn',
+					cls: 'twitBtn',
 					width: '30%',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
 				}, ],
 			}, {
 				cls: 'addToFav',
@@ -70388,15 +70662,24 @@ Ext.define('Xpoit.view.Student', {
 				items: [{
 					xtype: 'button',
 					id: 'addFavItem',
-					text: 'Favourite',
-					pack: 'right'
+					cls: 'addFavItem',
+					width: '30%',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
 				}]
 			}],
 			xtype: 'dataview',
 
 			store: 'Students',
 			itemTpl: '<div class="studentInfo">' +
-				'<img class="profileImage" src="resources/images/profile.png" />' +
+				'<img class="profileImage" src="{imageTxt}" />' +
 				'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
 				'<div class="contact" style="text-align:left">CONTACT</div>' +
 				'<div class="contactInfo">',
@@ -70405,11 +70688,14 @@ Ext.define('Xpoit.view.Student', {
 		}, {
 			title: 'Project',
 			iconCls: 'bookmarks',
+			styleHtmlContent: true,
+			scrollable: true,
 
 			items: [{
 				docked: 'top',
 				xtype: 'toolbar',
-				title: 'Project Outline',
+				title: 'Project Profile',
+
 				items: [{
 					id: 'studentListBack',
 					cls: 'backBtn',
@@ -70420,11 +70706,33 @@ Ext.define('Xpoit.view.Student', {
 				}, {
 					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 				}, ]
-			}, ],
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '30%',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}]
+			}],
 			xtype: 'dataview',
 
 			store: 'Students',
-			itemTpl: '{project}{title}{commercial}',
+			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
+				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}</div>',
+			],
 		}, {
 			title: 'Location',
 			iconCls: 'maps',
@@ -70506,47 +70814,187 @@ Ext.define('Xpoit.view.Main', {
 });
 
 Ext.define('Xpoit.view.Project', {
-	extend:  Ext.Panel ,
+	extend:  Ext.tab.Panel ,
 	xtype: 'projectPanel',
 	id: 'projectPanel',
+	           
+		               
 
+	  
 	config: {
+		tabBarPosition: 'bottom',
 		styleHtmlContent: true,
-		scrollable: 'vertical',
-		title: 'Project Profile',
-		tpl: [
-			'<h1>Project No: {project}</h1>',
-			'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}'
-		],
+
 		items: [{
-			xtype: 'toolbar',
-			docked: 'top',
-			title: 'Project Profile',
+			title: 'Project',
+			iconCls: 'bookmarks',
+			styleHtmlContent: true,
+			scrollable: true,
 
 			items: [{
-				id: 'projectListBack',
-				cls: 'backBtn',
-				html: '<img src="resources/images/back.png"/>',
-				hidden: Xpoit.hideBack || false,
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Project Profile',
+
+				items: [{
+					id: 'projectListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
 			}, {
-				xtype: 'spacer'
-			}, {
-				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-			}]
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '30%',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}]
+			}],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
+				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}</div>',
+			],
 		}, {
-			xtype: 'toolbar',
-			docked: 'bottom',
-			cls: 'btmNav',
+			title: 'Student',
+			iconCls: 'user',
+			styleHtmlContent: true,
+			scrollable: true,
 
 			items: [{
-				id: 'studentBtn2',
-				html: '<img src="resources/images/icons/studentM.png"/>',
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Student Profile',
+
+				items: [{
+					id: 'projectListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
 			}, {
-				id: 'locationBtn',
-				html: '<img src="resources/images/icons/location.png"/>',
-			}]
+				cls: 'contactInformation',
+				layout: {
+					type: 'hbox',
+					pack: 'center',
+				},
+				items: [{
+					xtype: 'button',
+					//text: 'Email',
+					width: '30%',
+					id: 'emailStudent',
+					cls: 'emailStudent',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}, {
+					xtype: 'button',
+					id: 'facebookContact',
+					cls: 'facebookContact',
+					//text: 'Facebook',
+					width: '30%',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}, {
+					xtype: 'button',
+					//text: 'Twitter',
+					id: 'twitBtn',
+					cls: 'twitBtn',
+					width: '30%',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}, ],
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '30%',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}]
+			}],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: '<div class="studentInfo">' +
+				'<img class="profileImage" src="{imageTxt}" />' +
+				'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
+				'<div class="contact" style="text-align:left">CONTACT</div>' +
+				'<div class="contactInfo">',
+		}, {
+			title: 'Location',
+			iconCls: 'maps',
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Map Location',
+				items: [{
+					id: 'projectListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+			html: 'Map to come......'
+			//itemTpl: '{}',
 		}]
-	}
+	},
 
 });
 
@@ -70558,8 +71006,6 @@ Ext.define('Xpoit.view.ProjectList', {
   config: {
     grouped: true,
     indexBar: true,
-    //itemTpl: '<div class="x-button related-btn" btnType="related" style="border: none; background: url("a.png") no-repeat;"></div>' +
-    //  '<div class="list-items">{project} {commercial} {title}</div>',
 
     itemTpl: '<p><b>Title: </b>{commercial}' +
       '<p>{title}</p>' +
@@ -70976,6 +71422,251 @@ Ext.define('Xpoit.view.MapView', {
     }
 });
 
+Ext.define('Xpoit.view.VisitIt', {
+	extend:  Ext.tab.Panel ,
+	xtype: 'visitItPanel',
+	alias: 'widget.visitPanel',
+	           
+		               
+
+	  
+	config: {
+		tabBarPosition: 'bottom',
+		styleHtmlContent: true,
+
+		items: [{
+			title: 'Student',
+			iconCls: 'user',
+			styleHtmlContent: true,
+			scrollable: true,
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Student Profile',
+
+				items: [{
+					id: 'visitItListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, {
+				cls: 'contactInformation',
+				layout: {
+					type: 'hbox',
+					pack: 'center',
+				},
+				items: [{
+					xtype: 'button',
+					//text: 'Email',
+					width: '30%',
+					id: 'emailStudent',
+					cls: 'emailStudent',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}, {
+					xtype: 'button',
+					id: 'facebookContact',
+					cls: 'facebookContact',
+					//text: 'Facebook',
+					width: '30%',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}, {
+					xtype: 'button',
+					//text: 'Twitter',
+					id: 'twitBtn',
+					cls: 'twitBtn',
+					width: '30%',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}, ],
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'removeFavItem',
+					cls: 'removeFavItem',
+					width: '30%',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}]
+			}],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: '<div class="studentInfo">' +
+				'<img class="profileImage" src="{imageTxt}" />' +
+				'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
+				'<div class="contact" style="text-align:left">CONTACT</div>' +
+				'<div class="contactInfo">',
+			//'<button id="mail" type="button" onclick="alert(123)" value="{email}">Mail</button><button id="facebook" value="{facebook} type="button">Facebook</button><button value="{twitter}" id="twitter" type="button">Twitter</button></div>' +
+			//'</div><img style="width:50px;" src="resources/images/icons/addFav.png" /></div>',
+		}, {
+			title: 'Project',
+			iconCls: 'bookmarks',
+			styleHtmlContent: true,
+			scrollable: true,
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Project Profile',
+
+				items: [{
+					id: 'visitItListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '30%',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border-top': 'none',
+						'border-right': 'none',
+						'border-left': 'none',
+					}
+				}]
+			}],
+			xtype: 'dataview',
+
+			store: 'LocalFavs',
+			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
+				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}</div>',
+			],
+		}, {
+			title: 'Location',
+			iconCls: 'maps',
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Map Location',
+				items: [{
+					id: 'visitItListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+			html: 'Map to come......'
+			//itemTpl: '{}',
+		}]
+	},
+
+});
+
+Ext.define('Xpoit.view.VisitItList', {
+  extend:  Ext.List ,
+  xtype: 'visitListPanel',
+  id: 'visitListPanel',
+  cls: 'visitListPanel',
+  config: {
+    deferEmptyText: 'No Entries',
+    emptyText: 'No laksdlg',
+    grouped: true,
+    emptyText: 'No notes found.',
+    itemTpl: '{course}' +
+      '<p><b>Name:</b> {fname} {lname}</p>' +
+      '<p><b>Title: </b>{commercial} </p>' +
+      '<p><b>Course: </b>{course}</p>',
+    store: 'LocalFavs',
+
+    onItemDisclosure: true,
+
+    items: [{
+      xtype: 'toolbar',
+      docked: 'top',
+      title: 'VisitIt!',
+
+      items: [{
+        cls: 'backBtn',
+        id: 'visitItBackBtn',
+        html: '<img src="resources/images/back.png"/>',
+        hidden: Xpoit.hideBack || false,
+
+      }, {
+        xtype: 'spacer'
+      }, {
+        html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+      }]
+    }, ]
+  }
+});
+
+Ext.define('Xpoit.view.VisitItMain', {
+    extend:  Ext.navigation.View ,
+    xytpe: 'visitItMainPanel',
+    id: 'visitItMainPanel',
+    alias: 'widget.visitItMainPanel',
+               
+                             
+                                 
+                          
+      
+    config: {
+        navigationBar: {
+            hidden: true
+        },
+        items: [{
+            xtype: 'visitListPanel'
+        }]
+    },
+});
+
 Ext.define('Xpoit.store.Students', {
 	extend:  Ext.data.Store ,
 
@@ -70993,7 +71684,7 @@ Ext.define('Xpoit.store.Projects', {
 	config: {
 		model: 'Xpoit.model.Project',
 		grouper: function(record) {
-			return record.get('title')[0];
+			return record.get('commercial')[0];
 		},
 	}
 });
@@ -71004,7 +71695,18 @@ Ext.define('Xpoit.store.Records', {
 	config: {
 		model: 'Xpoit.model.Record',
 		grouper: function(record) {
-			return record.get('course')[0];
+			return record.get('lname')[0];
+		},
+	}
+});
+
+Ext.define('Xpoit.store.LocalFavs', {
+	extend:  Ext.data.Store ,
+
+	config: {
+		model: 'Xpoit.model.LocalFav',
+		grouper: function(record) {
+			return record.get('lname')[0];
 		},
 	}
 });
@@ -71034,19 +71736,22 @@ Ext.application({
         'BackBtns',
         'Search',
         'Share',
-        'Contact'
+        'Contact',
+        'Visit',
     ],
 
     models: [
         'Student',
         'Project',
         'Record',
+        'LocalFav'
     ],
 
     stores: [
         'Students',
         'Projects',
         'Records',
+        'LocalFavs'
     ],
 
     views: [
@@ -71062,6 +71767,9 @@ Ext.application({
         'Home',
         'Info',
         'MapView',
+        'VisitIt',
+        'VisitItMain',
+        'VisitItList'
     ],
 
     icon: {

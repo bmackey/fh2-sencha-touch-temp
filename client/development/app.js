@@ -23,19 +23,22 @@ Ext.application({
         'BackBtns',
         'Search',
         'Share',
-        'Contact'
+        'Contact',
+        'Visit',
     ],
 
     models: [
         'Student',
         'Project',
         'Record',
+        'LocalFav'
     ],
 
     stores: [
         'Students',
         'Projects',
         'Records',
+        'LocalFavs'
     ],
 
     views: [
@@ -51,6 +54,9 @@ Ext.application({
         'Home',
         'Info',
         'MapView',
+        'VisitIt',
+        'VisitItMain',
+        'VisitItList'
     ],
 
     icon: {
