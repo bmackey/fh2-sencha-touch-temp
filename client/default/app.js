@@ -69710,6 +69710,8 @@ Ext.define('Xpoit.controller.Main', {
 			console.log('records in favs storage from main.js controller', JSON.parse(retrievedfavs));
 
 			favStore.add(JSON.parse(retrievedfavs));
+		} else {
+			console.log('nothing in localStorage');
 		}
 		// favStore.on('load', function(store, records) {
 		// 	if (records.length == 0) {
@@ -70900,50 +70902,67 @@ Ext.define('Xpoit.view.Project', {
 			scrollable: true,
 
 			items: [{
-				docked: 'top',
-				xtype: 'toolbar',
-				title: 'Project Profile',
+					docked: 'top',
+					xtype: 'toolbar',
+					title: 'Project Profile',
 
-				items: [{
-					id: 'projectListBack',
-					cls: 'backBtn',
-					html: '<img src="resources/images/back.png"/>',
-					hidden: Xpoit.hideBack || false,
-				}, {
-					xtype: 'spacer'
-				}, {
-					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-				}, ]
-			}, {
-				xtype: 'button',
-				text: 'Share Twitter',
-				id: 'testShare'
-			}, {
-				cls: 'addToFav',
-				layout: {
-					type: 'hbox'
+					items: [{
+						id: 'projectListBack',
+						cls: 'backBtn',
+						html: '<img src="resources/images/back.png"/>',
+						hidden: Xpoit.hideBack || false,
+					}, {
+						xtype: 'spacer'
+					}, {
+						html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+					}, ]
 				},
-				items: [{
-					xtype: 'button',
-					id: 'addFavItem',
-					cls: 'addFavItem',
-					width: '30%',
-					//text: 'Favourite',
-					pack: 'end',
-					style: {
-						'background-color': '#6d6e71',
-						'border-radius': 0,
-						'border-top': 'none',
-						'border-right': 'none',
-						'border-left': 'none',
-					}
-				}]
-			}],
+				// {
+				// 	xtype: 'button',
+				// 	text: 'Share Twitter',
+				// 	id: 'testShare'
+				// },
+				{
+					cls: 'addToFav',
+					layout: {
+						type: 'hbox'
+					},
+					items: [{
+						xtype: 'button',
+						id: 'addFavItem',
+						cls: 'addFavItem',
+						width: '30%',
+						//text: 'Favourite',
+						pack: 'end',
+						style: {
+							'background-color': '#6d6e71',
+							'border-radius': 0,
+							'border-top': 'none',
+							'border-right': 'none',
+							'border-left': 'none',
+						}
+					}, {
+						xtype: 'button',
+						id: 'shareStuff',
+						cls: 'shareStuff',
+						pack: 'start',
+						style: {
+							'background-color': '#6d6e71',
+							'border-radius': 0,
+							'border-top': 'none',
+							'border-right': 'none',
+							'border-left': 'none',
+						}
+
+					}, ]
+				}
+			],
 			xtype: 'dataview',
 
 			store: 'Students',
-			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
-				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}</div>',
+			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
+				'<p><h2>Project Title:{title}</h2></p>',
+				'<p>{desc} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Student',

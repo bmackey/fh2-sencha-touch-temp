@@ -101,7 +101,10 @@
         "resources/images",
         "resources/icons",
         "resources/startup",
-        "resources/splash"
+        "resources/splash",
+        "Default.png",
+        "Default-568h@2x.png",
+        "Default@2x.png"
     ],
 
     /**
