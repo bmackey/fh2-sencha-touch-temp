@@ -70365,31 +70365,37 @@ Ext.define('Xpoit.controller.Share', {
 
 	config: {
 		refs: {
-			fbBtn: '#facebook',
-			fbBtn: 'button[id=facebook]',
-			studentPanel: 'studentPanel',
+			tweet: 'button[id=testShare]',
+			sharefb: 'button[id=fbShare]',
 		},
 		control: {
-			'fbBtn': {
-				onClick: 'shareFb'
+			'tweet': {
+				tap: 'shareTweet'
 			},
-			// 'studentPanel': {
-			// 	initialize: 'onInit'
-			// }
+			'sharefb': {
+				tap: 'shareFb'
+			}
 		},
 	},
 
-	// onInit: function() {
-	// 	alert('initialize');
-	// 	Ext.getCmp('#facebook')({
-	// 		scope: this,
-	// 		tap: 'shareFb'
-	// 	});
+	shareTweet: function() {
+		console.log('tapped tweet testing');
+		var commercial = Ext.getStore('Students').first().data.commercial;
+		window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + "Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
 
-	// },
+		//need to create a webview to share via app
+
+	},
 
 	shareFb: function() {
-		console.log('tapped fb');
+		console.log('tapped fb testing');
+		var commercial = Ext.getStore('Students').first().data.commercial;
+		window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + "Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
+
+
+		href = "http://www.facebook.com/sharer.php?s=100&p[title]=YOUR_TITLE&p[summary]=YOUR_SUMMARY&p[url]=YOUR_URL&p[images][0]=YOUR_IMAGE_TO_SHARE_OBJECT"
+		//need to create a webview to share via app
+
 	}
 
 });
@@ -70908,6 +70914,10 @@ Ext.define('Xpoit.view.Project', {
 				}, {
 					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 				}, ]
+			}, {
+				xtype: 'button',
+				text: 'Share Twitter',
+				id: 'testShare'
 			}, {
 				cls: 'addToFav',
 				layout: {

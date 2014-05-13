@@ -43,7 +43,7 @@ exports.findAll = function(params, cb) {
             title: item.title,
             commercial: item.commercial,
             location: item.location,
-            desc: item.description,
+            description: item.description,
             disciplines: item.disciplines
           });
         }
