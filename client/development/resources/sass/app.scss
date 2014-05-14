@@ -370,15 +370,14 @@ color: #599397;
 .removeFavItem{
   background-image: url(../images/icons/removeFav.png);
   background-repeat: no-repeat;
-  background-size: 60%;
+  background-size: 55%;
   background-position: 50%;
 }
 
 .shareStuff{
   background-image: url(../images/icons/share.png);
   background-repeat: no-repeat;
-  background-size: 60%;
-  background-position: 50%;
+  background-size: 50%;
 }
 
 
@@ -386,7 +385,8 @@ color: #599397;
 
 /*--------------information page -----------*/
 .infoContainer{
-  padding: 17.5px;
+  padding: 2.5px;
+  color: white;
 }
 
 .infoText {
@@ -492,4 +492,11 @@ color: #ffffff;
   position: absolute;
   bottom: 15%;
   left: 65%;
+}
+
+.shareData {
+  height: 50px;
+  position: absolute;
+  bottom: 15%;
+  left: 15%;
 }

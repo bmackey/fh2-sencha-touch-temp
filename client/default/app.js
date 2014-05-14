@@ -70923,6 +70923,26 @@ Ext.define('Xpoit.view.Project', {
 				// 	id: 'testShare'
 				// },
 				{
+					cls: 'shareData',
+					layout: {
+						type: 'hbox'
+					},
+					items: [{
+						xtype: 'button',
+						id: 'shareStuff',
+						cls: 'shareStuff',
+						width: '30%',
+						pack: 'start',
+						style: {
+							'background-color': '#6d6e71',
+							'border-radius': 0,
+							'border-top': 'none',
+							'border-right': 'none',
+							'border-left': 'none',
+						}
+
+					}, ]
+				}, {
 					cls: 'addToFav',
 					layout: {
 						type: 'hbox'
@@ -70941,27 +70961,14 @@ Ext.define('Xpoit.view.Project', {
 							'border-right': 'none',
 							'border-left': 'none',
 						}
-					}, {
-						xtype: 'button',
-						id: 'shareStuff',
-						cls: 'shareStuff',
-						pack: 'start',
-						style: {
-							'background-color': '#6d6e71',
-							'border-radius': 0,
-							'border-top': 'none',
-							'border-right': 'none',
-							'border-left': 'none',
-						}
-
-					}, ]
-				}
+					}]
+				},
 			],
 			xtype: 'dataview',
 
 			store: 'Students',
 			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
-				'<p><h2>Project Title:{title}</h2></p>',
+				'<p><h2>Project Title: {title}</h2></p>',
 				'<p>{desc} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
@@ -71276,9 +71283,6 @@ Ext.define('Xpoit.view.Search', {
 });
 
 Ext.define('Xpoit.view.Info', {
-    requires: [
-
-    ],
     extend:  Ext.Panel ,
     xtype: 'info',
     id: 'info',
@@ -71286,173 +71290,31 @@ Ext.define('Xpoit.view.Info', {
     config: {
         iconCls: 'info',
         style: 'background-color:#6d6e71;',
-        layout: 'vbox',
-        items: [{
-                xtype: 'toolbar',
-                docked: 'top',
-                align: 'center',
-                pack: 'center',
-                style: 'text-align:center',
-                title: 'Information',
-                layout: {
-                    type: 'hbox',
+        styleHtmlContent: true,
+        scrollable: true,
 
-                },
-                items: [{
-                    cls: 'backBtn',
-                    id: 'infoBackBtn',
-                    html: '<img src="resources/images/back.png"/>',
-                    hidden: Xpoit.hideBack || false,
+        items: {
+            xtype: 'toolbar',
+            docked: 'top',
+            align: 'center',
+            pack: 'center',
+            style: 'text-align:center',
+            title: 'Information',
 
-                    element: 'element',
-                    handler: function() {
-                        Ext.Viewport.setActiveItem(Ext.create('Xpoit.view.Home'));
-                    }
-                }, {
-                    xtype: 'spacer'
-                }, {
-                    html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-                }, ]
+            items: [{
+                cls: 'backBtn',
+                id: 'infoBackBtn',
+                html: '<img src="resources/images/back.png"/>',
+                hidden: Xpoit.hideBack || false,
             }, {
-                xtype: 'container',
-                scrollable: 'vertical',
-                layout: {
-                    type: 'vbox',
-                },
-                items: [{
-                    floating: true,
-                    html: '<div class="infoContainer"><div class="infoText"><p><img style="float:left; padding-right:10px;" src="resources/images/appicon.png" /><i>XpoIt...</i> is a mobile solution to compliment traditional hard copy brochures at tradeshows, exhibitions and events.  Developed as a hybrid application, it is offered on both Android and iOS mobile devices.</p><p>The application is designed initially with the WIT student fair in mind, but aims to allow portability to alternative databases. This would allow the application to serve as a template for other tradeshows, exhibitions and expos. </p></div></div>'
-                }, ]
-
+                xtype: 'spacer'
             }, {
-                xtype: 'toolbar',
-                docked: 'bottom',
-                cls: 'btm-nav',
-                id: 'btm-nav',
-                pack: 'center',
-                layout: {
-                    type: 'vbox'
-                },
-                items: [{
-                    xtype: 'button',
-                    align: 'center',
-                    html: '<img class="circle" src="resources/images/circle.png" />',
-                    style: 'width:250px; margin-top: -32px;',
-
-
-                    // SLIDE MENU BUTTON
-
-                    handler: function() {
-                        // Show or hide sliding menu:
-                        var settingsPanel = Ext.getCmp('sliding_menu');
-                        var bottomPanel = Ext.getCmp('btm-nav');
-
-                        if (settingsPanel.isHidden()) {
-                            settingsPanel.show({
-                                type: 'slideIn',
-                                direction: 'up',
-                                duration: 2000
-                            });
-                            setTimeout(function() {
-                                bottomPanel.hide()
-                            }, 300);
-                        } else {
-                            settingsPanel.hide({
-                                type: 'slideOut',
-                                direction: 'down',
-                                duration: 2000
-                            });
-                            setTimeout(function() {
-                                bottomPanel.show()
-                            }, 1650);
-
-                        }
-                    }
-                }],
-            }, {
-                xtype: 'container',
-                id: 'sliding_menu',
-                cls: 'sliding_menu',
-                flex: 3,
-                layout: 'fit',
-                items: [{
-                    xtype: 'toolbar',
-                    docked: 'top',
-                    cls: 'btm-nav',
-                    pack: 'center',
-                    layout: {
-                        type: 'vbox'
-                    },
-                    items: [{
-                        xtype: 'button',
-                        align: 'center',
-                        html: '<img class="circle" src="resources/images/circle.png" />',
-                        style: 'width:250px; margin-top: -32px;',
-                        // SLIDE MENU BUTTON
-
-                        handler: function() {
-                            // Show or hide sliding menu:
-                            var settingsPanel = Ext.getCmp('sliding_menu');
-                            var bottomPanel = Ext.getCmp('btm-nav');
-
-                            if (settingsPanel.isHidden()) {
-                                settingsPanel.show({
-                                    type: 'slideIn',
-                                    direction: 'up',
-                                    duration: 2000
-                                });
-                                setTimeout(function() {
-                                    bottomPanel.hide()
-                                }, 1000);
-                            } else {
-                                settingsPanel.hide({
-                                    type: 'slideOut',
-                                    direction: 'down',
-                                    duration: 2000
-                                });
-                                setTimeout(function() {
-                                    bottomPanel.show()
-                                }, 1570);
-
-                            }
-                        }
-                    }]
-                }, {
-                    xtype: 'list',
-                    id: 'slideUpMenu',
-                    itemTpl: '<img src="{imgURL}" class="slideIcon" width="20" height="20">{category_name}',
-                    style: 'background-color:#599195;',
-                    cls: 'myList',
-                    data: [{
-                        imgURL: 'resources/images/icons/search.png',
-                        category_name: 'Search',
-
-                    }, {
-                        imgURL: 'resources/images/icons/student.png',
-                        category_name: 'Student List'
-                    }, {
-                        imgURL: 'resources/images/icons/project.png',
-                        category_name: 'Project List'
-                    }, {
-                        imgURL: 'resources/images/icons/map.png',
-                        category_name: 'Location Maps',
-                        page: 'Maps'
-                    }, {
-                        imgURL: 'resources/images/icons/visit.png',
-                        category_name: 'VisitIt'
-                    }, {
-                        imgURL: 'resources/images/icons/note.png',
-                        category_name: 'NoteIt Microblog'
-                    }, {
-                        imgURL: 'resources/images/icons/info.png',
-                        category_name: 'Information'
-                    }, ]
-                }],
-                hidden: true
-            },
-
-        ]
+                html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+            }, ]
+        },
+        html: '<div class="infoContainer"><div class="infoText"><p><img style="float:left; padding-right:10px;" src="resources/images/appicon.png" /><i>XpoIt...</i> is a fourth year project designed to compliment hard copy brochures offered at the W.I.T. Dept of Maths, Physics and Computing Student Fair. The system is designed and implemented by Brid Mackey, a student of Multimedia Applications Development and employs the disciplines of programming, databases, graphic design, mobile and web developemnt.</p></div></div>'
     }
+
 });
 
 Ext.define('Xpoit.view.MapView', {
