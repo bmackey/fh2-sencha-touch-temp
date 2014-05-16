@@ -70951,6 +70951,7 @@ Ext.define('Xpoit.view.Student', {
 	xtype: 'studentPanel',
 	           
 		               
+		                  
 
 	  
 	config: {
@@ -70987,7 +70988,7 @@ Ext.define('Xpoit.view.Student', {
 				items: [{
 					xtype: 'button',
 					//text: 'Email',
-					width: '30%',
+					width: '90px',
 					id: 'emailStudent',
 					cls: 'emailStudent',
 					style: {
@@ -71002,7 +71003,7 @@ Ext.define('Xpoit.view.Student', {
 					id: 'facebookContact',
 					cls: 'facebookContact',
 					//text: 'Facebook',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -71015,7 +71016,7 @@ Ext.define('Xpoit.view.Student', {
 					//text: 'Twitter',
 					id: 'twitBtn',
 					cls: 'twitBtn',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -71033,7 +71034,7 @@ Ext.define('Xpoit.view.Student', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '30%',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
@@ -71077,6 +71078,24 @@ Ext.define('Xpoit.view.Student', {
 					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 				}, ]
 			}, {
+				cls: 'shareData',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'shareStuff',
+					cls: 'shareStuff',
+					width: '90px',
+					pack: 'start',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+
+				}, ]
+			}, {
 				cls: 'addToFav',
 				layout: {
 					type: 'hbox'
@@ -71085,7 +71104,7 @@ Ext.define('Xpoit.view.Student', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '30%',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
@@ -71100,8 +71119,9 @@ Ext.define('Xpoit.view.Student', {
 			xtype: 'dataview',
 
 			store: 'Students',
-			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
-				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {description} <br />Disciplines Used: {disciplines}</div>',
+			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
+				'<p><h2>Project Title: {title}</h2></p>',
+				'<p>{description} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Location',
@@ -71189,6 +71209,7 @@ Ext.define('Xpoit.view.Project', {
 	id: 'projectPanel',
 	           
 		               
+		                  
 
 	  
 	config: {
@@ -71504,6 +71525,7 @@ Ext.define('Xpoit.view.SearchView', {
 
 	           
 		               
+		                  
 
 	  
 	config: {
@@ -71573,8 +71595,7 @@ Ext.define('Xpoit.view.SearchView', {
 			store: 'Students',
 			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
 				'<p><h2>Project Title: {title}</h2></p>',
-				'<p><h2>Location: {location}</h2></p>',
-				'<p>{description} <br />Disciplines Used: {disciplines}</div>',
+				'<p> {description} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Student',
@@ -72196,5 +72217,5 @@ Ext.application({
 });
 
 // @tag full-page
-// @require /Users/bmackey/college/Application/fh2-sencha-touch-temp/client/development/app.js
+// @require /Users/bmackey/college/Application/xpoitApp/client/development/app.js
 
