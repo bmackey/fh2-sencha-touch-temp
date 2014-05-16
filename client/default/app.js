@@ -70987,7 +70987,7 @@ Ext.define('Xpoit.view.Student', {
 				items: [{
 					xtype: 'button',
 					//text: 'Email',
-					width: '90px',
+					width: '30%',
 					id: 'emailStudent',
 					cls: 'emailStudent',
 					style: {
@@ -71002,7 +71002,7 @@ Ext.define('Xpoit.view.Student', {
 					id: 'facebookContact',
 					cls: 'facebookContact',
 					//text: 'Facebook',
-					width: '90px',
+					width: '30%',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -71015,7 +71015,7 @@ Ext.define('Xpoit.view.Student', {
 					//text: 'Twitter',
 					id: 'twitBtn',
 					cls: 'twitBtn',
-					width: '90px',
+					width: '30%',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -71033,7 +71033,7 @@ Ext.define('Xpoit.view.Student', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '90px',
+					width: '30%',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
@@ -71077,24 +71077,6 @@ Ext.define('Xpoit.view.Student', {
 					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 				}, ]
 			}, {
-				cls: 'shareData',
-				layout: {
-					type: 'hbox'
-				},
-				items: [{
-					xtype: 'button',
-					id: 'shareStuff',
-					cls: 'shareStuff',
-					width: '90px',
-					pack: 'start',
-					style: {
-						'background-color': '#6d6e71',
-						'border-radius': 0,
-						'border': 'none',
-					}
-
-				}, ]
-			}, {
 				cls: 'addToFav',
 				layout: {
 					type: 'hbox'
@@ -71103,7 +71085,7 @@ Ext.define('Xpoit.view.Student', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '90px',
+					width: '30%',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
