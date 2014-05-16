@@ -70542,30 +70542,141 @@ Ext.define('Xpoit.controller.Share', {
 	shareTweet: function() {
 		console.log('tapped tweet testing');
 		var commercial = Ext.getStore('Students').first().data.commercial;
-		window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
+		//window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
 
 		//need to create a webview to share via app
+
+
+		///////////////attempting to use facebook javascript sdk//////////
+
+
+		// FB.init({
+		// 	appId: '286666784843451'
+		// });
+
+		// FB.ui({
+		// 	method: 'feed',
+		// 	//link: 'http://www.xpoitapp.com/',
+		// 	//caption: 'An example caption',
+		// }, function(response) {});
+		//window.open(facebook, '_blank');
+
+		var url = "https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/";
+
+
+		$fh.webview({
+			'act': 'open',
+			'url': url,
+			'title': 'Tweet'
+		}, function(res) {
+			if (res === "opened") {
+				//webview window is now open
+			}
+			if (res === "closed") {
+				//webview window is now closed
+			}
+		}, function(msg, err) {
+			alert(msg)
+		});
+
+
+		//close it
+		$fh.webview({
+			'act': 'close'
+		})
 
 	},
 
 	shareFb: function() {
 		console.log('tapped fb testing');
 		var url = Ext.getStore('Students').first().data.commercial;
-		window.open("https://www.facebook.com/sharer/sharer.php?u=https://pure-badlands-7549.herokuapp.com");
+		//window.open("https://www.facebook.com/sharer/sharer.php?u=https://pure-badlands-7549.herokuapp.com");
+
+		var url = "https://www.facebook.com/sharer/sharer.php?u=https://pure-badlands-7549.herokuapp.com";
+
+
+
+		$fh.webview({
+			'act': 'open',
+			'url': url,
+			'title': 'Facebook'
+		}, function(res) {
+			if (res === "opened") {
+				//webview window is now open
+			}
+			if (res === "closed") {
+				//webview window is now closed
+			}
+		}, function(msg, err) {
+			alert(msg)
+		});
+
+
+		//close it
+		$fh.webview({
+			'act': 'close'
+		})
 		//window.open("http://www.facebook.com/dialog/feed?app_id=286666784843451&link=http://developers.facebook.com/docs/reference/dialogs/& picture=http://fbrell.com/f8.jpg&name=Facebook%20Dialogs&caption=Reference%20Documentation& description=Dialogs%20provide%20a%20simple,%20consistent%20interface%20for%20applications%20to%20interact%20with%20users.& message=Facebook%20Dialogs%20are%20so%20easy!& redirect_uri=http://www.example.com/response");
 	},
 
 	sharedLinkedIn: function() {
 		console.log('tapped linkedin testing');
 		var commercial = Ext.getStore('Students').first().data.commercial;
-		window.open("http://www.linkedin.com/shareArticle?mini=true&url=https://pure-badlands-7549.herokuapp.com&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!");
+		//window.open("http://www.linkedin.com/shareArticle?mini=true&url=https://pure-badlands-7549.herokuapp.com&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!");
+
+		var url = "http://www.linkedin.com/shareArticle?mini=true&url=https://pure-badlands-7549.herokuapp.com&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!";
+
+		$fh.webview({
+			'act': 'open',
+			'url': url,
+			'title': 'linkedin'
+		}, function(res) {
+			if (res === "opened") {
+				//webview window is now open
+			}
+			if (res === "closed") {
+				//webview window is now closed
+			}
+		}, function(msg, err) {
+			alert(msg)
+		});
+
+
+		//close it
+		$fh.webview({
+			'act': 'close'
+		})
 
 	},
 
 	shareGoogle: function() {
 		console.log('tapped linkedin google');
 		//var commercial = Ext.getStore('Students').first().data.commercial;
-		window.open("https://plus.google.com/share?url=https://pure-badlands-7549.herokuapp.com/");
+
+		//window.open("https://plus.google.com/share?url=https://pure-badlands-7549.herokuapp.com/");
+
+		var url = "https://plus.google.com/share?url=https://pure-badlands-7549.herokuapp.com/";
+
+		$fh.webview({
+			'act': 'open',
+			'url': url,
+			'title': 'Google+'
+		}, function(res) {
+			if (res === "opened") {
+				//webview window is now open
+			}
+			if (res === "closed") {
+				//webview window is now closed
+			}
+		}, function(msg, err) {
+			alert(msg)
+		});
+
+
+		//close it
+		$fh.webview({
+			'act': 'close'
+		})
 	},
 
 	shareEmail: function() {
@@ -70644,7 +70755,8 @@ Ext.define('Xpoit.controller.Contact', {
 	},
 	studentFb: function() {
 		var facebook = Ext.getStore('Students').first().data.facebook;
-		console.log('tapped facebook ' + facebook);
+		console.log('tapped facebook ', facebook);
+		console.log(facebook);
 
 		///////////////attempting to use facebook javascript sdk//////////
 
@@ -70659,7 +70771,7 @@ Ext.define('Xpoit.controller.Contact', {
 		// 	//caption: 'An example caption',
 		// }, function(response) {});
 
-		if (facebook == null) {
+		if (facebook.length === 0) {
 
 			Ext.Msg.alert("No Facebook Account Found", "Please try to contact the student via e-mail or twitter.", function(btn) {});
 
@@ -70694,7 +70806,7 @@ Ext.define('Xpoit.controller.Contact', {
 		var twitter = Ext.getStore('Students').first().data.twitter;
 		console.log('tapped twitter ' + twitter);
 
-		if (twitter == null) {
+		if (twitter.length === 0) {
 
 			Ext.Msg.alert("No Twitter Account Found", "Please try to contact the student via e-mail or facebook.", function(btn) {});
 
@@ -70875,7 +70987,7 @@ Ext.define('Xpoit.view.Student', {
 				items: [{
 					xtype: 'button',
 					//text: 'Email',
-					width: '30%',
+					width: '90px',
 					id: 'emailStudent',
 					cls: 'emailStudent',
 					style: {
@@ -70890,7 +71002,7 @@ Ext.define('Xpoit.view.Student', {
 					id: 'facebookContact',
 					cls: 'facebookContact',
 					//text: 'Facebook',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -70903,7 +71015,7 @@ Ext.define('Xpoit.view.Student', {
 					//text: 'Twitter',
 					id: 'twitBtn',
 					cls: 'twitBtn',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -70921,7 +71033,7 @@ Ext.define('Xpoit.view.Student', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '30%',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
@@ -70965,6 +71077,24 @@ Ext.define('Xpoit.view.Student', {
 					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 				}, ]
 			}, {
+				cls: 'shareData',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'shareStuff',
+					cls: 'shareStuff',
+					width: '90px',
+					pack: 'start',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+
+				}, ]
+			}, {
 				cls: 'addToFav',
 				layout: {
 					type: 'hbox'
@@ -70973,7 +71103,7 @@ Ext.define('Xpoit.view.Student', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '30%',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {

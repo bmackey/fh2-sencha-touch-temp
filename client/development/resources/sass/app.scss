@@ -309,6 +309,7 @@ color: #599397;
 
 .profileImage {
   width: 90px;
+  height: 90px;
   float: left;
   margin-right: 5px;
   margin-bottom: 25px;
@@ -356,6 +357,7 @@ color: #599397;
   background-repeat: no-repeat;
   background-size: 60%;
   background-position: 50%;
+  border: none;
 }
 
 .facebookContact{
@@ -363,6 +365,7 @@ color: #599397;
   background-repeat: no-repeat;
   background-size: 60%;
   background-position: 50%;
+  border: none;
 }
 
 .twitBtn{
@@ -370,6 +373,7 @@ color: #599397;
   background-repeat: no-repeat;
   background-size: 60%;
   background-position: 50%;
+  border: none;
 }
 
 .addFavItem{
@@ -377,6 +381,7 @@ color: #599397;
   background-repeat: no-repeat;
   background-size: 60%;
   background-position: 50%;
+    border: none;
 }
 
 .removeFavItem{
@@ -384,12 +389,14 @@ color: #599397;
   background-repeat: no-repeat;
   background-size: 55%;
   background-position: 50%;
+    border: none;
 }
 
 .shareStuff{
   background-image: url(../images/icons/share.png);
   background-repeat: no-repeat;
   background-size: 50%;
+    border: none;
 }
 
 
