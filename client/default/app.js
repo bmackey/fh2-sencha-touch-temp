@@ -69319,7 +69319,7 @@ Ext.define('Xpoit.model.Student', {
 			name: 'commercial',
 			type: 'string'
 		}, {
-			name: 'desc',
+			name: 'description',
 			type: 'string'
 		}, {
 			name: 'location',
@@ -69366,7 +69366,7 @@ Ext.define('Xpoit.model.Project', {
 			name: 'commercial',
 			type: 'string'
 		}, {
-			name: 'desc',
+			name: 'description',
 			type: 'string'
 		}, {
 			name: 'disciplines',
@@ -69413,7 +69413,7 @@ Ext.define('Xpoit.model.Record', {
 			name: 'commercial',
 			type: 'string'
 		}, {
-			name: 'desc',
+			name: 'description',
 			type: 'string'
 		}, {
 			name: 'disciplines',
@@ -69457,7 +69457,7 @@ Ext.define('Xpoit.model.LocalFav', {
 			name: 'commercial',
 			type: 'string'
 		}, {
-			name: 'desc',
+			name: 'description',
 			type: 'string'
 		}, {
 			name: 'disciplines',
@@ -69840,7 +69840,7 @@ Ext.define('Xpoit.controller.Main', {
 						title: item.title,
 						commercial: item.commercial,
 						location: item.location,
-						desc: item.description,
+						description: item.description,
 						disciplines: item.disciplines
 					});
 
@@ -71101,7 +71101,7 @@ Ext.define('Xpoit.view.Student', {
 
 			store: 'Students',
 			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
-				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}</div>',
+				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {description} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Location',
@@ -71258,7 +71258,7 @@ Ext.define('Xpoit.view.Project', {
 			store: 'Students',
 			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
 				'<p><h2>Project Title: {title}</h2></p>',
-				'<p>{desc} <br />Disciplines Used: {disciplines}</div>',
+				'<p>{description} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Student',
@@ -71574,7 +71574,7 @@ Ext.define('Xpoit.view.SearchView', {
 			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
 				'<p><h2>Project Title: {title}</h2></p>',
 				'<p><h2>Location: {location}</h2></p>',
-				'<p>{desc} <br />Disciplines Used: {disciplines}</div>',
+				'<p>{description} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Student',
@@ -71962,7 +71962,7 @@ Ext.define('Xpoit.view.VisitIt', {
 
 			store: 'LocalFavs',
 			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
-				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {desc} <br />Disciplines Used: {disciplines}</div>',
+				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {description} <br />Disciplines Used: {disciplines}</div>',
 			],
 		}, {
 			title: 'Location',
