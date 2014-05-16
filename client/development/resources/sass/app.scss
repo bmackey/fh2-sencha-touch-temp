@@ -296,7 +296,7 @@ color: #599397;
 }
 
 .profileImage {
-  width: 35%;
+  width: 90px;
   float: left;
   margin-right: 5px;
   margin-bottom: 25px;
@@ -305,7 +305,7 @@ color: #599397;
 }
 
 .rightContent {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .contact {
@@ -497,6 +497,36 @@ color: #ffffff;
 .shareData {
   height: 50px;
   position: absolute;
-  bottom: 15%;
+  bottom: 15%;background-image: none;
   left: 15%;
+}
+
+/*-----------------------------share pop up-------------*/
+.x-sheet-action {
+  padding: 0.7em;
+  border-top: 1px solid #599397;
+  background-image: none;
+  background-color: #599397;
+  background-image: #599397;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+
+.x-sheet-action .x-button {
+  background-color: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff,#ffffff 3%,#ffffff);
+  background-image: -moz-linear-gradient(top, #ffffff,#ffffff 3%,#ffffff);
+  background-image: -o-linear-gradient(top, #ffffff,#ffffff 3%,#ffffff);
+  background-image: linear-gradient(top, #ffffff,#ffffff 3%,#ffffff);
+}
+
+.x-button.x-button-decline {
+  background-color: #580B0B;
+  background-image: -webkit-linear-gradient(top, #580B0B,#580B0B 3%,#580B0B);
+  background-image: -moz-linear-gradient(top, #580B0B,#580B0B 3%,#580B0B);
+  background-image: -o-linear-gradient(top, #f91f1f,#e00606 3%,#580B0B);
+  background-image: linear-gradient(top, #580B0B,#580B0B 3%,#580B0B);
 }

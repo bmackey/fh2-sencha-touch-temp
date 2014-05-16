@@ -35152,6 +35152,91 @@ Ext.define('Ext.Sheet', {
 });
 
 /**
+ * {@link Ext.ActionSheet ActionSheets} are used to display a list of {@link Ext.Button buttons} in a popup dialog.
+ *
+ * The key difference between ActionSheet and {@link Ext.Sheet} is that ActionSheets are docked at the bottom of the
+ * screen, and the {@link #defaultType} is set to {@link Ext.Button button}.
+ *
+ * ## Example
+ *
+ *     @example preview miniphone
+ *     var actionSheet = Ext.create('Ext.ActionSheet', {
+ *         items: [
+ *             {
+ *                 text: 'Delete draft',
+ *                 ui  : 'decline'
+ *             },
+ *             {
+ *                 text: 'Save draft'
+ *             },
+ *             {
+ *                 text: 'Cancel',
+ *                 ui  : 'confirm'
+ *             }
+ *         ]
+ *     });
+ *
+ *     Ext.Viewport.add(actionSheet);
+ *     actionSheet.show();
+ *
+ * As you can see from the code above, you no longer have to specify a `xtype` when creating buttons within a {@link Ext.ActionSheet ActionSheet},
+ * because the {@link #defaultType} is set to {@link Ext.Button button}.
+ *
+ */
+Ext.define('Ext.ActionSheet', {
+    extend:  Ext.Sheet ,
+    alias : 'widget.actionsheet',
+                             
+
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'sheet-action',
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        left: 0,
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        right: 0,
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        bottom: 0,
+
+        // @hide
+        centered: false,
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        height: 'auto',
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        defaultType: 'button'
+    },
+
+    platformConfig: [{
+        theme: ['Windows'],
+        top: 0,
+        bottom: null
+    }]
+});
+
+/**
  * The Connection class encapsulates a connection to the page's originating domain, allowing requests to be made either
  * to a configured URL, or to a URL specified at request time.
  *
@@ -69237,6 +69322,9 @@ Ext.define('Xpoit.model.Student', {
 			name: 'desc',
 			type: 'string'
 		}, {
+			name: 'location',
+			type: 'string'
+		}, {
 			name: 'disciplines',
 			type: 'string'
 		}]
@@ -69314,6 +69402,9 @@ Ext.define('Xpoit.model.Record', {
 			type: 'string'
 		}, {
 			name: 'course',
+			type: 'string'
+		}, {
+			name: 'location',
 			type: 'string'
 		}, {
 			name: 'title',
@@ -69853,7 +69944,10 @@ Ext.define('Xpoit.controller.Main', {
 		console.log('onItemTap: index = ' + index);
 
 		var rec = list.getStore().getAt(index);
-		console.log(rec.data);
+		console.log('data being passed', rec.data);
+
+		var studentStore = Ext.getStore('Students');
+		studentStore.add(rec.data);
 
 		Ext.ComponentManager.get('searchPanel').push({
 			xtype: 'searchView',
@@ -70367,23 +70461,88 @@ Ext.define('Xpoit.controller.Share', {
 
 	config: {
 		refs: {
-			tweet: 'button[id=testShare]',
-			sharefb: 'button[id=fbShare]',
+			tweet: 'button[id=projectTwitter]',
+			sharefb: 'button[id=projectFB]',
+			shareBtn: 'button[id=shareStuff]',
+			close: 'button[id=closeOptions]',
+			shareLi: 'button[id=projectLI]',
+			shareG: 'button[id=projectG]',
+			projectMail: 'button[id=projectMail]',
+			//shareP: 'button[id=projectPin]',
 		},
 		control: {
+			'shareBtn': {
+				tap: 'shareAlert'
+			},
 			'tweet': {
 				tap: 'shareTweet'
 			},
 			'sharefb': {
 				tap: 'shareFb'
+			},
+			'shareLi': {
+				tap: 'sharedLinkedIn'
+			},
+			'shareG': {
+				tap: 'shareGoogle'
+			},
+			'projectMail': {
+				tap: 'shareEmail'
+			},
+			// 'shareP': {
+			// 	tap: 'sharedPinterest'
+			// },
+			'close': {
+				tap: 'closeWindow'
 			}
 		},
+	},
+
+	closeWindow: function() {
+		Ext.getCmp('actionSheet').hide();
+		Ext.getCmp('actionSheet').destroy();
+		//Ext.get('#closeOptions').destroy();
+	},
+
+	shareAlert: function() {
+		var actionSheet = Ext.create('Ext.ActionSheet', {
+			id: 'actionSheet',
+			items: [{
+					text: 'twitter',
+					id: 'projectTwitter'
+				}, {
+					text: 'facebook',
+					id: 'projectFB'
+				}, {
+					text: 'linkedin',
+					id: 'projectLI'
+				}, {
+					text: 'Google+',
+					id: 'projectG'
+				}, {
+					text: 'Email Details',
+					id: 'projectMail'
+				},
+				// {
+				// 	text: 'pinterest',
+				// 	id: 'projectPin'
+				// },
+				{
+					text: 'Cancel',
+					id: 'closeOptions',
+					ui: 'decline'
+				}
+			]
+		});
+
+		Ext.Viewport.add(actionSheet);
+		actionSheet.show();
 	},
 
 	shareTweet: function() {
 		console.log('tapped tweet testing');
 		var commercial = Ext.getStore('Students').first().data.commercial;
-		window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + "Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
+		window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
 
 		//need to create a webview to share via app
 
@@ -70391,14 +70550,43 @@ Ext.define('Xpoit.controller.Share', {
 
 	shareFb: function() {
 		console.log('tapped fb testing');
+		var url = Ext.getStore('Students').first().data.commercial;
+		window.open("https://www.facebook.com/sharer/sharer.php?u=https://pure-badlands-7549.herokuapp.com");
+		//window.open("http://www.facebook.com/dialog/feed?app_id=286666784843451&link=http://developers.facebook.com/docs/reference/dialogs/& picture=http://fbrell.com/f8.jpg&name=Facebook%20Dialogs&caption=Reference%20Documentation& description=Dialogs%20provide%20a%20simple,%20consistent%20interface%20for%20applications%20to%20interact%20with%20users.& message=Facebook%20Dialogs%20are%20so%20easy!& redirect_uri=http://www.example.com/response");
+	},
+
+	sharedLinkedIn: function() {
+		console.log('tapped linkedin testing');
 		var commercial = Ext.getStore('Students').first().data.commercial;
-		window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + "Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
+		window.open("http://www.linkedin.com/shareArticle?mini=true&url=https://pure-badlands-7549.herokuapp.com&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!");
+
+	},
+
+	shareGoogle: function() {
+		console.log('tapped linkedin google');
+		//var commercial = Ext.getStore('Students').first().data.commercial;
+		window.open("https://plus.google.com/share?url=https://pure-badlands-7549.herokuapp.com/");
+	},
+
+	shareEmail: function() {
+		console.log('tapped email');
+		var title = Ext.getStore('Students').first().data.title;
+		var desc = Ext.getStore('Students').first().data.desc;
+		var fname = Ext.getStore('Students').first().data.fname;
+		var lname = Ext.getStore('Students').first().data.lname;
+		var email = Ext.getStore('Students').first().data.email;
+
+		window.location.href = "mailto:?subject=WIT%20Student%20Fair%20Project&body=Just checked out this amazing project: " + title + ". %0A Student Name: " + fname + " " + lname + ". %0A%0A Project Description: " + desc + "%0A%0A Contact Email: " + email + "%0A Check out all the projects @ NoteIt!";
 
 
-		href = "http://www.facebook.com/sharer.php?s=100&p[title]=YOUR_TITLE&p[summary]=YOUR_SUMMARY&p[url]=YOUR_URL&p[images][0]=YOUR_IMAGE_TO_SHARE_OBJECT"
-		//need to create a webview to share via app
-
+		//window.open("mailto:?subject=WIT%20Student%20Fair%20Project&body=Just%checked%out%this%amazing%project:%" + title + " See%them%all%@%https://pure-badlands-7549.herokuapp.com/");
 	}
+
+	// sharedPinterest: function() {
+	// 	console.log('tapped pintered');
+	// 	var commercial = Ext.getStore('Students').first().data.commercial;
+	// 	window.open("https://pinterest.com/pin/create/button/?url=resources/images/appicon.png&media=&description=" + commercial);
+	// }
 
 });
 
@@ -70434,25 +70622,25 @@ Ext.define('Xpoit.controller.Contact', {
 
 		var url = "mailto:" + email + "?subject=" + subject + "&body=message%20goes%20here";
 
-		$fh.webview({
-			'act': 'open',
-			'url': url,
-			'title': 'Email Student'
-		}, function(res) {
-			if (res === "opened") {
-				//webview window is now open
-			}
-			if (res === "closed") {
-				//webview window is now closed
-			}
-		}, function(msg, err) {
-			alert(msg)
-		});
+		// $fh.webview({
+		// 	'act': 'open',
+		// 	'url': url,
+		// 	'title': 'Email Student'
+		// }, function(res) {
+		// 	if (res === "opened") {
+		// 		//webview window is now open
+		// 	}
+		// 	if (res === "closed") {
+		// 		//webview window is now closed
+		// 	}
+		// }, function(msg, err) {
+		// 	alert(msg)
+		// });
 
-		//close it
-		$fh.webview({
-			'act': 'close'
-		})
+		// //close it
+		// $fh.webview({
+		// 	'act': 'close'
+		// })
 	},
 	studentFb: function() {
 		var facebook = Ext.getStore('Students').first().data.facebook;
@@ -70902,68 +71090,57 @@ Ext.define('Xpoit.view.Project', {
 			scrollable: true,
 
 			items: [{
-					docked: 'top',
-					xtype: 'toolbar',
-					title: 'Project Profile',
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Project Profile',
 
-					items: [{
-						id: 'projectListBack',
-						cls: 'backBtn',
-						html: '<img src="resources/images/back.png"/>',
-						hidden: Xpoit.hideBack || false,
-					}, {
-						xtype: 'spacer'
-					}, {
-						html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-					}, ]
-				},
-				// {
-				// 	xtype: 'button',
-				// 	text: 'Share Twitter',
-				// 	id: 'testShare'
-				// },
-				{
-					cls: 'shareData',
-					layout: {
-						type: 'hbox'
-					},
-					items: [{
-						xtype: 'button',
-						id: 'shareStuff',
-						cls: 'shareStuff',
-						width: '30%',
-						pack: 'start',
-						style: {
-							'background-color': '#6d6e71',
-							'border-radius': 0,
-							'border-top': 'none',
-							'border-right': 'none',
-							'border-left': 'none',
-						}
-
-					}, ]
+				items: [{
+					id: 'projectListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
 				}, {
-					cls: 'addToFav',
-					layout: {
-						type: 'hbox'
-					},
-					items: [{
-						xtype: 'button',
-						id: 'addFavItem',
-						cls: 'addFavItem',
-						width: '30%',
-						//text: 'Favourite',
-						pack: 'end',
-						style: {
-							'background-color': '#6d6e71',
-							'border-radius': 0,
-							'border-top': 'none',
-							'border-right': 'none',
-							'border-left': 'none',
-						}
-					}]
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, {
+				cls: 'shareData',
+				layout: {
+					type: 'hbox'
 				},
-			],
+				items: [{
+					xtype: 'button',
+					id: 'shareStuff',
+					cls: 'shareStuff',
+					width: '90px',
+					pack: 'start',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+
+				}, ]
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '90px',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+				}]
+			}, ],
 			xtype: 'dataview',
 
 			store: 'Students',
@@ -71001,41 +71178,35 @@ Ext.define('Xpoit.view.Project', {
 				items: [{
 					xtype: 'button',
 					//text: 'Email',
-					width: '30%',
+					width: '90px',
 					id: 'emailStudent',
 					cls: 'emailStudent',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
-						'border-top': 'none',
-						'border-right': 'none',
-						'border-left': 'none',
+						'border': 'none',
 					}
 				}, {
 					xtype: 'button',
 					id: 'facebookContact',
 					cls: 'facebookContact',
 					//text: 'Facebook',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
-						'border-top': 'none',
-						'border-right': 'none',
-						'border-left': 'none',
+						'border': 'none',
 					}
 				}, {
 					xtype: 'button',
 					//text: 'Twitter',
 					id: 'twitBtn',
 					cls: 'twitBtn',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
-						'border-top': 'none',
-						'border-right': 'none',
-						'border-left': 'none',
+						'border': 'none',
 					}
 				}, ],
 			}, {
@@ -71047,15 +71218,13 @@ Ext.define('Xpoit.view.Project', {
 					xtype: 'button',
 					id: 'addFavItem',
 					cls: 'addFavItem',
-					width: '30%',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
-						'border-top': 'none',
-						'border-right': 'none',
-						'border-left': 'none',
+						'border': 'none',
 					}
 				}]
 			}],
@@ -71217,48 +71386,198 @@ Ext.define('Xpoit.view.SearchList', {
 });
 
 Ext.define('Xpoit.view.SearchView', {
-	extend:  Ext.Panel ,
+	extend:  Ext.tab.Panel ,
 	xtype: 'searchView',
 	id: 'searchView',
 
+	           
+		               
+
+	  
 	config: {
+		tabBarPosition: 'bottom',
 		styleHtmlContent: true,
-		scrollable: 'vertical',
-		title: 'Information',
-		tpl: ['{project} {title}' +
-			'{commercial}' +
-			'{desc}'
-		],
+
 		items: [{
-			xtype: 'toolbar',
-			docked: 'top',
-			title: 'Exhibit Info',
+			title: 'Exhibit	',
+			iconCls: 'info',
+			styleHtmlContent: true,
+			scrollable: true,
 
 			items: [{
-				id: 'searchViewBack',
-				xtype: 'button',
-				cls: 'backBtn',
-				html: '<img src="resources/images/back.png"/>',
-				hidden: Xpoit.hideBack || false,
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Exhibit Info',
+
+				items: [{
+					id: 'searchViewBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
 			}, {
-				xtype: 'spacer'
+				cls: 'shareData',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'shareStuff',
+					cls: 'shareStuff',
+					width: '90px',
+					pack: 'start',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+
+				}, ]
 			}, {
-				html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-			}]
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '90px',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+				}]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
+				'<p><h2>Project Title: {title}</h2></p>',
+				'<p><h2>Location: {location}</h2></p>',
+				'<p>{desc} <br />Disciplines Used: {disciplines}</div>',
+			],
 		}, {
-			xtype: 'toolbar',
-			docked: 'bottom',
-			cls: 'btmNav',
+			title: 'Student',
+			iconCls: 'user',
+			styleHtmlContent: true,
+			scrollable: true,
 
 			items: [{
-				id: 'studentBtn2',
-				html: '<img src="resources/images/icons/studentM.png"/>',
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Student Profile',
+
+				items: [{
+					id: 'searchViewBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
 			}, {
-				id: 'locationBtn',
-				html: '<img src="resources/images/icons/location.png"/>',
-			}]
+				cls: 'contactInformation',
+				layout: {
+					type: 'hbox',
+					pack: 'center',
+				},
+				items: [{
+					xtype: 'button',
+					//text: 'Email',
+					width: '90px',
+					id: 'emailStudent',
+					cls: 'emailStudent',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+				}, {
+					xtype: 'button',
+					id: 'facebookContact',
+					cls: 'facebookContact',
+					//text: 'Facebook',
+					width: '90px',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+				}, {
+					xtype: 'button',
+					//text: 'Twitter',
+					id: 'twitBtn',
+					cls: 'twitBtn',
+					width: '90px',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+				}, ],
+			}, {
+				cls: 'addToFav',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'addFavItem',
+					cls: 'addFavItem',
+					width: '90px',
+					//text: 'Favourite',
+					pack: 'end',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+				}]
+			}],
+			xtype: 'dataview',
+
+			store: 'Students',
+			itemTpl: '<div class="studentInfo">' +
+				'<img class="profileImage" src="{imageTxt}" />' +
+				'<div class="rightContent"><h2>{fname} {lname}</h2><b>Course: </b> {course}</div>' +
+				'<div class="contact" style="text-align:left">CONTACT</div>' +
+				'<div class="contactInfo">',
+		}, {
+			title: 'Location',
+			iconCls: 'maps',
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Map Location',
+				items: [{
+					id: 'searchViewBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+			html: 'Map to come......'
+			//itemTpl: '{}',
 		}]
-	}
+	},
 
 });
 
