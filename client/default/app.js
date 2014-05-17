@@ -71890,7 +71890,7 @@ Ext.define('Xpoit.view.VisitIt', {
 				items: [{
 					xtype: 'button',
 					//text: 'Email',
-					width: '30%',
+					width: '90px',
 					id: 'emailStudent',
 					cls: 'emailStudent',
 					style: {
@@ -71905,7 +71905,7 @@ Ext.define('Xpoit.view.VisitIt', {
 					id: 'facebookContact',
 					cls: 'facebookContact',
 					//text: 'Facebook',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -71918,7 +71918,7 @@ Ext.define('Xpoit.view.VisitIt', {
 					//text: 'Twitter',
 					id: 'twitBtn',
 					cls: 'twitBtn',
-					width: '30%',
+					width: '90px',
 					style: {
 						'background-color': '#6d6e71',
 						'border-radius': 0,
@@ -71936,7 +71936,7 @@ Ext.define('Xpoit.view.VisitIt', {
 					xtype: 'button',
 					id: 'removeFavItem',
 					cls: 'removeFavItem',
-					width: '30%',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
@@ -71980,15 +71980,33 @@ Ext.define('Xpoit.view.VisitIt', {
 					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
 				}, ]
 			}, {
+				cls: 'shareData',
+				layout: {
+					type: 'hbox'
+				},
+				items: [{
+					xtype: 'button',
+					id: 'shareStuff',
+					cls: 'shareStuff',
+					width: '90px',
+					pack: 'start',
+					style: {
+						'background-color': '#6d6e71',
+						'border-radius': 0,
+						'border': 'none',
+					}
+
+				}, ]
+			}, {
 				cls: 'addToFav',
 				layout: {
 					type: 'hbox'
 				},
 				items: [{
 					xtype: 'button',
-					id: 'addFavItem',
-					cls: 'addFavItem',
-					width: '30%',
+					id: 'removeFavItem',
+					cls: 'removeFavItem',
+					width: '90px',
 					//text: 'Favourite',
 					pack: 'end',
 					style: {
@@ -72002,35 +72020,12 @@ Ext.define('Xpoit.view.VisitIt', {
 			}],
 			xtype: 'dataview',
 
-			store: 'LocalFavs',
-			itemTpl: ['<div class="studentInfo"><h1>Project No: {project}</h1>',
-				'Project No: {project} <br />Project Title: {title} <br />Commercial Title: {commercial} <br />Project Description: {description} <br />Disciplines Used: {disciplines}</div>',
-			],
-		}, {
-			title: 'Location',
-			iconCls: 'maps',
-
-			items: [{
-				docked: 'top',
-				xtype: 'toolbar',
-				title: 'Map Location',
-				items: [{
-					id: 'visitItListBack',
-					cls: 'backBtn',
-					html: '<img src="resources/images/back.png"/>',
-					hidden: Xpoit.hideBack || false,
-				}, {
-					xtype: 'spacer'
-				}, {
-					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
-				}, ]
-			}, ],
-			xtype: 'dataview',
-
 			store: 'Students',
-			html: 'Map to come......'
-			//itemTpl: '{}',
-		}]
+			itemTpl: ['<div class="studentInfo"><h1>{commercial}</h1>',
+				'<p><h2>Project Title: {title}</h2></p>',
+				'{description} <br />Disciplines Used: {disciplines}</div>',
+			],
+		}, ]
 	},
 
 });
