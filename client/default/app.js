@@ -70590,9 +70590,9 @@ Ext.define('Xpoit.controller.Share', {
 	shareFb: function() {
 		console.log('tapped fb testing');
 		var url = Ext.getStore('Students').first().data.commercial;
-		window.open("https://www.facebook.com/sharer/sharer.php?u=https://pure-badlands-7549.herokuapp.com");
+		window.open("https://www.facebook.com/sharer/sharer.php?u=http://noteitapp.herokuapp.com/");
 
-		// var url = "https://www.facebook.com/sharer/sharer.php?u=https://pure-badlands-7549.herokuapp.com";
+		// var url = "https://www.facebook.com/sharer/sharer.php?u=http://noteitapp.herokuapp.com/";
 
 
 
@@ -70622,9 +70622,9 @@ Ext.define('Xpoit.controller.Share', {
 	sharedLinkedIn: function() {
 		console.log('tapped linkedin testing');
 		var commercial = Ext.getStore('Students').first().data.commercial;
-		window.open("http://www.linkedin.com/shareArticle?mini=true&url=https://pure-badlands-7549.herokuapp.com&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!");
+		window.open("http://www.linkedin.com/shareArticle?mini=true&url=http://noteitapp.herokuapp.com/&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!");
 
-		// var url = "http://www.linkedin.com/shareArticle?mini=true&url=https://pure-badlands-7549.herokuapp.com&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!";
+		// var url = "http://www.linkedin.com/shareArticle?mini=true&url=http://noteitapp.herokuapp.com/&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!";
 
 		// $fh.webview({
 		// 	'act': 'open',
@@ -70687,7 +70687,7 @@ Ext.define('Xpoit.controller.Share', {
 		var lname = Ext.getStore('Students').first().data.lname;
 		var email = Ext.getStore('Students').first().data.email;
 
-		window.location.href = "mailto:?subject=WIT%20Student%20Fair%20Project&body=Just checked out this amazing project: " + title + ". %0A Student Name: " + fname + " " + lname + ". %0A%0A Project Description: " + desc + "%0A%0A Contact Email: " + email + "%0A Check out all the projects @ NoteIt!";
+		window.location.href = "mailto:?subject=WIT%20Student%20Fair%20Project&body=Just checked out this amazing project: " + title + ". %0A Student Name: " + fname + " " + lname + ". %0A%0A Project Description: " + desc + "%0A%0A Contact Email: " + email + "%0A Check out all the projects @ NoteIt! http://noteitapp.herokuapp.com/";
 
 
 		//window.open("mailto:?subject=WIT%20Student%20Fair%20Project&body=Just%checked%out%this%amazing%project:%" + title + " See%them%all%@%http://noteitapp.herokuapp.com/");
