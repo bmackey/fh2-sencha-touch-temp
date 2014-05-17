@@ -71126,6 +71126,9 @@ Ext.define('Xpoit.view.Student', {
 		}, {
 			title: 'Location',
 			iconCls: 'maps',
+			styleHtmlContent: true,
+			scrollable: true,
+
 
 			items: [{
 				docked: 'top',
@@ -71145,7 +71148,8 @@ Ext.define('Xpoit.view.Student', {
 			xtype: 'dataview',
 
 			store: 'Students',
-			html: 'Map to come......'
+			html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+
 			//itemTpl: '{}',
 		}]
 	},
@@ -71689,6 +71693,10 @@ Ext.define('Xpoit.view.SearchView', {
 			title: 'Location',
 			iconCls: 'maps',
 
+			styleHtmlContent: true,
+			scrollable: true,
+
+
 			items: [{
 				docked: 'top',
 				xtype: 'toolbar',
@@ -71707,7 +71715,8 @@ Ext.define('Xpoit.view.SearchView', {
 			xtype: 'dataview',
 
 			store: 'Students',
-			html: 'Map to come......'
+			html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+
 			//itemTpl: '{}',
 		}]
 	},
