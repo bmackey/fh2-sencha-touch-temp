@@ -70111,9 +70111,9 @@ Ext.define('Xpoit.controller.Navigation', {
 		Ext.Msg.confirm("External Url", "Are you sure you want to leave the app?", function(btn) {
 			if (btn == 'yes') {
 				//open google in a new window
-				var url = 'https://pure-badlands-7549.herokuapp.com/home';
+				var url = 'http://noteitapp.herokuapp.com/';
 
-				window.open('https://pure-badlands-7549.herokuapp.com/home', '_blank');
+				window.open('http://noteitapp.herokuapp.com/', '_blank');
 				$fh.webview({
 					'act': 'open',
 					'url': url,
@@ -70542,7 +70542,7 @@ Ext.define('Xpoit.controller.Share', {
 	shareTweet: function() {
 		console.log('tapped tweet testing');
 		var commercial = Ext.getStore('Students').first().data.commercial;
-		//window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/");
+		//window.open("https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=http://noteitapp.herokuapp.com/");
 
 		//need to create a webview to share via app
 
@@ -70561,7 +70561,7 @@ Ext.define('Xpoit.controller.Share', {
 		// }, function(response) {});
 		//window.open(facebook, '_blank');
 
-		var url = "https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=https://pure-badlands-7549.herokuapp.com/";
+		var url = "https://twitter.com/share?text=WIT Student Fair Project. Just checked out this amazing project: " + commercial + ". Check out all the projects @ &url=http://noteitapp.herokuapp.com/";
 
 
 		$fh.webview({
@@ -70653,9 +70653,9 @@ Ext.define('Xpoit.controller.Share', {
 		console.log('tapped linkedin google');
 		//var commercial = Ext.getStore('Students').first().data.commercial;
 
-		//window.open("https://plus.google.com/share?url=https://pure-badlands-7549.herokuapp.com/");
+		//window.open("https://plus.google.com/share?url=http://noteitapp.herokuapp.com/");
 
-		var url = "https://plus.google.com/share?url=https://pure-badlands-7549.herokuapp.com/";
+		var url = "https://plus.google.com/share?url=http://noteitapp.herokuapp.com/";
 
 		$fh.webview({
 			'act': 'open',
@@ -70690,7 +70690,7 @@ Ext.define('Xpoit.controller.Share', {
 		window.location.href = "mailto:?subject=WIT%20Student%20Fair%20Project&body=Just checked out this amazing project: " + title + ". %0A Student Name: " + fname + " " + lname + ". %0A%0A Project Description: " + desc + "%0A%0A Contact Email: " + email + "%0A Check out all the projects @ NoteIt!";
 
 
-		//window.open("mailto:?subject=WIT%20Student%20Fair%20Project&body=Just%checked%out%this%amazing%project:%" + title + " See%them%all%@%https://pure-badlands-7549.herokuapp.com/");
+		//window.open("mailto:?subject=WIT%20Student%20Fair%20Project&body=Just%checked%out%this%amazing%project:%" + title + " See%them%all%@%http://noteitapp.herokuapp.com/");
 	}
 
 	// sharedPinterest: function() {
