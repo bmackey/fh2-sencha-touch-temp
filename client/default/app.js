@@ -70559,32 +70559,32 @@ Ext.define('Xpoit.controller.Share', {
 		// 	//link: 'http://www.xpoitapp.com/',
 		// 	//caption: 'An example caption',
 		// }, function(response) {});
-		//window.open(facebook, '_blank');
+		window.open('https://twitter.com/intent/tweet?text=WIT+Student+Fair+Project.+Just+checked+out+this+amazing+project%3A+%22+++commercial+++%22.+Check+out+all+the+projects+%40+&url=http%3A%2F%2Fnoteitapp.herokuapp.com%2F', '_blank');
 
-		var url = "https://twitter.com/intent/tweet?text=WIT+Student+Fair+Project.+Just+checked+out+this+amazing+project%3A+%22+++commercial+++%22.+Check+out+all+the+projects+%40+&url=http%3A%2F%2Fnoteitapp.herokuapp.com%2F";
+		// var url = "https://twitter.com/intent/tweet?text=WIT+Student+Fair+Project.+Just+checked+out+this+amazing+project%3A+%22+++commercial+++%22.+Check+out+all+the+projects+%40+&url=http%3A%2F%2Fnoteitapp.herokuapp.com%2F";
 
 
-		$fh.webview({
-			'act': 'open',
-			'url': url,
-			'title': 'Tweet'
-		}, function(res) {
-			if (res === "opened") {
-				//webview window is now open
-			}
-			if (res === "closed") {
-				//webview window is now closed
-			}
-		}, function(msg, err) {
-			alert(msg)
-		});
+		// $fh.webview({
+		// 	'act': 'open',
+		// 	'url': url,
+		// 	'title': 'Tweet'
+		// }, function(res) {
+		// 	if (res === "opened") {
+		// 		//webview window is now open
+		// 	}
+		// 	if (res === "closed") {
+		// 		//webview window is now closed
+		// 	}
+		// }, function(msg, err) {
+		// 	alert(msg)
+		// });
 
-		Ext.getCmp('actionSheet').destroy();
+		// Ext.getCmp('actionSheet').destroy();
 
-		//close it
-		$fh.webview({
-			'act': 'close'
-		})
+		// //close it
+		// $fh.webview({
+		// 	'act': 'close'
+		// })
 
 	},
 
@@ -70593,30 +70593,31 @@ Ext.define('Xpoit.controller.Share', {
 		var url = Ext.getStore('Students').first().data.commercial;
 		//window.open("https://www.facebook.com/sharer/sharer.php?u=http://noteitapp.herokuapp.com/");
 
-		var url = "https://www.facebook.com/sharer/sharer.php?u=http://noteitapp.herokuapp.com/";
+		//var url = "https://www.facebook.com/sharer/sharer.php?u=http://noteitapp.herokuapp.com/";
+
+		window.open('https://www.facebook.com/sharer/sharer.php?u=http://noteitapp.herokuapp.com/', '_blank');
 
 
+		// $fh.webview({
+		// 	'act': 'open',
+		// 	'url': url,
+		// 	'title': 'Facebook'
+		// }, function(res) {
+		// 	if (res === "opened") {
+		// 		//webview window is now open
+		// 	}
+		// 	if (res === "closed") {
+		// 		//webview window is now closed
+		// 	}
+		// }, function(msg, err) {
+		// 	alert(msg)
+		// });
 
-		$fh.webview({
-			'act': 'open',
-			'url': url,
-			'title': 'Facebook'
-		}, function(res) {
-			if (res === "opened") {
-				//webview window is now open
-			}
-			if (res === "closed") {
-				//webview window is now closed
-			}
-		}, function(msg, err) {
-			alert(msg)
-		});
-
-		Ext.getCmp('actionSheet').destroy();
-		//close it
-		$fh.webview({
-			'act': 'close'
-		})
+		// Ext.getCmp('actionSheet').destroy();
+		// //close it
+		// $fh.webview({
+		// 	'act': 'close'
+		// })
 		//window.open("http://www.facebook.com/dialog/feed?app_id=286666784843451&link=http://developers.facebook.com/docs/reference/dialogs/& picture=http://fbrell.com/f8.jpg&name=Facebook%20Dialogs&caption=Reference%20Documentation& description=Dialogs%20provide%20a%20simple,%20consistent%20interface%20for%20applications%20to%20interact%20with%20users.& message=Facebook%20Dialogs%20are%20so%20easy!& redirect_uri=http://www.example.com/response");
 	},
 
@@ -70625,27 +70626,29 @@ Ext.define('Xpoit.controller.Share', {
 		var commercial = Ext.getStore('Students').first().data.commercial;
 		//window.open("http://www.linkedin.com/shareArticle?mini=true&url=http://noteitapp.herokuapp.com/&title=WIT%Student%Fair%Project.&summary=Just checked out this amazing project: " + commercial + ". Check out all the projects @ NoteIt!");
 
-		var url = "https://www.linkedin.com/shareArticle?summary=Just+checked+out+this+amazing+project%3A+Dragon+Crest%2E+Check+out+all+the+projects+%40+NoteIt%21&mini=true&url=http%3A%2F%2Fnoteitapp%2Eherokuapp%2Ecom%2F";
-		$fh.webview({
-			'act': 'open',
-			'url': url,
-			'title': 'linkedin'
-		}, function(res) {
-			if (res === "opened") {
-				//webview window is now open
-			}
-			if (res === "closed") {
-				//webview window is now closed
-			}
-		}, function(msg, err) {
-			alert(msg)
-		});
-		Ext.getCmp('actionSheet').destroy();
+		window.open('https://www.linkedin.com/shareArticle?summary=Just+checked+out+this+amazing+project%3A+Dragon+Crest%2E+Check+out+all+the+projects+%40+NoteIt%21&mini=true&url=http%3A%2F%2Fnoteitapp%2Eherokuapp%2Ecom%2F";', '_blank');
 
-		//close it
-		$fh.webview({
-			'act': 'close'
-		})
+		// var url = "https://www.linkedin.com/shareArticle?summary=Just+checked+out+this+amazing+project%3A+Dragon+Crest%2E+Check+out+all+the+projects+%40+NoteIt%21&mini=true&url=http%3A%2F%2Fnoteitapp%2Eherokuapp%2Ecom%2F";
+		// $fh.webview({
+		// 	'act': 'open',
+		// 	'url': url,
+		// 	'title': 'linkedin'
+		// }, function(res) {
+		// 	if (res === "opened") {
+		// 		//webview window is now open
+		// 	}
+		// 	if (res === "closed") {
+		// 		//webview window is now closed
+		// 	}
+		// }, function(msg, err) {
+		// 	alert(msg)
+		// });
+		// Ext.getCmp('actionSheet').destroy();
+
+		// //close it
+		// $fh.webview({
+		// 	'act': 'close'
+		// })
 
 	},
 
@@ -70656,28 +70659,28 @@ Ext.define('Xpoit.controller.Share', {
 		//window.open("https://plus.google.com/share?url=http://noteitapp.herokuapp.com/");
 
 
-		var url = "https://plus.google.com/share?url=http://noteitapp.herokuapp.com/";
+		//var url = "https://plus.google.com/share?url=http://noteitapp.herokuapp.com/";
+		window.open('https://plus.google.com/share?url=http://noteitapp.herokuapp.com/', '_blank');
+		// $fh.webview({
+		// 	'act': 'open',
+		// 	'url': url,
+		// 	'title': 'Google+'
+		// }, function(res) {
+		// 	if (res === "opened") {
+		// 		//webview window is now open
+		// 	}
+		// 	if (res === "closed") {
+		// 		//webview window is now closed
+		// 	}
+		// }, function(msg, err) {
+		// 	alert(msg)
+		// });
+		// Ext.getCmp('actionSheet').destroy();
 
-		$fh.webview({
-			'act': 'open',
-			'url': url,
-			'title': 'Google+'
-		}, function(res) {
-			if (res === "opened") {
-				//webview window is now open
-			}
-			if (res === "closed") {
-				//webview window is now closed
-			}
-		}, function(msg, err) {
-			alert(msg)
-		});
-		Ext.getCmp('actionSheet').destroy();
-
-		//close it
-		$fh.webview({
-			'act': 'close'
-		})
+		// //close it
+		// $fh.webview({
+		// 	'act': 'close'
+		// })
 	},
 
 	shareEmail: function() {
