@@ -71785,6 +71785,7 @@ Ext.define('Xpoit.view.Info', {
 Ext.define('Xpoit.view.MapView', {
     extend:  Ext.tab.Panel ,
     xtype: 'mapView',
+    alias: 'widget.maps',
     requires: [
 
     ],
@@ -71814,17 +71815,17 @@ Ext.define('Xpoit.view.MapView', {
                 }, ]
             },
 
-            //html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.pdf&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
+            //html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.svg&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
 
             //html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=resources/images/IT-Building-Ground-Floor.svg&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
 
-
+            scrollable: true,
             //html: '<img width="100%" src="http://www.imagespike.com/userfiles/ITBuildingGroundFloor.png"><script type="text/javascript" src="http://dev.imagespike.com/_nathan/embed.php?k=bf4e708a-dd4a-11e3-bc74-e35602071d7d"></script>',
             //html: '<iframe width="1000"  src="//www.thinglink.com/card/523983760660627457" type="text/html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>',
-            //html: '<div class="mapScreen"><object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg" height="100%"></object></div>',
+            html: '<div class="mapScreen"><object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg"></object></div>',
             //html: '<img src="resources/images/IT-Building-Ground-Floor.svg" />',
 
-            html: '<iframe src="resources/images/IT-Building-Ground-Floor.svg" width="100%"> </iframe>',
+            //html: '<iframe src="resources/images/IT-Building-Ground-Floor.svg" width="100%"> </iframe>',
 
             //'<object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg" width="100%"></object>',
 
@@ -71855,7 +71856,11 @@ Ext.define('Xpoit.view.MapView', {
                 layout: 'fit',
                 //html: '<div id="frameContainer2"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20First%20Floor.pdf&embedded=true" name="frame3" id="frame3" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
                 //html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-                html: '<embed src="resources/images/IT-Building-First-Floor.svg" type="image/svg+xml" / >',
+
+
+                html: '<img src="resources/images/IT-Building-First-Floor.svg" /><object data="resources/images/IT-Building-First-Floor.svg">'
+
+                //html: '<embed src="resources/images/IT-Building-First-Floor.svg" type="image/svg+xml" / >',
             }, ],
         }]
     }

@@ -1435,7 +1435,8 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.mainPanel"
   ],
   "Xpoit.view.MapView": [
-    "widget.mapView"
+    "widget.mapView",
+    "widget.maps"
   ],
   "Xpoit.view.Project": [
     "widget.projectPanel"
