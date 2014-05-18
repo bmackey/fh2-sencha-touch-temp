@@ -71824,6 +71824,9 @@ Ext.define('Xpoit.view.MapView', {
             //html: '<div class="mapScreen"><object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg" height="100%"></object></div>',
             //html: '<img src="resources/images/IT-Building-Ground-Floor.svg" />',
 
+            html: '<object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg" width="100%"></object>',
+
+
         }, {
             title: 'First',
             iconCls: 'more',
