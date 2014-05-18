@@ -71852,9 +71852,10 @@ Ext.define('Xpoit.view.MapView', {
                     html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
                 }, ]
             }, {
+                layout: 'fit',
                 //html: '<div id="frameContainer2"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20First%20Floor.pdf&embedded=true" name="frame3" id="frame3" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
                 //html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-                html: '<embed src="resources/images/IT-Building-First-Floor.svg" width="100%" type="image/svg+xml" / >',
+                html: '<embed src="resources/images/IT-Building-First-Floor.svg" type="image/svg+xml" / >',
             }, ],
         }]
     }
