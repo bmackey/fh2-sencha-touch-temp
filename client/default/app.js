@@ -69763,7 +69763,7 @@ Ext.define('Xpoit.controller.Main', {
 			project: 'projectPanel',
 			studentPanel: 'studentPanel',
 			search: 'searchPanel',
-			visit: 'visitItMainPanel'
+			visit: 'visitItMainPanel',
 		},
 		control: {
 			'#studentList': {
@@ -69779,9 +69779,9 @@ Ext.define('Xpoit.controller.Main', {
 			'#visitListPanel': {
 				itemtap: 'showFav'
 			},
-			'#maps': {
-				initalize: 'mapScreen'
-			},
+			// '#maps': {
+			// 	initalize: 'mapScreen'
+			// },
 		},
 	},
 
@@ -69792,6 +69792,13 @@ Ext.define('Xpoit.controller.Main', {
 
 		favStore.load();
 
+
+		var retrievedObject = localStorage.getItem('records');
+
+		// console.log('records in localStorage from main.js controller', JSON.parse(retrievedObject));
+
+		// var recordStore = Ext.getStore('Records');
+		// recordStore.add(JSON.parse(retrievedObject));
 
 		if (localStorage.favs) {
 			//populate the store for visitIt from local storage
@@ -69804,19 +69811,6 @@ Ext.define('Xpoit.controller.Main', {
 		} else {
 			console.log('nothing in localStorage');
 		}
-		// favStore.on('load', function(store, records) {
-		// 	if (records.length == 0) {
-		// 		console.log('local storage empty');
-		// 	} else {
-		// 		//populate the store for visitIt from local storage
-
-		// 		var retrievedfavs = localStorage.getItem('favs');
-
-		// 		console.log('records in favs storage from main.js controller', JSON.parse(retrievedfavs));
-
-		// 		favStore.add(JSON.parse(retrievedfavs));
-		// 	}
-		// });
 
 		$fh.act({
 				"act": "findAll"
@@ -69879,16 +69873,12 @@ Ext.define('Xpoit.controller.Main', {
 				console.log('Could not get stuff', msg);
 				Ext.Msg.alert("Connection Failed", "Content may not be up to date. Please check your data connection to update records.", function(btn) {});
 
-
-
 				var retrievedObject = localStorage.getItem('records');
 
 				console.log('records in localStorage from main.js controller', JSON.parse(retrievedObject));
 
 				var recordStore = Ext.getStore('Records');
 				recordStore.add(JSON.parse(retrievedObject));
-
-
 
 				var projectStore = Ext.getStore('Projects');
 				projectStore.add(JSON.parse(retrievedObject));
@@ -69900,7 +69890,7 @@ Ext.define('Xpoit.controller.Main', {
 		console.log('onItemTap: index = ' + index);
 
 		var rec = list.getStore().getAt(index);
-		console.log(rec.data);
+		console.log('student info', rec.data);
 
 		var studentStore = Ext.getStore('Students');
 		studentStore.add(rec.data);
@@ -69912,6 +69902,7 @@ Ext.define('Xpoit.controller.Main', {
 			data: rec.data
 		});
 	},
+
 
 	showProject: function(list, record) {
 		console.log('tapped expand project');
@@ -69972,16 +69963,16 @@ Ext.define('Xpoit.controller.Main', {
 
 	},
 
-	mapSreen: function() {
-		$(function() {
-			var widthRatio = $('#frameContainer').width() / $(window).width();
-			$(window).resize(function() {
-				$('#frameContainer').css({
-					width: $(window).width() * widthRatio
-				});
-			});
-		});
-	},
+	// mapScreen: function() {
+	// 	$(function() {
+	// 		var widthRatio = $('#frameContainer').width() / $(window).width();
+	// 		$(window).resize(function() {
+	// 			$('#frameContainer').css({
+	// 				width: $(window).width() * widthRatio
+	// 			});
+	// 		});
+	// 	});
+	// },
 
 
 });
@@ -71132,7 +71123,24 @@ Ext.define('Xpoit.view.Student', {
 			iconCls: 'maps',
 			styleHtmlContent: true,
 			scrollable: true,
+			listeners: {
+				activate: function() {
+					setTimeout(function() {
 
+						var projectNo = document.getElementById("projectNumber");
+						var projectValue = projectNo.innerText;
+						console.log(projectValue);
+						var showItem = projectValue + 'Text';
+						console.log(showItem);
+
+						var itemToShow = document.getElementById("showItem");
+
+						console.log(itemToShow);
+						itemToShow.style.display = "block";
+
+					}, 1000);
+				}
+			},
 
 			items: [{
 				docked: 'top',
@@ -71152,10 +71160,22 @@ Ext.define('Xpoit.view.Student', {
 			xtype: 'dataview',
 
 			store: 'Students',
-			html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+			itemTpl: ['<div id="projectNumber">{project}</div>'],
+			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+			html: '<iframe id="studentMap" src="resources/images/firstFloor.svg" type="image/svg+xml" width="100%" height="1000px"></iframe>',
 
-			//itemTpl: '{}',
-		}]
+
+			//show student on map
+			// setTimeout(function() {
+
+			// 	var projectNo = document.getElementById("projectNumber");
+			// 	alert(projectNo);
+			// 	var projectValue = projectNo.innerText;
+			// 	alert(projectValue);
+
+			// }, 1000);
+		}],
+
 	},
 
 });
@@ -71786,6 +71806,7 @@ Ext.define('Xpoit.view.MapView', {
     extend:  Ext.tab.Panel ,
     xtype: 'mapView',
     alias: 'widget.maps',
+    id: 'MapView',
     requires: [
 
     ],
@@ -71824,7 +71845,10 @@ Ext.define('Xpoit.view.MapView', {
             //html: '<iframe width="1000"  src="//www.thinglink.com/card/523983760660627457" type="text/html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>',
             //html: '<div class="mapScreen"><object type="image/svg+xml" width="100%" height="100%" data="resources/images/IT-Building-Ground-Floor.svg"></object></div>',
             //html: '<img src="resources/images/IT-Building-Ground-Floor.svg" />',
-            html: '<div id="frameContainer"><iframe src="resources/images/IT-Building-Ground-Floor.svg" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
+            //html: '<div id="frameContainer"><iframe src="resources/images/IT-Building-Ground-Floor.svg" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
+
+
+            html: '<embed src="resources/images/groundFloor.svg" type="image/svg+xml" width="100%" height="1000px"/>',
 
             //html: '<iframe src="resources/images/IT-Building-Ground-Floor.svg" width="100%"> </iframe>',
 
@@ -71855,13 +71879,13 @@ Ext.define('Xpoit.view.MapView', {
                 }, ]
             }, {
                 layout: 'fit',
+
+
                 //html: '<div id="frameContainer2"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20First%20Floor.pdf&embedded=true" name="frame3" id="frame3" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
                 //html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-
-                html: '<div id="frameContainer"><iframe src="resources/images/IT-Building-First-Floor.svg" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
-
+                html: '<embed src="resources/images/firstFloor.svg" type="image/svg+xml" width="100%" height="1000px"/>',
+                //html: '<div id="frameContainer"><iframe src="resources/images/IT-Building-First-Floor.svg" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
                 //html: '<img src="resources/images/IT-Building-First-Floor.svg" /><object data="resources/images/IT-Building-First-Floor.svg">'
-
                 //html: '<embed src="resources/images/IT-Building-First-Floor.svg" type="image/svg+xml" / >',
             }, ],
         }]
