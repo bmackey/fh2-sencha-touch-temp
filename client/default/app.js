@@ -71133,9 +71133,24 @@ Ext.define('Xpoit.view.Student', {
 						var showItem = projectValue + 'Text';
 						console.log(showItem);
 
-						var itemToShow = document.getElementById("showItem");
 
+						var map = document.getElementById("studentMap");
+						console.log(map);
+
+						var doc = map.getSVGDocument();
+						console.log(doc);
+
+						var itemToShow = doc.getElementById(showItem);
 						console.log(itemToShow);
+
+
+
+						//var itemToShow = viewport.getElementById(showItem);
+
+						// var itemToShow = map.getElementById(showItem);
+
+						// // var itemToShow = document.getElementById(showItem);
+
 						itemToShow.style.display = "block";
 
 					}, 1000);
@@ -71162,7 +71177,7 @@ Ext.define('Xpoit.view.Student', {
 			store: 'Students',
 			itemTpl: ['<div id="projectNumber">{project}</div>'],
 			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-			html: '<iframe id="studentMap" src="resources/images/firstFloor.svg" type="image/svg+xml" width="100%" height="1000px"></iframe>',
+			html: '<embed id="studentMap" src="resources/images/firstFloor.svg" type="image/svg+xml" width="100%" height="1000px"/>',
 
 
 			//show student on map
