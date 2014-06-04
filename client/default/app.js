@@ -70178,6 +70178,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 			mapBack: '#mapBackBtn',
 			visitBack: 'button[id=visitItBackBtn]',
 			visitListBtn: 'button[id=visitItListBack]',
+			zoomBtnContainer: '#zoomBtnContainer',
 
 		},
 		control: {
@@ -70220,6 +70221,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 	showHomeInfo: function() {
 		console.log('going home from info');
 		Ext.Viewport.setActiveItem('home');
+		Ext.getCmp('zoomBtnContainer').destroy();
 	},
 
 	showHomeProject: function() {
@@ -70231,11 +70233,13 @@ Ext.define('Xpoit.controller.BackBtns', {
 	showHomeStudent: function() {
 		console.log('going home from student');
 		Ext.Viewport.setActiveItem('home');
+		Ext.getCmp('zoomBtnContainer').destroy();
 	},
 
 	showHomeSearch: function() {
 		console.log('going home from search');
 		Ext.Viewport.setActiveItem('home');
+		Ext.getCmp('zoomBtnContainer').destroy();
 
 	},
 
@@ -70244,6 +70248,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 		var studentStore = Ext.getStore('Students');
 		studentStore.removeAll();
 		Ext.getCmp('projectMainPanel').pop(1);
+		Ext.getCmp('zoomBtnContainer').destroy();
 
 	},
 
@@ -70252,6 +70257,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 		var studentStore = Ext.getStore('Students');
 		studentStore.removeAll();
 		Ext.getCmp('searchPanel').pop(1);
+		Ext.getCmp('zoomBtnContainer').destroy();
 	},
 
 	returnStudentList: function() {
@@ -70259,12 +70265,14 @@ Ext.define('Xpoit.controller.BackBtns', {
 		var studentStore = Ext.getStore('Students');
 		studentStore.removeAll();
 		Ext.getCmp('mainPanel').pop(1);
+		Ext.getCmp('zoomBtnContainer').destroy();
 
 	},
 
 	showHomeMap: function() {
 		console.log('going home from maps');
 		Ext.Viewport.setActiveItem('home');
+		Ext.getCmp('zoomBtnContainer').destroy();
 
 	},
 
@@ -70277,6 +70285,7 @@ Ext.define('Xpoit.controller.BackBtns', {
 		var studentStore = Ext.getStore('Students');
 		studentStore.removeAll();
 		Ext.getCmp('visitItMainPanel').pop(1);
+		Ext.getCmp('zoomBtnContainer').destroy();
 	}
 
 });
