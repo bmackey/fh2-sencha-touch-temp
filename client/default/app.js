@@ -72075,7 +72075,75 @@ Ext.define('Xpoit.view.VisitIt', {
 				'<p><h2>Project Title: {title}</h2></p>',
 				'{description} <br />Disciplines Used: {disciplines}</div>',
 			],
-		}, ]
+		}, {
+			title: 'Location',
+			iconCls: 'maps',
+			styleHtmlContent: true,
+			scrollable: true,
+			listeners: {
+				activate: function() {
+					setTimeout(function() {
+
+						var projectNo = document.getElementById("projectNumber");
+						var projectValue = projectNo.innerText;
+						console.log(projectValue);
+						var showItem = projectValue + 'Text';
+						console.log(showItem);
+
+
+						var map = document.getElementById("studentMap");
+						console.log(map);
+
+						var doc = map.getSVGDocument();
+						console.log(doc);
+
+						var itemToShow = doc.getElementById(showItem);
+						console.log(itemToShow);
+
+
+
+						//var itemToShow = viewport.getElementById(showItem);
+
+						// var itemToShow = map.getElementById(showItem);
+
+						// // var itemToShow = document.getElementById(showItem);
+
+						itemToShow.style.display = "block";
+
+
+						$('#firstMap').zoomPanTouchSVG({
+							zoomBtnContainer: '#zoomBtnContainer'
+						});
+
+					}, 1000);
+				}
+			},
+
+			items: [{
+				docked: 'top',
+				xtype: 'toolbar',
+				title: 'Map Location',
+				items: [{
+					id: 'studentListBack',
+					cls: 'backBtn',
+					html: '<img src="resources/images/back.png"/>',
+					hidden: Xpoit.hideBack || false,
+				}, {
+					xtype: 'spacer'
+				}, {
+					html: '<img class="headerLogo" src="resources/images/homeLogo.png"/>'
+				}, ]
+			}, ],
+			xtype: 'dataview',
+
+			store: 'Students',
+
+			itemTpl: ['<div id="projectNumber">{project}</div>'],
+			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+			html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div><p>Japan consists of forty-seven prefectures, each overseen by an elected governor, legislature and administrative bureaucracy. Each prefecture is further divided into cities, towns and villages. The nation is currently undergoing administrative reorganization by merging many of the cities, towns and villages with each other. This process will reduce the number of sub-prefecture administrative regions and is expected to cut administrative costs.</p>',
+
+		}],
+
 	},
 
 });

@@ -551,3 +551,8 @@ color: #ffffff;
 
 
 /*-----------------------------button pressing-------------------------*/
+
+#zControls {
+    position: relative;
+    z-index: 1;
+}
