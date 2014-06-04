@@ -72140,7 +72140,7 @@ Ext.define('Xpoit.view.VisitIt', {
 
 			itemTpl: ['<div id="projectNumber">{project}</div>'],
 			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-			html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div><p>Japan consists of forty-seven prefectures, each overseen by an elected governor, legislature and administrative bureaucracy. Each prefecture is further divided into cities, towns and villages. The nation is currently undergoing administrative reorganization by merging many of the cities, towns and villages with each other. This process will reduce the number of sub-prefecture administrative regions and is expected to cut administrative costs.</p>',
+			html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div>',
 
 		}],
 
