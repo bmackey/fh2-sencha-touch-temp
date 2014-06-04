@@ -72124,7 +72124,7 @@ Ext.define('Xpoit.view.VisitIt', {
 				xtype: 'toolbar',
 				title: 'Map Location',
 				items: [{
-					id: 'studentListBack',
+					id: 'visitItListBack',
 					cls: 'backBtn',
 					html: '<img src="resources/images/back.png"/>',
 					hidden: Xpoit.hideBack || false,
