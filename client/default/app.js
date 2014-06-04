@@ -71175,9 +71175,22 @@ Ext.define('Xpoit.view.Student', {
 			xtype: 'dataview',
 
 			store: 'Students',
+
+			interactions: [{
+				type: 'panzoom',
+				axes: {
+					left: {
+						maxZoom: 5,
+						startZoom: 2
+					},
+					bottom: {
+						maxZoom: 2
+					}
+				}
+			}],
 			itemTpl: ['<div id="projectNumber">{project}</div>'],
 			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-			html: '<embed id="studentMap" src="resources/images/firstFloor.svg" type="image/svg+xml" width="100%" height="1000px"/>',
+			html: '<embed id="studentMap" src="resources/images/firstFloor.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/>',
 
 
 			//show student on map
