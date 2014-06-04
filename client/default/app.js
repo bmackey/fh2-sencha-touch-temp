@@ -71143,15 +71143,12 @@ Ext.define('Xpoit.view.Student', {
 						var itemToShow = doc.getElementById(showItem);
 						console.log(itemToShow);
 
-
-
-						//var itemToShow = viewport.getElementById(showItem);
-
-						// var itemToShow = map.getElementById(showItem);
-
-						// // var itemToShow = document.getElementById(showItem);
-
 						itemToShow.style.display = "block";
+
+
+						$('#firstMap').zoomPanTouchSVG({
+							zoomBtnContainer: '#zoomBtnContainer'
+						});
 
 					}, 1000);
 				}
@@ -71178,7 +71175,7 @@ Ext.define('Xpoit.view.Student', {
 
 			itemTpl: ['<div id="projectNumber">{project}</div>'],
 			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-			html: '<embed id="studentMap" src="resources/images/firstFloor.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/>',
+			html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div>',
 
 		}],
 
@@ -71406,6 +71403,38 @@ Ext.define('Xpoit.view.Project', {
 		}, {
 			title: 'Location',
 			iconCls: 'maps',
+			styleHtmlContent: true,
+			scrollable: true,
+			listeners: {
+				activate: function() {
+					setTimeout(function() {
+
+						var projectNo = document.getElementById("projectNumber");
+						var projectValue = projectNo.innerText;
+						console.log(projectValue);
+						var showItem = projectValue + 'Text';
+						console.log(showItem);
+
+
+						var map = document.getElementById("studentMap");
+						console.log(map);
+
+						var doc = map.getSVGDocument();
+						console.log(doc);
+
+						var itemToShow = doc.getElementById(showItem);
+						console.log(itemToShow);
+
+						itemToShow.style.display = "block";
+
+
+						$('#firstMap').zoomPanTouchSVG({
+							zoomBtnContainer: '#zoomBtnContainer'
+						});
+
+					}, 1000);
+				}
+			},
 
 			items: [{
 				docked: 'top',
@@ -71425,9 +71454,13 @@ Ext.define('Xpoit.view.Project', {
 			xtype: 'dataview',
 
 			store: 'Students',
-			html: '<div id="map" style="padding:10px"><object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg" width="100%"></object></div>',
-			//itemTpl: '{}',
-		}]
+
+			itemTpl: ['<div id="projectNumber">{project}</div>'],
+			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+			html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div>',
+
+		}],
+
 	},
 
 });
@@ -71722,10 +71755,38 @@ Ext.define('Xpoit.view.SearchView', {
 		}, {
 			title: 'Location',
 			iconCls: 'maps',
-
 			styleHtmlContent: true,
 			scrollable: true,
+			listeners: {
+				activate: function() {
+					setTimeout(function() {
 
+						var projectNo = document.getElementById("projectNumber");
+						var projectValue = projectNo.innerText;
+						console.log(projectValue);
+						var showItem = projectValue + 'Text';
+						console.log(showItem);
+
+
+						var map = document.getElementById("studentMap");
+						console.log(map);
+
+						var doc = map.getSVGDocument();
+						console.log(doc);
+
+						var itemToShow = doc.getElementById(showItem);
+						console.log(itemToShow);
+
+						itemToShow.style.display = "block";
+
+
+						$('#firstMap').zoomPanTouchSVG({
+							zoomBtnContainer: '#zoomBtnContainer'
+						});
+
+					}, 1000);
+				}
+			},
 
 			items: [{
 				docked: 'top',
@@ -71745,10 +71806,13 @@ Ext.define('Xpoit.view.SearchView', {
 			xtype: 'dataview',
 
 			store: 'Students',
-			html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
 
-			//itemTpl: '{}',
-		}]
+			itemTpl: ['<div id="projectNumber">{project}</div>'],
+			//html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
+			html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div>',
+
+		}],
+
 	},
 
 });
@@ -71842,31 +71906,27 @@ Ext.define('Xpoit.view.MapView', {
                 }, ]
             },
 
-            //html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20Ground%20Floor.svg&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
-
-            //html: '<div id="frameContainer"><iframe src="http://docs.google.com/gview?url=resources/images/IT-Building-Ground-Floor.svg&embedded=true" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
-
             scrollable: true,
-            //html: '<img width="100%" src="http://www.imagespike.com/userfiles/ITBuildingGroundFloor.png"><script type="text/javascript" src="http://dev.imagespike.com/_nathan/embed.php?k=bf4e708a-dd4a-11e3-bc74-e35602071d7d"></script>',
-            //html: '<iframe width="1000"  src="//www.thinglink.com/card/523983760660627457" type="text/html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>',
-            //html: '<div class="mapScreen"><object type="image/svg+xml" width="100%" height="100%" data="resources/images/IT-Building-Ground-Floor.svg"></object></div>',
-            //html: '<img src="resources/images/IT-Building-Ground-Floor.svg" />',
-            //html: '<div id="frameContainer"><iframe src="resources/images/IT-Building-Ground-Floor.svg" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
 
-
-            html: '<embed src="resources/images/groundFloor.svg" type="image/svg+xml" width="100%" height="1000px"/>',
-
-            //html: '<iframe src="resources/images/IT-Building-Ground-Floor.svg" width="100%"> </iframe>',
-
-            //'<object type="image/svg+xml" data="resources/images/IT-Building-Ground-Floor.svg" width="100%"></object>',
-
-
+            html: '<div class="container"><div id="svg-container2"><embed src="resources/images/groundFloor.svg" type="image/svg+xml" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer2"></div>',
         }, {
             title: 'First',
             iconCls: 'more',
 
             styleHtmlContent: true,
             scrollable: true,
+
+            listeners: {
+                activate: function() {
+                    setTimeout(function() {
+
+                        $('#firstMap').zoomPanTouchSVG({
+                            zoomBtnContainer: '#zoomBtnContainer'
+                        });
+
+                    }, 1000);
+                }
+            },
 
 
             items: [{
@@ -71885,14 +71945,7 @@ Ext.define('Xpoit.view.MapView', {
                 }, ]
             }, {
                 layout: 'fit',
-
-
-                //html: '<div id="frameContainer2"><iframe src="http://docs.google.com/gview?url=https://dl.dropboxusercontent.com/u/21693345/maps/IT%20Building%20First%20Floor.pdf&embedded=true" name="frame3" id="frame3" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
-                //html: '<object type="image/svg+xml" data="resources/images/IT-Building-First-Floor.svg" width="100%"></object>',
-                html: '<embed src="resources/images/firstFloor.svg" type="image/svg+xml" width="100%" height="1000px"/>',
-                //html: '<div id="frameContainer"><iframe src="resources/images/IT-Building-First-Floor.svg" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe></div>',
-                //html: '<img src="resources/images/IT-Building-First-Floor.svg" /><object data="resources/images/IT-Building-First-Floor.svg">'
-                //html: '<embed src="resources/images/IT-Building-First-Floor.svg" type="image/svg+xml" / >',
+                html: '<div class="container"><div id="svg-container"><embed id="studentMap" src="resources/images/first.svg" type="image/svg+xml" scrolling="yes" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer"></div>',
             }, ],
         }]
     }
@@ -72100,14 +72153,6 @@ Ext.define('Xpoit.view.VisitIt', {
 						var itemToShow = doc.getElementById(showItem);
 						console.log(itemToShow);
 
-
-
-						//var itemToShow = viewport.getElementById(showItem);
-
-						// var itemToShow = map.getElementById(showItem);
-
-						// // var itemToShow = document.getElementById(showItem);
-
 						itemToShow.style.display = "block";
 
 
@@ -72158,10 +72203,11 @@ Ext.define('Xpoit.view.VisitItList', {
     emptyText: 'No laksdlg',
     grouped: true,
     emptyText: 'No notes found.',
-    itemTpl: '{course}' +
-      '<p><b>Name:</b> {fname} {lname}</p>' +
+    itemTpl: '<img class="profileImage" style="width: 45px; margin-bottom: 0;" src="{imageTxt}" />' +
+      '<p>{fname} {lname}</p>' +
       '<p><b>Title: </b>{commercial} </p>' +
-      '<p><b>Course: </b>{course}</p>',
+      '<p><b>Course: </b>{course}</p>' +
+      '<p><b>Disciplines Used: </b>{disciplines}</p>',
     store: 'LocalFavs',
 
     onItemDisclosure: true,

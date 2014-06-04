@@ -21,7 +21,7 @@
 		 * Initial settings
 		 */
 		var settings = $.extend({
-			zoomLevels: "150, 200, 250, 300, 350",
+			zoomLevels: "150, 200, 250, 300, 350, 400, 450, 500",
 			initialZoom: "100",
 			initialMinX: false, // Important! If initial minX is 0 must be in quotes or else it is registered as false
 			initialMinY: false,
