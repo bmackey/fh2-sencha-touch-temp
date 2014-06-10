@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
-<script xlink:href="SVGPan.js"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 290.9905 289.9535" preserveAspectRatio="xMinYMin meet" id="groundMap">
+<!-- <script xlink:href="SVGPan.js"/> -->
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="resources/imagesjquery.zoomPanTouchSVG.js"></script>
+<!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 581.981 579.907" preserveAspectRatio="xMinYMin meet" enable-background="new 0 0 581.981 579.907" xml:space="preserve" id="japan"> -->
 <g id="viewport" transform="matrix(0.12531311810016632,0,0,0.12531311810016632,4.699050426483154,-18.83963243893868)">
 <rect x="-159.526" y="-225.053" fill="#4F4F4F" width="2580.579" height="3456.895"/>
 <image overflow="visible" width="2350" height="3190" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACS4AAAx2CAYAAAALifVcAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ

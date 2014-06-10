@@ -71917,7 +71917,19 @@ Ext.define('Xpoit.view.MapView', {
 
             scrollable: true,
 
-            html: '<div class="container"><div id="svg-container2"><embed src="resources/images/groundFloor.svg" type="image/svg+xml" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer2"></div>',
+            listeners: {
+                activate: function() {
+                    setTimeout(function() {
+
+                        $('#groundMap').zoomPanTouchSVG({
+                            zoomBtnContainer2: '#zoomBtnContainer2'
+                        });
+
+                    }, 1000);
+                }
+            },
+
+            html: '<div class="container"><div id="svg-container2"><embed id="groundMap" src="resources/images/groundFloor.svg" type="image/svg+xml" width="100%" height="1000px"/></div></div><div id="zoomBtnContainer2"></div>',
         }, {
             title: 'First',
             iconCls: 'more',
