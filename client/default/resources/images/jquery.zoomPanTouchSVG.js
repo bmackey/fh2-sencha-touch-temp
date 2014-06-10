@@ -25,6 +25,8 @@
 			initialZoom: "100",
 			initialMinX: false, // Important! If initial minX is 0 must be in quotes or else it is registered as false
 			initialMinY: false,
+			panText: "Enable Pan",
+			panOffText: "Disable Pan",
 			zoomInText: "Zoom In",
 			zoomOutText: "Zoom Out",
 			zoomBtnContainer: false, // Element ID including "#"
@@ -100,6 +102,22 @@
 			tzpIndex = zoomInBtns.length;
 		}
 
+		var panID = 'tZPSVGPan' + tzpIndex;
+		var panHTML;
+		if (!settings.panSrc) {
+			panHTML = '<button class="tZPSVGBtn" id="' + panID + '">' + settings.panText + '</button>';
+		} else {
+			panHTML = '<img src="' + options.panSrc + '" id="' + panID + '">';
+		}
+
+		var panOffID = 'tZPSVGPanOff' + tzpIndex;
+		var panOffHTML;
+		if (!settings.panSrc) {
+			panOffHTML = '<button class="tZPSVGBtn" id="' + panOffID + '">' + settings.panOffText + '</button>';
+		} else {
+			panOffHTML = '<img src="' + options.panOffSrc + '" id="' + panOffID + '">';
+		}
+
 		var zoomInBtnID = 'tZPSVGZoomIn' + tzpIndex;
 		var zoomInBtnHTML;
 		if (!settings.zoomInBtnSrc) {
@@ -118,11 +136,12 @@
 
 		if (!settings.zoomBtnContainer) {
 			var zoomBtnContainerID = 'tZPSVGBtnContainer' + tzpIndex;
-			$this.after('<div class="tZPSVGBtnContainer" id="' + zoomBtnContainerID + '">' + zoomInBtnHTML + zoomOutBtnHTML + '</div>');
+			$this.after('<div class="tZPSVGBtnContainer" id="' + zoomBtnContainerID + '">' + panHTML + zoomInBtnHTML + zoomOutBtnHTML + '</div>');
 		} else {
 			var zoomBtnContainer = $(settings.zoomBtnContainer);
-			zoomBtnContainer.html(zoomInBtnHTML + zoomOutBtnHTML);
+			zoomBtnContainer.html(panHTML + panOffHTML + zoomInBtnHTML + zoomOutBtnHTML);
 		}
+
 
 
 		/**
@@ -168,6 +187,16 @@
 			zoom('out');
 		});
 
+		$('#' + panID).click(function() {
+			console.log('panning');
+			drag();
+		});
+
+		$('#' + panOffID).click(function() {
+			console.log('not panning');
+			jsThis.onmousemove = false;
+			jsThis.ontouchmove = false;
+		});
 
 		/**
 		 * Touchable Pannable Functionality
@@ -192,6 +221,10 @@
 
 		function drag(event) {
 
+			jsThis.onmousemove = drag;
+			jsThis.ontouchmove = drag;
+			event.preventDefault();
+			console.log(event);
 			if (mouseTouchEvent) {
 
 				if (!event.touches) {
@@ -232,7 +265,7 @@
 					startY = event.touches[0].clientY;
 				}
 
-				event.preventDefault();
+
 
 			}
 
@@ -244,8 +277,8 @@
 		jsThis.onmouseup = unregisterMouchTouchEvent;
 		jsThis.ontouchend = unregisterMouchTouchEvent;
 
-		jsThis.onmousemove = drag;
-		jsThis.ontouchmove = drag;
+		// jsThis.onmousemove = drag;
+		// jsThis.ontouchmove = drag;
 
 		return this;
 
